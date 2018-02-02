@@ -1,0 +1,196 @@
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{plotmarks}
+\pgfplotsset{compat=newest}
+\pgfplotsset{filter discard warning=false}
+
+\pgfdeclarelayer{bg}    % declare background layer
+\pgfsetlayers{bg,main}
+
+
+%\usepackage{silence}
+%\WarningsOff[pgfplots]
+%\WarningFilter{latex}{Marginpar on page}
+%\WarningsOff[latex]
+
+
+%%% Tikz Magic %%%
+\tikzstyle{block} = [draw,rounded corners , rectangle, minimum height=3em, minimum width=6em]
+\tikzstyle{Integrator} = [draw, fill=blue!20, rectangle, minimum height=5mm, minimum width=5mm]
+\tikzstyle{Twolineblock} = [draw,rounded corners , rectangle, minimum height=3em, minimum width=6em, text width = 6em, align=center]     
+\tikzstyle{sum} = [draw, fill=blue!20, circle, node distance=1cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+\tikzstyle{box} = [draw,rounded corners, minimum height=15mm, minimum width=20mm, align=center, text centered]
+\tikzstyle{BlackBox} = [draw, fill=black, rounded corners, minimum height=15mm, minimum width=20mm, align=center, text=white, text centered]
+\tikzstyle{FlowIF} = [diamond, draw, fill=blue!20, text width=8.5em, text badly centered, node distance=3cm, inner sep=0pt,align=center,aspect=3]
+\tikzstyle{FlowBlock} = [rectangle, draw, fill=blue!20, text width=8em, text centered, rounded corners, minimum height=3em]
+\tikzstyle{FlowCloud} = [draw, ellipse,fill=red!20, node distance=3cm, minimum height=2em]
+\tikzstyle{TestBox} = [rectangle,draw, fill=black!20, minimum height=8mm, minimum width=8mm]
+\tikzstyle{TestDiamond} = [diamond, draw, fill=black!20, minimum height=10.5mm, minimum width=10.5mm]
+\tikzstyle{TestBox} = [rectangle,draw, fill=black!20, minimum height=8mm, minimum width=8mm]
+\tikzstyle{TestCircle} = [circle, draw, fill=black!20, minimum height=6mm, minimum width=6mm]
+\tikzstyle{TestTable} = [rectangle, draw, fill=black!60, minimum height=0.01mm, minimum width=9mm, text=white]
+\tikzstyle{TestBoxSmall} = [rectangle,draw, fill=black!, minimum height=8mm, minimum width=8mm,text=white]
+\tikzstyle{LegendBox} = [rectangle,draw, minimum height=7mm, minimum width=20mm]
+\tikzstyle{Sysbox} = [draw,rounded corners, minimum height=15mm, minimum width=9em, align=center, text centered,text width = 10.5em]
+\tikzstyle{SysBlackBox} = [draw, fill=black, text=white, rounded corners, minimum height=15mm, minimum width=9em, align=center, text centered,text width = 10em]
+\tikzstyle{PreAmpBox} = [rectangle,draw, fill=black!20, minimum height=8mm, minimum width=12mm]
+\tikzstyle{gain} = [fill=white, draw, rectangle, minimum height=2.5em, minimum width=2.5em]
+\tikzstyle{summation} = [draw, minimum size=0.75cm, circle, node distance=1.75cm]
+
+
+
+
+
+
+
+
+
+
+
+
+%% Its a pie chart!! %%%
+\definecolor{rosso}{RGB}{220,57,18}
+\definecolor{giallo}{RGB}{255,153,0}
+\definecolor{blu}{RGB}{102,140,217}
+\definecolor{verde}{RGB}{16,150,24}
+\definecolor{viola}{RGB}{153,0,153}
+
+\makeatletter
+
+\tikzstyle{chart}=[
+    legend label/.style={font={\scriptsize},anchor=west,align=left},
+    legend box/.style={rectangle, draw, minimum size=5pt},
+    axis/.style={black,semithick,->},
+    axis label/.style={anchor=east,font={\tiny}},
+]
+
+\tikzstyle{bar chart}=[
+    chart,
+    bar width/.code={
+        \pgfmathparse{##1/2}
+        \global\let\bar@w\pgfmathresult
+    },
+    bar/.style={very thick, draw=white},
+    bar label/.style={font={\bf\small},anchor=north},
+    bar value/.style={font={\footnotesize}},
+    bar width=.75,
+]
+
+\tikzstyle{pie chart}=[
+    chart,
+    slice/.style={line cap=round, line join=round, very thick,draw=white},
+    pie title/.style={font={\bf}},
+    slice type/.style 2 args={
+        ##1/.style={fill=##2},
+        values of ##1/.style={}
+    }
+]
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+
+\newcommand{\pie}[3][]{
+    \begin{scope}[#1]
+    \pgfmathsetmacro{\curA}{90}
+    \pgfmathsetmacro{\r}{1}
+    \def\c{(0,0)}
+    \node[pie title] at (90:1.3) {#2};
+    \foreach \v/\s in{#3}{
+        \pgfmathsetmacro{\deltaA}{\v/100*360}
+        \pgfmathsetmacro{\nextA}{\curA + \deltaA}
+        \pgfmathsetmacro{\midA}{(\curA+\nextA)/2}
+
+        \path[slice,\s] \c
+            -- +(\curA:\r)
+            arc (\curA:\nextA:\r)
+            -- cycle;
+        \pgfmathsetmacro{\d}{max((\deltaA * -(.5/50) + 1) , .5)}
+
+        \begin{pgfonlayer}{foreground}
+        \path \c -- node[pos=\d,pie values,values of \s]{$\v\%$} +(\midA:\r);
+        \end{pgfonlayer}
+
+        \global\let\curA\nextA
+    }
+    \end{scope}
+}
+
+
+
+
+%% Cutom legned entry
+\newenvironment{customlegend}[1][]{%
+	\begingroup
+	% inits/clears the lists (which might be populated from previous
+	% axes):
+	\csname pgfplots@init@cleared@structures\endcsname
+	\pgfplotsset{#1}%
+}{%
+% draws the legend:
+\csname pgfplots@createlegend\endcsname
+\endgroup
+}%
+
+% makes \addlegendimage available (typically only available within an
+% axis environment):
+\def\addlegendimage{\csname pgfplots@addlegendimage\endcsname}
+
+\usetikzlibrary{arrows}
+\tikzset{>=stealth}
+
+
+%% Its Color time:
+\definecolor{MATLABblue}{rgb}{0,0.4470,0.7410}
+\definecolor{MATLABorange}{rgb}{0.85,0.3250,0.0980}
+\definecolor{MATLAByellow}{rgb}{0.929,0.6940,0.1250}
+\definecolor{MATLABpurple}{rgb}{0.494,0.1840,0.5560}
+\definecolor{MATLABgreen}{rgb}{0.466,0.6740,0.1880}
+\definecolor{MATLABbabyblue}{rgb}{0.301,0.7450,0.9330}
+\definecolor{MATLABred}{rgb}{0.635,0.0780,0.1840}
+%% Loopback color
+\definecolor{MATLABblack}{rgb}{0,0,0}
+
+%% Microphone Colors
+\definecolor{M1}{rgb}{0,0.4470,0.7410}
+\definecolor{M2}{rgb}{0.85,0.3250,0.0980}
+\definecolor{M3}{rgb}{0.929,0.6940,0.1250}
+\definecolor{M4}{rgb}{0.494,0.1840,0.5560}
+\definecolor{M5}{rgb}{0.466,0.6740,0.1880}
+\definecolor{M6}{rgb}{0.301,0.7450,0.9330}
+\definecolor{M7}{rgb}{0.635,0.0780,0.1840}
+\definecolor{M8}{rgb}{0,0,1}
+\definecolor{M9}{rgb}{0,0.5,1}
+\definecolor{M10}{rgb}{0,1,0.5}
+\definecolor{M11}{rgb}{0,1,1}
+\definecolor{M12}{rgb}{0.5,1,0.5}
+\definecolor{M13}{rgb}{1,0.5,0}
+\definecolor{M14}{rgb}{1,0,0}
+\definecolor{M15}{rgb}{0.5,0,0}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+		\node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+
+
+\newenvironment{sbmatrix}[1]
+{\def\mysubscript{#1}\mathop\bgroup\begin{bmatrix}}
+	{\end{bmatrix}\egroup_{\textstyle\mathstrut\mysubscript}}
+
+\usetikzlibrary{matrix,calc}
+\tikzstyle{loosely dotted}=[dash pattern=on 2\pgflinewidth off 24pt]
+
+% \makeatletter
+% \renewcommand{\todo}[2][]{\tikzexternaldisable\@todo[#1]{#2}\tikzexternalenable}
+% \makeatother
+
+% %\makeatletter
+% %\renewcommand{\missingfigure}[2][]{\tikzexternaldisable\@missingfigure[#1]{#2}\tikzexternalenable}
+% %\makeatother
+
+% \let\oldmissingfigure\missingfigure
+% \renewcommand{\missingfigure}[2][]{\tikzexternaldisable\oldmissingfigure[#1]{#2}\tikzexternalenable}
