@@ -1,0 +1,33 @@
+\section{Modeling the inverter}
+\label{invertermodel}
+
+The simulation of an uncontrolled single-phase full bridge inverter (as it was described in \secref{inverter}) was carried out in MATLAB Simulink with LC filtering and with both pure resistive and inductive loads. However, the control system consists of several subsystems which includes voltage and current control, grid synchronization with Phase Locked Loop(PLL), and the strategy of SPWM control on the inverter. Due to the lack of data from the inverter it was reasonable to use measurements from the provided inverter and thus approximate the parameters by that. 
+
+The measurement journal can be found in \secref{app:inverter_step_test} and the test results can be seen in \figref{fig:inverter_data_main}. 
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/inverter_data.tex}
+\caption{Graph showing step responses, where P25 is a real load of 25\% inverter capacity and Q-50 is an inductive load at 50\% inverter capacity.}\label{fig:inverter_data_main}
+\end{figure}
+
+In \figref{fig:inverter_data_main}, several 5 and 10 kW power steps can be seen for both active and reactive power. These step functions provided by measurements can be used to approximate a high-order system with a lower-order model. A low order model is desirable in order to limit the complexity, though to obtain a fast step response and still keeping a close fit the inverter will be modeled as a second order system. This will result in an overshoot that needs to be restricted, furthermore a zero is introduced to make the system faster. 
+%
+
+The first parameter that can be estimated from the data is $\omega_n$. The initial guess for $\omega_n$ is done by using the rule $\omega_n \approx \frac{1,8}{t_r}$. Using the formula it is calculated that $\omega_n = 0,8491$. Furthermore $\zeta$ can be estimated from the maximum allowed overshot. Since there is not any overshoot in the data, our purpose is to prevent significant overshoot in the model too. $\zeta$ is set to 0,85 because this in theory will result in less then 1\% overshoot. $b_1$ is then estimated with senstool. Afterwards senstools is used to estimate all three parameters with the initial values, and the estimated value of $b_1$, as estimates. This is done for all six data sets and then a weighted average determines the final parameter. The final model can be seen in \eqref{eq:invertermodel_final} and \figref{fig:inverter_data_main}.
+%
+\begin{equation}
+G_2(s) = \frac{b_1 \cdot s + \omega^2_n}{s^2 + 2 \cdot \zeta \cdot \omega_n \cdot s + \omega^2_n} = \frac{0.1845 s + 3.089}{s^2 + 1.3238 s + 3.089}
+\label{eq:invertermodel_final}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/inverter_data2.tex}
+\caption{Graph showing step responses, where P25 is a real load of 25\% inverter capacity and Q-50 is an inductive load at 50\% inverter capacity.}\label{fig:inverter_data_main}
+\end{figure}
+
+
+
+Although there is a small overshoot in the system, the approximation fits the real data, this can be seen in \figref{fig:inverter_data_main}. There is a slight difference between the calculated and real rise times, however in reality this will not cause any issues since it is not expected that the load is changing rapidly. 
+

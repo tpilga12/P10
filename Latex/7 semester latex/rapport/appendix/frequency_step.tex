@@ -1,0 +1,101 @@
+\section{Frequency steps with various load}
+\label{app:Frequency_steps}
+\subsection*{Purpose:}
+The purpose of this journal is to test how the genset react to changes in frequency at various load sizes both in voltage and power. 
+
+\subsection*{Equipment}
+
+\begin{itemize}
+	\item Genset
+		\begin{itemize}
+			\item \textbf{Engine:} Deutz; BF 4M 2012
+			\item \textbf{Alternator:} Leroy Somer; LSA 42.3 L9 C6/4
+			\item \textbf{Governor:} Deutz; EMRII("EMR2")
+			\item \textbf{AVR:} DEIF; DVC310 
+		\end{itemize}
+		\item Inverter
+		% \begin{itemize}
+		% 	\item \textbf{SMA:} STP25000TL-30
+		% 	\item \textbf{DC sources:} 2 x Regatron: TopCon DC Power supply \newline (TC.P.10.1000.400.NS+1.TFE.HMI)
+		% \end{itemize}
+		\item dSPACE unit (AAU: 61508)
+		\item Hioki (datasheets are found under the path \path{CD:Hioki/}).
+		\begin{itemize}
+			\item HIOKI MEMORY HiCORDER 8861
+			\begin{itemize}
+				\item 5 x 8957 (HIGH-RESOLUTION UNIT)
+			\end{itemize}
+			\item \textbf{Differential probes:} 3 x Metrix MX9030-Z,
+			\item \textbf{Current sensors:} 3 x HIOKI 9667 FLEXIBLE CLAMP ON SENSOR
+		\end{itemize}
+		\item Interface (datasheet is found under the path \path{CD:dSPACE/interface}).
+\end{itemize}	
+
+
+\subsection*{Procedure:}
+
+\begin{itemize}
+	%\item To setup this test either Jesper Viese Knudsen or Kjeld K. Madsen needs to attend.  
+	\item The interface needs to be setup with the genset. CANbus, analog readings and frequency measurement.  
+	\item The Hioki scope connected to the genset.
+	\item Connect computer.
+	\item Load CA7\_full\_system into simulink on the computer \path{CD:simulink/CA7/CA7_full_system}.
+	\item Load build\_script into matlab \path{CD:simulink/CA7/build_script}. 
+	\item Compile the build\_script.
+	\item Open ControlDesk.
+	\item Open project CA7 inside ControlDesk.
+	\item Press 'Go Online' and 'start measuring' inside ControlDesk. 
+	\item Set the needed measuring time for the Hioki scope.  
+	\item Start Genset.
+	\item The following procedure is to be done at load steps of 10, 30 and 50 kW.
+	\item Set the frequency to 50 Hz inside ControlDesk.
+	\item Start recording on the hioki scope.
+	\item Wait 5 seconds.
+	\item Step to 51 Hz with ControlDesk and wait for 10 seconds.
+	\item Step back to 50.
+	\item Do this procedure for 53 and 55 Hz. 
+	\item Change the load and do the steps in frequency again.
+	\item Save the data from the Hioki scope on a USB stick or transfer the data through a LAN cable to a PC.  
+
+\end{itemize}
+
+
+\subsection*{Setup:}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{rapport/billeder/Frequency_step_setup}
+\caption{Setup for measurement at DEIF.}
+\label{fig:Frequency_step_setup}
+\end{figure} 
+
+
+\subsection*{Measurement data:}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test1-6freq.tex}
+\caption{Plot of frequency.}
+\label{fig:test1-6freq}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test1-6fvolt.tex}
+\caption{Plot of voltage.}
+\label{fig:test1-6fvolt}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test1-6fpower.tex}
+\caption{Plot of power.}
+\label{fig:test1-6fpower}
+\end{figure}
+
+
+\subsection*{Results:}
+From \figref{fig:test1-6freq} the steps in frequency can be seen. And from \figref{fig:test1-6fvolt} and \figref{fig:test1-6fpower} the response in voltage and power is shown. It can be seen from these plots that a step in frequency makes a disturbance in voltage and power. It can be seen that the AVR quickly response to the change in frequency and is correcting the disturbance from the step.  
+
+
+\subsection*{Conclusion}
+It can be conclude that a step in frequency makes a disturbance in voltage and power. This disturbance is corrected by the AVR so the wanted voltage level is kept. 

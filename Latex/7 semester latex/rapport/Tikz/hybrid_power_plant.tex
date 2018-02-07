@@ -1,0 +1,55 @@
+\begin{tikzpicture}
+
+\node[box] (PV) at (0,0) {PV};
+%Inverter
+\node[box] (PWM) at ($(4,0)+(PV)$) {PWM \\ Inverter};
+\node[box] (LC) at ($(3,0)+(PWM)$) {Filter};
+\node[box] (INC) at ($(0,2)+(PWM)$) {Controller};
+%controllers & load
+\node[box] (ASC) at ($(0,2.5)+(INC)$) {ASC};
+\node[box] (AGC) at ($(0,2)+(ASC)$) {AGC};
+\node[box] (L) at ($(9,1)+(ASC)$) {Load};
+%Gen-set
+\node[box] (AVR) at ($(0,2.5)+(AGC)$) {AVR};
+\node[box] (Gov) at ($(-3.5,0)+(AVR)$) {Governor};
+\node[box] (DE) at ($(0,2)+(Gov)$) {Diesel \\ Engine};
+\node[box] (EG) at ($(3.5,0)+(DE)$) {Electric \\ Generator};
+
+%Peripheral
+%\node[fill = {rgb:red,0;green,1;blue,3},box] (Sensor) at (0,0) {Sensor};
+%\node[fill = {rgb:red,0;green,1;blue,3},box] (RC) at ($(0,-2)+(Sensor)$) {Remote};
+%FPGA
+%\node[fill = black!40!green,box] (Reg) at ($(3.5,0)+(Sensor)$) {Regulator};
+%\node[fill = black!40!green,box] (Cont) at ($(0,-2)+(Reg)$) {Control};
+%\node[fill = black!40!green,box] (PWM) at ($(3,0)+(Cont)$) {PWM};
+%\node[fill = {rgb:red,0;green,1;blue,3},box] (Mot) at ($(3.5,0)+(PWM)$) {Motor \\ Driver};
+
+%connections
+\draw[->] (PV) -- (PWM);
+\draw[->] (PWM) -- (LC);
+\draw[->] (INC) -- (PWM);
+\draw[->] (ASC) -- (INC);
+\draw[<->] (ASC) -- (AGC);
+\draw[->] (AGC) -- (AVR);
+\draw[->] (AGC) -- ($(-3.5,0)+(AGC)$) -- (Gov);
+\draw[->] (AVR) -- (EG);
+\draw[->] (Gov) -- (DE);
+\draw[->] (DE) -- (EG);
+\draw[-,double,very thick] (EG) -- ($(6,0)+(EG)$) -- ($(3,0)+(LC)$) -- (LC);
+\draw[-,double,very thick] (L) -- ($(-3,0)+(L)$);
+\draw[<-] (Gov) -- ($(1.7,0)+(Gov)$) -- ($(1.7,0)+(DE)$);
+\draw[<-] (AVR) -- ($(2,0)+(AVR)$) -- ($(2,0)+(EG)$);
+\draw[<-] (AGC) -- ($(2.2,0)+(AGC)$) -- ($(2.2,0)+(EG)$);
+\draw[<-] (INC) -- ($(4.2,0)+(INC)$) -- ($(1.2,0)+(LC)$);
+\draw[<-] (ASC) -- ($(4.8,0)+(ASC)$) -- ($(1.8,0)+(LC)$);
+
+%dashed boxes
+\draw[-, dashed,very thick] ($(-1.5,-1)+(PWM)$) -- ($(-1.5,1.5)+(INC)$) -- ($(1.5,3.5)+(LC)$) -- ($(1.5,-1)+(LC)$) -- ($(-1.5,-1)+(PWM)$);
+\draw[-, dashed,very thick] ($(-1.5,-1)+(Gov)$) -- ($(-1.5,1.5)+(DE)$) -- ($(1.5,1.5)+(EG)$) -- ($(1.5,-1)+(AVR)$) -- ($(-1.5,-1)+(Gov)$);
+\node[] (invert) at ($(2,1.2)+(INC)$) {\textbf{Inverter}};
+\node[] (DG) at ($(1.5,1.25)+(DE)$) {\textbf{Genset}};
+
+
+%\draw[thick,dashed] ($(-1.5,2)+(Reg)$) -- ($(1.5,4)+(PWM)$) -- ($(1.5,-1.5)+(PWM)$) -- ($(-1.5,-1.5)+(Cont)$) -- ($(-1.5,2)+(Reg)$);
+%\node[] at ($(1.5,1.5)+(Reg)$) {\textbf{FPGA}};
+\end{tikzpicture}%

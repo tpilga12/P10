@@ -1,0 +1,126 @@
+\label{ca:results}
+The results from measurements at DEIF is analyzed to examine if the controller designed in \chapref{ca:controller} is improving the stability of the genset. 
+
+In the generator room located at DEIF four different tests is conducted and the journals in \secref{app:Frequency_steps}, \secref{app:load_steps}, \secref{app:combined_genset_and_inverter} and \secref{app:controller_test} reveals the results of these tests.
+The purpose of the first test is to collect data on how a step in frequency affects a real genset at different load sizes, for which to compare with the genset simulink model and the estimated second order model. These tests are named test2-7 as data in test1 was discarded.
+The second test is reference measurements of the genset and is named test8-9, the purpose of which to have a base line to compare with at different load steps.
+As to get real measurements of the inverter and the genset the third test named test10 were conducted. Problems arose with the inverter which limited the amount of data acquired to a single test, and made the possibility to test the genset with controller in combination with the inverter impossible at the given time.
+The fourth test is performed with different scaling factors \ref{system_design_implementation} applied to the designed controller and added to the genset. These tests is named test11-15, and the purpose is to test for any improvement or decrease in stability obtained by the controller designed in \chapref{ca:controller}.
+
+%have been written. The purpose of the first test was to see how the genset reacted to frequency steps with various load shown in \secref{app:Frequency_steps}. These test have been index with test 2 to test 7. The second test was conducted to get some base measurement that could be used to compare the controller up against and is shown in \secref{app:load_steps}. These test are index with test 8 to test 9. The third test was carried out with the inverter and genset sharing the load, to see how the genset reacted when the inverter was carrying the majority of the load the result can be seen in \secref{app:combined_genset_and_inverter}. This test is index with test 10. The last test was conducted with the controller added to the genset. The purpose of the test was to tuned the scaling factor and to see how the genset reacted to the controller designed in \chapref{ca:controller}. These test have been index with test 11 to test 15. 
+
+The measurements which will be analyzed in this chapter is from the second test in \secref{app:load_steps} and the fourth test in \secref{app:controller_test}.
+
+On figure \ref{fig:test8+11volt20-30kwstep}, \ref{fig:test8+12volt20-30kwstep}, \ref{fig:test8+13volt20-30kwstep} and \ref{fig:test8+14volt20-30kwstep} it is illustrated how a step in load affects the genset without and with controller. 
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test8+11volt20-30kwstep.tex}
+\caption{Step from 20 to 30 kW load. }
+\label{fig:test8+11volt20-30kwstep}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test8+12volt20-30kwstep.tex}
+\caption{Step from 20 to 30 kW load. }
+\label{fig:test8+12volt20-30kwstep}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test8+13volt20-30kwstep.tex}
+\caption{Step from 20 to 30 kW load. }
+\label{fig:test8+13volt20-30kwstep}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test8+14volt20-30kwstep.tex}
+\caption{Step from 20 to 30 kW load. }
+\label{fig:test8+14volt20-30kwstep}
+\end{figure}
+
+
+On \figref{fig:test8+11volt20-30kwstep} it is shown that the genset rises faster from a drop in voltage due to a load change with controller than without. %Both systems seems to reach steady state at the same time though, and a reason for this could be the second order model that the controller is designed for. 
+Furthermore the step on the genset with controller shown on \figref{fig:test8+14volt20-30kwstep} reveals the characteristic similar to the second order model estimated in \secref{modelling_diesel_generator} and shown on \figref{fig:modelfreq_volt}, which occurs when the scaling factor is increased.
+
+
+On figure \ref{fig:test8+11freq10to20kwstep}, \ref{fig:test8+12freq10to20kwstep}, \ref{fig:test8+13freq10to20kwstep} and \ref{fig:test8+14freq10to20kwstep} it is illustrated how the frequency changes when a step in the load from 10 to 20 kW is applied with different scaling factors. %It is shown that the genset with controller recovers faster to a change in load and thereby reach steady state before the genset without controller. 
+For all four measurements it is shown that the genset with controller is less affected in frequency by the applied load steps, but at the cost of some overshoot. 
+%The measuring data shown in figure \ref{fig:test8+11freq10to20kwstep}
+
+   
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test8+11freq10to20kwstep.tex}
+\caption{Step from 10 to 20 kW load. }
+\label{fig:test8+11freq10to20kwstep}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test8+12freq10to20kwstep.tex}
+\caption{Step from 10 to 20 kW load. }
+\label{fig:test8+12freq10to20kwstep}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test8+13freq10to20kwstep.tex}
+\caption{Step from 10 to 20 kW load. }
+\label{fig:test8+13freq10to20kwstep}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test8+14freq10to20kwstep.tex}
+\caption{Step from 10 to 20 kW load. }
+\label{fig:test8+14freq10to20kwstep}
+\end{figure}
+
+%The two first test shown below has the characteristic as mention, but the last two has large overshoot and reach steady state around the same time as the uncontrolled signal. 
+The tests shows clearly that the drop in frequency, when a step is applied, is improved and for lower values of the scaling factor the settling time has also improved. For larger values of the scaling factor overshoot is getting more pronounced and the same characteristic shown on \figref{fig:modelfreq_volt} is appearing. This disturbance is unwanted thus making the test performed with a scaling factor of 0.1 the most ideal for comparison with the reference measurements.  Therefore further comparisons will be done between controller with scaling factor 0.1 and reference measurement.
+
+%These test has a scaling factor of 0.2 and 0.25 and are deemed not successful at this load size. \figref{fig:test8+11freq10to20kwstep} and \figref{fig:test8+12freq10to20kwstep} has a scaling factor of 0.1 and 0.15 and for this load size these are the best fit. Especially \figref{fig:test8+11freq10to20kwstep} takes a small fall in frequency and has a small overshoot. Therefore figures with a scaling factor of 0.1 will be shown, rest can be found on the CD \fxnote{Need to put plots on the cd and make a reference here}.   
+
+%A variety of different steps have been applied to the genset to see how it reacts with the controller. 
+ On \figref{fig:test8+11freq-1020-4050-1030-1050} it is shown how the frequency reacts to different steps in loads. 
+ %The first figure shows a step in load from 10-30 kW. It can be seen that the controlled signal takes a small fall in frequency and react faster to the change in load at the cost of an overshoot. But the controlled signal reach steady state before the base measurement approximately 0.5 seconds. The second figure shows a step in load from 10-50 kW. At this step size the controlled signal reacts faster but it takes more time for it to reach steady state. A reason to why it does not go back to the reference value 50 Hz could be that the voltage is to high(higher than the reference) and therefore the controller is trying to decrease it by decreasing the frequency, this will be analyzed further when the voltage measurement are shown. The third figure shows a step from 40-50 kW in load. It also react faster to a change in load but reach steady state around the same time as the base measurement.      
+
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test8+11freq-1020-4050-1030-1050.tex}
+\caption{Frequency disturbance due to various changes in load without and with controller and a scaling factor of 0.1.}
+\label{fig:test8+11freq-1020-4050-1030-1050}
+\end{figure}
+
+Common for all the steps shown on \figref{fig:test8+11freq-1020-4050-1030-1050} is that the droop in frequency is reduced and for some cases the settling time has improved or stayed the same. Some amount of overshoot is also occurring at lower loads. This means more fuel is consumed to correct the disturbance in the frequency than necessary as overshoot is not wanted. It also means that either the controller is reacting to slow or not enough fuel was injected in to the engine for it to negate the droop in frequency.
+
+%Due to the inlinearities of the genset then the same 10 kW step at different loads will result in different reactions. This could be a result of the diesel engine not being able to provide instant power but is limited to provide energy to the shaft driving the generator an amount of times per round equal to the amount of cylinders in the engine. Furthermore to compensate at larger loads more fuel is needed and the fly   
+
+From the frequency measurements it can be concluded that the system is able to react correct the disturbance in frequency faster when a change in load occurs. Furthermore improved steady state time at steps at lower loads is achieved.  
+%and at some load sizes it also reach steady state before the base measurements. 
+
+On \figref{fig:test8+11volt-1020-4050-1030-1050} the Voltage disturbance at various step sizes is shown.
+
+ %it is illustrated how the voltage react to different steps in load with the same scaling factor of 0.1. From the first figure minor changes can be seen in the response. The controlled signal react slightly faster than the base measurement. The time it takes for both to reach steady state is approximately the same. It can also be seen on the controlled signal that the second order characteristic that the controller have been designed from is visible from the response. Which can be said for all four measurements. To conclude on why the frequency from before did not go back to it reference value the third figure will be analyzed. It can be seen when it has reach steady state that it fluctuates around 230 volt, which could be the reason for, that the frequency does not reach 50 Hz because it is trying to decrease the voltage when it goes higher than 230 volt.  
+
+
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/test8+11volt-1020-4050-1030-1050.tex}
+\caption{Voltage disturbance due to various changes in load without and with controller.}
+\label{fig:test8+11volt-1020-4050-1030-1050}
+\end{figure}
+
+First thing that appears when applying the controller is that the Voltage disturbance is corrected a bit faster than without controller. The other thing is that at lower loads a small drop appears in the 10 to 20 kW and 10 to 30 kW steps visible at the 0.4 second mark. While the 40 to 50 kW steps experiencing a larger and longer lasting overshoot does not give the drop in voltage. Contrary to the frequency no visible improvement is attained in the steady state time by applying the designed controller.
+The reason for this could be that the governor and the AVR functions as two independent systems.  
+
+
+%From the voltage measurements it can be concluded that the response of the controlled signal has the same characteristic as the characteristic of the simulated controller in the \secref{system_design_implementation} \figref{fig:dist_out} which is expected. From the frequency measurements it can be seen that the controller affects the system which makes it faster to respond on load changes. For big load steps as shown in \figref{fig:test8+11freq-1050-1030-4050} the controller was slower than it was on the other measurements. It has not been analyzed any further how this test could be improved. To improved the controller the poles of the state feedback could be altered to see if it would have done any changes in the response of the controlled system.    
+
+

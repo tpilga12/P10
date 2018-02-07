@@ -1,0 +1,87 @@
+\section{Extract data from simulink(genset)}
+\label{extract_data_from_simulink}
+\subsection*{Purpose:}
+The purpose of this appendix is to show the procedure for extracting data from Jesper Viese Knudsen simulink file of the genset. Furthermore in this appendix it will be showed how a step in the load effect the output in power.  
+
+\subsection*{Procedure:}
+
+\begin{itemize}
+	\item Load the matlab file "genset" refer to (CD/DG/genset) and the simulink file "puOpenLoopDamper" refer to (CD/DG/puOpenLoopDamper).
+	\item Open the simulink file, go into the block "Various Calculations" and open the block called "To Workspace2", set the sample frequency to 0.0001.
+	\item Run the genset file and let it finish.
+	\item Run the "genset" and look at the loading indicator in the simulink file. When it has finished paused the matlab file. Now the loading indicator in simulink will now start running. When the indicator shows "paused" press continue in the matlab file and let it run for 2-3 seconds. Thereafter pause it again and the simulink loading indicator will start running. Keep doing this until the indicator has reached 100 \%. 
+	\item Now the simulink file is ready to be simulated. 
+	\item In the simulink file go back from "Various Calculations" to "puOpenLoopDamper" and go into "Elec Parameters" and open the block "step".
+	\item A reference and a step size in load will be set. To see the calculations for the load see setup in this appendix. 
+	\item Set the initial value to "6" and the final value to "3". This will result in a step in power from 10 kW to 20 kW.
+	\item Goto matlab, type "plot(Power)" in the Command Window. 
+
+\end{itemize}
+
+\subsection*{Setup:}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{rapport/billeder/simulink_puOpenLoopDamper}
+\caption{Top level of the simulink file, shows the different elements in the model of the genset.}
+\label{fig:simulink_puOpenLoopDamper}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{rapport/billeder/simulink_various_calculations}
+\caption{Shows the various calculations of the simulink file, where the V and Power is calculated.}
+\label{fig:simulink_various_calculations}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.3\textwidth]{rapport/billeder/simulink_elec_parameters}
+\caption{Shows the Elec. parameters for the genset model. }
+\label{fig:simulink_puOpenLoopDamper}
+\end{figure}
+
+\begin{equation}
+VA_{base} = 60000 \unit{VA}
+\end{equation}
+\begin{equation}
+v_{sbase} = \frac {400 \cdot \sqrt{2}}{\sqrt{3}} \unit{V}
+\end{equation}
+\begin{equation}
+i_{sbase} = \frac {VA_{base}}  {\frac {3}{2} \cdot v_{sbase}} \unit{A}
+\end{equation}
+\begin{equation}
+z_{sbase} = \frac {v_{sbase}}{i_{sbase}} \unit{\Omega}
+\end{equation}
+\begin{equation}
+x_{load} = \frac {400^2}{z_{sbase}\cdot Output_{power}} \unit{\Omega}
+\end{equation}
+
+Where:
+
+$VA_{base}$ is Volt-Ampere rating of the machine. $\unit{VA}$
+
+$v_{sbase}$ is Peak phase-to-neutral rated voltage.$\unit{V}$
+
+$i_{sbase}$ is Peak line current.$\unit{A}$
+
+$z_{sbase}$ is Stator base impedance.$\unit{\Omega}$
+
+$x_{load}$ is the load of the grid.$\unit{\Omega}$
+
+$Output_{power}$ is the wanted power output of the genset. $\unit{W}$
+
+By changing $Output_{power}$ it is possible to get different sizes of loads and thereby making a step response. 
+
+\subsection*{Measurement data:}
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/stepresponse_power_10_20kW.tex}
+\caption{Step response.}
+\label{fig:stepresponse_power_10_20kW}
+\end{figure}
+\subsection*{Results:}
+In can be seen from \figref{fig:stepresponse_power_10_20kW} that a step of 10 kW is achieved from 10 kW to $\approx$ 20 kW. This small deviation could come from the simulink model or the calculations for the load is not sufficient enough, but it has been conclude, it is such small deviation and therefore it will not be investigated any further. 
+
+\subsection*{Conclusion}
+I can be conclude that a step of 10 kW have been made with a small deviation. 

@@ -1,0 +1,68 @@
+\subsection{Disturbances affecting the system}
+\label{disturbances}
+
+In \secref{statespace_disturbance}, the two kinds of disturbances were introduced, namely the load and the inverter. The inverter, as it was mentioned, provides a slowly changing power flow that can be approximated as a sinusoidal shown in \eqref{eq:dist1} : 
+
+\begin{equation}
+  \label{eq:dist1}
+    d_{inv}(t) = \alpha sin(\omega t)
+  \end{equation}
+
+By solving \eqref{eq:ss_tf1} and \eqref{eq:ss_tf2} the state space system can be constructed: 
+
+
+\begin{equation}
+\label{eq:exo_statespace}
+ \begin{bmatrix}
+    \dot{x}_{d1} \\
+    \dot{x}_{d2}
+\end{bmatrix}
+=
+ \begin{bmatrix}
+    0 & \omega^2 \\
+    -\omega^2 & 0
+\end{bmatrix}
+ \begin{bmatrix}
+    x_{d1} \\
+    x_{d2}
+\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+\label{eq:ss_dist2}
+    d
+=
+ \begin{bmatrix}
+    1 & 0 
+\end{bmatrix}
+ \begin{bmatrix}
+    x_{d1} \\
+    x_{d2}
+\end{bmatrix}
+\end{equation}
+
+The characteristic polynomial of the sinusoidal disturbance system, as expected is: 
+
+\begin{equation}
+  \label{eq:distpoly}
+    \Gamma_{inverter}(s) = det(s\mathbf{I}-\mathbf{A_d}) = s^2 + \omega^2 
+  \end{equation}
+  
+%The case of the load however is significantly different from the case of the inverter. The load is, as mentioned, usually unknown and can produce big changes. The fact that the behaviour of the load is completely unknown in reality cannot be neglected, however in the simulation a constant load is described to show how the system can reject it. The reason behind making a disturbance that dramatically affects the voltage output of the system is that if the load was constant, a slowly varying inverter power flow would never cause changes on the output. That is because the AVR and the other inner controllers can easily handle slow disturbances such as the inverter power flow. 
+
+
+In order to construct the combination of the two disturbances, the following rule applies: 
+
+\begin{equation}
+  \label{eq:combined_dist}
+  d(t) = d_{inv}(t) + d_{load}(t) = \Gamma_{inv}(s)\Gamma_{load}(s)
+  \end{equation}
+  
+As can be seen in \eqref{eq:combined_dist}, the combined disturbance system can be calculated by multiplying the disturbance generating polynomials for $d_{inv}(t)$ and $d_{load}(t)$. Thus, the final form of the disturbance becomes: 
+
+\begin{equation}
+  \label{eq:dist_final}
+  d(t) = d_{inv}(t) + d_{load}(t) = c + \alpha sin(\omega t)
+  \end{equation}
+
+that is a slowly-varying sinusoidal disturbance with an offset. 

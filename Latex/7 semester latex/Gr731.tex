@@ -1,0 +1,62 @@
+\input{preamble}
+\raggedbottom
+
+\begin{document}
+
+%%% Tikz Magic %%%
+\include{tikz_magi}
+
+% Forindhold - Kun romer tal
+
+\frontmatter
+\makeevenfoot{AAU}{\thepage}{}{}
+\makeoddfoot{AAU}{}{}{\thepage}
+
+%Formalia
+\include{rapport/introduction/introduction_main}
+\tableofcontents*
+
+% Hovedindhold - nummereres fra ''side 1 af sidste side''b
+\mainmatter 
+
+\makeevenfoot{AAU}{\thepage \text{} of \pageref{LastPage}}{}{}
+\makeoddfoot{AAU}{}{}{\thepage \text{} of \pageref{LastPage}}
+
+% %Den første del af problemnalyseng
+\include{rapport/analyse/analyse_main}
+
+%kravspec
+%\include{rapport/requirements/requirements_main}
+
+%Design
+%\include{rapport/design/design_main}
+
+% %Accepttest 
+% \include{rapport/Acceptance_test/acceptance_test_main}
+
+% \include{rapport/konklusion/Discussion}
+% \include{rapport/konklusion/Perspektivering}
+
+% % %Konklusion afsnit 
+% \include{rapport/konklusion/konklusion}
+
+% %optimering/perspektiverings 
+% \include{rapport/konklusion/optimering}
+
+% %Bilag %
+
+%Apendix
+%\include{rapport/appendix/appendix_main}
+\clearpage
+
+% %Litteratur	
+\bibliography{bibliography}
+
+%\printglossary[title={List of Terms and Acronyms}]
+%\listoffixmes
+%\listoftodos
+
+\end{document}
+
+
+%\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%

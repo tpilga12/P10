@@ -1,0 +1,56 @@
+\section{Inverter test}
+\label{app:inverter_step_test}
+\subsection*{Purpose:}
+The purpose of this test is to investigate the behavior of the inverter when applying a power step.  
+
+\subsection*{Test equipment:}
+
+\begin{itemize}
+\item SMA STP20000 inverter
+\item DEIF ASC controller 
+\end{itemize}
+
+\subsection*{Procedure:}
+
+\textbf{Setup:}
+%
+\begin{itemize}
+\item Connect the DC supply to the inverter 
+\item Connect the inverter to the grid in parallel mode
+\end{itemize}
+
+The next step in this test is to run the test sequence. 
+The inverter is only tested up to 50\% load as the available DC source is incapable of delivering more power to test further steps.
+The test is conducted with different types of loads, real and reactive, where the reactive is tested with both capacitive and inductive loads.  
+
+\textbf{Program:}
+\begin{enumerate}
+\item The ASC sends a power reference of 0 \% to the inverter by Modbus.
+\item The ASC sends power references of 25\% or 50\% to the inverter by Modbus.
+\item The ASC sends a power reference of 0 \% to the inverter by Modbus.
+\item Repeat step 1 to 3 until both step sizes are tested for all load types. 
+\end{enumerate}
+
+
+\subsection*{Measuring data:}
+The measuring data can be found on the CD under the path: \path{CD:/Measuring_data/Inverter_test_standalone}
+
+
+\subsection*{Results:}
+The plotted measuring data is shown in \figref{fig:inverter_data}, here the data is formatted to start at the same time so the different steps easily can be compared.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/inverter_data.tex}
+\caption{Graph showing the power data.}\label{fig:inverter_data}
+\end{figure}
+
+The graphs shown in \figref{fig:inverter_data} describes the power output of the inverter at 25\% and 50\% load steps for the three different load types, where P is a real load, Q is a capacitive and Q- an inductive.  
+It is seen that the output characteristics are the same and do not depend on step size, direction, length or load types. When a step is applied, the data shows that the power output of the inverter follows a 25\% per second slope, until the step size is reached. It is also seen that there is no overshoot, in combination with the fixed power output slope, this suggests that an internal controller is managing the inverters behavior to fit this output profile.     
+
+\subsection*{Uncertainties of measurement:}
+The measurement has been conducted with an ASC as the main controller. This means that both the reference signal an the data collection has been handled by the ASC unit. The unit has a sampling time of 10Hz which affects the data resolutions and introduces inaccuracy to the further work based on this data.    
+
+\subsection*{Conclusion:}
+Through this test the step response behavior of a SMA STP 20000 inverter has been investigated. Is is found that the power output will follow a 25\% per second ramp speed until the desired output is reached. This is the result for both real and reactive loads. The output is furthermore reached without any overshoot. 
+From this test it can be concluded that the behavior of the SMA STP inverter when coupled parallel to the grid behaves very predictable according to the previously described characteristics.   

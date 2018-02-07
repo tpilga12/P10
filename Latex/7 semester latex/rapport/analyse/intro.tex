@@ -1,0 +1,25 @@
+%main for foranalyse
+
+\section{Introduction to the project}
+\label{intro}
+
+Delivering electricity in remote areas where utility grid is unavailable, has been achieved for many years by deploying fossil-fuel based devices such as diesel generator sets (gensets). Around the world, there are isolated places and industrial fields where gensets are the only viable option for providing power. Areas where this practice is commonly used are often energy-intensive fields such as mining or raw material processing, where availability and reliability are essentials. Most of the power companies use fossil fuels as a component of their power generating portfolio [1]. Factors as the public attitude to sustainability, carbon footprint, fluctuating fuel prices and progress in new technology has raised awareness and motivated companies to seek ways of minimizing their operation costs, by converting to renewable energy sources. One attempt to reduce fuel consumption and carbon footprint in genset driven power plants, is to implement photovoltaic (PV) resulting in a hybrid plant. This is chosen at remote areas where the solar irradiation level is excellent, since there is a high potential for PV solutions at such areas. The basic structure of a hybrid power plant containing PV, consists of a genset and inverters connected to solar panels. Although the number of gensets and inverters can be scaled to fit a specific load criteria, this paper focuses on a power plant consisting of one genset and one inverter.
+
+When introducing PV power into the plant, instability is known/believed to occur. For that reason, integrating a PV system into existing diesel-powered grids must ensure stable and resource-friendly grid operation at all time. The plant management however, of a hybrid plant cannot be carried out in the same manner as for a power plant consisting purely of a genset. The altered control requirement is caused by the inverter, supplying additional energy when loads are high, or relieving the genset to minimize its fuel consumption. Previous research with the intention of optimizing the diesel generator has led to a detailed model of a genset. The results of this study allows to develop new advanced control for which improved efficiency and stability can be attained. To ease the design of a main power plant controller that can adapt the PV behaviour and ensure smooth operation on a hybrid power plant, initial work has been performed in the previous research.
+
+This project will be conducted in collaboration with the company DEIF that specializes in power plant controllers for both conventional and hybrid plants. A hybrid power plant has been made available at DEIF for testing and implementation purposes. This test plant reflects the full functionality of a hybrid power plant.
+
+A hybrid plant installed with DEIF's controllers consists of a diesel genset which provides AC power and a photovoltaics plant which provides DC power. The DC power needs to be converted to AC power, this happens in the inverter. The genset is controlled by a Automatic Genset Controller (AGC), which main duty is to produce the needed power while keeping the voltage and frequency to a fixed level.
+
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/hybrid_power_plant.tex}
+\caption{Block diagram of the hybrid power plant.}
+\label{fig:overall_diagram}
+\end{figure}
+%
+
+The AGC provides references for the genset, to specify at which frequency and voltage the power should be delivered. These references are sent to internal controllers, AVR and governor in the genset that respectively control voltage and frequency independently. The point of an Automatic Sustainable Controller (ASC) is to measure how much power the PV plant delivers end thereby providing a reference to the AGC of how much power is needed from the genset. The ASC is thereby balancing the amount of genset power versus PV power in the most efficient way without compromising the stability of the grid. Furthermore the ASC is responsible of maintaining a certain minimum load level on the genset as this is supposed to always operate above a certain load level.    
+
+%To balance the relation between genset power and PV power a model of the systems is needed. This will be achieved by gathering individual models of both the genset and the inverter. 

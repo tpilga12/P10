@@ -1,0 +1,105 @@
+% This file was created by matlab2tikz.
+%
+%The latest updates can be retrieved from
+%  http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz-matlab2tikz
+%where you can also make suggestions and rate matlab2tikz.
+%
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
+\definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
+\definecolor{mycolor4}{rgb}{0.49400,0.18400,0.55600}%
+\definecolor{mycolor5}{rgb}{0.46600,0.67400,0.18800}%
+\definecolor{mycolor6}{rgb}{0.30100,0.74500,0.93300}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=4.521in,
+height=3.566in,
+at={(0.758in,0.481in)},
+scale only axis,
+xmin=-0.01,
+xmax=0.03,
+xlabel={Time[s]},
+xmajorgrids,
+ymin=-190,
+ymax=20,
+ylabel={Voltage [V]},
+ymajorgrids,
+axis background/.style={fill=white},
+legend style={at={(0.97,0.03)},anchor=south east,legend cell align=left,align=left,draw=white!15!black}
+]
+\addplot [color=mycolor1,solid,line width=2.0pt]
+  table[row sep=crcr]{%
+-0.014	-0.000107763332937331\\
+-0.00999999999999957	-0.000166056133423353\\
+2.13370987545147e-16	-2.54551983118745e-05\\
+0.01	-115.000022955556\\
+0.0199999999999998	-1.76934415919453\\
+0.0299999999999996	-2.07098488360808\\
+0.034	-2.18610424901026\\
+};
+\addlegendentry{10 - 20 kW};
+
+\addplot [color=mycolor2,solid,line width=2.0pt]
+  table[row sep=crcr]{%
+-0.014	-0.000107763332937331\\
+-0.00999999999999957	-0.000166056133423353\\
+2.13370987545147e-16	-2.54551983118745e-05\\
+0.01	-184.000009182223\\
+0.0199999999999998	-8.74130509858418\\
+0.0299999999999996	-9.89394702091263\\
+0.034	-10.2987358689874\\
+};
+\addlegendentry{10 - 50 kW};
+
+\addplot [color=mycolor3,solid,line width=2.0pt]
+  table[row sep=crcr]{%
+-0.014	0.00725696207996965\\
+-0.00999999999999957	0.00807138856990264\\
+2.13370987545147e-16	0.0103709790350024\\
+0.01	-76.6582869239266\\
+0.0199999999999998	-1.9321320824337\\
+0.0299999999999996	-2.23837296061268\\
+0.034	-2.35487841435575\\
+};
+\addlegendentry{20 - 30 kW};
+
+\addplot [color=mycolor4,solid,line width=2.0pt]
+  table[row sep=crcr]{%
+-0.014	-0.0057232047884725\\
+-0.00999999999999957	-0.00540928368346272\\
+2.13370987545147e-16	0.0026442656308916\\
+0.01	-57.5001038865498\\
+0.0199999999999998	-2.13433240263907\\
+0.0299999999999996	-2.46089849671037\\
+0.034	-2.57654511047044\\
+};
+\addlegendentry{30 - 40 kW};
+
+\addplot [color=mycolor5,solid,line width=2.0pt]
+  table[row sep=crcr]{%
+-0.014	-0.0057232047884725\\
+-0.00999999999999957	-0.00540928368346272\\
+2.13370987545147e-16	0.0026442656308916\\
+0.01	-92.0000831092398\\
+0.0199999999999998	-4.55739829197\\
+0.0299999999999996	-5.20055907861396\\
+0.034	-5.42808757448081\\
+};
+\addlegendentry{30 - 50 kW};
+
+\addplot [color=mycolor6,solid,line width=2.0pt]
+  table[row sep=crcr]{%
+-0.014	-0.00488148617471807\\
+-0.00999999999999957	-0.0116073758209438\\
+2.13370987545147e-16	0.0344532558638093\\
+0.01	-46.0431121660729\\
+0.0199999999999998	-2.37686215691301\\
+0.0299999999999996	-2.72532358678927\\
+0.034	-2.84666103342771\\
+};
+\addlegendentry{40 - 50 kW};
+
+\end{axis}
+\end{tikzpicture}%

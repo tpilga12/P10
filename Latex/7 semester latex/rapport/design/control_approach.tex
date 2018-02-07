@@ -1,0 +1,131 @@
+\chapter{System design}
+\label{System_design}
+
+%During the design of the system, the efficiency of the AVR is considered. As it is written, the main task of the AVR is to keep the voltage constant and therefore independent from the load on the genset. 
+
+%Simulation results shows however, that there is a disturbance appearing on the voltage when the load changes. Therefore control can be applied to improve and correct the disturbance on the combined genset and inverter system. 
+To correct the disturbance appearing when a change in load occurs to the combined genset and inverter system, control needs to be applied where the disturbance can be corrected.
+
+In order to determine where control can be applied optimally, real world power measurements of a genset and an inverter is shown on \figref{fig:gensetPowermeas} and \figref{fig:inverter10kwstep}
+
+
+\begin{figure}[H]
+\centering
+%\includegraphics[width=0.8\textwidth]{rapport/billeder/4050kwstep.png}
+\input{rapport/Tikz/gensetstep4050kW1.tex}
+\caption{Power step from 40 to 50 kW performed on a genset located at DEIF and measured by Hioki oscilliscope at 50 kHz sampling rate.}
+\label{fig:gensetPowermeas}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/inverter10kwstep.tex}
+\caption{Power step from 0 to 10 kW performed on a SMA STP20000 inverter, where measurements is extracted from the inverter via modbus at a sample rate of approximately 14 Hz.}
+\label{fig:inverter10kwstep}
+\end{figure}
+
+
+The two measurements show considerable differences concerning the reaction time and the reaction to noise. It can be clearly seen that the inverter is not suitable to be the subject of control due to its slowness. In other words, this slow behaviour makes the inverter incapable of removing sudden disturbances from the output power. As it is illustrated, this is because of the limited rate of power delivery speed of the inverter. 
+%The reaction time on the other hand shows that the inverter is not fit to be the subject of control to remove sudden disturbances, due to changes in the load.
+The disturbance that can occur and therefore required to be corrected is shown in \figref{fig:gensetPowermeas}. A dip in power appears after the load increases at 70.25 seconds in the graph. The instability arises as the diesel engine can not instantly adjust for the sudden increase in load and the governor needs time to stabilize fuel input. On \figref{fig:4050kwstepfreq} the disturbance in electrical frequency due to a 40 kW to 50 kW step is shown.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/4050kwstepfreq.tex} 
+\caption{Frequency measured on tachometer with Hioki oscilloscope before and after a power step from 40 to 50 kW is performed on a genset located at DEIF.}
+\label{fig:4050kwstepfreq}
+\end{figure}
+
+
+Control can be done on the genset by providing a reference and therefore make the output tracking it. According to the system description in \secref{diesel_generator} and according to the previous discussion, there are two parameters which can be controlled on the genset, namely the frequency input of the governor and the voltage to the AVR. To limit the scope of the project, control is focused on correcting the disturbance by doing corrections in the frequency reference to the governor. Furthermore, control is built around the genset in order to provide a kind of extension, an add-on for the inner controllers inside the genset.In \figref{fig:genset_control_approach} this correction approach of the controller to the genset is illustrated.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/system_block.tex} 
+%\includegraphics[width=0.6\textwidth]{rapport/billeder/genset_control_approach.png}
+\caption{Block diagram illustrating the genset with an addon frequency controller.}
+\label{fig:genset_control_approach}
+\end{figure}
+
+
+%This requires the abillity to measure either frequency, Voltage or both on the genset. 
+The frequency can be obtained in two ways. Either by making time calculations between zero crossings on one of the three phases of the voltage outputs or by a tachometer. In case of a tachometer, it is required to be installed if it is not already built in the genset. For this reason, voltage measurements are carried out and in the mean time provided to the controller.
+When the frequency differs from the reference value after the correction of the governor, in the mean time disturbance will appear in the voltage due to the change in the load, as shown in \figref{fig:4050kwstepvoltage50khz}  
+
+\begin{figure}[H]
+\centering
+%\includegraphics[width=0.8\textwidth]{rapport/billeder/4050kwstep_rmsvoltage50khz.png}
+\input{rapport/Tikz/4050kwstepvoltage50khz1.tex} 
+\caption{Voltage measured on all three phases with Hioki oscilloscope at 50 kHz sampling rate with RMS calculated, before and after a power step from 40 to 50 kW is performed on a genset located at DEIF.}
+\label{fig:4050kwstepvoltage50khz}
+\end{figure}
+
+The first issue that arises is the noise in the measurement shown in \figref{fig:4050kwstepvoltage50khz}. Because of this, some difficulties appear concerning the design of the controller when the output voltage of the genset fluctuates between 220 to 240 volts in a steady-state mode. The solution which has been provided by Jesper Viese Knudsen, in the simulink blocks is described in \secref{dspace_unitv2}. The dSPACE unit samples the output voltage of the genset at 1 kHz, where sixteen samples are then averaged giving a 62.5 Hz input rate to the controller. The output of this sampling operation is shown in \figref{fig:4050kwstepvoltage62.5hz}. 
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/4050kwstepvoltage62.5hz.tex} 
+\caption{Voltage measured on all three phases with Hioki oscilloscope at 50 kHz sampling rate and RMS calculated, before and after a power step from 40 to 50 kW is performed on a genset located at DEIF. Data is then down sampled to 1 kHz and 16 samples is averaged to get a 62.5 Hz output.}
+\label{fig:4050kwstepvoltage62.5hz}
+\end{figure}
+
+The 62.5 Hz sampling rate and the reduction in fluctuation shown between \figref{fig:4050kwstepvoltage50khz} and \figref{fig:4050kwstepvoltage62.5hz} is considered acceptable on the grounds, that the update interval to the governor is 25 Hz and an apparent change in Voltage is registered in the 1 kHz averaged 62.5 Hz measuring, when a change in load occurs. 
+In order to be able to design a controller, modeling of the genset and inverter is needed. Along with the dynamics describing how changes in load affects voltage on the genset, the effects of frequency reference changes on the voltage output are also required. A block diagram, giving an overview of what needs to be modeled is shown in \figref{fig:gensetmodeling}.
+
+
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/gensetmodeling.tex} 
+%\includegraphics[width=0.6\textwidth]{rapport/billeder/genset_control_approach.png}
+\caption{Block diagram showing combined inverter and genset with controller, where blocks in lightblue indicates systems to be modeled.}
+\label{fig:gensetmodeling}
+\end{figure}
+
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=1\textwidth]{rapport/billeder/gensetmodeling.png}
+%\caption{Block diagram showing combined inverter and genset with controller, where blocks in lightblue indicates systems to be modeled.}
+%\label{fig:gensetmodeling}
+%\end{figure}
+
+For the sake of comparison between the simulation and measurements, genset systems for frequency to power and power to power models is added to the list of models to be derived. The derivation of the various models is to be described in the section to come. 
+
+
+
+%The Voltage reference is given to the AVR as an RMS value of all three phases, which mean it needs to be calculated before it can be used by a controller. 
+
+
+%On \figref{fig:4050kwstepfreq} and \figref{fig:4050kwstepvoltage50khz} frequency and Voltage is shown during a 40 to 50 kW step in load. 
+
+% The RMS Voltage can be calculated by the following equation:
+
+% \begin{equation} 
+% \label{eq:Vrms}
+% V_{RMS} = \sqrt{\frac{V_{1}^2+V_{2}^2+V_{3}^2}{3}}
+% \end{equation}
+
+% Where $V_1$, $V_2$ and $V_3$ is the individual phases.
+
+
+
+
+
+
+
+%Due to the amount of noise at the output of the genset it will be difficult to control by  
+
+
+
+
+
+%To correct the disturbance appearing when a change in load occurs as shown on \figref{fig:steps_model_comparison} a measurement on the output of the genset is necessary. This could be Voltage, current and electrical frequency, where Voltage and current could be used to calculate power output of the genset. The only known references given to the genset is frequency and Voltage
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.75\textwidth]{rapport/billeder/blok}
+%\caption{.}
+%\label{fig:blok}
+%\end{figure}
+

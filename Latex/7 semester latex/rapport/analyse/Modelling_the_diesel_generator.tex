@@ -1,0 +1,360 @@
+
+\section{Modelling diesel generator}
+\label{modelling_diesel_generator}
+In this section models for the various genset systems is to be derived. The basis of which the models is derived is data from a tenth order system built into a simulink model by Jesper Viese Knudsen which shall henceforth be referred to as the 'genset simulink model' \cite{Jesper_paper}. To ease further development in the project it will be investigated if lower order TF's can reproduce the output of the provided genset simulink model. The systems to be modeled is:
+\begin{enumerate}
+	\item Change in load (W) to power output (W)
+	\item Electrical Frequency (Hz) to power (W)
+	\item Change in load (W) to Voltage disturbance (V)
+	\item Electrical Frequency (Hz) to Voltage (V)
+\end{enumerate}
+
+In \secref{extract_data_from_simulink} extraction of data is explained in detail. The data obtained is from various power steps and is shown in \figref{fig:stepresponses_simulinkgensetmodel}. Furthermore, all data extracted from the genset simulink model will be done at a sample rate of 100 Hz as to minimize the amount of processing time but at the same time have a reasonable resolution on the output. 
+The first model and the principles used to derive it will be explained in detail. As the principle for deriving the second, third and fourth model is much alike the details of these derivations will be sparse.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/stepresponse_simulink_genset_model.tex}
+\caption{Various step responses performed on the simulink genset model.}
+\label{fig:stepresponses_simulinkgensetmodel}
+\end{figure}
+
+
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=1.1\textwidth]{rapport/billeder/model_estimation_natural_frequency}
+% \caption{Step response of the genset from 10 kW to 50 kW}
+% \label{fig:gensetdata1}
+% \end{figure}
+
+The approach in constructing the TF, is a curvefit from different step sizes. By trial and error it is decided to attempt to fit a second order system to replicate the dynamics of the tenth order genset model. From \figref{fig:stepresponses_simulinkgensetmodel} a step rise is shown when the step is performed on the genset simulink model. To increase the speed of the fitted genset model zeros can be inserted in to the model, and in \figref{fig:stepresponse_zeros} it is shown how one or more zeros affect the model.
+
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/different_types_of_second_order_tf.tex}
+\caption{Step response of second order systems with and without zeros compared with a step from 10 kW to 20 kW on the genset simulink model.}
+\label{fig:stepresponse_zeros}
+\end{figure}
+
+By adding two zeros to the TF a closer fit can be achieved to the step performed on the genset simulink model. While the second order system is not a perfect match, it is deemed sufficiently close for further progress in parameter estimation and is shown in \eqref{eq:tf_two_zeros}.
+%
+%
+\begin{equation}
+\label{eq:tf_two_zeros}
+G_1(s) = \frac {b_2 \cdot s^2 + b_1 \cdot s+\omega_n ^2}{s^2+2\cdot \zeta \cdot \omega_n \cdot s + \omega_n ^2} \unit{\cdot}
+\end{equation}    
+
+To estimate the parameters senstool is used to get a curve fit of the data from the genset simulink model. First the natural frequency $\omega_n$ is estimated from the data. A half period of the natural frequency is found as shown in \figref{fig:stepresponse_power_10_50kW} and from that the natural frequency is derrived to be 8 $rad/s$, and is used as an initial guess. 
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/stepresponse_power_10_50kW_genset2.tex}
+\caption{Step response from 10 kW to 50 kW applied to the genset simulink model.}
+\label{fig:stepresponse_power_10_50kW}
+\end{figure}
+
+With the initial value of $\omega_n$ set the last three parameters are estimated by senstool (b1, b2 and $\zeta$). Secondly the damping ratio $\zeta$ is estimated by senstool to fit the step and thereafter $\omega_n$ is estimated to improve the accuracy. Then $\zeta$ and $\omega_n$ are set and senstool is estimating the $b_1$ and $b_2$ parameters. Several step sizes was used to find the alround most accurate coefficients of $b_1$ and $b_2$. The parameters are estimated to be:
+
+\begin{table}[H]
+\centering
+\label{tab:parameters}
+\begin{tabular}{|c|c|}
+\hline
+$\omega_n$ & 8.8948 \\ \hline
+$\zeta$  & 0.2932 \\ \hline
+$b_1$       & 4.3012    \\ \hline
+$b_2$       & 0.9645 \\ \hline
+\end{tabular}
+\caption{Parameters of the TF.}
+\end{table}       
+
+The step response of the parameter estimation giving the TF yields the following figure.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/steps_model_comparison_second_try.tex}
+\caption{Different simulink genset model step responses between 10 kW and 50 kW compared with the same TF step, with senstool estimated parameters.}
+\label{fig:steps_model_comparison_firsttry}
+\end{figure}
+
+What is shown in \figref{fig:steps_model_comparison_firsttry}, is that the fit from the smallest step to the largest deviates some amount. 
+The parameter $b_1$ is adjusted to make a better overall fit between the different step sizes. Therefore some manually tuning to make a better fit produced a $b_1$ parameter value to be 3.7 which gives the following TF:
+%
+\begin{equation}
+\label{eq:tf_two_zeros}
+G_1(s) = \frac {s^2 \cdot 0.9645+s \cdot 3.7+8.8948^2}{s^2+2\cdot 0.2932 \cdot 8.8948 \cdot s + 8.8948^2} \unit{\cdot}
+\end{equation}  
+
+In \figref{fig:steps_model_comparison} a comparison of the simulink genset model and steps performed with the TF given in \eqref{eq:tf_two_zeros} is shown.
+
+ % \begin{figure}[H]
+ % \centering
+ % \includegraphics[width=1.1\textwidth]{rapport/billeder/gensetdata2}
+ % \caption{\fxnote{yeah i know the figure need scaling and other stuff :)}}
+ % \label{fig:gensetdata2}
+ % \end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/steps_model_comparison2.tex}
+\caption{Different simulink genset model step responses between 10 kW and 50 kW compared with the same TF step, with senstool estimated parameters, and manually tuned $b_1$ parameter.}
+\label{fig:steps_model_comparison}
+\end{figure}
+
+The comparison between the simulink genset model and the estimated TF shown in \figref{fig:steps_model_comparison} shows that the TF is able to mimic the behaviour of the simulink genset model, but with some amount of deviation for larger step sizes. As the TF is a lower order system it will not be able to mimic the tenth order simulink genset model completely, but for this project it is deemed sufficiently accurate.
+
+For the second model of Electrical Frequency (Hz) to power (W) data is extracted from the genset simulink model for various frequency steps at different loads.
+The steps is shown on \figref{fig:freqsteps10kw}, \figref{fig:freqsteps30kw} and \figref{fig:freqsteps50kw}.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freqsteps10kw.tex}
+\caption{Various frequency steps performed in the genset simulink model with a 10 kW load}
+\label{fig:freqsteps10kw}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freqsteps30kw.tex}
+\caption{Various frequency steps performed in the genset simulink model with a 30 kW load}
+\label{fig:freqsteps30kw}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freqsteps50kw.tex}
+\caption{Various frequency steps performed in the genset simulink model with a 50 kW load}
+\label{fig:freqsteps50kw}
+\end{figure}
+
+What is shown on the steps is that when a step in frequency is performed it will create a disturbance on the output, but because the AVR and the govenor is controling then genset the power output will stabilize after some time.
+
+The same procedure using senstool to get a curvefit for the first model is used to obtain a model for this. A fit from a second order TF with one zero is attempted parameter estimated for this model. The estimated parameters is shown in \tabref{tab:freqpowerparam}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+$\omega_n$ & 7.26 \\ \hline
+$\zeta$  & 0.2398 \\ \hline
+$b_1$       & 7534.6    \\ \hline
+\end{tabular}
+\caption{Estimated parameters for the TF of frequency to power.}
+\label{tab:freqpowerparam}
+\end{table}  
+
+This yields the following TF for this model:
+
+\begin{equation}
+\label{eq:tf2_one_zeros}
+G_2(s) = \frac {7534.6 \cdot s}{s^2+2\cdot 0.2398 \cdot 7.26 \cdot s + 7.26^2} \unit{\cdot}
+\end{equation} 
+
+The same steps performed in the genset simulink model for estimation of the parameters is performed on the estimated model and shown on \figref{fig:freqtopowermodelsteps}. 
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freqtopowermodelsteps.tex}
+\caption{Various frequency steps performed on the parameter estimated model}
+\label{fig:freqtopowermodelsteps}
+\end{figure}
+
+As the TF is linear it does not matter at what power offset the step is performed at, as the fit is made of data from a nonlinear model there is bound to be some discrepancies between different loads. On \figref{fig:freq5055step103050model} the difference in a 50 to 55 Hz step between the estimated model and step performed at different load sizes in the genset simulink model.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freq5055step103050model.tex}
+\caption{Frequency step from 50 to 55 Hz performed on the parameter estimated model and the genset simulink model at 10, 30 and 50 kW load.}
+\label{fig:freq5055step103050model}
+\end{figure}
+
+For the third model of "Change in load (W) to Voltage disturbance (V)" power steps has been performed in the genset simulink model. These steps is shown on \figref{fig:powerstepsvoltdisturbance1}, \figref{fig:powerstepsvoltdisturbance3} and \figref{fig:powerstepsvoltdisturbance2}. 
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/powerstepsvoltdisturbance1.tex}
+\caption{Power steps performed in genset simulink model with the resulting voltage disturbance.}
+\label{fig:powerstepsvoltdisturbance1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/powerstepsvoltdisturbance3.tex}
+\caption{Power steps performed in genset simulink model with the resulting voltage disturbance initial drop closeup.}
+\label{fig:powerstepsvoltdisturbance3}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/powerstepsvoltdisturbance2.tex}
+\caption{Power steps performed in genset simulink model with the resulting voltage disturbance closeup.}
+\label{fig:powerstepsvoltdisturbance2}
+\end{figure}
+
+Besides of the initial drop in voltage, the voltage disturbance arising due to load changes behaves more like a linear system which is shown by the small deviations between the 10 kW steps. This characteristic is ideal for curvefitting to a lesser order linear model. The same procedure using senstool to get a curvefit for the first model is used to obtain a model for this. A curvefit for a second order TF with one zero is attempted parameter estimated for this model. The estimated parameters is shown in \tabref{tab:powervoltdisturbparam}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+$\omega_n$ & 9.3356 \\ \hline
+$\zeta$  & 0.26 \\ \hline
+$b_1$       & -0.00545    \\ \hline
+\end{tabular}
+\caption{Estimated parameters for the TF of power to Voltage disturbance.}
+\label{tab:powervoltdisturbparam}
+\end{table}  
+
+This yields the following TF for this model:
+
+\begin{equation}
+\label{eq:tf3_one_zeros}
+G_3(s) = \frac {-0.00545 \cdot s}{s^2+2\cdot 0.26 \cdot 9.3356 \cdot s + 9.3356^2} \unit{\cdot}
+\end{equation} 
+
+On \figref{fig:powerstepsvoltdisturbancecomparison1020} and \figref{fig:powerstepsvoltdisturbancecomparison1050} a comparison between two different steps on the genset simulink model and the estimated model is shown.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/powerstepsvoltdisturbancecomparison1020.tex}
+\caption{Power step performed in genset simulink model and on estimated model showing the resulting voltage disturbance.}
+\label{fig:powerstepsvoltdisturbancecomparison1020}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/powerstepsvoltdisturbancecomparison1050.tex}
+\caption{Power step performed in genset simulink model and on estimated model showing the resulting voltage disturbance.}
+\label{fig:powerstepsvoltdisturbancecomparison1050}
+\end{figure}
+
+The important part to be shown on \figref{fig:powerstepsvoltdisturbancecomparison1020} and \figref{fig:powerstepsvoltdisturbancecomparison1050}, is that the estimated model, apart from the larger short lasting initial dip in voltage, gives a drop in Voltage that is close to the step performed in the genset simulink model. That is because this drop is what is attempted corrected, and therefore makes the estimated model ideal for simulation purposes.
+
+For the fourth and final model "Electrical frequency (Hz) to Voltage (V)" steps is performed in electrical frequency at 10, 30 and 50 kW loads in the genset simulink model. The steps is shown on \figref{fig:freq5051_103050kw_volt}, \figref{fig:freq5053_103050kw_volt}, \figref{fig:freq5055_103050kw_volt}, \figref{fig:freq5057_103050kw_volt} and \figref{fig:freq5059_103050kw_volt}.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freq5051_103050kw_volt.tex}
+\caption{Voltage disturbance from frequency step from 50 to 51 Hz at different loads performed in genset simulink model.}
+\label{fig:freq5051_103050kw_volt}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freq5053_103050kw_volt.tex}
+\caption{Voltage disturbance from frequency step from 50 to 53 Hz at different loads performed in genset simulink model.}
+\label{fig:freq5053_103050kw_volt}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freq5055_103050kw_volt.tex}
+\caption{Voltage disturbance from frequency step from 50 to 55 Hz at different loads performed in genset simulink model.}
+\label{fig:freq5055_103050kw_volt}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freq5057_103050kw_volt.tex}
+\caption{Voltage disturbance from frequency step from 50 to 57 Hz at different loads performed in genset simulink model.}
+\label{fig:freq5057_103050kw_volt}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freq5059_103050kw_volt.tex}
+\caption{Voltage disturbance from frequency step from 50 to 59 Hz at different loads performed in genset simulink model.}
+\label{fig:freq5059_103050kw_volt}
+\end{figure}
+
+Besides the small deviation in frequency at different loads there is not much difference to observe between the frequency steps other than the amplitude of the disturbance. The same procedure using senstool to get a curvefit for the first model is used to obtain a model for this. A curvefit for a second order TF with one zero is attempted parameter estimated for this model. The estimated parameters is shown in \tabref{tab:freqvoltdisturbparam}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+$\omega_n$ & 9.3356 \\ \hline
+$\zeta$  & 0.26 \\ \hline
+$b_1$       & -0.00545    \\ \hline
+\end{tabular}
+\caption{Estimated parameters for the TF of power to Voltage disturbance.}
+\label{tab:freqvoltdisturbparam}
+\end{table}  
+
+This yields the following TF for this model:
+
+\begin{equation}
+\label{eq:tf4_one_zeros}
+G_4(s) = \frac {29.2661 \cdot s}{s^2+2\cdot 0.2348 \cdot 7.2458 \cdot s + 7.2458^2} \unit{\cdot}
+\end{equation} 
+
+On \figref{fig:modelfreq_volt} the frequency steps performed in the genset simulink model is performed on the paramter estimated model.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/modelfreq_volt.tex}
+\caption{Voltage disturbance from frequency steps performed on parameter estimated model.}
+\label{fig:modelfreq_volt}
+\end{figure}
+
+For comparison the estimated model is plotted onto the 50 to 51, 50 to 55 and 50 to 59 Hz steps on \figref{fig:freq5051_103050kwmodel_volt}, \figref{fig:freq5055_103050kwmodel_volt} and \figref{fig:freq5059_103050kwmodel_volt}.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freq5051_103050kwmodel_volt.tex}
+\caption{Voltage disturbance from frequency step from 50 to 51 Hz at different loads performed in genset simulink model.}
+\label{fig:freq5051_103050kwmodel_volt}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freq5055_103050kwmodel_volt.tex}
+\caption{Voltage disturbance from frequency step from 50 to 55 Hz at different loads performed in genset simulink model.}
+\label{fig:freq5055_103050kwmodel_volt}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/freq5059_103050kwmodel_volt.tex}
+\caption{Voltage disturbance from frequency step from 50 to 59 Hz at different loads performed in genset simulink model.}
+\label{fig:freq5059_103050kwmodel_volt}
+\end{figure}
+
+Given the order of the parameter estimated model additional steadystate time is unavoidable to obtain the best possible curvefit within the first peak. This is the important part because to rectify the disturbance the first reaction by the controller is needed to be precise as to not cause Voltage overshoot which is not desired either.
+Models is created giving the TF for the following:         
+
+\begin{enumerate}
+	\item Change in load (W) to power output (W)
+	\begin{equation}
+	%\label{eq:tf_two_zeros}
+	G_1(s) = \frac {s^2 \cdot 0.9645+s \cdot 3.7+8.8948^2}{s^2+2\cdot 0.2932 \cdot 8.8948 \cdot s + 8.8948^2} \unit{\cdot}
+	\end{equation} 
+	\item Electrical Frequency (Hz) to power (W)
+	\begin{equation}
+	%\label{eq:tf2_one_zeros}
+	G_2(s) = \frac {7534.6 \cdot s}{s^2+2\cdot 0.2398 \cdot 7.26 \cdot s + 7.26^2} \unit{\cdot}
+	\end{equation}
+	\item Change in load (W) to Voltage disturbance (V)
+	\begin{equation}
+	%\label{eq:tf3_one_zeros}
+	G_3(s) = \frac {-0.00545 \cdot s}{s^2+2\cdot 0.26 \cdot 9.3356 \cdot s + 9.3356^2} \unit{\cdot}
+	\end{equation} 
+	\item Electrical Frequency (Hz) to Voltage (V)
+	\begin{equation}
+%	\label{eq:tf4_one_zeros}
+	G_4(s) = \frac {29.2661 \cdot s}{s^2+2\cdot 0.2348 \cdot 7.2458 \cdot s + 7.2458^2} \unit{\cdot}
+\end{equation} 
+\end{enumerate}
+
+In the next section a controller will be designed to optimize the stability of the genset and thereby the combined system of a genset and an inverter.
+
+%To derive the TF of a 10th order simulink model of the genset have been used. This 10th order model is designed by Jesper Viese Knudsen \fxnote{Is there a fancy way to introduce him. maybe a ref to something about his work}. 
+%Though this section it will be investigated if it is possible to reduce this model to a second order TF. 
+
+%On \figref{fig:genset_blockdiagram} a blockdiagram of the genset is shown. 
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.75\textwidth]{rapport/billeder/genset_blockdiagram}
+%\caption{Block diagram of a genset}
+%\label{fig:genset_blockdiagram}
+%\end{figure}

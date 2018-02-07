@@ -1,0 +1,53 @@
+\subsection{State feedback design}
+\label{statfeedback_d}
+
+The open loop poles of the system are calculated as follows: 
+
+\begin{equation}
+  \label{eq:feedbackd}
+    det(z\mathbf{I}-\mathbf{A}_d)
+  \end{equation}
+
+The open loop poles of the system as can be seen in \eqref{eq:openlooppoles_d} are in the unit circle which means, the system is stable: 
+
+\begin{equation}
+  \label{eq:openlooppoles_d}
+  p_{{1;2}} = 0.8977 \pm j0.2585
+  \end{equation}
+
+The desired poles should be further to the origin of the z-plane, however should be also chosen carefully. Fast dynamics mean bigger state feedback gain, which can result in unwanted overshoots because of the outer control loop. For immediate changes in the disturbance, the system might react faster, however when the feedback gain is high, that would result in high overshoots. Considering that, the desired poles are first set to: 
+
+\begin{equation}
+  \label{eq:openlooppoles_d}
+  p_{F_{1;2}} = 0.7 \pm j0.2585
+  \end{equation} 
+  
+The state feedback gain yields: 
+  
+  \begin{equation}
+\label{eq:F_d}
+    F
+=
+ \begin{bmatrix}
+    -9.61 & -53.51
+\end{bmatrix}
+\end{equation}
+  
+  With this state feedback, the following dynamics can be achieved:
+  
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/statefeedback_d.tex}
+\caption{Step response of the system with and without state feedback.}
+\label{fig:statefeedback_d}
+\end{figure}
+
+As can be seen, the system response improves both with respect to overshoot and settling time. 
+  
+  
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.85\textwidth]{rapport/billeder/missingfigure}
+%\caption{Step response of the system with and without state feedback}
+%\label{fig:graph_statefeedback_d}
+%\end{figure}

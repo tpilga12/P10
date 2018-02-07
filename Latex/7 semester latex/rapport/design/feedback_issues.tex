@@ -1,0 +1,80 @@
+\subsection{Continuous state-space representation of the plant}
+\label{ss_representation}
+
+The above-mentioned transfer function can be represented as a two dimensional state-space system such as: 
+
+\begin{equation}
+  \label{eq:ss_sys1}
+    \mathbf{\dot{x}(t)} = \mathbf{A} \mathbf{x}(t) + \mathbf{B} u(t)
+  \end{equation}
+\begin{equation}
+  \label{eq:ss_sys2}
+    y(t) = \mathbf{C} \mathbf{x}(t) + \mathbf{D} u(t)
+  \end{equation}
+
+
+\begin{minipage}[t]{0.20\textwidth}
+Where\\
+\hspace*{8mm} $\mathbf{A}$ \\
+\hspace*{8mm} $\mathbf{B}$ \\
+\hspace*{8mm} $\mathbf{C}$ \\
+\hspace*{8mm} $\mathbf{D}$ \\
+\hspace*{8mm} $\mathbf{x}$  \\
+\hspace*{8mm} $y$  \\
+\hspace*{8mm} and $u$  
+\end{minipage}
+\begin{minipage}[t]{0.68\textwidth}
+\vspace*{2mm}
+is the system matrix with a dimension: $\mathbb{R}^{(2 \times 2)}$,\\
+is the input matrix with a dimension: $\mathbb{R}^{(2 \times 1)}$, \\
+is the output matrix with a dimension: $\mathbb{R}^{(1 \times 2)}$, \\
+is the feed-forward matrix with a dimension: $\mathbb{R}^{(1 \times 1)}$, \\
+is the state vector with a dimension: $\mathbb{R}^{(2 \times 1)}$, \\
+is the 1-dimensional output of the system, \\
+is the 1-dimensional input of the system. 
+
+\end{minipage}
+\begin{minipage}[t]{0.10\textwidth}
+\vspace*{2mm}
+\textcolor{White}{te}$\unit{\cdot}$\\
+\textcolor{White}{te}$\unit{\cdot}$\\
+\textcolor{White}{te}$\unit{\cdot}$\\
+\textcolor{White}{te}$\unit{\cdot}$\\
+\textcolor{White}{te}$\unit{\cdot}$\\
+\textcolor{White}{te}$\unit{V}$\\
+\textcolor{White}{te}$\unit{\frac{rad}{s}}$
+\end{minipage}
+
+For the specific representation of the transfer function in \eqref{eq:tf_system}, the system consists of the following matrices: 
+
+  \begin{equation}
+  \label{eq:system_matrices_}
+	\mathbf{A}
+	 =   
+    \begin{bmatrix}
+    -3.40 & -52.05 \\
+     1 & 0
+\end{bmatrix}
+;
+\textcolor{White}{teeee}
+\mathbf{B}
+	 =   
+    \begin{bmatrix}
+    1 \\
+    0
+\end{bmatrix}
+;
+\textcolor{White}{teeee}
+\mathbf{C}
+	 =   
+    \begin{bmatrix}
+    29.27 & 0
+\end{bmatrix}
+;
+\textcolor{White}{teeee}
+\mathbf{D}
+	 =   
+    \begin{bmatrix}
+    0
+\end{bmatrix}
+  \end{equation}

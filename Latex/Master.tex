@@ -1,0 +1,83 @@
+\input{preamble}
+\raggedbottom
+\begin{document}
+%%
+% Forindhold - nummereres med romertal	
+\frontmatter		
+
+%Formalia
+
+\input{report/introduction/main} 
+
+\includepdf{report/introduction/blank}
+\tableofcontents*
+
+
+\includepdf{report/introduction/blank}
+\newpage
+\input{report/unit_list}
+
+% Hovedindhold - nummereres fra side 1		
+\mainmatter 
+%%%%%%Introduction%%%%%%%%
+\input{report/introduction/introduction}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\input{report/plant_and_product_description/plant_and_product_description}
+%projekt concept (not needed pt.)
+%\input{report/system_analyse/main}
+
+%\input{report/models_and_system_identification/models_and_system_identification}
+
+%\input{report/controller_design/controller_design}
+
+%\input{report/test/test}
+
+%\input{report/conclusion/conclusion}
+%Den første del af problemanalysen
+% \include{rapport/funcionality_analysis/main}
+
+% \include{rapport/technology_analysis/main}
+
+% %kravspec
+%\include{report/system_requirement/main}Skal
+
+%System design
+%\input{report/system_design/main}
+
+%\input{report/implementation/implementation}	
+
+
+% %Design
+% \include{rapport/design/main}
+
+% %Accepttest 
+% \include{rapport/endelige_produkt/main}
+
+% %Konklusion afsnit 
+% \include{rapport/konklusion/main}
+%\include{report/accepttest/main}
+
+%Conclusion
+%\input{Report/conclusion/conclusion}
+
+%\input{Report/conclusion/optimization}
+
+%\input{Report/conclusion/perspective}
+
+%\input{Report/conclusion/discussion}
+%Bilag 	%
+\appendix
+
+%Litteratur	\enhed{\cdot}
+\bibliography{bibliography} 		
+
+%Apendix
+\include{report/appendix/appendix_main}
+
+% \include{rapport/bilag/bilag}	
+
+%\listoffixmes
+
+\end{document}	

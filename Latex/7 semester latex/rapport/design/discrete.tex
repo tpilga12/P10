@@ -1,0 +1,54 @@
+\subsection{Discretization of the system}
+\label{discrete}
+
+The continuous representation of the system was introduced in \eqref{eq:ss_sys1} and \eqref{eq:ss_sys2}, however the plant of the genset should be discretized from the beginning of the design process. In discrete time the plant can be represented as follows: 
+
+\begin{equation}
+  \label{eq:ss_sys1_d}
+    \mathbf{x}[k+1] = \mathbf{A_d} \mathbf{x}[k] + \mathbf{B_d} u[k]
+  \end{equation}
+\begin{equation}
+  \label{eq:ss_sys2_d}
+    y[k] = \mathbf{C} \mathbf{x}[k]
+  \end{equation}
+  
+When converting the state-space matrices from continuous to discrete, the sampling time of the system has to be considered. In case of the genset, the sampling and processing time for computing the RMS values of the voltage takes $16 [ms]$. Sending control signals with CANbus can take up to $40 [ms]$, therefore the plant is discretized with the higher sampling time. 
+
+The modified matrices of the system are depending on the sampling time($h = 40 [ms]$) as follows:
+
+\begin{equation}
+  \label{eq:Ad}
+    \mathbf{A_d} = e^{\mathbf{A}h}  
+  \end{equation}
+
+\begin{equation}
+  \label{eq:Bd}
+    \mathbf{B_d} = \int_{0}^{h} e^{\mathbf{A}s}ds\mathbf{B}
+  \end{equation}
+
+And therefore the matrices become: 
+
+ \begin{equation}
+  \label{eq:system_matrices_}
+	\mathbf{A}
+	 =   
+    \begin{bmatrix}
+    0.835 & -1.920 \\
+     0.036 & 0.960
+\end{bmatrix}
+;
+\textcolor{White}{teeee}
+\mathbf{B}
+	 =   
+    \begin{bmatrix}
+    0.03688 \\
+    0.00075
+\end{bmatrix}
+;
+\textcolor{White}{teeee}
+\mathbf{C}
+	 =   
+    \begin{bmatrix}
+    29.27 & 0
+\end{bmatrix}
+  \end{equation}

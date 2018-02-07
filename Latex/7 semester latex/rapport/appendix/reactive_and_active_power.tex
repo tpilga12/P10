@@ -1,0 +1,123 @@
+\section{Reactive and active power}
+\label{reactive_and_active_power}
+
+This appendix will look into the theory about active and reactive power.
+
+In circuits that only have a resistance load the power will flow from the source into the load and will purely be active power also known as true power and is measured in watt. When the load consist of an inductor or capacitor the load will have a reactive part and will be measured in volt-ampere reactive (VAr) and is known as reactive power. Reactive power does not deliver any work to a system and is therefore also known as 'wattless' power. Reactive power is created by the phase difference between current and voltage \cite{allaboutcircuits}. \figref{fig:reactive_and_active_power} shows how reactive and active power are connected.     
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{rapport/billeder/reactive_and_active_power}
+\caption{Illustration of reactive and active power \cite{picture_reavtive_active}.}
+\label{fig:reactive_and_active_power}
+\end{figure}
+%% Source For the picture - https://www.quora.com/What-is-active-apparent-reactive-Explain-in-brief-with-examples-of-electrical-system 
+
+The x- and y-axis of the graph corrosponds to real and imaginary power respectively. On the real axis the active power is measured as P (watt) and on the imaginary axis reactive power is measured as Q (VAr). The hypotenuse of the graph is called the apparent power S, and is measured in volt-ampere (VA). The magnitude of S is equal to the total amount of power that has to be delivered to a system \cite{allaboutcircuits}.% The reason for measuring S in VA that it is the product of rms current and voltage.
+The variable $\varphi$ is the angle between the phase of current and voltage. If the angle between the current and voltage is equal to $\pi$, which means that the current or voltage is one period behind the other, then the system will only consist of reactive power. 
+
+
+In \figref{fig:circuit_reactive_and_active_load} a circuit with a reactive and active load is illustrated. There will be made a calculation example that will show how to calculate the reactive and active power \cite{allaboutcircuits}. Furthermore plots will show the phase difference between current and voltage.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{rapport/billeder/curcuit_reactive_and_active_load}
+\caption{Circuit with a reactive and active load.}
+\label{fig:circuit_reactive_and_active_load}
+\end{figure}  
+
+The active power can be calculated with joules law:
+
+\begin{align}
+P &= I^2 \cdot R_{load} \\ \nonumber
+  &= 1.41^2 \cdot 60 \\ \nonumber
+  &= 119.29 & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \unit{W}
+\end{align}
+
+To calculate the reactive power the inductive reactance must be known. It can be calculated from the following equation:
+
+\begin{align}
+X_{L} &= 2 \cdot \pi \cdot f \cdot L_{load} \\ \nonumber
+  &= 2 \cdot \pi \cdot 60 \cdot 160 \\ \nonumber
+  &= 60.32 & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \unit{\Omega}
+\end{align}
+
+The reactive power can be calculated by \eqref{eq:reative_power}
+\begin{align}\label{eq:reative_power}
+Q &= I^2 \cdot X_{L} \\ \nonumber
+  &= 1.41^2 \cdot 60.32 \\ \nonumber
+  &= 119.92 & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \unit{VAr}
+\end{align}
+
+To calculate how much apparent power the system is drawing the total impedance must be calculated. The total impedance is calculated in the following equation:
+
+\begin{align}
+Z_{Total} &= Z_R + Z_L \\ \nonumber
+  &= 60 \angle 0^{\circ} + 60.32 \angle 90^{\circ} \\ \nonumber
+  &= 60 + 60.32i & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \unit{\Omega}
+\end{align}
+
+Apparent power can now be calculated as the magnitude between current and the total impedance:
+
+\begin{align}
+S &=|Z_{total} \cdot I^2| \\ \nonumber
+  &= |60 + 60.32i\cdot 1.41^2|  \\ \nonumber
+  &= \sqrt{(60 + 60.32i)^2\cdot (1.41^2)^2}  \\ \nonumber
+  &= 169.14 & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \unit{W}
+\end{align}
+
+With the apparent power and active power known, $\varphi$ can be calculated by using trigonometry as seen on \figref{fig:reactive_and_active_power}: 
+
+\begin{align}
+cos(\varphi) &=\frac{P}{S} \\ \nonumber
+  &= \frac{119.29}{169.14}  \\ \nonumber
+  &= 0.705 & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \unit{\cdot}
+\end{align}
+
+By taking the inverse cosine the angle can be calculated.
+
+\begin{align}
+cos(\varphi) &=0.705 \\ \nonumber
+\varphi &=cos^{-1}(0.705) \\ \nonumber
+ 	 &= 45.17 & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \unit{^{\circ}}
+\end{align}
+
+With the phase difference known, the current and voltage will now be illustrated and thereby the phase difference can be seen. The current and voltage can be described with the following equations: 
+
+\begin{align}
+u(t) &=|U|\cdot sin(\omega \cdot t) \\ 
+i(t) &=|I|\cdot sin(\omega \cdot t - \varphi_{rad}) 
+\end{align}
+
+Where $\varphi_{rad}$ is the off-set for the current and is calculated in the following equation:
+\begin{align}\label{eq:varphi}
+\varphi_{rad} &= \frac {degrees}{180} \cdot \pi \\ \nonumber
+			  &= \frac {45.17}{180} \cdot \pi \\ \nonumber
+	 		  &= 0.788 & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \unit{\cdot}
+\end{align}
+
+With $\varphi_{rad}$ known the current and voltage can be plotted and the phase difference can be seen.
+
+\begin{figure}[H]
+\centering
+\input{rapport/Tikz/phase_difference_current_voltage.tex}
+\caption{Phase difference between voltage and current.}
+\label{fig:phase_difference_current_voltage}
+\end{figure}
+
+The time difference between the two signals can be found and thereby the calculated angle can be verified:
+
+\begin{align}
+\Delta t &= X1 - X2 \\ \nonumber
+			  &= 0.01043 - 0.00833 \\ \nonumber
+	 		  &= 2.1 \cdot 10^{-3} & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \unit{s}
+\end{align}
+
+With the time difference known the angle can be found as:
+\begin{align}
+ \varphi_{rad}&= f \cdot 360^{\circ} \cdot \Delta t \\ \nonumber
+			  &= 60 \cdot 360 \cdot 2.1 \cdot 10^{-3}  \\ \nonumber
+	 		  &= 0.792 & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \unit{\cdot}
+\end{align}
+
+The result is not exactly the same as calculated in \eqref{eq:varphi} a reason could be inaccuracy in the readings of the plot \figref{fig:phase_difference_current_voltage}. 
+

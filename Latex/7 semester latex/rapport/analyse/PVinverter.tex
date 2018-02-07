@@ -1,0 +1,53 @@
+% \section{Grid-connected PV inverter}
+% \label{PVinverter}
+
+% During the application of PV inverters the main task is to convert PV power provided by the solar panels in DC voltage to AC, stabilize the output voltage, frequency and current, and feed power to the utility grid. When the inverter works parallel to the genset, the main task is to deliver power according to the reference provided by the ASC. Furthermore the power should be delivered at the voltage and frequency provided by the genset, the inverter should therefore always match this.
+% A typical diagram of a grid connected PV system can be seen in \figref{fig:gridPV}.    
+% \begin{figure}[H]
+% \begin{tikzpicture}
+%     \coordinate (SolarCellP) at (0.5,0);
+%     \coordinate (ChopperP) at (4,0);
+%     \coordinate (InverterP) at (8,0);
+
+%     % Place blocks
+%     \begin{scope}[every node/.style={draw,thick, fill=white!30, rectangle,text width=1.5cm, minimum height=2cm, text badly centered}]
+%         \node[name=pv,pattern=grid,pattern color=white!30] at (SolarCellP) { PV};
+%         \node[name=chopper] at (ChopperP) {DC/DC};
+%         \node[name=inverter] at (InverterP) {DC/AC};
+%     \end{scope}
+
+%     \draw
+%     % PV to chopper
+%         (pv.30) -- (chopper.150)
+%         (pv.330) -- (chopper.210)
+%     % DC link and cap
+%         (chopper.30) -- (inverter.150)
+%         (chopper.330) -- (inverter.210)
+%         ($(chopper.330)!0.4!(inverter.210)$) to[capacitor, l=\SI{}{}, mirror] ($(chopper.30)!0.4!(inverter.150)$)
+%     % AC side
+%         (inverter.30)
+%         to[L] ++(1.1,0)
+%         %to[short] ++(1,0)
+%         to[L] ++(1.1,0)
+%         to[short] ++(1,0) coordinate(N1)
+%         to[short] ++(1,0)  %line
+%         |- (inverter.330)
+%         % ------------------------ Secondary side
+%         (N1)++(0.65,0) coordinate (N2)
+%             %to[open] ($(N2)+(0,-1)$)
+%             %to[short] (N2)
+%             %to[short] ++(1,0)
+%             to[sV, l=$Grid$] ++(0,-1)
+%             %to[short] ++(-1,0)
+%     ;
+%     \draw ($(inverter.330)+(1.1,0)$) to[C] ++(0,1.033);
+%     \draw[thick,dashed] ($(-1.5,-1.5)+(chopper)$) -- ($(-1.5,2)+(chopper)$) -- ($(3.1,2)+(inverter)$) -- ($(3.1,-1.5)+(inverter)$) -- ($(-1.5,-1.5)+(chopper)$);
+%     \node[] at ($(2.5,1.5)+(chopper)$) {\textbf{Inverter}};
+% \end{tikzpicture}
+% \caption{Grid-connected PV system.}
+% \label{fig:gridPV}
+% \end{figure}
+
+% As can be seen in \figref{fig:gridPV} the system usually consists of a boost (DC/DC) converter which scales up the output voltage of the PV to a certain DC level. According to the available power, usually an algorithm called MPPT (Maximum Power Point Tracker) controls the output current and voltage in such a way that the output power is the maximum possible. The DC/AC inverter provides a 3-phase (or in some cases 1-phase) voltage and current signals, therefore the energy from a solar cell can be utilized and transported to the utility grid. 
+
+% In order to create sinusoidal voltage on the output, usually LC or LCL filters are applied that dampen the high frequency peaks and leaving only the lower frequencies in the inverter output. 
