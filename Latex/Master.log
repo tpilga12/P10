@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2017.5.25)  7 FEB 2018 13:53
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2017.5.25)  12 FEB 2018 14:38
 entering extended mode
 **C:/Users/Jacob/Dropbox/AAU/10*semester/Github/P10/Latex/Master.tex
 ("C:/Users/Jacob/Dropbox/AAU/10 semester/Github/P10/Latex/Master.tex"
@@ -1964,7 +1964,11 @@ File: tikzlibraryplotmarks.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
 ("C:\Program Files (x86)\Miktex\tex\generic\pgf\libraries\pgflibraryplotmarks.c
 ode.tex"
 File: pgflibraryplotmarks.code.tex 2015/08/03 v3.0.1a (rcs-revision 1.14)
-))) ("C:\Program Files (x86)\Miktex\tex\latex\cite\cite.sty"
+))) ("C:\Program Files (x86)\Miktex\tex\latex\url\url.sty"
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+("C:\Program Files (x86)\Miktex\tex\latex\cite\cite.sty"
 LaTeX Info: Redefining \cite on input line 302.
 LaTeX Info: Redefining \nocite on input line 332.
 Package: cite 2015/02/27  v 5.5
@@ -2113,11 +2117,6 @@ Package hyperref Info: Backreferencing OFF on input line 4463.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
 \c@Hy@tempcnt=\count364
-
-("C:\Program Files (x86)\Miktex\tex\latex\url\url.sty"
-\Urlmuskip=\muskip17
-Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
-)
 LaTeX Info: Redefining \url on input line 5041.
 \XeTeXLinkMargin=\dimen357
 \Fld@menulength=\count365
@@ -2157,7 +2156,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip270
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 125.
+Package hyperref Info: Option `colorlinks' set `true' on input line 126.
 
 ("C:\Program Files (x86)\Miktex\tex\latex\listings\lstlang1.sty"
 File: lstlang1.sty 2014/09/06 1.5e listings language file
@@ -2755,7 +2754,7 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Here is how much of TeX's memory you used:
  52633 strings out of 493921
  1141316 string characters out of 3146480
- 1475254 words of memory out of 17000000
+ 1475253 words of memory out of 17000000
  54969 multiletter control sequences out of 15000+200000
  34168 words of font info for 92 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
@@ -2782,7 +2781,7 @@ nts/cm/cmr10.pfb><C:/Program Files (x86)/Miktex/fonts/type1/public/amsfonts/cm/
 cmr8.pfb><C:/Program Files (x86)/Miktex/fonts/type1/public/amsfonts/cm/cmsy8.pf
 b><C:/Program Files (x86)/Miktex/fonts/type1/urw/bookman/ubkd8a.pfb><C:/Program
  Files (x86)/Miktex/fonts/type1/urw/bookman/ubkl8a.pfb>
-Output written on Master.pdf (15 pages, 279020 bytes).
+Output written on Master.pdf (15 pages, 279032 bytes).
 PDF statistics:
  525 PDF objects out of 1000 (max. 8388607)
  30 named destinations out of 1000 (max. 500000)
