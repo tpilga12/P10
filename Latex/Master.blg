@@ -1,6 +1,11 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: Master.aux
 The style file: apalike.bst
 A level-1 auxiliary file: report/appendix/appendix_main.aux
-I found no \citation commands---while reading file Master.aux
 Database file #1: bibliography.bib
+You're missing a field name---line 15 of file bibliography.bib
+ :  
+ :  %Note = {Last visited 12-12-2017, \url{https://www.icontainers.com/what-fits-20-foot-container/}},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty year in Sewer_processes
 (There was 1 error message)
