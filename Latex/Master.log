@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.28)  20 FEB 2018 15:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.28)  21 FEB 2018 07:58
 entering extended mode
 **./Master.tex
 (Master.tex
@@ -2890,13 +2890,13 @@ Overfull \hbox (20.0pt too wide) in alignment at lines 33--48
 ] [10
 
 ] (report/introduction/introduction.tex
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 9.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 12.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmss.fd"
 File: t1cmss.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 Package hyperref Info: bookmark level for unknown fixme defaults to 0 on input 
-line 9.
+line 12.
  [1
 
 ]) (Master.bbl
@@ -2930,7 +2930,7 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Here is how much of TeX's memory you used:
  55874 strings out of 493323
  1218053 string characters out of 3139065
- 1557801 words of memory out of 12000000
+ 1557800 words of memory out of 12000000
  58433 multiletter control sequences out of 15000+200000
  560800 words of font info for 100 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -2957,9 +2957,9 @@ amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
 rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Fi
 les/MiKTeX 2.9/fonts/type1/urw/bookman/ubkd8a.pfb><C:/Program Files/MiKTeX 2.9/
 fonts/type1/urw/bookman/ubkl8a.pfb>
-Output written on Master.pdf (15 pages, 280251 bytes).
+Output written on Master.pdf (15 pages, 281188 bytes).
 PDF statistics:
- 527 PDF objects out of 1000 (max. 8388607)
+ 528 PDF objects out of 1000 (max. 8388607)
  31 named destinations out of 1000 (max. 500000)
  104 words of extra memory for PDF output out of 10000 (max. 10000000)
 
