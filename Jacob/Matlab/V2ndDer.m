@@ -1,9 +1,9 @@
-function f=V2stDer(h)%Vdot
+function f=V2ndDer(h)%Vdot
 d = 0.5;
 Ie = 0.01; 
 Theta = 0.5;
 Dt = 10;
-Dx = 20;
+Dx = 10;
 Q1 = 0.03;
 h1 = 0.25;
 A1 = d^2/4 * acos(((d/2)-h1/(d/2)))-sqrt(h*(d-h1))*((d/2)-h1); 
