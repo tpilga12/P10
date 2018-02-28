@@ -1,4 +1,4 @@
-function Xs = NewtonRoot(Fun,FunDer,Xest,Err,imax,Hmatrix)
+function Xs = NewtonRoot(Fun,FunDer,Xest,Err,imax,Eks)
 % NewtonRoot finds the root of fun = 0 near the point Xest using newton's
 % method.  Xs = NewtonRoot(Fun,FunDer,Xest,Err,imax)
 % Input variables
@@ -10,9 +10,8 @@ function Xs = NewtonRoot(Fun,FunDer,Xest,Err,imax,Hmatrix)
 % imax      Maximum number of iterations
 % Output    Variable
 % Xs        Solution
-
 for i = 1:imax
-    Xi = Xest - feval(Fun,Xest)/feval(FunDer,Xest);
+    Xi = Xest - feval(Fun,Xest)/feval(FunDer,Xest)+Eks;
     if abs((Xi-Xest)/Xest) < Err
         Xs = Xi;
         break
@@ -22,5 +21,4 @@ end
 if i == imax
     fprintf('solution was not observed in %i iterations .\n',imax)
     Xs = ('no answer');
-    Hmatrix
 end

@@ -71,7 +71,7 @@ A(:,n+1)=[];
 for m = 2:n
     for n = 2:n
         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n)
-        h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.1,500);
+        h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.01,50);
 
         A(m,n) = d^2/4 * acos(((d/2)-abs(h(m,n))/(d/2)))-sqrt(h(m,n)*(d-abs(h(m,n))))*((d/2)-abs(h(m,n)));
         Q(m,n) = -1/(Theta*2)*(A(m,n)-H)*Dx/Dt
@@ -89,11 +89,11 @@ global d Ie H Dt Dx Theta
  Q1 = 0.03;
  h1 = 0.25;
  A1 = d^2/4 * acos(((d/2)-h1/(d/2)))-sqrt(h*(d-h1))*((d/2)-h1); 
- %H = (2*(1-Theta)*Q1-2*(1-Theta)*Q1+2*Theta*Q1+2*Theta*Q1)*Dt/Dx - A1+A1+A1;
+ H = (2*(1-Theta)*Q1-2*(1-Theta)*Q1+2*Theta*Q1+2*Theta*Q1)*Dt/Dx - A1+A1+A1;
  
 f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie^0.5*(0.46-0.5*cos(pi*h/d)+ ...
-0.04*cos(2*pi*h/d))*(Dt/Dx)-1/(2*Theta)*(d^2/4 * acos((d/2)-h/(d/2))- ...
-sqrt(h*(d-h))*((d/2)-h)-H);
+0.04*cos(2*pi*h/d))*(Dt/Dx)-1/(2*Theta)*((d^2/4 * acos((d/2)-h/(d/2))- ...
+sqrt(h*(d-h))*(d/2)-h)-H);
 
 end 
 
