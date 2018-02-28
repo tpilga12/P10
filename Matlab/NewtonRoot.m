@@ -12,7 +12,7 @@ function Xs = NewtonRoot(Fun,FunDer,Xest,Err,imax)
 % Xs        Solution
 for i = 1:imax
     
-    Xi = Xest - feval(Fun,Xest)/feval(FunDer,Xest);
+    Xi = Xest/0.5 - feval(Fun,Xest)/feval(FunDer,Xest);
     if abs((Xi-Xest)/Xest) < Err
         Xs = Xi;
         break
