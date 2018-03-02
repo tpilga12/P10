@@ -10,12 +10,12 @@ global Theta k m Dt Dx Ie H Q h A d
 Theta = 0.6;
 k=0.2;
 m=1;
-Dt = 200;
-Dx = 200;
+Dt = 10;
+Dx = 50;
 
 
 % Friction part 
-Ie =0.1;% [.] Resistance = f * v^2/(2*g)*1/R
+Ie =0.05;% [.] Resistance = f * v^2/(2*g)*1/R
  
 % Area for a sewer pipe
 %A = d^2/4 *acos(((d*2)-h)/(d/2))-sqrt(h*(d-h))*((d/2)-h); % [m^2]
@@ -29,7 +29,12 @@ n=100;
 % 
 r1 = randn(n,1)*0.05;
 h_initialQuess = 0.3;
-h_init = (ones(1,n)*h_initialQuess);
+one_vector = (ones(1,n-90));
+zero_vector = ones(1,n-10)*0.5;
+
+test = [ one_vector zero_vector];
+h_init = test.*ones(1,n)*h_initialQuess ;
+
 for n = 1:n
      
     Q_init(n) = (0.46 - 0.5 *cos(pi*(h_init(n)/d))+0.04*cos(2*pi*(h_init(n)/d)))*Qf; % [m^3/s]
@@ -37,7 +42,9 @@ for n = 1:n
 end
 
 r2 = randn(n,1)*0.05;
-h1_init = (ones(n,1)*h_initialQuess);
+h1_init =ones(n,1).*test' *h_initialQuess;
+
+
 for n = 1:n
      
     Q1_init(n) = (0.46 - 0.5 *cos(pi*(h1_init(n)/d))+0.04*cos(2*pi*(h1_init(n)/d)))*Qf; % [m^3/s]
@@ -94,17 +101,28 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 g = 2;
 for n = 1:10
-    
+    %%% Flow
     figure(1)
     subplot(5,2,n)
     plot(Q(g,:))
     title(['Timestep', num2str(n)])
     xlabel('distance [m]')
     ylabel('Flow [m^3/s]')
-    
-    ylim([0.5 0.7])
-    
+    %ylim([0.5 0.7])
     grid
+    
+    %%% Area
+    figure(2)
+    subplot(5,2,n)
+    plot(A(:,g))
+    title(['Timestep', num2str(n)])
+    xlabel('distance [m]')
+    ylabel('Area [m^3]')
+    %ylim([0.5 0.7])
+    grid
+    
+    
+    summa(n) = sum(A(:,g));
     g = g+5;
     
 end 
