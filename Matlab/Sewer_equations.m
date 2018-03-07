@@ -30,7 +30,7 @@ n=100;
 r1 = randn(n,1)*0.05;
 h_initialQuess = 0.3;
 one_vector = (ones(1,n-90));
-zero_vector = ones(1,n-10)*0.5;
+zero_vector = ones(1,n-10)*0.2;
 
 test = [ one_vector zero_vector];
 h_init = test.*ones(1,n)*h_initialQuess ;
