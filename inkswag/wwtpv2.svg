@@ -421,8 +421,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4"
-     inkscape:cx="659.89231"
-     inkscape:cy="211.06849"
+     inkscape:cx="148.89231"
+     inkscape:cy="194.56849"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -868,15 +868,15 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.72911px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.21711853"
-       x="-212.80888"
-       y="261.72018"
+       x="-212.30505"
+       y="261.02527"
        id="text659"
-       transform="scale(1.0505871,0.95184877)"
+       transform="scale(1.0505871,0.95184874)"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96"><tspan
          sodipodi:role="line"
-         x="-212.80888"
-         y="261.72018"
+         x="-212.30505"
+         y="261.02527"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.72911px;line-height:0px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';stroke-width:0.21711853"
          id="tspan661">Grit Chamber</tspan></text>
     <text
@@ -1290,7 +1290,7 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.72951531px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.21714211"
-       x="-76.159775"
+       x="-75.089409"
        y="261.12091"
        id="text687-12"
        transform="scale(1.0504729,0.95195222)"
@@ -1298,7 +1298,7 @@
        inkscape:export-ydpi="96"><tspan
          sodipodi:role="line"
          id="tspan685-98"
-         x="-76.159775"
+         x="-75.089409"
          y="261.12091"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.72951531px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';stroke-width:0.21714211">Disinfection</tspan></text>
     <path
