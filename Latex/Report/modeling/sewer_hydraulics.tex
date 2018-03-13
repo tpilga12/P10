@@ -11,9 +11,9 @@ Some assumptions is made when utilizing the Saint-Venant equations:
 \begin{enumerate}
 \item The flow in the sewer is one-dimensional, meaning that the water height and velocity is uniform in the cross-section and only changes horizontally.
 \item The curvature of the sewer line is sufficiently small such that it can be considered a straight line. 
-\item Vertical accelerations is neglected such that the pressure can be assumed hydrostatic.
-\item The variation of width in the sewer line is small.
-\item The slope of the sewer line is small and the effect of scour and deposits are assumed to be negligible. 
+\item Vertical accelerations is neglected and the fluid is incompressible such that the pressure can be assumed hydrostatic.
+\item The slope and the variation in width of the sewer line is small.
+\item The effect of scour and accumulation of solids are assumed to be negligible. 
 \end{enumerate}
 \label{tab:saintbernard_assumptions}
 \end{table}
@@ -29,9 +29,16 @@ Some assumptions is made when utilizing the Saint-Venant equations:
 
 
 \begin{equation}	
-\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
+\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=q(x,t)
 \label{saintbernard_mass}
 \end{equation}
+
+where:
+	Q = volumetric flow rate ($\frac{M^3}{s}$)
+	A = cross section of the water volume $m^2$
+	q = lateral inflow of water $\frac{m^2}{s}$
+	 
+
 
 \begin{equation}
 	\frac{\partial Q(x,t)}{\partial t} + \frac{\partial}{\partial x} \frac{Q^2(x,t)}{A(x,t)}+ g A(x,t) (\frac{\partial Y(x,t)}{\partial x} +S_f(x,t)-S_b(x)) = 0
