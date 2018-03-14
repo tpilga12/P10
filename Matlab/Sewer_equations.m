@@ -3,7 +3,7 @@ clc
 clear all
 close all
 % Notes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% H inde i funktionerne skal regnes med de korrekte værdier for A, Q osv,
+% H inde i funktionerne skal regnes med de korrekte v?rdier for A, Q osv,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Constants
 global Theta k m Dt Dx Ie H Q h A d 
@@ -21,7 +21,7 @@ Ie =0.05;% [.] Resistance = f * v^2/(2*g)*1/R
 %A = d^2/4 *acos(((d*2)-h)/(d/2))-sqrt(h*(d-h))*((d/2)-h); % [m^2]
 %Initialazation of parameters
 d = 1.6;
-Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s]
+Qf = -3.02 * log(((0.74*10^(-6))/(d*sqrt(d*Ie)))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s]
 n=100;
 % A = pi*0.2^2;
 % P = acos(1-0.4/0.2)*0.4;
