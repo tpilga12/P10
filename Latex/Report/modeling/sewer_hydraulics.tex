@@ -9,6 +9,14 @@ The open channel flow in gravity sewer lines can be described by the Saint-Venan
 Some assumptions is made when utilizing the Saint-Venant equations:
 \begin{table}[H]
 \begin{enumerate}
+\item The flow in the channel is one dimensional and as such any curvature of the sewer line is neglected.
+\item Fluid in the sewer line is incompressible i.e. the pressure is assumed hydrostatic.
+\item The only forces considered is friction and gravity.
+\item 
+
+
+
+
 \item The flow in the sewer is one-dimensional, meaning that the water height and velocity is uniform in the cross-section and only changes horizontally.
 \item The curvature of the sewer line is sufficiently small such that it can be considered a straight line. 
 \item Vertical accelerations is neglected and the fluid is incompressible such that the pressure can be assumed hydrostatic.
@@ -37,7 +45,7 @@ where:
 	Q = volumetric flow rate ($\frac{M^3}{s}$)
 	A = cross section of the water volume $m^2$
 	q = lateral inflow of water $\frac{m^2}{s}$
-	 
+
 
 
 \begin{equation}
@@ -53,3 +61,7 @@ where:
 
 
 
+ \begin{figure}[H]
+	 \centering
+	 \input{report/modeling/test.tex}
+ \end{figure}
