@@ -8,7 +8,9 @@ close all
 % Constants
 global Theta k Dt Dx Ie H Q h A d 
 Theta = 0.6;
-k=0.001;
+
+k=0.001; %angives typisk i mm der skal bruges m i formler
+
 m=1;
 Dt = 20; %[s]
 Dx = 24; %[m]
@@ -19,15 +21,12 @@ Ie =0.00214;% [.] Resistance = f * v^2/(2*g)*1/R
 %A = d^2/4 *acos(((d*2)-h)/(d/2))-sqrt(h*(d-h))*((d/2)-h); % [m^2]
 %Initialazation of parameters
 d = 1.6;
-<<<<<<< HEAD
+
 Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s] palles
 Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennigs
 n=20;
 
-=======
-Qf = -3.02 * log(((0.74*10^(-6))/(d*sqrt(d*Ie)))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s]
-n=100;
->>>>>>> ec989a49180734616a8b831482fd6687d20b065d
+
 % A = pi*0.2^2;
 % P = acos(1-0.4/0.2)*0.4;
 % R = A/P;
