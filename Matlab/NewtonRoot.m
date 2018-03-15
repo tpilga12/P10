@@ -14,14 +14,14 @@ for i = 1:imax
     
     Xi = Xest - feval(Fun,Xest)/feval(FunDer,Xest);
     if abs((Xi-Xest)/Xest) < Err
-        Xs = Xi
+        Xs =abs( Xi);
         break
     end
-    abs((Xi-Xest)/Xest)
-    Xest = Xi
+    abs((Xi-Xest)/Xest);
+    Xest = Xi;
 end 
 if i == imax
     fprintf('solution was not observed in %i iterations .\n',imax)
-    Xs = ('no answer');
-    
+%     Xs = ('no answer');
+    Xs =Xi;
 end

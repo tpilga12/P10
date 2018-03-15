@@ -48,7 +48,7 @@ for n = 1:n
 end
 
 r2 = randn(n,1)*0.5;
-h_initialHeight = 1.2;
+h_initialHeight = 0.1;
 h1_init =ones(n,1)*h_initialHeight;
 
 
@@ -56,26 +56,26 @@ for n = 1:n
      
     Q1_init(n) = (0.46 - 0.5 *cos(pi*(h1_init(n)/d))+0.04*cos(2*pi*(h1_init(n)/d)))*Qf; % [m^3/s]
 end
+
+Q1_init = Q1_init';
+Q = zeros(n,n-1);
+Q = [Q1_init Q];
+Q = [Q_init; Q];
+Q(n+1,:)=[];
+
+h = zeros(n,n-1);
+h = [h1_init h];
+h = [h_init; h];
+h(n+1,:)=[];
+%%
 % Area for distance
 for  n= 1:n  
-    A_init(n) = d^2/4 * acos(((d/2)-h_init(n)/(d/2)))-sqrt(h_init(n)*(d-h_init(n)))*((d/2)-h_init(n));
+    A_init(n) = d^2/4 * acos(((d/2)-h(n)/(d/2)))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
 end 
 % Area for time
 for  n= 1:n   
-    A1_init(n) = d^2/4 * acos(((d/2)-h1_init(n)/(d/2)))-sqrt(h1_init(n)*(d-h1_init(n)))*((d/2)-h1_init(n));
+    A1_init(n) = d^2/4 * acos(((d/2)-h(n)/(d/2)))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
 end
-
-Q1_init = Q1_init';
-Q = zeros(n-1,n);
-Q = [Q_init; Q];
-Q = [Q1_init Q];
-Q(:,n+1)=[];
-
-h = zeros(n-1,n);
-h = [h_init; h];
-h = [h1_init h];
-h(:,n+1)=[];
-
 A1_init = A1_init';
 A = zeros(n-1,n);
 A = [A_init; A];

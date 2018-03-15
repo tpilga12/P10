@@ -1,0 +1,6 @@
+function f=test_fun_bisection(h)
+d = 1.6; Ie =0.09; Theta= 0.6; Dt = 1; Dx =5; H = 2;
+
+f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie^0.5*(0.46-0.5*cos(pi*h/d)+ ...
+0.04*cos(2*pi*h/d))*(Dt/Dx)-1/(2*Theta)*(d^2/4 * acos((d/2)-h/(d/2))- ...
+sqrt(h*(d-h))*((d/2)-h)-H);
