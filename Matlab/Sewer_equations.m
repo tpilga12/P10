@@ -31,7 +31,7 @@ for t = 1:100
    
 end
 fitfunc = fit(Q_test',h_test','poly3');
-Q_initial=0.005; % Flow  <----------------------------------------- start flow
+Q_initial=0.1; % Flow  <----------------------------------------- start flow
 h_initial = fitfunc.p1*Q_initial^3 + fitfunc.p2*Q_initial^2 + fitfunc.p3*Q_initial + fitfunc.p4; % check hieght
 
 %% For random start values
@@ -111,7 +111,7 @@ for m = 2:n
         H= abs(H);
        
 %         h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.01,50,d);
-         h(m,n) =BisectionRoot(@V1stDer,0,2,);
+         h(m,n) =BisectionRoot(@V1stDer,0,2,0.01);
 %             h(m,n) = BiSectionV2(@V1stDer,0,2);
         h(m,n)= abs(h(m,n));
          

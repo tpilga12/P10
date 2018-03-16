@@ -1,5 +1,5 @@
 % BisectionRoot
-function Xs = BisectionRoot(Fun,a,b,err)
+function Xs = BisectionRoot(Fun,a,b,tol)
 
 % Fa = Fun(a);
 % Fb = Fun(b);
@@ -27,19 +27,21 @@ function Xs = BisectionRoot(Fun,a,b,err)
 
 Fa = Fun(a);
 Fb = Fun(b);
-while err > 0.001
-    Xi =abs( (a+b)/2);
+
+while abs(Fa-Fb)>tol
+    Xi =abs((Fa+Fb)/2);
     
-    if fun(a)*fun(b) < 0
-        b=abs(Xi);
+    if Fun(a)*Fun(b) < 0
+        Fb = abs(Xi);
     else
-        a = Xi;
-        Fa = FXs;
+        Fa = abs(Xi);
     end
 end
-Xs = Xi;
+    if abs(Fa-Fb) > tol 
+        Xs = Xi;
+    end
 end
-    
-    
-    
+
+
+
 
