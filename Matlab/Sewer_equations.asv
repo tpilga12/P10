@@ -3,133 +3,102 @@ clc
 clear all
 close all
 % Notes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-<<<<<<< HEAD
-% H inde i funktionerne skal regnes med de korrekte værdier for A, Q osv,
+% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Constants
 global Theta k Dt Dx Ie H Q h A d 
 Theta = 0.6;
-k=0.001;
+k=0.001; %angives typisk i mm der skal bruges m i formler
 m=1;
-Dt = 20; %[s]
-Dx = 24; %[m]
+Dt = 20; %[s] grid time
+Dx = 24; %[m] gird distance
+d = 1.2; %[m] Diameter
+
 % Friction part 
 Ie =0.00214;% [.] Resistance = f * v^2/(2*g)*1/R
-=======
-% H inde i funktionerne skal regnes med de korrekte v?rdier for A, Q osv,
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Constants
-global Theta k m Dt Dx Ie H Q h A d 
-Theta = 0.6;
-k=0.002; %angives typisk i mm der skal bruges m i formler
-m=1;
-Dt = 1;
-Dx = 5;
 
 
-% Friction part 
-Ie =0.05;% [.] Resistance = f * v^2/(2*g)*1/R
->>>>>>> 16cc16e3f4af1df5e9d7b3a7d7ca0b94205ef3a2
- 
-% Area for a sewer pipe
-%A = d^2/4 *acos(((d*2)-h)/(d/2))-sqrt(h*(d-h))*((d/2)-h); % [m^2]
-%Initialazation of parameters
-d = 1.6;
-<<<<<<< HEAD
+
 Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s] palles
 Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennigs
-n=20;
+n=20; % Number of iterations, 
 
-=======
-Qf = -3.02 * log(((0.74*10^(-6))/(d*sqrt(d*Ie)))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s]
-n=100;
->>>>>>> 16cc16e3f4af1df5e9d7b3a7d7ca0b94205ef3a2
-% A = pi*0.2^2;
-% P = acos(1-0.4/0.2)*0.4;
-% R = A/P;
-% 
-<<<<<<< HEAD
+%% Regression to a plot, to find Q from a function 
+h_test=0.0001:d/100:d;
+for t = 1:100
+    
+    Q_test(t)=(0.46 - 0.5 *cos(pi*(h_test(t)/d))+0.04*cos(2*pi*(h_test(t)/d)))*Qf;
+   
+end
+fitfunc = fit(Q_test',h_test','poly3');
+Q_initial=1; % Flow  <----------------------------------------- start flow
+h_initial = fitfunc.p1*Q_initial^3 + fitfunc.p2*Q_initial^2 + fitfunc.p3*Q_initial + fitfunc.p4; % check hieght
+
+%% For random start values
 a = 0.01;
 b = 0.2;
 r = (b-a).*rand(20,1) + a;
 
-h_initialQuess = 1;
+%% Set  a start height  Not needed 
+h_initialQuess = 0.44; % [m]
 %one_vector = r'.*(ones(1,n));
- one_vector = (ones(1,n-5));
+one_vector = (ones(1,n-5));
 zero_vector = ones(1,n-15);
 
 test = [ one_vector zero_vector];
 % test = [ one_vector];
 h_init = test.*ones(1,n)*h_initialQuess ;
 
-%%
-=======
-r1 = randn(n,1)*0.05;
-h_initialQuess = 0.3;
-one_vector = (ones(1,n-90));
-zero_vector = ones(1,n-10)*0.2;
-
-test = [ one_vector zero_vector];
-h_init = test.*ones(1,n)*h_initialQuess ;
-
->>>>>>> 16cc16e3f4af1df5e9d7b3a7d7ca0b94205ef3a2
+%% Set a start flow
+Q_initial_distance = Q_initial; % [m^3/s]
+Q_initial_time = Q_initial; % [m^3/s]
+%%Flow for distance
 for n = 1:n
-     
-    Q_init(n) = (0.46 - 0.5 *cos(pi*(h_init(n)/d))+0.04*cos(2*pi*(h_init(n)/d)))*Qf; % [m^3/s]
-    
+   % Q_init(n) = (0.46 - 0.5 *cos(pi*(h_init(n)/d))+0.04*cos(2*pi*(h_init(n)/d)))*Qf; % [m^3/s]
+    Q_init(n)=Q_initial_distance;
 end
 
-<<<<<<< HEAD
-r2 = randn(n,1)*0.5;
-h_initialHeight = 0.1;
-h1_init =ones(n,1)*h_initialHeight;
-=======
-r2 = randn(n,1)*0.05;
-h1_init =ones(n,1).*test' *h_initialQuess;
->>>>>>> 16cc16e3f4af1df5e9d7b3a7d7ca0b94205ef3a2
+% Area for distance
+for  n= 1:n  
+    %  A_init(n) = d^2/4 * acos(((d/2)-h_init(n)/(d/2)))-sqrt(h_init(n)*(d-h_init(n)))*((d/2)-h_init(n));
+   h_init(n) =fitfunc.p1*Q_init(n)^3 + fitfunc.p2*Q_init(n)^2 + fitfunc.p3*Q_init(n) + fitfunc.p4;
+   A_init(n) = d^2/4 * acos(((d/2)-h_init(n)/(d/2)))-sqrt(h_init(n)*(d-h_init(n)))*((d/2)-h_init(n));
+ 
+end 
 
-
+%h_initialHeight = 1.2;
+%h1_init =ones(n,1)*h_initialHeight;
+% Flow for Time
 for n = 1:n
-     
-    Q1_init(n) = (0.46 - 0.5 *cos(pi*(h1_init(n)/d))+0.04*cos(2*pi*(h1_init(n)/d)))*Qf; % [m^3/s]
+    % Q1_init(n) = (0.46 - 0.5 *cos(pi*(h1_init(n)/d))+0.04*cos(2*pi*(h1_init(n)/d)))*Qf; % [m^3/s]
+     Q1_init(n)=Q_initial_time;
+end
+%%
+% Area for time
+for  n= 1:n   
+    %A1_init(n) = d^2/4 * acos(((d/2)-h1_init(n)/(d/2)))-sqrt(h1_init(n)*(d-h1_init(n)))*((d/2)-h1_init(n));
+    h1_init(n) =fitfunc.p1*Q1_init(n)^3 + fitfunc.p2*Q1_init(n)^2 + fitfunc.p3*Q1_init(n) + fitfunc.p4;
+    A1_init(n) = d^2/4 * acos(((d/2)-h1_init(n)/(d/2)))-sqrt(h1_init(n)*(d-h1_init(n)))*((d/2)-h1_init(n));
 end
 
 Q1_init = Q1_init';
-<<<<<<< HEAD
-Q = zeros(n,n-1);
-Q = [Q1_init Q];
-Q = [Q_init; Q];
-Q(n+1,:)=[];
-
-h = zeros(n,n-1);
-h = [h1_init h];
-h = [h_init; h];
-h(n+1,:)=[];
-%%
-=======
 Q = zeros(n-1,n);
 Q = [Q_init; Q];
 Q = [Q1_init Q];
 Q(:,n+1)=[];
+Q = abs(Q);
 
 h = zeros(n-1,n);
 h = [h_init; h];
-h = [h1_init h];
+h = [h1_init' h];
 h(:,n+1)=[];
+h= abs(h);
 
->>>>>>> 16cc16e3f4af1df5e9d7b3a7d7ca0b94205ef3a2
-% Area for distance
-for  n= 1:n  
-    A_init(n) = d^2/4 * acos(((d/2)-h(n)/(d/2)))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
-end 
-% Area for time
-for  n= 1:n   
-    A1_init(n) = d^2/4 * acos(((d/2)-h(n)/(d/2)))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
-end
 A1_init = A1_init';
 A = zeros(n-1,n);
 A = [A_init; A];
 A = [A1_init A];
+A = abs(A);
 A(:,n+1)=[];
 
 
@@ -137,30 +106,18 @@ A(:,n+1)=[];
 %%
 for m = 2:n
     for n = 2:n
-<<<<<<< HEAD
         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m,n-1)+2*Theta*Q(m-1,n))*Dt/Dx - A(m-1,n)+A(m-1,n-1)+A(m,n-1);
         H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
         H= abs(H);
        
         h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.01,50,d);
-   %      h(m,n) =BisectionRoot(@V1stDer,0,2,0.0001);
-=======
-        H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
-        H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
-        H= abs(H);
-       
-        h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.05,50,d);
->>>>>>> 16cc16e3f4af1df5e9d7b3a7d7ca0b94205ef3a2
+%          h(m,n) =BisectionRoot(@V1stDer,0,2,0.01);
         h(m,n)= abs(h(m,n));
          
         A(m,n) = d^2/4 * acos(((d/2)-h(m,n)/(d/2)))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
         A(m,n)= abs(A(m,n));
         
-<<<<<<< HEAD
         Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
-=======
-        Q(m,n) = -1/(Theta*2)*(A(m,n)-H)*Dx/Dt;
->>>>>>> 16cc16e3f4af1df5e9d7b3a7d7ca0b94205ef3a2
         Q(m,n)= abs(Q(m,n));
     end 
 
@@ -169,11 +126,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Plots %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-<<<<<<< HEAD
 g = 1;
-=======
-g = 2;
->>>>>>> 16cc16e3f4af1df5e9d7b3a7d7ca0b94205ef3a2
 for n = 1:10
     %%% Flow
     figure(1)
@@ -184,19 +137,11 @@ for n = 1:10
     ylabel('Flow [m^3/s]')
     %ylim([0.5 0.7])
     grid
-<<<<<<< HEAD
 %   pause(0.5)  
 %     %%% Area
     figure(2)
     subplot(5,2,n)
     plot(h(:,g))
-=======
-    
-    %%% Area
-    figure(2)
-    subplot(5,2,n)
-    plot(A(:,g))
->>>>>>> 16cc16e3f4af1df5e9d7b3a7d7ca0b94205ef3a2
     title(['Timestep', num2str(n)])
     xlabel('distance [m]')
     ylabel('Area [m^3]')
@@ -205,11 +150,7 @@ for n = 1:10
     
     
     summa(n) = sum(A(:,g));
-<<<<<<< HEAD
     g = g+1;
-=======
-    g = g+5;
->>>>>>> 16cc16e3f4af1df5e9d7b3a7d7ca0b94205ef3a2
     
 end 
 

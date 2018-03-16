@@ -3,69 +3,81 @@ clc
 clear all
 close all
 % Notes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% H inde i funktionerne skal regnes med de korrekte v?rdier for A, Q osv,
+% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Constants
 global Theta k Dt Dx Ie H Q h A d 
-Theta = 0.6;
-
+Theta = 1;
 k=0.001; %angives typisk i mm der skal bruges m i formler
-
 m=1;
-Dt = 20; %[s]
-Dx = 24; %[m]
+Dt = 20; %[s] grid time
+Dx = 24; %[m] gird distance
+d = 1.2; %[m] Diameter
+
 % Friction part 
 Ie =0.00214;% [.] Resistance = f * v^2/(2*g)*1/R
- 
-% Area for a sewer pipe
-%A = d^2/4 *acos(((d*2)-h)/(d/2))-sqrt(h*(d-h))*((d/2)-h); % [m^2]
-%Initialazation of parameters
-d = 1.6;
+
+
 
 Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s] palles
 Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennigs
-n=20;
+n=20; % Number of iterations, 
 
+%% Regression to a plot, to find Q from a function 
+h_test=0.0001:d/100:d;
+for t = 1:100
+    
+    Q_test(t)=(0.46 - 0.5 *cos(pi*(h_test(t)/d))+0.04*cos(2*pi*(h_test(t)/d)))*Qf;
+   
+end
+fitfunc = fit(Q_test',h_test','poly3');
+Q_initial=0.005; % Flow  <----------------------------------------- start flow
+h_initial = fitfunc.p1*Q_initial^3 + fitfunc.p2*Q_initial^2 + fitfunc.p3*Q_initial + fitfunc.p4; % check hieght
 
-% A = pi*0.2^2;
-% P = acos(1-0.4/0.2)*0.4;
-% R = A/P;
-% 
+%% For random start values
 a = 0.01;
 b = 0.2;
 r = (b-a).*rand(20,1) + a;
 
-h_initialQuess = 1;
+%% Set  a start height  Not needed 
+h_initialQuess = 0.44; % [m]
 %one_vector = r'.*(ones(1,n));
- one_vector = (ones(1,n-5));
+one_vector = (ones(1,n-5));
 zero_vector = ones(1,n-15);
 
 test = [ one_vector zero_vector];
 % test = [ one_vector];
 h_init = test.*ones(1,n)*h_initialQuess ;
 
-%%
+%% Set a start flow
+Q_initial_distance = Q_initial; % [m^3/s]
+Q_initial_time = Q_initial; % [m^3/s]
+%%Flow for distance
 for n = 1:n
-     
-    Q_init(n) = (0.46 - 0.5 *cos(pi*(h_init(n)/d))+0.04*cos(2*pi*(h_init(n)/d)))*Qf; % [m^3/s]
-    
+   % Q_init(n) = (0.46 - 0.5 *cos(pi*(h_init(n)/d))+0.04*cos(2*pi*(h_init(n)/d)))*Qf; % [m^3/s]
+    Q_init(n)=Q_initial_distance;
 end
 
-r2 = randn(n,1)*0.5;
-h_initialHeight = 1.2;
-h1_init =ones(n,1)*h_initialHeight;
-
-
-for n = 1:n
-     
-    Q1_init(n) = (0.46 - 0.5 *cos(pi*(h1_init(n)/d))+0.04*cos(2*pi*(h1_init(n)/d)))*Qf; % [m^3/s]
-end
 % Area for distance
 for  n= 1:n  
-    A_init(n) = d^2/4 * acos(((d/2)-h_init(n)/(d/2)))-sqrt(h_init(n)*(d-h_init(n)))*((d/2)-h_init(n));
+    %  A_init(n) = d^2/4 * acos(((d/2)-h_init(n)/(d/2)))-sqrt(h_init(n)*(d-h_init(n)))*((d/2)-h_init(n));
+   h_init(n) =fitfunc.p1*Q_init(n)^3 + fitfunc.p2*Q_init(n)^2 + fitfunc.p3*Q_init(n) + fitfunc.p4;
+   A_init(n) = d^2/4 * acos(((d/2)-h_init(n)/(d/2)))-sqrt(h_init(n)*(d-h_init(n)))*((d/2)-h_init(n));
+ 
 end 
+
+%h_initialHeight = 1.2;
+%h1_init =ones(n,1)*h_initialHeight;
+% Flow for Time
+for n = 1:n
+    % Q1_init(n) = (0.46 - 0.5 *cos(pi*(h1_init(n)/d))+0.04*cos(2*pi*(h1_init(n)/d)))*Qf; % [m^3/s]
+     Q1_init(n)=Q_initial_time;
+end
+%%
 % Area for time
 for  n= 1:n   
+    %A1_init(n) = d^2/4 * acos(((d/2)-h1_init(n)/(d/2)))-sqrt(h1_init(n)*(d-h1_init(n)))*((d/2)-h1_init(n));
+    h1_init(n) =fitfunc.p1*Q1_init(n)^3 + fitfunc.p2*Q1_init(n)^2 + fitfunc.p3*Q1_init(n) + fitfunc.p4;
     A1_init(n) = d^2/4 * acos(((d/2)-h1_init(n)/(d/2)))-sqrt(h1_init(n)*(d-h1_init(n)))*((d/2)-h1_init(n));
 end
 
@@ -74,16 +86,19 @@ Q = zeros(n-1,n);
 Q = [Q_init; Q];
 Q = [Q1_init Q];
 Q(:,n+1)=[];
+Q = abs(Q);
 
 h = zeros(n-1,n);
 h = [h_init; h];
-h = [h1_init h];
+h = [h1_init' h];
 h(:,n+1)=[];
+h= abs(h);
 
 A1_init = A1_init';
 A = zeros(n-1,n);
 A = [A_init; A];
 A = [A1_init A];
+A = abs(A);
 A(:,n+1)=[];
 
 
@@ -95,8 +110,9 @@ for m = 2:n
         H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
         H= abs(H);
        
-        h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.01,50,d);
-   %      h(m,n) =BisectionRoot(@V1stDer,0,2,0.0001);
+%         h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.01,50,d);
+         h(m,n) =BisectionRoot(@V1stDer,0,2,);
+%             h(m,n) = BiSectionV2(@V1stDer,0,2);
         h(m,n)= abs(h(m,n));
          
         A(m,n) = d^2/4 * acos(((d/2)-h(m,n)/(d/2)))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));

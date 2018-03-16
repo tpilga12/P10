@@ -12,9 +12,10 @@ function Xs = NewtonRoot(Fun,FunDer,Xest,Err,imax,dia)
 % Xs        Solution
 for i = 1:imax
     
-    Xi = Xest - feval(Fun,Xest)/feval(FunDer,Xest);
+    Xi =abs( Xest - feval(Fun,Xest)/feval(FunDer,Xest))
+ 
     if abs((Xi-Xest)/Xest) < Err
-        Xs =abs( Xi);
+        Xs =abs(Xi);
         break
     end
     abs((Xi-Xest)/Xest);
@@ -22,6 +23,5 @@ for i = 1:imax
 end 
 if i == imax
     fprintf('solution was not observed in %i iterations .\n',imax)
-%     Xs = ('no answer');
-    Xs =Xi;
+    Xs = ('no answer');
 end
