@@ -33,7 +33,7 @@ for t = 1:100
    
 end
 fitfunc = fit(Q_test',h_test','poly3');
-Q_initial=1; % Flow  <----------------------------------------- start flow
+Q_initial=1.5; % Flow  <----------------------------------------- start flow
 h_initial = fitfunc.p1*Q_initial^3 + fitfunc.p2*Q_initial^2 + fitfunc.p3*Q_initial + fitfunc.p4; % check hieght
 
 %% For random start values
@@ -108,24 +108,20 @@ A(:,n+1)=[];
 
 
 
-
-for m = 1:n 
-    for n = 1:n
-        u(m,n)= Q(m,n)/A(m,n); 
-    end
+%%
+for m = 1 
+    for n = 
 end 
-
 for m = 2:n
     for n = 2:n
-%         if m > 3
-%             if n > 3
+%         if m > 4
+%             if n > 4
 %                 Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
 %                     ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
 %                     A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
-%                 Ie(m,n)  = abs(Ie(m,n))
 %             end
 %         end
-        
+%         
         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m,n-1)+2*Theta*Q(m-1,n))*Dt/Dx - A(m-1,n)+A(m-1,n-1)+A(m,n-1);
         H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
         H= abs(H);
@@ -144,13 +140,13 @@ for m = 2:n
     end 
 
 end
-%         for m =3:n
-%             for n = 3:n
-%                 Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
-%                     ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
-%                     A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
-%             end
-%         end
+        for m =3:n
+            for n = 3:n
+                Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
+                    ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
+                    A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
+            end
+        end
 %%% Ie opdatering, Uden inlent flow 
 %%% Ie2 = Ie - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
 %%% ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
