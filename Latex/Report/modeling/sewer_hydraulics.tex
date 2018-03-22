@@ -12,7 +12,7 @@ Some assumptions is made when utilizing the Saint-Venant equations:
 \begin{enumerate}
 \item The flow in the channel is one dimensional and as such any curvature of the sewer line is neglected.
 \item Fluid in the sewer line is considered incompressible i.e. the pressure is assumed hydrostatic.
-\item The only forces considered is friction and gravity.
+\item The only forces considered is friction, pressure and gravity.
 \item The water height and velocity is uniform in the cross-section and only changes horizontally i.e. turbulence in the fluid is not considered.
 \item The slope of the pipe bed is small
 % \item The flow in the sewer is one-dimensional, meaning that the water height and velocity is uniform in the cross-section and only changes horizontally.
@@ -31,9 +31,11 @@ In figure \ref{fig:firkant_kloak} a flow in a channel with vertical channel wall
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.45\textwidth]{report/modeling/pictures/firkant_kloak.png}
-\caption{Flow in a channel with a flat bed and vertical sides \fxnote{Ny tegning}}
+\caption{Flow in a channel with a flat bed and vertical sides where Q is flow into the channel, q is lateral flow into the channel and the cross section area is given by $\text{A} = \text{B} \cdot \text{h}$. \fxnote{Ny tegning}}
 \label{fig:firkant_kloak}
 \end{figure}
+
+Flows and cross section shown in figure \ref{fig:firkant_kloak} is dependent on time and position, but in the following the notation is disregarded for an easier outline. 
 
 The flow into the control volume is given as
 \begin{equation}
@@ -41,7 +43,7 @@ The flow into the control volume is given as
 \label{flowin_saintbernard}
 \end{equation}
 
-where q is the lateral inflow into the channel and Q is the flow.
+where q is the lateral inflow into the channel and Q is the flow. Lateral inflow could for example come from adjoint sewer pipes or a gutter drain.
 The flow out of the channel is
 
 \begin{equation}
@@ -56,7 +58,7 @@ and the stored fluid in the channel is
 \label{stored_saintbernard}
 \end{equation}
 
-Since the flow into the channel is equal to the flow out combined with the change in the stored fluid in the channel, then \ref{flowin_saintbernard}, \ref{flowout_saintbernard} and \ref{stored_saintbernard} can be combined into equation \ref{saintbernard_masse}. 
+As the flow into the channel is equal to the flow out combined with the change in the stored fluid in the channel due to the assumption of incompressible fluid and uniformity, then \ref{flowin_saintbernard}, \ref{flowout_saintbernard} and \ref{stored_saintbernard} can be combined into equation \ref{saintbernard_masse}. 
 
 \begin{equation}
 \begin{array}{l}
@@ -69,14 +71,25 @@ q \cdot \Delta x \cdot \Delta t -\frac{\partial A}{\partial t} \cdot \Delta t
 \label{saintbernard_masse}
 \end{equation}
 
-which can be reduced to 
+which can be reduced to the following by isolating and dividing with $\Delta x$ and $\Delta t$ on both sides yielding the mass conservation part of the Saint-Venant equations.
 \begin{equation}	
 \frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=q(x,t)
+\label{saintbernard_mass_lateral}
+\end{equation}
+
+For channel flows without lateral input the mass conservation is given as
+\begin{equation}	
+\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
 \label{saintbernard_mass}
 \end{equation}
 
+Momentum of the control volume $\Omega$ shown in figure \ref{fig:kloakroer} is defined as:
+\begin{equation}
+M(t) = m(t) \cdot v(t)
+\label{eq:momentum_definition}
+\end{equation}  
 
-
+where M is momentum, m is mass and v is velocity. Equation
 
 
 
@@ -84,14 +97,9 @@ which can be reduced to
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.45\textwidth]{report/modeling/pictures/kloakroer.png}
-\caption{Sewer pipe \fxnote{Ny tegning}}
+\caption{Sewer pipe \fxnote{Ny tegning indsæt omega i control volumet}}
 \label{fig:kloakroer}
 \end{figure}
-
-
-
-The control volume is defined by a length $\Delta$x 
-
 
 
 
