@@ -7,7 +7,7 @@ close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Constants
 global Theta k Dt Dx Ie H Q h A d u g m n 
-Theta = 1;
+Theta = 0.5;
 k=0.001; %angives typisk i mm der skal bruges m i formler
 m=1;
 Dt = 20; %[s] grid time
