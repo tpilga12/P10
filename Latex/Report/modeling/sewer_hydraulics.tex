@@ -35,7 +35,7 @@ In figure \ref{fig:firkant_kloak} a flow in a channel with vertical channel wall
 \label{fig:firkant_kloak}
 \end{figure}
 
-Flows and cross section shown in figure \ref{fig:firkant_kloak} is dependent on time and position, but in the following the notation is disregarded for an easier outline. 
+Flows and cross section shown in figure \ref{fig:firkant_kloak} is dependent on time and position, but in the following a simpler notation is used for an easier outline. 
 
 The flow into the control volume is given as
 \begin{equation}
@@ -43,7 +43,7 @@ The flow into the control volume is given as
 \label{flowin_saintbernard}
 \end{equation}
 
-where q is the lateral inflow into the channel and Q is the flow. Lateral inflow could for example come from adjoint sewer pipes or a gutter drain.
+where q is the lateral inflow into the channel and Q is the flow in the channel($\frac{m^3}{s}$. Lateral inflow could for example come from adjoint sewer pipes or a gutter drain.
 The flow out of the channel is
 
 \begin{equation}
@@ -58,13 +58,13 @@ and the stored fluid in the channel is
 \label{stored_saintbernard}
 \end{equation}
 
-As the flow into the channel is equal to the flow out combined with the change in the stored fluid in the channel due to the assumption of incompressible fluid and uniformity, then \ref{flowin_saintbernard}, \ref{flowout_saintbernard} and \ref{stored_saintbernard} can be combined into equation \ref{saintbernard_masse}. 
+As the flow into the channel is equal to the flow out plus the change in the stored fluid in the channel, then, due to the assumption of incompressible fluid and uniformity, \ref{flowin_saintbernard}, \ref{flowout_saintbernard} and \ref{stored_saintbernard} can be combined into equation \ref{saintbernard_masse}. 
 
 \begin{equation}
 \begin{array}{l}
 	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delta x}{2}\right) \cdot \Delta t + q \cdot \Delta x \cdot \Delta t - \left(Q + \frac{\partial Q}{ \partial x} \frac{\Delta x}{2} \right) \cdot \Delta t - \frac{\partial A}{\partial t}\cdot \Delta t 
 	\cdot \Delta x = 0 \\ 
-\Leftrightarrow \\
+\Updownarrow \\
 q \cdot \Delta x \cdot \Delta t -\frac{\partial A}{\partial t} \cdot \Delta t 
 	\cdot \Delta x - \frac{\partial Q}{\partial x} \cdot \Delta x \cdot \Delta t  = 0 
 \end{array}
@@ -77,7 +77,7 @@ which can be reduced to the following by isolating and dividing with $\Delta x$ 
 \label{saintbernard_mass_lateral}
 \end{equation}
 
-For channel flows without lateral input the mass conservation is given as
+For channel flows without lateral input the mass conservation is given as:
 \begin{equation}	
 \frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
 \label{saintbernard_mass}
@@ -89,7 +89,7 @@ M(t) = m(t) \cdot v(t)
 \label{eq:momentum_definition}
 \end{equation}  
 
-where M is momentum, m is mass and v is velocity. Equation
+where M is momentum ($\frac{kg \cdot m}{s}$), m is mass ($kg$) and v is velocity($\frac{m}{s}$). Equation
 
 
 
