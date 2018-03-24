@@ -54,8 +54,12 @@ The flow out of the channel is
 and the stored fluid in the channel is
 
 \begin{equation}
+\begin{array}{l}
+\frac{\partial}{\partial t} \left(\frac{\Delta x}{2} \cdot \left(A- \frac{\partial A}{\partial x} \frac{\Delta x}{2} +A + \frac{\partial A}{\partial x} \frac{\Delta x}{2}	\right) \right) \\
+\Updownarrow \\
 \frac{\partial A}{\partial t}\cdot \Delta t \cdot \Delta x	
 \label{stored_saintbernard}
+\end{array}
 \end{equation}
 
 As the flow into the channel is equal to the flow out combined with the change in the stored fluid in the channel due to the assumption of incompressible fluid and uniformity, then \ref{flowin_saintbernard}, \ref{flowout_saintbernard} and \ref{stored_saintbernard} can be combined into equation \ref{saintbernard_masse}. 
@@ -64,7 +68,7 @@ As the flow into the channel is equal to the flow out combined with the change i
 \begin{array}{l}
 	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delta x}{2}\right) \cdot \Delta t + q \cdot \Delta x \cdot \Delta t - \left(Q + \frac{\partial Q}{ \partial x} \frac{\Delta x}{2} \right) \cdot \Delta t - \frac{\partial A}{\partial t}\cdot \Delta t 
 	\cdot \Delta x = 0 \\ 
-\Leftrightarrow \\
+\Updownarrow \\
 q \cdot \Delta x \cdot \Delta t -\frac{\partial A}{\partial t} \cdot \Delta t 
 	\cdot \Delta x - \frac{\partial Q}{\partial x} \cdot \Delta x \cdot \Delta t  = 0 
 \end{array}
@@ -100,8 +104,6 @@ where M is momentum, m is mass and v is velocity. Equation
 \caption{Sewer pipe \fxnote{Ny tegning indsæt omega i control volumet}}
 \label{fig:kloakroer}
 \end{figure}
-
-
 
 
 
