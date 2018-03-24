@@ -103,12 +103,6 @@ A = [A1_init A];
 A = abs(A);
 A(:,n+1)=[];
 
-
-
-
-
-
-
 for m = 1:n 
     for n = 1:n
         u(m,n)= Q(m,n)/A(m,n); 
@@ -161,13 +155,13 @@ end
 %%%%% Plots %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 t = 1;
-steps = 30*Dx-Dx;
-steps_tid = 30*Dt-Dt;
-for n = 1:15
+steps = n*Dx-Dx;
+steps_tid = n*Dt-Dt;
+for n = 1:10
     %%% Flow
     figure(1)
     subplot(5,2,n)
-    plot(0:Dx:steps,Q(t,:))
+    plot(0:Dx:steps,Q(:,t))
     title(['Timestep', num2str(n)])
     xlabel('distance [m]')
     ylabel('Flow [m^3/s]')
@@ -189,6 +183,22 @@ for n = 1:15
     t = t+1;
     
 end 
+
+%%
+%     figure(1)
+%     plot(0:Dx:steps,Q(30,:))
+%    % title(['')
+%     xlabel('Time [s]')
+%     ylabel('Flow [m^3/s]')
+%     grid
+%     %%
+%     figure(2)
+%     plot(0:Dx:steps,h(30,:))
+%     %title(['')
+%     xlabel('distance [m]')
+%     ylabel('Water height [m]')
+%     grid
+%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
