@@ -1,9 +1,9 @@
 ﻿\subsection{Preissmann scheme}\label{subse:preissmann_scheme}
-From section \ref{se:hydraulics_of_sewer_line} the equations for an open channel is derived. In this section these Saint Venant equations are solved using a numerical method. 
+From section \ref{se:hydraulics_of_sewer_line} the equations for an open channel is derived. In this section the Saint Venant equations are solved using a numerical method. 
 
 %Argument for at bruge numeriske metode til at løse saint venant eq.
 
-The numerical method used for solving the Saint Venant equations described in \ref{se:hydraulics_of_sewer_line} is the Preissmann scheme also known as the box scheme. Other method exist such as, Lax scheme, Abbot-Ionescu scheme, leap-frog scheme, Vasiliev scheme, however the Preissmann scheme is commonly known as the most robust scheme. By using the Preissmann scheme the Saint Venant equations can be discretized, and thereby used in a simulation to calculate the flow and height throughout an open channel.   
+The numerical method used for solving the Saint Venant equations described in \ref{se:hydraulics_of_sewer_line} is the Preissmann scheme also known as the box scheme. Other method exist such as, Lax scheme, Abbot-Ionescu scheme, leap-frog scheme, Vasiliev scheme, however the Preissmann scheme is commonly known as the most robust scheme. Basically by using the Preissmann scheme the Saint Venant equations can be discretized, and thereby used in a simulation to calculate the flow and height throughout an open channel.   
 
 From section \ref{se:hydraulics_of_sewer_line} the Saint Venant equations for conductivity and momentum are derived, they are also shown below,
 
@@ -41,7 +41,7 @@ The numerical approximation for the derivatives in equations \ref{eq:saintbernar
 	\frac{\partial f}{\partial x}\bigg \rvert_p \approx (1-\theta)\frac{f_j^i-f_{j+1}^i}{\Delta x}+\theta \frac{f_j^{i+1}-f_{j+1}^{i+1}}{\Delta x}
 \end{equation}
 
-These approximations from equations \ref{eq:preissmann_time_derivatie} and \ref{eq:preissmann_space_derivatie} can therefore inserted for the derivatives in the Saint Venant equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} and thereby achieve the following, 
+These approximations from equations \ref{eq:preissmann_time_derivatie} and \ref{eq:preissmann_space_derivatie} can therefore be inserted for the derivatives in the Saint Venant equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} and thereby achieve the following, 
 
 \begin{equation}\label{eq:continuity_eq_preissmann}
 	\theta \frac{Q_{j+1}^{i+1}-Q_j^{i+1}}{\Delta x}+(1-\theta)\frac{Q_{j+1}^i - Q_j^i}{\Delta x}+
@@ -52,7 +52,7 @@ These approximations from equations \ref{eq:preissmann_time_derivatie} and \ref{
 	\frac{1}{2} \left(\frac{Q_{j+1}^{i+1}-Q_{j+1}^i}{\Delta t}+\frac{Q_{j}^{i+1} - Q_j^i}{\Delta t}\right) + \frac{\theta}{\Delta x} \left(\left(\frac{Q^2}{A}\right)_{j+1}^{i+1}-\left(\frac{Q^2}{A}\right)_{j}^{i+1}\right) + \\ \frac{1-\theta}{\Delta x}\left(\left(\frac{Q^2}{A}\right)_{j+1}^{i}-\left(\frac{Q^2}{A}\right)_{j}^{i}\right)+gA_p\theta \left(\frac{h_{j+1}^{i+1}-h_j^{i+1}}{\Delta x}\right)+ \\ gA_p(1-\theta)\left(\frac{h_{j+1}^{i} - h_j^i}{\Delta x}\right)+\left(\frac{g\cdot n_M^2}{R^\frac{4}{3}}\frac{|Q|Q}{A}\right)_P = 0 
 \end{multline}
 
-By discretized the Saint Venant equations they can be used in a simulation to calculate parameters for the open channel model. The mesh shown in figure \ref{fig:preissmann_grid_scheme} is used to calculate the node (j+1,i+1) by knowing the previous values in time and space (j,i), (j+1,i) and (j,i+1). Some initial condition must be known to calculate the parameters for the open channel. The flow, at t=0, must be known throughout the pipe, furthermore the flow that will enter the channel for $t\leq 0$ must be known, as shown in figure \ref{fig:preissmann_grid_scheme_exampel}.   
+By discretized the Saint Venant equations they can be used in a simulation to calculate parameters for the open channel model. The mesh shown in figure \ref{fig:preissmann_grid_scheme} is used to calculate the node (j+1,i+1) by knowing the previous values in time and space (j,i), (j+1,i) and (j,i+1). Therefore some initial condition must be known to calculate the parameters for the open channel in the first iteration. The flow, at t=0, must be known throughout the pipe, furthermore the flow that will enter the channel for $t\leq 0$ must be known, as shown in figure \ref{fig:preissmann_grid_scheme_exampel}.   
 
 \begin{figure}[H]
 \centering
@@ -60,14 +60,14 @@ By discretized the Saint Venant equations they can be used in a simulation to ca
 \caption{Preissmann non-staggered grid scheme example of calculation pattern.}
 \label{fig:preissmann_grid_scheme_exampel}
 \end{figure} 
-
-By knowing the flow, and parameters for the pipe, the height can be calculated in the initialization nodes. With equation \ref{eq:continuity_eq_preissmann}, the flow and the height in (j,i), (j+1,i) and (j,i+1) by knowing these the flow and height can be computed for (j+1,i+1) with the help of equation \ref{eq:continuity_eq_preissmann} and the newton method, which will be elaborated on later.  
+%% Dette skal omformuleres
+By knowing the flow and parameters for the pipe, the height can be calculated in the initialization nodes, which will be elaborated on later. With equation \ref{eq:continuity_eq_preissmann}, the flow (j+1,i+1) can be calculated by knowing the flow and height in the previous nodes (j,i), (j+1,i) and (j,i+1) as illustrated with the box in the left bottom corner in figure \ref{fig:preissmann_grid_scheme_exampel}.  
 
 For the Preissmann scheme to be numerical stable the $\theta$ parameter is $\theta \leq 0,5$. If $\theta$ is equal to 0,5 the Preissmann scheme is second order accurate in both time and space, and is first order accurate otherwise.   
 
 In the following section the calculating of the flow and height in each node will be explained.
 
-\subsubsection*{Continuity equation}
+\subsubsection*{Iteration scheme}
 In this section the scheme for calculating the flow and height in each iteration will be explained. 
 
 The discretized continuity equation \ref{eq:continuity_eq_preissmann} from section \ref{subse:preissmann_scheme} is solved for the desired flow,
@@ -83,22 +83,22 @@ Where H is a parameter where all the previous flow and area are known,
 
 Where q is the inlet flow across a channel,
 \begin{equation}
-	q(x,t) = 0.25(q_j^i+q_j^{i+1}+q_{j+1}^{i+1}+q_j^{i+1})	
+	q(x,t) = 0.25\left(q_j^i+q_j^{i+1}+q_{j+1}^{i+1}+q_j^{i+1}\right)	
 \end{equation}
 This could be inflow from groundwater through the channel or from the gutter. 
 
-In equation \ref{eq:continuity_solve_flow} the flow $Q_{j+1}^{i+1}$ is a function of the unknown area $A_{j+1}^{i+1}$, by subtracting the flow on each side the following is achieved, 
+In equation \ref{eq:continuity_solve_flow} the flow $Q_{j+1}^{i+1}$ is a function of the unknown area $A_{j+1}^{i+1}$, and by subtracting the flow on each side the following is achieved, 
 
 \begin{equation}\label{eq:continuity_zero_eq}
 		0=-Q_{j+1}^{i+1}  - \frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)\frac{\Delta x}{\Delta t}
 \end{equation}
-By calling the right hand side of equation \ref{eq:continuity_zero_eq} V the following is obtained,
+By calling the right hand side of equation \ref{eq:continuity_zero_eq} for V the following is obtained,
 
 \begin{equation}\label{eq:continuity_V}
 		V=-Q_{j+1}^{i+1}  - \frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)\frac{\Delta x}{\Delta t}
 \end{equation}
 
-Equation \ref{eq:continuity_V} can now be solved by finding the zero point for the function V, however there are still two unknown in equation \ref{eq:continuity_V}, $Q_{j+1}^{i+1}$ and $A_{j+1}^{i+1}$. $Q_{j+1}^{i+1}$ can be found with the following, 
+Equation \ref{eq:continuity_V} can now be solved by finding the zero for the function V using newton method. However there are still two unknown in equation \ref{eq:continuity_V}, $Q_{j+1}^{i+1}$ and $A_{j+1}^{i+1}$. $Q_{j+1}^{i+1}$ can be replaced with the following, 
 
 \begin{equation}\label{eq:calc_for_flow}
  	Q = \left(0.46-0.5 \cdot cos\left(\pi \frac{h}{d}\right)+0.04\cdot cos\left(2\pi\frac{h}{d}\right)\right)Q_f
@@ -120,7 +120,7 @@ Furthermore $Q_f$ from equation \ref{eq:qf_for_flow} is inserted into equation \
 	V = -72\left(\frac{d}{4}\right)^{0.635}\pi\left(\frac{d}{2}\right)^2I_e^{0,5} \left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+ 0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\\ \frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
 \end{multline}
 
-V is a function of $h_{j+1}^{i+1}$ due to the area $A_{j+1}^{i+1}$ is also a function of the height. As mention the continuity equation \ref{eq:new_continuity_equation} can be solved by finding the zero for the function V. To do so newton iteration method is used.
+V is a function of $h_{j+1}^{i+1}$ due to the area $A_{j+1}^{i+1}$ is also a function of the height. As mention the continuity equation \ref{eq:new_continuity_equation} can be solved by finding the zero for the function V. To do so newton method is used.
 
 \begin{equation}
 	 (h_{j+1}^{i+1})_{k+1} =(h_{j+1}^{i+1})_{k} - \frac{V_k}{V'_k} 
@@ -132,7 +132,7 @@ Where k is the number of iterations and V' is the differentiated of V with respe
 	(h_{j+1}^{i+1})_{k}-(h_{j+1}^{i+1})_{k-1} < (\epsilon \cdot h_{j+1}^{i+1})_{k}
 \end{equation}
 
-Where $\epsilon$ is a small tolerance number, e.g. 0.05 meters for 5 cm variation in water height. Thereby the water height can be found and therefore the area for the water can be calculated with equation ???? \fxnote{afsnit om de forskellige ligninger til beregning af Areal, Ie,Ib,Qf,Q} and thereafter equation \ref{eq:continuity_solve_flow} for the flow can be calculated.  
+Where $\epsilon$ is a small tolerance number, e.g. 0.05 meters variation in water height. Thereby the water height can be found and therefore the area for the water can be calculated with equation ???? that the describes the area for a circle \fxnote{afsnit om de forskellige ligninger til beregning af Areal, Ie,Ib,Qf,Q} and thereafter equation \ref{eq:continuity_solve_flow} can be used to calculate the flow for the node.  
 
 This calculation is performed for each node in the Preissmann scheme, therefore it is a iterative method of solving the flow for a open channel. 
 
@@ -157,3 +157,5 @@ In the following figures the flow \ref{fig:simulation_output_flow_height}a and t
 \end{figure}
 
 These figures shows that whether the height is increasing or decreasing the flow is following, which is what is expected, because a higher water level will result in a higher flow rate and vice versa. 
+
+

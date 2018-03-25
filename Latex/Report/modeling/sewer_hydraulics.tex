@@ -85,57 +85,119 @@ For channel flows without lateral input the mass conservation is given as:
 
 Momentum of the control volume $\Omega$ shown in figure \ref{fig:kloakroer} can be found by utilizing Newtons second law which says that force is equal to mass times acceleration.
 Basically this means that the momentum of the control volume can be found by integrating the sum of forces in the following differential equation.
-
 \begin{equation}
 	\frac{d \mathcal{M}(t)}{dt} = \sum_{i}F_i(t)
 \end{equation} 
 where $\mathcal{M}$(t) is the momentum, given as mass times a velocity vector, of the control volume at time t and $\text{F}_i$(t) is the various external forces affecting the control volume.
-
 
 The momentum given by the fluid particles at the cross section at each end of the control volume is given as
 \begin{equation}
 	\rho \cdot V \cdot Q
 \end{equation}
 
-where $\rho$ is density ($\frac{kg}{m^3}$, V $\frac{m}{s}$ is velocity and Q ($\frac{m^3}{s}$) is flow.
+where $\rho$ is density ($\frac{kg}{m^3}$, v $\frac{m}{s}$ is velocity and Q ($\frac{m^3}{s}$) is flow.
 The momentum given by the in- and output of fluid particles in the control volume, with the assumption that the density of the fluid and the velocity of it in the cross section of the control volume is constant, is given as
 \begin{equation}
 \begin{array}{l}
-\rho \cdot V \cdot Q - \frac{\partial}{\partial x}(\rho \cdot V \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot V \cdot Q - \frac{\partial}{\partial x}(\rho \cdot V \cdot Q) \cdot \frac{\Delta x}{2} \right) \\
+\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} \right) \\
 \Updownarrow \\
 \rho \cdot \frac{Q}{A} \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot \frac{Q}{A}  \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} \right)
 \end{array}
+\label{mass_flow_speed}
 \end{equation}
 
 The remaining to be found is the forces imposed by gravity, friction and the pressure.
 The force applied by gravity is given as
 \begin{equation}
-F_g = sin(\theta)\cdot g \cdot \rho \cdot \Delta x \cdot A 
+F_g = sin(\theta)\cdot g \cdot \rho \cdot \Delta x \cdot A
+\label{gravity_force} 
 \end{equation}
 
 where the slope of the pipe bed $\text{S}_\text{b} = tan(\theta) \approx sin(\theta)$ for small values of $\theta$ resulting in:
-
 \begin{equation}
 F_g = S_b \cdot g \cdot \rho \cdot \Delta x \cdot A 
 \end{equation}
+The friction force can be set up similarly as
+\begin{equation}
+F_f = S_f \cdot g \cdot \rho \cdot \Delta x \cdot A 
+\label{friction_force} 
+\end{equation}
+where $S_f$ is a friction coefficient. This coefficient can be estimated by different formulas like Manning's or Darcy-Weishbach formula which is seen in equation \ref{Manning_formula} and \ref{darcy_weisbach_formula} respectively . 
+\begin{equation}
+	S_f = \frac{n^2 Q^2}{A^2R^{4/3}}= \frac{n^2 v^2}{R^{4/3}}
+\label{Manning_formula}
+\end{equation}
+\begin{equation}
+	S_f = \frac{f Q^2}{8gR A^2}= \frac{f v^2}{8gR}
+\label{darcy_weisbach_formula}
+\end{equation}
 
+Where n is Manning's roughness factor, f is the Weisbach resistance coefficient and R is the hydraulic radius given as wetted area divided by the wetted perimeter \cite{stormwatercollectionsystems}.
+The Weisbach resistance coefficient is found by the Colebrook-White formula seen in equation \ref{colebrook_white_formula}.
+\begin{equation}
+\frac{1}{\sqrt{f}} = -2\cdot log \left( \frac{k}{14.84 \cdot R}+ \frac{2.52}{4 Re \sqrt{f}} \right)
+\label{colebrook_white_formula}
+\end{equation}
+
+Where f is the Darcy-Weisbach resistance coefficient, k is a pipe roughness coefficient and Re is the Reynolds number.
+
+Last the pressure forces on the x component of the control volume to be found is marked as $P_1$ to $P_3$ in figure \ref{fig:forces_on_CV} 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{report/modeling/pictures/palle_fig.png}
+\caption{Forces acting on the control volume \fxnote{Ny tegning og sikkert også caption}}
+\label{fig:forces_on_CV}
+\end{figure}
+
+The pressure forces acting on the control volume is given as:
+\begin{equation}
+	P_1 = \int_{0}^{h_l} \rho \cdot g (h_l - z)\cdot b(z)
+\end{equation}
+\begin{equation}
+	P_2 = -\int_{0}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)
+\end{equation}
+\begin{equation}
+	P_3 = -\int_{h_l}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)
+\end{equation}
+
+The total pressure force adds up to:
 
 \begin{equation}
-	S_f = \frac{Q^2n^2}{A^2R^{4/3}}
-\label{Manning_formula}
+P_1 - P_1 -P_2 - P_3 = -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A  
+\label{pressure_force}
+\end{equation}
+
+Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
+
+\begin{equation}
+\frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
+\end{equation}
+
+Entering the expressions of the conservation of momentum equation then the following is given:
+
+\begin{equation}
+\begin{array}{l}
+\rho \cdot \frac{Q}{A} \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot \frac{Q}{A}  \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} \right)\\
+-S_b \cdot g \cdot \rho \cdot \Delta x \cdot A -S_f \cdot g \cdot \rho \cdot \Delta x \cdot A  -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A =\frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
+\end{array}
+\end{equation}
+
+Dividing with $\Delta x \rho g A$ and isolating then the definition of the equation is obtained.
+
+\begin{equation}
+\frac{1}{gA} \frac{\partial Q}{\partial t} +\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x} + S_f - S_b = 0
+\label{saintbernard_momentum}
 \end{equation}
 
 
 
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.45\textwidth]{report/modeling/pictures/kloakroer.png}
-\caption{Sewer pipe \fxnote{Ny tegning indsæt omega i control volumet}}
-\label{fig:kloakroer}
-\end{figure}
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.45\textwidth]{report/modeling/pictures/kloakroer.png}
+%\caption{Sewer pipe \fxnote{Ny tegning indsæt omega i control volumet}}
+%\label{fig:kloakroer}
+%\end{figure}
 
 
 \begin{equation}
