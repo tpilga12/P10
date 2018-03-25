@@ -3,7 +3,7 @@ From section \ref{se:hydraulics_of_sewer_line} the equations for an open channel
 
 %Argument for at bruge numeriske metode til at løse saint venant eq.
 
-The numerical method used for solving the Saint Venant equations described in \ref{se:hydraulics_of_sewer_line} is the Preissmann scheme also known as the box scheme. Other method exist such as, Lax scheme, Abbot-Ionescu scheme, leap-frog scheme, Vasiliev scheme, however the Preissmann scheme is commonly known as the most robust scheme. Basically by using the Preissmann scheme the Saint Venant equations can be discretized, and thereby used in a simulation to calculate the flow and height throughout an open channel.   
+The numerical method used for solving the Saint Venant equations described in section \ref{se:hydraulics_of_sewer_line} is the Preissmann scheme also known as the box scheme. Other method exist such as, Lax scheme, Abbot-Ionescu scheme, leap-frog scheme, Vasiliev scheme, however the Preissmann scheme is commonly known as the most robust scheme. Basically by using the Preissmann scheme the Saint Venant equations can be discretized, and thereby used in a simulation to calculate the flow and height throughout an open channel.   
 
 From section \ref{se:hydraulics_of_sewer_line} the Saint Venant equations for conductivity and momentum are derived, they are also shown below,
 
@@ -17,7 +17,7 @@ From section \ref{se:hydraulics_of_sewer_line} the Saint Venant equations for co
 
 %Skriv noget om boundary og initial conditions
 
-In figure \ref{fig:preissmann_grid_scheme} a single mesh is illustrated.
+In figure \ref{fig:preissmann_grid_scheme} a single mesh for the Preissmann scheme is illustrated.
 
 \begin{figure}[H]
 \centering
@@ -76,16 +76,11 @@ The discretized continuity equation \ref{eq:continuity_eq_preissmann} from secti
 	Q_{j+1}^{i+1} = - \frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)\frac{\Delta x}{\Delta t}
 \end{equation}
 
-Where H is a parameter where all the previous flow and area are known,
+Where H is a parameter where all the previous flows and areas are known,
 \begin{equation}
 	H = \left(2(1-\theta)Q_j^i-2(1-\theta)Q_{j+1}^i+2\theta Q_j^{i+1}+2q(x,t)\Delta x\right)\frac{\Delta t}{\Delta x}- A_{j}^{i+1}+A_j^i+A_{j+1}^i
 \end{equation}
 
-Where q is the inlet flow across a channel,
-\begin{equation}
-	q(x,t) = 0.25\left(q_j^i+q_j^{i+1}+q_{j+1}^{i+1}+q_j^{i+1}\right)	
-\end{equation}
-This could be inflow from groundwater through the channel or from the gutter. 
 
 In equation \ref{eq:continuity_solve_flow} the flow $Q_{j+1}^{i+1}$ is a function of the unknown area $A_{j+1}^{i+1}$, and by subtracting the flow on each side the following is achieved, 
 
@@ -98,12 +93,12 @@ By calling the right hand side of equation \ref{eq:continuity_zero_eq} for V the
 		V=-Q_{j+1}^{i+1}  - \frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)\frac{\Delta x}{\Delta t}
 \end{equation}
 
-Equation \ref{eq:continuity_V} can now be solved by finding the zero for the function V using newton method. However there are still two unknown in equation \ref{eq:continuity_V}, $Q_{j+1}^{i+1}$ and $A_{j+1}^{i+1}$. $Q_{j+1}^{i+1}$ can be replaced with the following, 
+Equation \ref{eq:continuity_V} can now be solved by finding the zero for the function V using newton method. However there are still two unknowns in equation \ref{eq:continuity_V}, $Q_{j+1}^{i+1}$ and $A_{j+1}^{i+1}$. $Q_{j+1}^{i+1}$ can be replaced with the following, 
 
 \begin{equation}\label{eq:calc_for_flow}
  	Q = \left(0.46-0.5 \cdot cos\left(\pi \frac{h}{d}\right)+0.04\cdot cos\left(2\pi\frac{h}{d}\right)\right)Q_f
 \end{equation}
-Where $Q_f$ is the flow for the flow in a fully filled open channel 
+Which describes the flow in an open channel by knowing the height, diameter of the pipe and the flow for a fully filled pipe, $Q_f$. $Q_f$ can be found with the following equation, 
 
 \begin{equation}\label{eq:qf_for_flow}
 	Q_f = -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
@@ -120,7 +115,13 @@ Furthermore $Q_f$ from equation \ref{eq:qf_for_flow} is inserted into equation \
 	V = -72\left(\frac{d}{4}\right)^{0.635}\pi\left(\frac{d}{2}\right)^2I_e^{0,5} \left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+ 0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\\ \frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
 \end{multline}
 
-V is a function of $h_{j+1}^{i+1}$ due to the area $A_{j+1}^{i+1}$ is also a function of the height. As mention the continuity equation \ref{eq:new_continuity_equation} can be solved by finding the zero for the function V. To do so newton method is used.
+V is a function of the height $h_{j+1}^{i+1}$ due to the area $A_{j+1}^{i+1}$ is also a function of the height. The area for a circular channel is calculated with the following,
+
+\begin{equation}\label{eq:calc_area_open_channel}
+	A = \frac {d^2}{4} \cdot acos \left(\frac{\frac{d}{2}-h}{\frac{d}{2}}\right)-\sqrt{h (d-h)} \left(\frac{d}{2}-h\right)
+\end{equation}
+
+As mention the continuity equation \ref{eq:new_continuity_equation} can be solved by finding the zero for the function V. To do so newton method is used.
 
 \begin{equation}
 	 (h_{j+1}^{i+1})_{k+1} =(h_{j+1}^{i+1})_{k} - \frac{V_k}{V'_k} 
@@ -132,7 +133,7 @@ Where k is the number of iterations and V' is the differentiated of V with respe
 	(h_{j+1}^{i+1})_{k}-(h_{j+1}^{i+1})_{k-1} < (\epsilon \cdot h_{j+1}^{i+1})_{k}
 \end{equation}
 
-Where $\epsilon$ is a small tolerance number, e.g. 0.05 meters variation in water height. Thereby the water height can be found and therefore the area for the water can be calculated with equation ???? that the describes the area for a circle \fxnote{afsnit om de forskellige ligninger til beregning af Areal, Ie,Ib,Qf,Q} and thereafter equation \ref{eq:continuity_solve_flow} can be used to calculate the flow for the node.  
+Where $\epsilon$ is a small tolerance number, e.g. 0.05 meters variation in water height. Thereby the water height can be found and therefore the area for the water can be calculated with equation \ref{eq:calc_area_open_channel} \fxnote{afsnit om de forskellige ligninger til beregning af Areal, Ie,Ib,Qf,Q} and thereafter equation \ref{eq:continuity_solve_flow} can be used to calculate the flow for the node.  
 
 This calculation is performed for each node in the Preissmann scheme, therefore it is a iterative method of solving the flow for a open channel. 
 
