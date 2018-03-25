@@ -116,9 +116,9 @@ Where k is a roughness factor found in?? \fxnote{kilde til hvor vi finder den} a
 
 Furthermore $Q_f$ from equation \ref{eq:qf_for_flow} is inserted into equation \ref{eq:V_with_flow}, 
 
-\begin{equation}\label{eq:new_continuity_equation}
-	V = -72\left(\frac{d}{4}\right)^{0.635}\pi\left(\frac{d}{2}\right)^2I_e^{0,5}\left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
-\end{equation}
+\begin{multline}\label{eq:new_continuity_equation}
+	V = -72\left(\frac{d}{4}\right)^{0.635}\pi\left(\frac{d}{2}\right)^2I_e^{0,5} \left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+ 0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\\ \frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
+\end{multline}
 
 V is a function of $h_{j+1}^{i+1}$ due to the area $A_{j+1}^{i+1}$ is also a function of the height. As mention the continuity equation \ref{eq:new_continuity_equation} can be solved by finding the zero for the function V. To do so newton iteration method is used.
 
