@@ -1,0 +1,64 @@
+% This file was created by matlab2tikz.
+%
+%The latest updates can be retrieved from
+%  http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz-matlab2tikz
+%where you can also make suggestions and rate matlab2tikz.
+%
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=2.0517in,
+height=2.5in,
+at={(0.762in,0.481in)},
+scale only axis,
+%scaled ticks=base 10:2,
+% scaled y ticks = false,
+% y tick label style={/pgf/number format/fixed},
+% /pgf/number format/1000 sep = \thinspace,
+xmin=0,
+xmax=525,
+xlabel={Time [s]},
+xmajorgrids,
+ymin=0.011,
+ymax=0.016,
+ylabel={$\text{Flow [m}^\text{3}\text{/s]}$},
+ymajorgrids,
+axis background/.style={fill=white}
+]
+\addplot [color=mycolor1,solid,forget plot]
+  table[row sep=crcr]{%
+0	0.016\\
+18	0.012001864965076\\
+36	0.0120092762833444\\
+54	0.0120664188872393\\
+72	0.0119072901832867\\
+90	0.0117729578654724\\
+108	0.0124326877633298\\
+126	0.0122734769119272\\
+144	0.0114989740303722\\
+162	0.0117284516956586\\
+180	0.0119629523424902\\
+198	0.0121600020489627\\
+216	0.012157968696184\\
+234	0.0118332199417125\\
+252	0.0118328451738214\\
+270	0.0125183003083703\\
+288	0.0118392103354998\\
+306	0.011797997025556\\
+324	0.0119940759626088\\
+342	0.0119292885666807\\
+360	0.0124020000815428\\
+378	0.0119060367921044\\
+396	0.0117310579795223\\
+414	0.012058217376743\\
+432	0.0118489672188554\\
+450	0.0121489715322212\\
+468	0.0116081566208661\\
+486	0.0115880976513915\\
+504	0.0122897397953823\\
+522	0.0123682266854666\\
+};
+\end{axis}
+\end{tikzpicture}%
