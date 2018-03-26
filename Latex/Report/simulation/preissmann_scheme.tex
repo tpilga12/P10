@@ -3,9 +3,9 @@ In this section the Saint Venant equations are solved using a numerical method.
 
 %Argument for at bruge numeriske metode til at løse saint venant eq.
 
-The numerical method used for solving the Saint Venant equations, described in section \ref{se:hydraulics_of_sewer_line}, is the Preissmann scheme also known as the box scheme. Other method exist such as, Lax scheme, Abbot-Ionescu scheme, leap-frog scheme, Vasiliev scheme, however the Preissmann scheme is commonly known as the most robust scheme. Basically by using the Preissmann scheme the Saint Venant equations can be discretized, and thereby used in a simulation to calculate the flow and height throughout an open channel.   
+The numerical method used for solving the Saint Venant equations, described in section \ref{se:hydraulics_of_sewer_line}, is the Preissmann scheme which is based on the box scheme. Other method exist such as, Lax scheme, Abbot-Ionescu scheme, leap-frog scheme, Vasiliev scheme, however the Preissmann scheme is commonly known as the most robust. Basically by using the Preissmann scheme the Saint Venant equations can be discretized, and thereby utilized to simulate the flow and height throughout an open channel.   
 
-From section \ref{se:hydraulics_of_sewer_line} the Saint Venant equations for conductivity and momentum are derived, they are also shown below,
+From section \ref{se:hydraulics_of_sewer_line} the Saint Venant equations for conservation of mass and momentum are derived, they are also shown below.
 
 \begin{equation}\label{eq:saintbernard_mass_preiss}
 \frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=q(x,t)
@@ -26,26 +26,27 @@ In figure \ref{fig:preissmann_grid_scheme} a single mesh for the Preissmann sche
 \label{fig:preissmann_grid_scheme}
 \end{figure} 
 
-Where $\theta$ is a weighting parameter ranging between 0 and 1, j index of section and i index of time. This mesh contains four nodes, (j,i), (j+1,i), (j,i+1) and (j+1,i+1), however in the implementation the dimension of the grid is $\Delta t \times \Delta x$ for $0 \leq x \leq L$ and $0\leq t$. Where L defines the length of the open channel. The derivatives in equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} are calculated as approximation at the point P, which is in the middle of the interval of $\Delta x$, and is also the reason why the Preissmann scheme is corresponding to a box scheme. The point P can only move along the t axis within this mesh by adjusting the weighting parameter $\theta$. This weighting parameter will be elaborated on later. An arbitrary function $f_p(x,t)$ calculated at point P is approximated by, 
+Where $\theta$ is a weighting parameter ranging between zero and one, j is index of cross section and i is index of time. The mesh contains four nodes, (j,i), (j+1,i), (j,i+1) and (j+1,i+1), however in the implementation the dimension of the grid is $\Delta t \times \Delta x$ for $0 \leq x \leq L$ and $0\leq t$. Where L defines the length of the open channel section. The derivatives in equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} are calculated as approximation at the point P, which is in the middle of the interval of $\Delta x$.% and is also the reason why the Preissmann scheme is corresponding to a box scheme. 
+The difference between the box scheme and the Preissmann scheme is that the point P is always found at the middle of $\Delta x$ and the point can only move along the time axis within this mesh by adjusting the weighting parameter $\theta$. This weighting parameter will be elaborated on later. An arbitrary function $f_p(x,t)$ calculated at point P is approximated by, 
 
 \begin{equation}\label{eq:approximated_function}
-	f_p \approx \frac{1}{2} (\theta \cdot f_j^{i+1}+(1-\theta)f_j^i)+\frac{1}{2}(\theta\cdot f_{j+1}^{i+1}+(1-\theta)f_{j+1}^i)
+	f_P \approx \frac{1}{2} (\theta \cdot f_j^{i+1}+(1-\theta)f_j^i)+\frac{1}{2}(\theta\cdot f_{j+1}^{i+1}+(1-\theta)f_{j+1}^i)
 \end{equation}
 The numerical approximation for the derivatives in equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} for time and length are shown below, 
 
 \begin{equation}\label{eq:preissmann_time_derivatie}
-	\frac{\partial f}{\partial t}\bigg \rvert_p \approx \frac{1}{2}\left(\frac{f_j^{i+1}-f_j^n}{\Delta t}+\frac{f_{j+1}^{i+1}-f_{j+1}^i}{\Delta t}\right)
+	\frac{\partial f}{\partial t}\bigg \rvert_P \approx \frac{1}{2}\left(\frac{f_j^{i+1}-f_j^n}{\Delta t}+\frac{f_{j+1}^{i+1}-f_{j+1}^i}{\Delta t}\right)
 \end{equation}
 
 \begin{equation}\label{eq:preissmann_space_derivatie}
-	\frac{\partial f}{\partial x}\bigg \rvert_p \approx (1-\theta)\frac{f_j^i-f_{j+1}^i}{\Delta x}+\theta \frac{f_j^{i+1}-f_{j+1}^{i+1}}{\Delta x}
+	\frac{\partial f}{\partial x}\bigg \rvert_P \approx (1-\theta)\frac{f_{j+1}^i-f_{j}^i}{\Delta x}+\theta \frac{f_{j+1}^{i+1}-f_{j}^{i+1}}{\Delta x}
 \end{equation}
 
 These approximations from equations \ref{eq:preissmann_time_derivatie} and \ref{eq:preissmann_space_derivatie} can therefore be inserted for the derivatives in the Saint Venant equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} and thereby achieve the following, 
 
 \begin{equation}\label{eq:continuity_eq_preissmann}
 	\theta \frac{Q_{j+1}^{i+1}-Q_j^{i+1}}{\Delta x}+(1-\theta)\frac{Q_{j+1}^i - Q_j^i}{\Delta x}+
-	\frac{A_{j+1}^{i+1}-A_{j+1}^i}{\Delta t}+\frac{A_{j}^{i+1} - A_j^i}{\Delta t} = q_p
+	\frac{1}{2}\frac{A_{j+1}^{i+1}-A_{j+1}^i}{\Delta t} + \frac{1}{2} \frac{A_{j}^{i+1} - A_j^i}{\Delta t} = q_p
 \end{equation}
 
 % \begin{multline}
@@ -130,18 +131,18 @@ As mention the continuity equation \ref{eq:new_continuity_equation} can be solve
 	 (h_{j+1}^{i+1})_{k+1} =(h_{j+1}^{i+1})_{k} - \frac{V_k}{V'_k} 
 \end{equation}  
 
-Where k is the number of iterations, V' is the differentiated of V with respect to the height, $(h_{j+1}^{i+1})_{k}$ is an initial guess of the root and $(h_{j+1}^{i+1})_{k+1}$ is new approximate of the height. This calculation will be iterating until a better approximation is achieved which fulfills the requirement,
+Where k is the number of iterations, V$'$ is the differentiated of V with respect to height, $(h_{j+1}^{i+1})_{k}$ is an initial guess of the root and $(h_{j+1}^{i+1})_{k+1}$ is an approximate of the height. This calculation is iterated until a satisfactory approximation is achieved which fulfills the requirement,
 
 \begin{equation}
 	\left(h_{j+1}^{i+1}\right)_{k}-(h_{j+1}^{i+1})_{k-1} < (\epsilon \cdot h_{j+1}^{i+1})_{k}
 \end{equation}
 
-Where $\epsilon$ is a small tolerance number, e.g. 0.05 meters variation in water height. Thereby the water height can be found and therefore the area for the water can be calculated with equation \ref{eq:calc_area_open_channel} \fxnote{afsnit om de forskellige ligninger til beregning af Areal, Ie,Ib,Qf,Q} and thereafter equation \ref{eq:continuity_solve_flow} can be used to calculate the flow for the node.  
+Where $\epsilon$ is a small tolerance number, e.g. 5 centimeter variation in water height. Thereby the water height can be found and the area of the water can be calculated with equation \ref{eq:calc_area_open_channel} \fxnote{afsnit om de forskellige ligninger til beregning af Areal, Ie,Ib,Qf,Q} and thereafter equation \ref{eq:continuity_solve_flow} can be used to calculate the flow of the node.  
 
-This calculation is performed for each node in the Preissmann scheme, therefore it is a iterative method of solving the flow for a open channel. 
+This calculation is performed for each node in the Preissmann scheme, therefore it is an iterative method of solving the flow for an open channel. 
 
 
-In the following figures the flow \ref{fig:simulation_output_flow_height}a and the water height \ref{fig:simulation_output_flow_height}b for the output of the channel is plotted
+In the following figures the flow \ref{fig:simulation_output_flow_height_a} and the water height \ref{fig:simulation_output_flow_height_b} for the output of the channel is plotted
 
 
 \begin{figure}[H]
@@ -150,11 +151,13 @@ In the following figures the flow \ref{fig:simulation_output_flow_height}a and t
   \centering
   \input{report/simulation/tikz/flow_output_simulation}
   \caption{}
+  \label{fig:simulation_output_flow_height_a}
 \end{subfigure}%
 \begin{subfigure}{.4\textwidth}
   \centering
  \input{report/simulation/tikz/height_output_simulation}
   \caption{}
+   \label{fig:simulation_output_flow_height_b}
 \end{subfigure}
 \caption{(a) Output flow, (b) the water height at the output of the channel.}
 \label{fig:simulation_output_flow_height}

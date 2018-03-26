@@ -1,0 +1,60 @@
+\begin{tikzpicture}
+
+\draw  [ultra thick](-3.5,3) node (v9) {} ellipse (8.5 and 8.5);
+\node (v1) at (-12,13.5) {};
+\node (v2) at (5,13.5) {};
+\draw  [ultra thick](v1) edge (v2);
+
+\node (v3) at (-11.5,14) {};
+\node (v4) at (-11.5,13) {};
+\draw  [ultra thick](v3) edge (v1);
+\draw  [ultra thick](v1) edge (v4);
+\node (v5) at (4.5,14) {};
+\node (v6) at (4.5,13) {};
+\draw  [ultra thick](v5) edge (v2);
+\draw  [ultra thick](v6) edge (v2);
+\node (v8) at (-10,-2.5) {};
+\node (v7) at (3,-2.5) {};
+\draw  [ultra thick](v7) edge (v8);
+\draw  [ultra thick](v8) edge (v9);
+\draw  [ultra thick](v9) edge (v7);
+
+
+\node (v11) at (6,-5.5) {};
+\node (v10) at (6,-2.5) {};
+\node (v14) at (5.5,-3) {};
+\node (v15) at (6.5,-3) {};
+\node (v12) at (5.5,-5) {};
+\node (v13) at (6.5,-5) {};
+\draw  [ultra thick](v10) edge (v11);
+\draw  [ultra thick](v11) edge (v12);
+\draw  [ultra thick](v11) edge (v13);
+\draw  [ultra thick](v14) edge (v10);
+\draw  [ultra thick](v10) edge (v15);
+
+
+\draw [ultra thick](-4.6491,2.0358) arc (-140.0003:-40:1.5);
+\node (v16) at (-9.5,-6) {};
+\node (v19) at (3,-6.5) {};
+\node (v21) at (2.5,-6) {};
+\node (v20) at (2.5,-7) {};
+\node (v17) at (-10,-6.5) {};
+\node (v18) at (-9.5,-7) {};
+\draw  [ultra thick](v16) edge (v17);
+\draw  [ultra thick](v18) edge (v17);
+\draw  [ultra thick](v19) edge (v17);
+\draw  [ultra thick](v20) edge (v19);
+\draw  [ultra thick](v21) edge (v19);
+\draw  [ultra thick](v8) edge (v7);
+\draw  [ultra thick](v7) edge (v8);
+\draw  [ultra thick](v8) edge (v7);
+\draw  [ultra thick](v7) edge (v9);
+\draw  [ultra thick](v8) edge (v9);
+
+%\draw  (-3.7,0.8) {theta}
+
+\node  at (-3.5,1) {\Huge $\Theta$};
+\node at (-4,14) {\Huge D};
+\node at (6.5,-4) {\Huge h};
+\node at (-3.5,-7) {\Huge B};
+\end{tikzpicture}
