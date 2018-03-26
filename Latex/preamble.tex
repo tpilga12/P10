@@ -42,6 +42,38 @@
 \usepackage{pgfplots}
 \usepackage{url}
 
+%%%% TIKZ MAGIC %%%%
+\usepackage{schemabloc}
+\usetikzlibrary{circuits}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usepackage{pgfplots}
+\usepgfplotslibrary{units}
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{fit}
+\pgfplotsset{compat=newest}
+\pgfplotsset{filter discard warning=false}
+%\usepackage[americanresistors,americaninductors,american voltages]{circuitikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\ctikzset{bipoles/thickness=1}
+\ctikzset{bipoles/length=0.8cm}
+\ctikzset{bipoles/diode/height=.375}
+\ctikzset{bipoles/diode/width=.3}
+\ctikzset{tripoles/thyristor/height=.8}
+\ctikzset{tripoles/thyristor/width=1}
+\ctikzset{bipoles/vsourceam/height/.initial=.7}
+\ctikzset{bipoles/vsourceam/width/.initial=.7}
+\tikzstyle{every node}=[font=\small]
+\tikzstyle{every path}=[line width=0.8pt,line cap=round,line join=round]
+\definecolor{AleeRed}{rgb}{0.5,0,0}
+\newcommand\addvmargin[1]{
+  \node[fit=(current bounding box),inner ysep=#1,inner xsep=0]{};
+}
+\usetikzlibrary{positioning}
+
+
+
 
 
 %\usepackage{nomencl,etoolbox,ragged2e,siunitx,mathtools}
