@@ -7,17 +7,17 @@ close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Constants
 global Theta k Dt Dx Ie H Q h A d u g m n 
-Theta = 0.5;
-k=0.001; %angives typisk i mm der skal bruges m i formler
+Theta = 0.55;
+k=0.0015; %angives typisk i mm der skal bruges m i formler
 m=1;
 Dt = 20; %[s] grid time
-Dx = 24; %[m] gird distance
-d = 1.2; %[m] Diameter
+Dx = 18; %[m] gird distance
+d = 0.6; %[m] Diameter
 g = 9.81; %[m/s^2]
-n=20; % Number of iterations, 
+n=30; % Number of iterations, 
 % Friction part 
 Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
-Ib = 0.00214;
+Ib = 0.00267;
 
 
 
@@ -33,7 +33,7 @@ for t = 1:100
    
 end
 fitfunc = fit(Q_test',h_test','poly3');
-Q_initial=1; % Flow  <----------------------------------------- start flow
+Q_initial=0.016; % Flow  <----------------------------------------- start flow
 h_initial = fitfunc.p1*Q_initial^3 + fitfunc.p2*Q_initial^2 + fitfunc.p3*Q_initial + fitfunc.p4; % check hieght
 
 %% For random start values
@@ -42,14 +42,14 @@ b = 0.2;
 r = (b-a).*rand(20,1) + a;
 
 %% Set  a start height  Not needed 
-h_initialQuess = 0.44; % [m]
-%one_vector = r'.*(ones(1,n));
-one_vector = (ones(1,n-5));
-zero_vector = ones(1,n-15);
-
-test = [ one_vector zero_vector];
-% test = [ one_vector];
-h_init = test.*ones(1,n)*h_initialQuess ;
+% h_initialQuess = 0.44; % [m]
+% %one_vector = r'.*(ones(1,n));
+% one_vector = (ones(1,n-5));
+% zero_vector = ones(1,n-15);
+% 
+% test = [ one_vector zero_vector];
+% % test = [ one_vector];
+% h_init = test.*ones(1,n)*h_initialQuess ;
 
 %% Set a start flow
 Q_initial_distance = Q_initial; % [m^3/s]
@@ -64,7 +64,7 @@ end
 for  n= 1:n  
     %  A_init(n) = d^2/4 * acos(((d/2)-h_init(n)/(d/2)))-sqrt(h_init(n)*(d-h_init(n)))*((d/2)-h_init(n));
    h_init(n) =fitfunc.p1*Q_init(n)^3 + fitfunc.p2*Q_init(n)^2 + fitfunc.p3*Q_init(n) + fitfunc.p4;
-   A_init(n) = d^2/4 * acos(((d/2)-h_init(n)/(d/2)))-sqrt(h_init(n)*(d-h_init(n)))*((d/2)-h_init(n));
+   A_init(n) = d^2/4 * acos(((d/2)-h_init(n))/(d/2))-sqrt(h_init(n)*(d-h_init(n)))*((d/2)-h_init(n));
  
 end 
 
@@ -80,7 +80,7 @@ end
 for  n= 1:n   
     %A1_init(n) = d^2/4 * acos(((d/2)-h1_init(n)/(d/2)))-sqrt(h1_init(n)*(d-h1_init(n)))*((d/2)-h1_init(n));
     h1_init(n) =fitfunc.p1*Q1_init(n)^3 + fitfunc.p2*Q1_init(n)^2 + fitfunc.p3*Q1_init(n) + fitfunc.p4;
-    A1_init(n) = d^2/4 * acos(((d/2)-h1_init(n)/(d/2)))-sqrt(h1_init(n)*(d-h1_init(n)))*((d/2)-h1_init(n));
+    A1_init(n) = d^2/4 * acos(((d/2)-h1_init(n))/(d/2))-sqrt(h1_init(n)*(d-h1_init(n)))*((d/2)-h1_init(n));
 end
 
 Q1_init = Q1_init';
@@ -102,12 +102,6 @@ A = [A_init; A];
 A = [A1_init A];
 A = abs(A);
 A(:,n+1)=[];
-
-
-
-
-
-
 
 for m = 1:n 
     for n = 1:n
@@ -135,12 +129,13 @@ for m = 2:n
 %             h(m,n) = BiSectionV2(@V1stDer,0,2);
         h(m,n)= abs(h(m,n));
          
-        A(m,n) = d^2/4 * acos(((d/2)-h(m,n)/(d/2)))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
+        A(m,n) = d^2/4 * acos(((d/2)-h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
         A(m,n)= abs(A(m,n));
         
         Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
         Q(m,n)= abs(Q(m,n));
         u(m,n)= Q(m,n)/A(m,n);      
+        
     end 
 
 end
@@ -160,25 +155,27 @@ end
 %%%%% Plots %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 t = 1;
+steps = n*Dx-Dx;
+steps_tid = n*Dt-Dt;
 for n = 1:10
     %%% Flow
     figure(1)
     subplot(5,2,n)
-    plot(Q(t,:))
+    plot(0:Dx:steps,Q(:,t))
     title(['Timestep', num2str(n)])
     xlabel('distance [m]')
     ylabel('Flow [m^3/s]')
-    %ylim([0.5 0.7])
+   % ylim([1 1.5])
     grid
 %   pause(0.5)  
 %     %%% Area
     figure(2)
     subplot(5,2,n)
-    plot(h(:,t))
+    plot(0:Dx:steps,h(:,t))
     title(['Timestep', num2str(n)])
     xlabel('distance [m]')
-    ylabel('Area [m^3]')
-    %ylim([0.5 0.7])
+    ylabel('Water height [m]')
+  %  ylim([0.7 0.9])
     grid
     
     
@@ -187,13 +184,29 @@ for n = 1:10
     
 end 
 
+%%
+%     figure(1)
+%     plot(0:Dx:steps,Q(30,:))
+%    % title(['')
+%     xlabel('Time [s]')
+%     ylabel('Flow [m^3/s]')
+%     grid
+%     %%
+%     figure(2)
+%     plot(0:Dx:steps,h(30,:))
+%     %title(['')
+%     xlabel('distance [m]')
+%     ylabel('Water height [m]')
+%     grid
+%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function f=V1stDer(h)%V
 global d Ie H Dt Dx Theta m n
 f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.46-0.5*cos(pi*h/d)+ ...
-0.04*cos(2*pi*h/d))*(Dt/Dx)-1/(2*Theta)*(d^2/4 * acos((d/2)-h/(d/2))- ...
+0.04*cos(2*pi*h/d))*(Dt/Dx)-1/(2*Theta)*(d^2/4 * acos(((d/2)-h)/(d/2))- ...
 sqrt(h*(d-h))*((d/2)-h)-H);
 
 end 
