@@ -7,17 +7,17 @@ close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Constants
 global Theta k Dt Dx Ie H Q h A d u g m n 
-Theta = 0.8;
+Theta = 0.7;
 k=0.0015; %angives typisk i mm der skal bruges m i formler
 m=1;
 Dt = 20; %[s] grid time
-Dx = 18; %[m] gird distance
+Dx = 8; %[m] gird distance
 d = 0.6; %[m] Diameter
 g = 9.81; %[m/s^2]
 n=150; % Number of iterations, 
 % Friction part 
 Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
-Ib = 0.00267;
+Ib = 0.00214;
 
 
 
@@ -53,20 +53,20 @@ r = (b-a).*rand(n,1) + a;
 
 %% Set a start flow
 Q_initial_distance = Q_initial; % [m^3/s]
+Q_time_vec  = ones(1,1)*Q_initial;
+Q_time_vec1  = zeros(12,1);
+Q_time_vec2  = ones(8,1)*0.049;
+Q_time_vec3  = zeros(12,1);
+Q_time_vec4  = ones(8,1)*0.049;
+Q_time_vec5  = zeros(12,1);
+Q_time_vec6  = ones(8,1)*0.049;
+Q_time_vec7  = zeros(12,1);
+Q_time_vec8  = ones(8,1)*0.049;
+Q_time_vec9  = zeros(12,1);
+Q_time_vec10 = ones(8,1)*0.049;
+Q_time_vec11 = ones(49,1)*Q_initial;
 
-Q_time_vec1  = zeros(15,1);
-Q_time_vec2  = ones(10,1)*0.049;
-Q_time_vec3  = zeros(15,1);
-Q_time_vec4  = ones(10,1)*0.049;
-Q_time_vec5  = zeros(15,1);
-Q_time_vec6  = ones(10,1)*0.049;
-Q_time_vec7  = zeros(15,1);
-Q_time_vec8  = ones(10,1)*0.049;
-Q_time_vec9  = zeros(15,1);
-Q_time_vec10 = ones(10,1)*0.049;
-Q_time_vec11 = zeros(25,1);
-
-Q1_init = [Q_time_vec1; Q_time_vec2;Q_time_vec3;Q_time_vec4;Q_time_vec5;Q_time_vec6;Q_time_vec7;Q_time_vec8;Q_time_vec9;Q_time_vec10;Q_time_vec11]
+Q1_init = [Q_time_vec ;Q_time_vec1; Q_time_vec2;Q_time_vec3;Q_time_vec4;Q_time_vec5;Q_time_vec6;Q_time_vec7;Q_time_vec8;Q_time_vec9;Q_time_vec10;Q_time_vec11]
 
 %%
 Q_initial_time = Q_initial; % [m^3/s]
@@ -119,6 +119,9 @@ A = [A1_init A];
 A = abs(A);
 A(:,n+1)=[];
 
+
+
+
 for m = 1:n 
     for n = 1:n
         u(m,n)= Q(m,n)/A(m,n); 
@@ -126,7 +129,7 @@ for m = 1:n
 end 
 
 for m = 2:150
-    for n = 2:30
+    for n = 2:71
 %         if m > 3
 %             if n > 3
 %                 Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
@@ -140,7 +143,7 @@ for m = 2:150
         H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
         H= abs(H);
        
-        h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.01,50,d);
+        h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.05,50,d);
 %          h(m,n) =BisectionRoot(@V1stDer,0,2,0.01);
 %             h(m,n) = BiSectionV2(@V1stDer,0,2);
         h(m,n)= abs(h(m,n));
@@ -162,6 +165,9 @@ end
                     A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
             end
         end
+       
+        
+        
 %%% Ie opdatering, Uden inlent flow 
 %%% Ie2 = Ie - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
 %%% ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
@@ -171,13 +177,13 @@ end
 %%%%% Plots %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 t = 1;
-steps = 20*Dx-Dx;
-steps_tid = n*Dt-Dt;
+steps = 71*Dx-Dx;
+steps_tid = 150*Dt-Dt;
 for n = 1:10
     %%% Flow
     figure(1)
     subplot(5,2,n)
-    plot(0:Dx:steps,Q(1:20,t))
+    plot(0:Dx:steps,Q(t,1:71))
     title(['Timestep', num2str(n)])
     xlabel('distance [m]')
     ylabel('Flow [m^3/s]')
@@ -187,7 +193,7 @@ for n = 1:10
 %     %%% Area
     figure(2)
     subplot(5,2,n)
-    plot(0:Dx:steps,h(1:20,t))
+    plot(0:Dx:steps,h(t,1:71))
     title(['Timestep', num2str(n)])
     xlabel('distance [m]')
     ylabel('Water height [m]')
@@ -196,9 +202,31 @@ for n = 1:10
     
     
     summa(n) = sum(A(:,t));
-    t = t+15-1;
+    t = t+5-1;
     
 end 
+%%
+figure(1)
+plot((0:Dt:steps_tid)/60,Q(:,1))
+xlabel('Time [min]')
+ylabel('Flow [m^3/s]')
+
+for t =1:150
+   figure(2)
+    plot(0:Dx:steps,Q(t,1:71))
+    title(['Flow at time [min]', num2str((t*20-20)/60)])
+    xlabel('Distance [m]');
+    ylabel('Flow [m^3/s]');
+    ylim([0. 0.05])
+    pause(0.5)
+end
+%%
+for t =1:71
+    plot(0:Dt:steps_tid,Q(1:150,t))
+    ylim([0. 0.05])
+    pause(0.5)
+end
+
 
 %%
 %     figure(1)
@@ -221,14 +249,14 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function f=V1stDer(h)%V
 global d Ie H Dt Dx Theta m n
-f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.46-0.5*cos(pi*h/d)+ ...
-0.04*cos(2*pi*h/d))*(Dt/Dx)-1/(2*Theta)*(d^2/4 * acos(((d/2)-h)/(d/2))- ...
+f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.46-0.5*cos(pi*(h/d))+ ...
+0.04*cos(2*pi*(h/d)))*(Dt/Dx)-1/(2*Theta)*(d^2/4 * acos(((d/2)-h)/(d/2))- ...
 sqrt(h*(d-h))*((d/2)-h)-H);
 
 end 
 
 function f=V2ndDer(h)%Vdot
 global d Ie Dt Dx Theta m n
-f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.5*pi*sin(pi*h/d)- ...
-0.08*pi*sin(2*pi*h/d))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
+f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.5*pi*sin(pi*(h/d))- ...
+0.08*pi*sin(2*pi*(h/d))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
 end
