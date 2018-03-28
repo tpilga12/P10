@@ -11,7 +11,7 @@ Some assumptions is made when utilizing the Saint-Venant equations:
 
 \begin{table}[H]
 \begin{enumerate}
-\item The flow in the channel is one dimensional and as such any curvature of the sewer line is considered negligible.
+\item The flow in the channel is one dimensional, and prismatic, and as such any curvature or change in width of the sewer line is considered negligible.
 \item Fluid in the sewer line is considered incompressible i.e. the pressure is assumed hydrostatic.
 \item The only forces considered is friction, pressure and gravity.
 \item The water height and velocity is uniform in the cross-section and only changes horizontally i.e. turbulence in the fluid is not considered.
@@ -41,15 +41,15 @@ Flows, Q(x,t), q(x,t) and wetted cross section A(x,t) shown in figure \ref{fig:f
 The flow into the control volume when considered from the center of the control volume is given as
 
 \begin{equation}
-	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delta x}{2}\right) \cdot \Delta t + q \cdot \Delta x \cdot \Delta t
+Q_{in} =	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delta x}{2}\right) \cdot \Delta t + q \cdot \Delta x \cdot \Delta t
 \label{flowin_saintbernard}
 \end{equation}
 
-Where q is the lateral inflow across the entire channel $\frac{m^2}{s}$ and Q is the flow in the channel $\frac{m^3}{s}$. Lateral inflow could for example come from adjoint sewer pipes or a gutter drain.
+Where q is the lateral inflow across the entire channel [$\frac{m^2}{s}$] and Q is the flow in the channel [$\frac{m^3}{s}$]. Lateral inflow could for example come from adjoint sewer pipes or a gutter drain.
 The discharge flow of the channel is given as
 
 \begin{equation}
-\left(Q + \frac{\partial Q}{ \partial x} \frac{\Delta x}{2} \right) \cdot \Delta t 
+Q_{out} =\left(Q + \frac{\partial Q}{ \partial x} \frac{\Delta x}{2} \right) \cdot \Delta t 
 \label{flowout_saintbernard}
 \end{equation}
 
@@ -96,13 +96,13 @@ Basically this means that the momentum of the control volume can be found by int
 \end{equation} 
 Where $\mathcal{M}$(t) is the momentum, given as mass times a velocity vector, of the control volume at time t and $\text{F}_i$(t) is the various external forces affecting the control volume.
 
-The momentum given by the fluid particles at the cross section at each end of the control volume is given as
+The force given by the fluid particles at the cross section at each end of the control volume is given as
 \begin{equation}
-	\rho \cdot V \cdot Q
+	\rho \cdot v \cdot Q
 \end{equation}
 
-where $\rho$ is density $\frac{kg}{m^3}$, v is velocity $\frac{m}{s}$ and Q is flow $\frac{m^3}{s}$.
-The momentum given by the in- and output of fluid particles in the control volume, with the assumption that the density of the fluid and the velocity of it in the cross section of the control volume is constant, is given as
+where $\rho$ is density [$\frac{kg}{m^3}$], v is velocity [$\frac{m}{s}$] and Q is flow [$\frac{m^3}{s}$].
+The force given by the in- and output of fluid particles in the control volume, with the assumption that the density of the fluid and the velocity of it in the cross section of the control volume is constant, is given as
 \begin{equation}
 \begin{array}{l}
 \rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} \right) \\
