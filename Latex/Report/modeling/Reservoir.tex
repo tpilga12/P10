@@ -20,7 +20,7 @@ This illustration will be used to derive the model for the reservior. From left 
 Where $M_{cv}$ is the total mass within the tank [kg], and $m_{in}$ and $m_{out}$ is the mass flow rate into the tank and away from it, $\left[\frac{kg}{s}\right]$. Total mass balance can be written as $M_{cv} = \rho Ah$ where $\rho$ is the densisty $\left[\frac{kg}{m^3}\right]$, A is the area $\left[m^2\right]$ and h is the height [m]. The mass flow rate can be written as $m = \rho Q$, where Q is the flow $\left[\frac{m^3}{s}\right]$. Thereby the following is obtained.
 \fxnote{Der mangler et s for at dette kan lade sig gøre}
 \begin{equation}
-		\frac{d\rho Ah(t)}{dt}=\rho Q_{in}(t)-\rho Q_{out}(t)
+		\frac{d(\rho Ah(t))}{dt}=\rho Q_{in}(t)-\rho Q_{out}(t)
 \end{equation}
 
 By assuming constant densisty the following is obtained.
@@ -34,7 +34,7 @@ Simplifing equation \ref{eq:balance_reservior}.
 	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-Q_{out}(t)\right)
 \end{equation}
 
-The output flow is, as previous mentioned, depended on the OD of the valve. Therefore a model of the valve that describes the flow out if it is needed. The model for the valve is.
+The output flow is, as previous mentioned, depended on the OD of the valve. Therefore a model is needed to decribed the output flow. The model for the valve is.
 \begin{equation}\label{eq:valve_model}
 	Q_{out} = kv(OD) \sqrt{\Delta p}
 \end{equation}
@@ -43,7 +43,7 @@ Where kv(OD) is a function that describes the flow for different ODs. $\Delta p$
 \begin{equation}\label{eq:pressure_at_depth}
  	P_1 = P_0 +\rho g h
  \end{equation} 
- Where $P_0$ is the atmosphere pressure $[kPa]$ and g gravitational constant $\left[\frac{m}{s^2}\right]$. The pressure on the output side of the valve is assumed to be 1 atm as it is a open channel. Inserting equation \ref{eq:pressure_at_depth} into equation \ref{eq:valve_model} the following is obtained.    
+ Where $P_0$ is the atmosphere pressure $[Pa]$ and g gravitational constant $\left[\frac{m}{s^2}\right]$. The pressure on the output side of the valve is assumed to be 1 atm as it is a open channel. Inserting equation \ref{eq:pressure_at_depth} into equation \ref{eq:valve_model} the following is obtained.    
 
 
 \begin{equation}\label{eq:valve_modelv2}
