@@ -107,7 +107,8 @@ The force given by the in- and output of fluid particles in the control volume, 
 \begin{array}{l}
 \rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} \right) \\
 \Updownarrow \\
-\rho \cdot \frac{Q}{A} \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot \frac{Q}{A}  \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} \right)
+\rho \cdot \frac{Q}{A} \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot \frac{Q}{A}  \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} \right) \\
+= - \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x
 \end{array}
 \label{mass_flow_speed}
 \end{equation}
@@ -158,39 +159,75 @@ Last the pressure forces on the x component of the control volume to be found is
 
 The pressure forces acting on the control volume is given as:
 \begin{equation}
-	P_1 = \int_{0}^{h_l} \rho \cdot g (h_l - z)\cdot b(z)
+	P_1 = \int_{0}^{h_l} \rho \cdot g (h_l - z)\cdot b(z) dz
 \end{equation}
 \begin{equation}
-	P_2 = -\int_{0}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)
+	P_2 = -\int_{0}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz
 \end{equation}
 \begin{equation}
-	P_3 = -\int_{h_l}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)
-\end{equation}
-The total pressure force adds up to:
+	P_3 = -\int_{h_l}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz
+\end{equation}	
 \begin{equation}
 P_1 - P_1 -P_2 - P_3 = -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A  
 \label{pressure_force}
 \end{equation}
 Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
 \begin{equation}
-\frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
+\frac{\partial}{\partial t}(\rho\cdot v \cdot A\cdot \Delta x) = \frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
 \end{equation}
 Entering the expressions of the conservation of momentum equation then the following is given:
 \\
 \begin{equation}
 \begin{array}{l}
-\rho \cdot \frac{Q}{A} \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot \frac{Q}{A}  \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} \right)\\
+%\rho \cdot \frac{Q}{A} \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot \frac{Q}{A}  \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} \right)\\
+- \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x
 -S_b \cdot g \cdot \rho \cdot \Delta x \cdot A -S_f \cdot g \cdot \rho \cdot \Delta x \cdot A  -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A =\frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
 \end{array}
 \end{equation}
 \\
-Dividing with $\Delta x \rho g A$ and isolating then the definition of the equation is obtained.
+Dividing with $\Delta x \rho g A$ and isolating then the following definition of the equation is obtained.
 \\
 \begin{equation}
 \frac{1}{gA} \frac{\partial Q}{\partial t} +\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x} + S_f - S_b = 0
 \label{saintbernard_momentum}
 \end{equation}
 \\
+
+Some or all of the terms in equation \ref{saintbernard_momentum} can be utilized when simulating free channel flow. An overview of the limitations when excluding parts of the momentum equation is given in table \ref{momentum_approximations}.
+
+\begin{table}[H]
+\centering
+
+\begin{tabular}{|l|l|l|l|l|} \hline
+%\rowcolor[HTML]{9B9B9B}
+\multirow{2}{*} {Approximation} &   Kinematic & \multirow{2}{*} {Noninertia(2)}  & Quasi-steady(3)  & Dynamic \\
+			 					&  	wave(1)   &  			 					 & dynamic wave  	& wave(4)  \\ \hline
+
+ \multirow{2}{*} {momentum equation} 		&\multirow{2}{*} {$S_b = S_f$}  & \multirow{2}{*} {$\frac{\partial h}{\partial x}= S_b- S_f$ } & $\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x}$ & \multirow{2}{*} {equation \ref{saintbernard_momentum}} \\
+%\rowcolor[HTML]{9B9B9B} 
+&  &  & = $S_b - S_f$  &  \\ \hline
+
+Boundary conditions &\multirow{2}{*} 1 &\multirow{2}{*} 2  &\multirow{2}{*} 2 &\multirow{2}{*} 2 \\ 
+required&  &  &  &  \\ \hline
+
+ Account for 			& \multirow{4}{*} {No} &\multirow{4}{*} {Yes}  & \multirow{4}{*} {Yes}  & \multirow{4}{*} {Yes}  \\
+ downstream backwater	&  &  &  &  \\
+ effect and flow 		&  &  &  &  \\
+ reversal 				&  &  &  &  \\ \hline
+
+Damping of & \multirow{2}{*} {No}  & \multirow{2}{*} {Yes} & \multirow{2}{*} {Yes}  & \multirow{2}{*} {Yes} \\ 
+flood peak &  &  &  &  \\ \hline
+
+Account for & \multirow{2}{*} {No}  & \multirow{2}{*} {No} & only convective & \multirow{2}{*} {Yes} \\
+flow acceleration &  &  & acceleration  &  \\ \hline
+\end{tabular}
+\caption{Limitations when excluding, 1.(inertia and pressure terms), 2.(inertia terms), 3.(pressure term relating to local acceleration) and 4.(none), from the momentum equation \cite{stormwatercollectionsystems}. }
+\label{momentum_approximations}
+\end{table} 
+
+The kinematic wave is the simplest approximation and ignores the terms representing changes in inertia and pressure by assuming that the slope of the water surface is identical to that of the channel bed. 
+This means that the flow is uniform across an interval $\Delta x$ at a given $\Delta t$ and mechanisms for flood wave peak attenuation is disregarded. Due to the simplicity of the kinematic wave approximation, attenuation which occurs in a real free flowing channel should not be present. Numerical damping can be induced because of the nature of discretization, but mistakenly corrections has been attempted to mitigate the attenuation by choosing smaller step sizes of $\Delta x$ and $\Delta t$, where instead attempts should be made to fit the sizes to imitate the natural attenuation of the free flowing channel.     
+Furthermore only one boundary condition is required, which is specified upstream, meaning that any backwater effects such as storing is neglected. This also means that simulation can be done without knowing the lower end boundary of the channel flow. Because of its simplicity the momentum equation in the form of the kinematic wave has been researched extensively\cite{stormwatercollectionsystems}.  
 
 
 %\begin{figure}[H]
