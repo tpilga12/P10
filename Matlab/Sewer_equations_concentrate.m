@@ -11,29 +11,27 @@ Theta = 0.7;
 k=0.0015; %angives typisk i mm der skal bruges m i formler
 m=1;
 Dt = 20; %[s] grid time
-<<<<<<< HEAD
-Dx = 8; %[m] gird distance
-=======
 Dx = 8; %[m] grid distance
->>>>>>> a2da996a2165f2142f904d7111c649853cbc72c7
 d = 0.6; %[m] Diameter
 g = 9.81; %[m/s^2]
 n=150; % Number of iterations, 
 % Friction part 
 Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
+
 Ib = 0.00214;
+C_in= 10; % concentrate input
+C_init = 8; % initial cocentrate in pipe
 
 
-
-Qff = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
-Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ie(m,n)^0.5;% Hennings
+Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
+Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie(m,n)^0.5;% Hennings
 
 
 %% Regression to a plot, to find Q from a function 
 h_test=0.0001:d/100:d;
 for t = 1:100
     
-    Q_test(t)=(0.46 - 0.5 *cos(pi*(h_test(t)/d))+0.04*cos(2*pi*(h_test(t)/d)))*Qf;
+   Q_test(t)=(0.46 - 0.5 *cos(pi*(h_test(t)/d))+0.04*cos(2*pi*(h_test(t)/d)))*Qf;
    
 end
 fitfunc = fit(Q_test',h_test','poly3');
@@ -124,6 +122,8 @@ A = abs(A);
 A(:,n+1)=[];
 
 
+C(1:n,1) = C_in;
+C(1,2:n) =C_init;
 
 
 for m = 1:n 
@@ -132,38 +132,21 @@ for m = 1:n
     end
 end 
 
-<<<<<<< HEAD
-for n = 2:150
-    for m = 2:150
-        
-%         for n =3:n
-%             for m = 3:n
-%                Ie(m,n) = Ib - (h(m-1,n)-h(m-1,n-2))/(2*Dx)-2/g*u(n-1,m-1)*(u(m-1,n)-u(m-1,n-2))/(2*Dx)- ...
-%                     ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m,n-1)- ...
-%                     A(m-2,n-1))/(2*Dt)-1/g*(u(m,n-1)-u(m-2,n-1))/(2*Dt);
-%             end
-%         end
-        
-
-        
-%         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m,n-1)+2*Theta*Q(m-1,n))*Dt/Dx - A(m-1,n)+A(m-1,n-1)+A(m,n-1);
-          H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);    
-    %    H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
-=======
 for m = 2:150
     for n = 2:150
-%         if m > 3
-%             if n > 3
-%                 Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
-%                     ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
-%                     A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
-%                 Ie(m,n)  = abs(Ie(m,n))
-%             end
-%         end
+        if m > 3
+            if n > 3
+                Ie2(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-...
+                    2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
+                    ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-...
+                    (u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dt)- ...
+                    1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
+               % Ie(m,n)  = abs(Ie(m,n))
+            end
+        end
         
-        H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m,n-1)+2*Theta*Q(m-1,n))*Dt/Dx - A(m-1,n)+A(m-1,n-1)+A(m,n-1);
+        H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
         H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
->>>>>>> a2da996a2165f2142f904d7111c649853cbc72c7
         H= abs(H);
        
         h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.05,50,d);
@@ -177,38 +160,22 @@ for m = 2:150
         Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
         Q(m,n)= abs(Q(m,n));
         u(m,n)= Q(m,n)/A(m,n);      
-<<<<<<< HEAD
-        
-    end 
-
-end
-
-        
-        for n =3:n
-            for m = 3:n
-                %Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
-              %      ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
-                %    A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
-               Ie(m,n) = Ib - (h(m-1,n)-h(m-1,n-2))/(2*Dx)-2/g*u(n-1,m-1)*(u(m-1,n)-u(m-1,n-2))/(2*Dx)- ...
-                    ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m,n-1)- ...
-                    A(m-2,n-1))/(2*Dt)-1/g*(u(m,n-1)-u(m-2,n-1))/(2*Dt);
-            end
-        end
-=======
-        %
+        % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         C(m,n)= (Q(m,n)/A(m,n))*(Dt/Dx)*(C(m-1,n-1)-C(m-1,n))+C(m-1,n);
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end 
 
 end
         for m =3:n
             for n = 3:n
-                Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
-                    ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
-                    A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
+                Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)- ...
+                2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
+                ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)- ...
+                (u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dt)- ...
+                1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
             end
         end
        
->>>>>>> a2da996a2165f2142f904d7111c649853cbc72c7
         
         
 %%% Ie opdatering, Uden inlent flow 
@@ -247,23 +214,34 @@ for n = 1:10
     summa(n) = sum(A(:,t));
     t = t+5-1;
     
-end 
+end
+%%%%%%%% concentrate plot %%%%%%%%%%
+figure(10000)
+plot(0:Dt:steps_tid,C(:,1),0:Dt:steps_tid,C(:,75))
+legend('input','output')
 %%
-figure(1)
+figure(10)
 plot((0:Dt:steps_tid)/60,Q(:,1))
 xlabel('Time [min]')
 ylabel('Flow [m^3/s]')
 
 for t =1:150
-   figure(2)
+   figure(20)
     plot(0:Dx:steps,Q(t,1:150))
     title(['Flow at time [min]', num2str((t*20-20)/60)])
     xlabel('Distance [m]');
     ylabel('Flow [m^3/s]');
     ylim([0. 0.05])
+   figure(21)
+    plot(0:Dx:steps,C(t,1:150))
+    title(['Concentrate at time [min]', num2str((t*20-20)/60)])
+    xlabel('Distance [m]');
+    ylabel('Concentrate [g/m^3]');
+    ylim([5 15])
     pause(0.5)
 end
 %%
+figure(30)
 for t =1:71
     plot(0:Dt:steps_tid,Q(1:150,t))
     ylim([0. 0.05])
@@ -292,14 +270,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function f=V1stDer(h)%V
 global d Ie H Dt Dx Theta m n Qf
-<<<<<<< HEAD
-f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n).^0.5.*(0.46-0.5*cos(pi*(h/d))+ ...
-0.04*cos(2*pi*(h/d)))*(Dt/Dx)-(1/(2*Theta))*(d^2/4 * acos(((d/2)-h)/(d/2))- sqrt(h*(d-h))*((d/2)-h)-H);
-=======
 f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.46-0.5*cos(pi*(h/d))+ ...
 0.04*cos(2*pi*(h/d)))*(Dt/Dx)-(1/(2*Theta))*(d^2/4 * acos(((d/2)-h)/(d/2))- ...
 sqrt(h*(d-h))*((d/2)-h)-H);
->>>>>>> a2da996a2165f2142f904d7111c649853cbc72c7
 
 % f = -3.02*log((0.74*10^-6)/d*sqrt(d*Ie)+(0.0015)/(3.71*d))*d^2*sqrt(d*Ie)*(0.46-0.5*cos(pi*(h/d))+ ...
 % 0.04*cos(2*pi*(h/d)))*(Dt/Dx)-1/(2*Theta)*(d^2/4 * acos(((d/2)-h)/(d/2))- ...
@@ -309,11 +282,7 @@ end
 
 function f=V2ndDer(h)%Vdot
 global d Ie Dt Dx Theta m n Qf
-<<<<<<< HEAD
-f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n).^0.5.*(0.5*pi*sin(pi*(h/d))- ...
-=======
 f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.5*pi*sin(pi*(h/d))- ...
->>>>>>> a2da996a2165f2142f904d7111c649853cbc72c7
 0.08*pi*sin(2*pi*(h/d)))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
 
 % f = -3.02*log((0.74*10^-6)/d*sqrt(d*Ie)+(0.0015)/(3.71*d))*d^2*sqrt(d*Ie)*(0.5*pi*sin(pi*(h/d))- ...

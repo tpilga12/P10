@@ -11,18 +11,18 @@ Theta = 0.7;
 k=0.0015; %angives typisk i mm der skal bruges m i formler
 m=1;
 Dt = 20; %[s] grid time
-Dx = 8; %[m] gird distance
+Dx = 8; %[m] grid distance
 d = 0.6; %[m] Diameter
 g = 9.81; %[m/s^2]
 n=150; % Number of iterations, 
 % Friction part 
-Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
+Ie = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
 Ib = 0.00214;
 
 
 
-Qff = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
-Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ie(m,n)^0.5;% Hennings
+Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s] palles
+Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennings
 
 
 %% Regression to a plot, to find Q from a function 
@@ -119,7 +119,9 @@ A = [A1_init A];
 A = abs(A);
 A(:,n+1)=[];
 
-
+C_init = 10;
+C(1:n,1) = C_init;
+C(1,2:n) =9.9;
 
 
 for m = 1:n 
@@ -131,14 +133,14 @@ end
 for n = 2:150
     for m = 2:150
         
-        for n =3:n
-            for m = 3:n
-               Ie = Ib - (h(m-1,n)-h(m-1,n-2))/(2*Dx)-2/g*u(n-1,m-1)*(u(m-1,n)-u(m-1,n-2))/(2*Dx)- ...
-                    ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m,n-1)- ...
-                    A(m-2,n-1))/(2*Dt)-1/g*(u(m,n-1)-u(m-2,n-1))/(2*Dt);
-            end
-        end
-        
+%         for n =3:n
+%             for m = 3:n
+%                Ie = Ib - (h(m-1,n)-h(m-1,n-2))/(2*Dx)-2/g*u(n-1,m-1)*(u(m-1,n)-u(m-1,n-2))/(2*Dx)- ...
+%                     ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m,n-1)- ...
+%                     A(m-2,n-1))/(2*Dt)-1/g*(u(m,n-1)-u(m-2,n-1))/(2*Dt);
+%             end
+%         end
+% %         
 
         
 %         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m,n-1)+2*Theta*Q(m-1,n))*Dt/Dx - A(m-1,n)+A(m-1,n-1)+A(m,n-1);
@@ -157,7 +159,9 @@ for n = 2:150
         Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
         Q(m,n)= abs(Q(m,n));
         u(m,n)= Q(m,n)/A(m,n);      
-        
+        % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        C(m,n)= (Q(m,n)/A(m,n))*(Dt/Dx)*(C(m-1,n-1)-C(m-1,n))+C(m-1,n);
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end 
 
 end
@@ -211,7 +215,9 @@ for n = 1:10
     summa(n) = sum(A(:,t));
     t = t+5-1;
     
-end 
+end
+%%%%%%%% concentrate plot %%%%%%%%%%
+
 %%
 figure(1)
 plot((0:Dt:steps_tid)/60,Q(:,1))
