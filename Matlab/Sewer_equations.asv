@@ -119,9 +119,7 @@ A = [A1_init A];
 A = abs(A);
 A(:,n+1)=[];
 
-C_init = 10;
-C(1:n,1) = C_init;
-C(1,2:n) =9.9;
+
 
 
 for m = 1:n 
@@ -156,9 +154,8 @@ for m = 2:150
         Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
         Q(m,n)= abs(Q(m,n));
         u(m,n)= Q(m,n)/A(m,n);      
-        % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %
         C(m,n)= (Q(m,n)/A(m,n))*(Dt/Dx)*(C(m-1,n-1)-C(m-1,n))+C(m-1,n);
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end 
 
 end
@@ -208,9 +205,7 @@ for n = 1:10
     summa(n) = sum(A(:,t));
     t = t+5-1;
     
-end
-%%%%%%%% concentrate plot %%%%%%%%%%
-
+end 
 %%
 figure(1)
 plot((0:Dt:steps_tid)/60,Q(:,1))

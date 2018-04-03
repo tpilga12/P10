@@ -16,9 +16,11 @@ d = 0.6; %[m] Diameter
 g = 9.81; %[m/s^2]
 n=150; % Number of iterations, 
 % Friction part 
-Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
+%Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
+Ie(1:3,1:3) = 0.00214;%
 Ib = 0.00214;
-
+C_in= 10; % concentrate input
+C_init = 8; % initial cocentrate in pipe
 
 
 Qff = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
@@ -119,9 +121,9 @@ A = [A1_init A];
 A = abs(A);
 A(:,n+1)=[];
 
-C_init = 10;
-C(1:n,1) = C_init;
-C(1,2:n) =9.9;
+
+C(1:n,1) = C_in;
+C(1,2:n) =C_init;
 
 
 for m = 1:n 
@@ -132,16 +134,18 @@ end
 
 for m = 2:150
     for n = 2:150
-%         if m > 3
-%             if n > 3
-%                 Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
-%                     ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
-%                     A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
-%                 Ie(m,n)  = abs(Ie(m,n))
-%             end
-%         end
+        if m > 3
+            if n > 3
+                Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-...
+                    2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
+                    ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-...
+                    (u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dt)- ...
+                    1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
+                Ie(m,n)  = abs(Ie(m,n))
+            end
+        end
         
-        H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m,n-1)+2*Theta*Q(m-1,n))*Dt/Dx - A(m-1,n)+A(m-1,n-1)+A(m,n-1);
+        H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
         H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
         H= abs(H);
        
@@ -162,14 +166,14 @@ for m = 2:150
     end 
 
 end
-        for m =3:n
-            for n = 3:n
-                Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
-                    ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
-                    A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
-            end
-        end
-       
+%         for m =3:n
+%             for n = 3:n
+%                 Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
+%                     ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
+%                     A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
+%             end
+%         end
+%        
         
         
 %%% Ie opdatering, Uden inlent flow 
@@ -210,7 +214,9 @@ for n = 1:10
     
 end
 %%%%%%%% concentrate plot %%%%%%%%%%
-
+figure(10000)
+plot(0:Dt:steps_tid,C(:,1),0:Dt:steps_tid,C(:,75))
+legend('input','output')
 %%
 figure(1)
 plot((0:Dt:steps_tid)/60,Q(:,1))
