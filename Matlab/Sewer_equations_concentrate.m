@@ -233,11 +233,17 @@ for t =1:150
     ylabel('Flow [m^3/s]');
     ylim([0. 0.05])
    figure(21)
+    plot(0:Dx:steps,C(t,1:150).*Q(t,1:150))
+    title(['Concentrate flow at time [min]', num2str((t*20-20)/60)])
+    xlabel('Distance [m]');
+    ylabel('Concentrate [g/s]');
+    ylim([-0.1 0.3])
+    figure(22)
     plot(0:Dx:steps,C(t,1:150))
     title(['Concentrate at time [min]', num2str((t*20-20)/60)])
     xlabel('Distance [m]');
     ylabel('Concentrate [g/m^3]');
-    ylim([5 15])
+    ylim([7 13])
     pause(0.5)
 end
 %%
