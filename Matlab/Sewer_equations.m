@@ -16,13 +16,13 @@ d = 0.6; %[m] Diameter
 g = 9.81; %[m/s^2]
 n=150; % Number of iterations, 
 % Friction part 
-Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
+Ie = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
 Ib = 0.00214;
 
 
 
-Qff = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
-Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ie(m,n)^0.5;% Hennings
+Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s] palles
+Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennings
 
 
 %% Regression to a plot, to find Q from a function 
@@ -130,19 +130,22 @@ for m = 1:n
     end
 end 
 
-for m = 2:150
-    for n = 2:150
+for n = 2:150
+    for m = 2:150
+        
 %         if m > 3
 %             if n > 3
-%                 Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
-%                     ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
-%                     A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
-%                 Ie(m,n)  = abs(Ie(m,n))
+%                Ie = Ib - (h(m-1,n)-h(m-1,n-2))/(2*Dx)-2/g*u(n-1,m-1)*(u(m-1,n)-u(m-1,n-2))/(2*Dx)- ...
+%                     ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m,n-1)- ...
+%                     A(m-2,n-1))/(2*Dt)-1/g*(u(m,n-1)-u(m-2,n-1))/(2*Dt);
 %             end
 %         end
+% %         
+
         
-        H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m,n-1)+2*Theta*Q(m-1,n))*Dt/Dx - A(m-1,n)+A(m-1,n-1)+A(m,n-1);
-        H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
+%         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m,n-1)+2*Theta*Q(m-1,n))*Dt/Dx - A(m-1,n)+A(m-1,n-1)+A(m,n-1);
+          H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);    
+    %    H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
         H= abs(H);
        
         h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.05,50,d);
@@ -162,14 +165,18 @@ for m = 2:150
     end 
 
 end
-        for m =3:n
-            for n = 3:n
-                Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
-                    ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
-                    A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
+
+        
+        for n =3:n
+            for m = 3:n
+                %Ie(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)-2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
+              %      ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)- ...
+                %    A(m-1,n-2))/(2*Dt)-1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
+               Ie(m,n) = abs(Ib - (h(m-1,n)-h(m-1,n-2))/(2*Dx)-2/g*u(n-1,m-1)*(u(m-1,n)-u(m-1,n-2))/(2*Dx)- ...
+                    ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m,n-1)- ...
+                    A(m-2,n-1))/(2*Dt)-1/g*(u(m,n-1)-u(m-2,n-1))/(2*Dt));
             end
         end
-       
         
         
 %%% Ie opdatering, Uden inlent flow 
@@ -255,9 +262,8 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function f=V1stDer(h)%V
 global d Ie H Dt Dx Theta m n Qf
-f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.46-0.5*cos(pi*(h/d))+ ...
-0.04*cos(2*pi*(h/d)))*(Dt/Dx)-(1/(2*Theta))*(d^2/4 * acos(((d/2)-h)/(d/2))- ...
-sqrt(h*(d-h))*((d/2)-h)-H);
+f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie^0.5*(0.46-0.5*cos(pi*(h/d))+ ...
+0.04*cos(2*pi*(h/d)))*(Dt/Dx)-(1/(2*Theta))*(d^2/4 * acos(((d/2)-h)/(d/2))- sqrt(h*(d-h))*((d/2)-h)-H);
 
 % f = -3.02*log((0.74*10^-6)/d*sqrt(d*Ie)+(0.0015)/(3.71*d))*d^2*sqrt(d*Ie)*(0.46-0.5*cos(pi*(h/d))+ ...
 % 0.04*cos(2*pi*(h/d)))*(Dt/Dx)-1/(2*Theta)*(d^2/4 * acos(((d/2)-h)/(d/2))- ...
@@ -267,7 +273,7 @@ end
 
 function f=V2ndDer(h)%Vdot
 global d Ie Dt Dx Theta m n Qf
-f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.5*pi*sin(pi*(h/d))- ...
+f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie^0.5*(0.5*pi*sin(pi*(h/d))- ...
 0.08*pi*sin(2*pi*(h/d)))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
 
 % f = -3.02*log((0.74*10^-6)/d*sqrt(d*Ie)+(0.0015)/(3.71*d))*d^2*sqrt(d*Ie)*(0.5*pi*sin(pi*(h/d))- ...

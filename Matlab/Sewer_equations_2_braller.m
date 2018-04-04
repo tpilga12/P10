@@ -82,16 +82,16 @@ for m = 2:n
     for n = 2:n
         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
         H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
-        H= abs(H);
+        %H= abs(H);
        
         h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.05,50,d);
-        h(m,n)= abs(h(m,n));
+        %h(m,n)= abs(h(m,n));
          
         A(m,n) = d^2/4 * acos(((d/2)-h(m,n)/(d/2)))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
-        A(m,n)= abs(A(m,n));
+        %A(m,n)= abs(A(m,n));
         
         Q(m,n) = -1/(Theta*2)*(A(m,n)-H)*Dx/Dt;
-        Q(m,n)= abs(Q(m,n));
+        %Q(m,n)= abs(Q(m,n));
     end 
 
 end
