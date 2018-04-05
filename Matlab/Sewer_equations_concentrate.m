@@ -7,7 +7,7 @@ close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Constants
 global Theta k Dt Dx Ie H Q h A d u g m n 
-Theta = 0.7;
+Theta = 0.65;
 k=0.0015; %angives typisk i mm der skal bruges m i formler
 m=1;
 Dt = 20; %[s] grid time
@@ -68,7 +68,7 @@ Q_time_vec9  = zeros(12,1);
 Q_time_vec10 = ones(8,1)*0.025;
 Q_time_vec11 = ones(49,1)*Q_initial;
 
-Q1_init = [Q_time_vec ;Q_time_vec1; Q_time_vec2;Q_time_vec3;Q_time_vec4;Q_time_vec5;Q_time_vec6;Q_time_vec7;Q_time_vec8;Q_time_vec9;Q_time_vec10;Q_time_vec11]
+Q1_init = [Q_time_vec ;Q_time_vec1; Q_time_vec2;Q_time_vec3;Q_time_vec4;Q_time_vec5;Q_time_vec6;Q_time_vec7;Q_time_vec8;Q_time_vec9;Q_time_vec10;Q_time_vec11];
 
 %%
 Q_initial_time = Q_initial; % [m^3/s]
@@ -142,6 +142,11 @@ for m = 2:150
                     (u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dt)- ...
                     1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
                % Ie(m,n)  = abs(Ie(m,n))
+                               Ie3(m,n) = Ib - (h(m,n-1)-h(m-2,n-1))/(2*Dx)- ...
+                2/g*u(n-1,m-1)*(u(m,n-1)-u(m-2,n-1))/(2*Dx)- ...
+                ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m,n-1)-A(m-2,n-1))/(2*Dx)- ...
+                (u(n-1,m-1))/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dt)- ...
+                1/g*(u(m-1,n)-u(m-1,n-2))/(2*Dt);
             end
         end
         
@@ -152,13 +157,14 @@ for m = 2:150
         h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.05,50,d);
 %          h(m,n) =BisectionRoot(@V1stDer,0,2,0.01);
 %             h(m,n) = BiSectionV2(@V1stDer,0,2);
-        h(m,n)= abs(h(m,n));
+%         h(m,n)= abs(h(m,n));
          
         A(m,n) = d^2/4 * acos(((d/2)-h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
-        A(m,n)= abs(A(m,n));
+%         A(m,n)= abs(A(m,n));
         
         Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
-        Q(m,n)= abs(Q(m,n));
+
+%         Q(m,n)= abs(Q(m,n));
         u(m,n)= Q(m,n)/A(m,n);      
         % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         C(m,n)= (Q(m,n)/A(m,n))*(Dt/Dx)*(C(m-1,n-1)-C(m-1,n))+C(m-1,n);
@@ -246,14 +252,6 @@ for t =1:150
     ylim([7 13])
     pause(0.5)
 end
-%%
-figure(30)
-for t =1:71
-    plot(0:Dt:steps_tid,Q(1:150,t))
-    ylim([0. 0.05])
-    pause(0.5)
-end
-
 
 %%
 %     figure(1)

@@ -1,4 +1,4 @@
-function Xs = NewtonRoot(Fun,FunDer,Xest,Err,imax,dia)
+function Xs = NewtonRoot(Fun,FunDer,Xest,Err,imax,d,Ie,H,Dt,Dx,Theta,m,n)
 % NewtonRoot finds the root of fun = 0 near the point Xest using newton's
 % method.  Xs = NewtonRoot(Fun,FunDer,Xest,Err,imax)
 % Input variables
