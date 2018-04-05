@@ -7,7 +7,7 @@ Modeling fluids is almost always done by considering it as a control volume. The
 Henceforth the control volume will be denoted by the letter $\Omega$ which will correspond to some amount of fluid in a length of sewer line.		
 
 The open channel flow in gravity sewer lines can be described by the Saint-Venant equations which gives an expression for conservation of mass and momentum.
-Some assumptions is made when utilizing the Saint-Venant equations:
+Some assumptions is made when deriving the Saint-Venant equations:
 
 \begin{table}[H]
 \begin{enumerate}
@@ -31,21 +31,21 @@ In figure \ref{fig:firkant_kloak} a flow in a channel with vertical channel wall
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.45\textwidth]{report/modeling/pictures/firkant_kloak.png}
-\caption{Flow in a channel with a flat bed and vertical sides where Q is flow into the channel, q is lateral flow into the channel and the cross section area is given by $\text{A} = \text{B} \cdot \text{h}$. \fxnote{Ny tegning}}
+\includegraphics[width=0.8\textwidth]{report/modeling/pictures/continuity_open_channel.jpg}
+\caption{Flow in a channel with a flat bed and vertical sides where Q is flow into the channel, q is lateral flow into the channel and the cross section area is given as the area for an circle.}
 \label{fig:firkant_kloak}
 \end{figure}
 
 Flows, Q(x,t), q(x,t) and wetted cross section A(x,t) shown in figure \ref{fig:firkant_kloak} is dependent on time and position, but in the following a simpler notation is used for an easier outline. 
 
-The flow into the control volume when considered from the center of the control volume is given as
+The flow into the control volume when Q is the flow considered from the middle of the section is given as
 
 \begin{equation}
 Q_{in} =	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delta x}{2}\right) \cdot \Delta t + q \cdot \Delta x \cdot \Delta t
 \label{flowin_saintbernard}
 \end{equation}
 
-Where q is the lateral inflow across the entire channel [$\frac{m^2}{s}$] and Q is the flow in the channel [$\frac{m^3}{s}$]. Lateral inflow could for example come from adjoint sewer pipes or a gutter drain.
+Where q is the lateral inflow across the entire channel [$\frac{m^2}{s}$] and Q is the flow in the channel [$\frac{m^3}{s}$]. Lateral inflow could for example come from adjoint sewer pipes or road drain.
 The discharge flow of the channel is given as
 
 \begin{equation}
@@ -53,26 +53,36 @@ Q_{out} =\left(Q + \frac{\partial Q}{ \partial x} \frac{\Delta x}{2} \right) \cd
 \label{flowout_saintbernard}
 \end{equation}
 
-and the change in stored fluid in the channel is given as
+Change in stored fluid in the channel is given as:
+
+\begin{equation}\label{stored_saintbernard}
+\frac{\partial}{\partial t} \left(\frac{\Delta x}{2} \cdot \left(A- \frac{\partial A}{\partial x} \frac{\Delta x}{2} +A + \frac{\partial A}{\partial x} \frac{\Delta x}{2}	\right) \right) \Delta t
+\end{equation}
+This can be simplified to:
 
 \begin{equation}
-\begin{array}{l}
-\frac{\partial}{\partial t} \left(\frac{\Delta x}{2} \cdot \left(A- \frac{\partial A}{\partial x} \frac{\Delta x}{2} +A + \frac{\partial A}{\partial x} \frac{\Delta x}{2}	\right) \right) \cdot \Delta t \\
-\Updownarrow \\
-\frac{\partial A}{\partial t}\cdot \Delta t \cdot \Delta x	
-\label{stored_saintbernard}
-\end{array}
+	\frac{\partial}{\partial t} \left(\frac{\Delta x}{2} \cdot \left(2\cdot A	\right) \right) \Delta t
+\end{equation}
+Which leads to:
+\begin{equation}\label{stored_saintbernardv2}
+	\frac{\partial A}{\partial t} \cdot \Delta x	\cdot \Delta t
 \end{equation}
 
-As the flow into the channel is equal to the flow out plus the change in stored fluid in the channel, then due to the assumption of incompressible fluid and uniformity, \ref{flowin_saintbernard}, \ref{flowout_saintbernard} and \ref{stored_saintbernard} can be combined into equation \ref{saintbernard_masse}. 
+As the flow into the channel minus the flow out is equal to the change in stored fluid in the channel, then due to the assumption of incompressible fluid and uniformity the following can be wr.  
+
+\begin{equation}\label{eq:saintbernard_masse_simpel}
+	Q_{in} - Q_{out} = \frac{\partial A}{\partial t} \cdot \Delta x	\cdot \Delta t
+\end{equation}
+
+Thereby inserting equations \ref{flowin_saintbernard} and \ref{flowout_saintbernard} in \ref{eq:saintbernard_masse_simpel} the following is obtained:
 
 \begin{equation}
 \begin{array}{l}
-	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delta x}{2}\right) \cdot \Delta t + q \cdot \Delta x \cdot \Delta t - \left(Q + \frac{\partial Q}{ \partial x} \frac{\Delta x}{2} \right) \cdot \Delta t - \frac{\partial A}{\partial t}\cdot \Delta t 
-	\cdot \Delta x = 0 \\ 
+	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delta x}{2}\right) \cdot \Delta t + q \cdot \Delta x \cdot \Delta t - \left(Q + \frac{\partial Q}{ \partial x} \frac{\Delta x}{2} \right) \cdot \Delta t  = \frac{\partial A}{\partial t}\cdot \Delta t 
+	\cdot \Delta x \\ 
 \Updownarrow \\
-q \cdot \Delta x \cdot \Delta t -\frac{\partial A}{\partial t} \cdot \Delta t 
-	\cdot \Delta x - \frac{\partial Q}{\partial x} \cdot \Delta x \cdot \Delta t  = 0 
+q \cdot \Delta x \cdot \Delta t  - \frac{\partial Q}{\partial x} \cdot \Delta x \cdot \Delta t  = \frac{\partial A}{\partial t} \cdot \Delta t 
+	\cdot \Delta x 
 \end{array}
 \label{saintbernard_masse}
 \end{equation}
@@ -89,32 +99,51 @@ For channel flows without lateral input the mass conservation is given as:
 \label{saintbernard_mass}
 \end{equation}
 
-Momentum of the control volume $\Omega$ shown in figure \ref{fig:kloakroer} \fxnote{figure mangler}can be found by utilizing Newtons second law which says that force is equal to mass times acceleration.
+
+Momentum of the control volume $\Omega$ shown in figure \ref{fig:momentum_picture} can be found by utilizing Newtons second law which says that force is equal to mass times acceleration.
 Basically this means that the momentum of the control volume can be found by integrating the sum of forces in the following differential equation.
 \begin{equation}
 	\frac{d \mathcal{M}(t)}{dt} = \sum_{i}F_i(t)
 \end{equation} 
 Where $\mathcal{M}$(t) is the momentum, given as mass times a velocity vector, of the control volume at time t and $\text{F}_i$(t) is the various external forces affecting the control volume.
 
-The force given by the fluid particles at the cross section at each end of the control volume is given as
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{report/modeling/pictures/momentum_picture.png}
+\caption{Illustration to derive the momentum equation on an open channel.}
+\label{fig:momentum_picture}
+\end{figure}
+
+
+The force given by the fluid particles at the cross section at each end of the control volume is given as:
 \begin{equation}
-	\rho \cdot v \cdot Q
+	F= \rho \cdot v \cdot Q 
 \end{equation}
 
-where $\rho$ is density [$\frac{kg}{m^3}$], v is velocity [$\frac{m}{s}$] and Q is flow [$\frac{m^3}{s}$].
-The force given by the in- and output of fluid particles in the control volume, with the assumption that the density of the fluid and the velocity of it in the cross section of the control volume is constant, is given as
+Where $\rho$ is density [$\frac{kg}{m^3}$], v is velocity [$\frac{m}{s}$] and Q is flow [$\frac{m^3}{s}$].
+The force given by the in- and output of fluid particles in the control volume, with the assumption that the density of the fluid and the velocity of it in the cross section of the control volume is constant, is given as:
+
 \begin{equation}
-\begin{array}{l}
-\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} \right) \\
-\Updownarrow \\
-\rho \cdot \frac{Q}{A} \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot \frac{Q}{A}  \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} \right) \\
-= - \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x
-\end{array}
-\label{mass_flow_speed}
+	\rho \cdot v \cdot Q = \left(\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2}\right)_{in}
 \end{equation}
+
+\begin{equation}
+	\rho \cdot v \cdot Q = \left(\rho \cdot v \cdot Q + \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2}\right)_{out}
+\end{equation}
+
+% \begin{equation}
+% \left(\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2}\right)_{in} - \left(\rho \cdot v \cdot Q + \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} \right)_{out} 
+% \end{equation}
+Where \textit{in} denote the force to to the left side on figure \ref{fig:momentum_picture} and \textit{out} is the force to the right side on figure \ref{fig:momentum_picture}. 
+The velocity v, can be replaced by $v =Q/A$ and can be simplified:
+
+\begin{multline}\label{mass_flow_speed}
+\left(\rho \cdot \frac{Q}{A} \cdot Q - \frac{\partial}{\partial x}\left(\rho \cdot \frac{Q}{A}  \cdot Q\right) \cdot \frac{\Delta x}{2}\right)_{in} \\ - \left(\rho \cdot \frac{Q}{A}  \cdot Q + \frac{\partial}{\partial x}\left(\rho \cdot \frac{Q}{A}  \cdot Q\right) \cdot \frac{\Delta x}{2} \right)_{out} 
+= -  \rho\frac{\partial}{\partial x} \frac{Q^2}{A}\Delta x
+\end{multline}
 
 The remaining to be found is the forces imposed by gravity, friction and the pressure.
-The force applied by gravity is given as
+The force applied by gravity is given as:
 \begin{equation}
 F_g = sin(\theta)\cdot g \cdot \rho \cdot \Delta x \cdot A
 \label{gravity_force} 

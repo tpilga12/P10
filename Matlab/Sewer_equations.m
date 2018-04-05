@@ -55,18 +55,18 @@ r = (b-a).*rand(n,1) + a;
 Q_initial_distance = Q_initial; % [m^3/s]
 Q_time_vec  = ones(1,1)*Q_initial;
 Q_time_vec1  = zeros(12,1);
-Q_time_vec2  = ones(8,1)*0.025;
+Q_time_vec2  = ones(8,1)*0.015;
 Q_time_vec3  = zeros(12,1);
-Q_time_vec4  = ones(8,1)*0.025;
+Q_time_vec4  = ones(8,1)*0.015;
 Q_time_vec5  = zeros(12,1);
-Q_time_vec6  = ones(8,1)*0.025;
+Q_time_vec6  = ones(8,1)*0.015;
 Q_time_vec7  = zeros(12,1);
-Q_time_vec8  = ones(8,1)*0.025;
+Q_time_vec8  = ones(8,1)*0.015;
 Q_time_vec9  = zeros(12,1);
-Q_time_vec10 = ones(8,1)*0.025;
+Q_time_vec10 = ones(8,1)*0.015;
 Q_time_vec11 = ones(49,1)*Q_initial;
 
-Q1_init = [Q_time_vec ;Q_time_vec1; Q_time_vec2;Q_time_vec3;Q_time_vec4;Q_time_vec5;Q_time_vec6;Q_time_vec7;Q_time_vec8;Q_time_vec9;Q_time_vec10;Q_time_vec11]
+Q1_init = [Q_time_vec ;Q_time_vec1; Q_time_vec2;Q_time_vec3;Q_time_vec4;Q_time_vec5;Q_time_vec6;Q_time_vec7;Q_time_vec8;Q_time_vec9;Q_time_vec10;Q_time_vec11];
 
 %%
 Q_initial_time = Q_initial; % [m^3/s]
@@ -133,14 +133,14 @@ end
 for n = 2:150
     for m = 2:150
         
-%         if m > 3
-%             if n > 3
-%                Ie = Ib - (h(m-1,n)-h(m-1,n-2))/(2*Dx)-2/g*u(n-1,m-1)*(u(m-1,n)-u(m-1,n-2))/(2*Dx)- ...
-%                     ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m,n-1)- ...
-%                     A(m-2,n-1))/(2*Dt)-1/g*(u(m,n-1)-u(m-2,n-1))/(2*Dt);
-%             end
-%         end
-% %         
+        if n > 3
+            if m > 3
+               Ie2(m,n) = Ib - (h(m-1,n)-h(m-1,n-2))/(2*Dx)-2/g*u(n-1,m-1)*(u(m-1,n)-u(m-1,n-2))/(2*Dx)- ...
+                    ((u(n-1,m-1))^2)/(g*A(m-1,n-1))*(A(m-1,n)-A(m-1,n-2))/(2*Dx)-(u(n-1,m-1))/(g*A(m-1,n-1))*(A(m,n-1)- ...
+                    A(m-2,n-1))/(2*Dt)-1/g*(u(m,n-1)-u(m-2,n-1))/(2*Dt);
+            end
+        end
+%         
 
         
 %         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m,n-1)+2*Theta*Q(m-1,n))*Dt/Dx - A(m-1,n)+A(m-1,n-1)+A(m,n-1);
@@ -234,11 +234,11 @@ for t =1:150
     pause(0.5)
 end
 %%
-for t =1:71
-    plot(0:Dt:steps_tid,Q(1:150,t))
-    ylim([0. 0.05])
-    pause(0.5)
-end
+% for t =1:71
+%     plot(0:Dt:steps_tid,Q(1:150,t))
+%     ylim([0. 0.05])
+%     pause(0.5)
+% end
 
 
 %%
