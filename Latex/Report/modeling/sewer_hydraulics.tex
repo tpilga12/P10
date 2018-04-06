@@ -202,18 +202,26 @@ The integral of $P_2$ is:
 \end{equation}
 By assuming the width, b is constant the following can be approximated: 
 \begin{equation}
-	P_3 = -\int_{h_l}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz \approx -\rho g b(h) \frac{1}{2}\left(\frac{\partial h}{\partial x}\right)^2
+	P_3 = -\int_{h_l}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz \approx -\rho g b(h) \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2
 \end{equation}	
 
 Taking the sum of forces from equations \ref{eq:P1} and \ref{eq:P2}:
 \begin{equation}
-P_1 - P_1 -P_2 - P_3 = -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A  
+P_1 - P_1 -P_2 - P_3 =-\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \left(A_v + \frac{1}{2}b(h)\frac{\partial h}{\partial x} \Delta x \right) =-\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x  \cdot A  
 \label{pressure_force}
 \end{equation}
-Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
-\begin{equation}
-\frac{\partial}{\partial t}(\rho\cdot v \cdot A\cdot \Delta x) = \frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
+Lastly an expression is given for the velocity of storing fluid in the control volume:
+
+\begin{equation}\label{eq:leftside_momentum}
+	\frac{\partial}{\partial t} \left(\rho \frac{Q}{A}A\Delta x\right)
 \end{equation}
+Thereby the all the forces from equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} can be set equal to equation \ref{eq:leftside_momentum}. 
+
+% Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
+% \begin{equation}
+% \frac{\partial}{\partial t}(\rho\cdot v \cdot A\cdot \Delta x) = \frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
+% \end{equation}
+
 Entering the expressions of the conservation of momentum equation then the following is given:
 \\
 \begin{equation}
