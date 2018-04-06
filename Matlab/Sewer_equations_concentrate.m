@@ -29,12 +29,10 @@ Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie(m,n)^0.5;% Hennings
 
 %% Regression to a plot, to find Q from a function 
 h_test=0.0001:d/100:d;
-for t = 1:100
-    
-   Q_test(t)=(0.46 - 0.5 *cos(pi*(h_test(t)/d))+0.04*cos(2*pi*(h_test(t)/d)))*Qf;
-   
+for t = 1:100   
+   Q_test(t)=(0.46 - 0.5 *cos(pi*(h_test(t)/d))+0.04*cos(2*pi*(h_test(t)/d)))*Qf;   
 end
-fitfunc = fit(Q_test',h_test','poly3');
+fitfunc = fit(Q_test',h_test','poly8');
 Q_initial=0.016; % Flow  <----------------------------------------- start flow
 h_initial = fitfunc.p1*Q_initial^3 + fitfunc.p2*Q_initial^2 + fitfunc.p3*Q_initial + fitfunc.p4; % check hieght
 

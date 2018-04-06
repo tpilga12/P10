@@ -134,7 +134,7 @@ The force given by the in- and output of fluid particles in the control volume, 
 % \begin{equation}
 % \left(\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2}\right)_{in} - \left(\rho \cdot v \cdot Q + \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} \right)_{out} 
 % \end{equation}
-Where \textit{in} denote the force to to the left side on figure \ref{fig:momentum_picture} and \textit{out} is the force to the right side on figure \ref{fig:momentum_picture}. 
+Where \textit{in} denote the force going in through the left side of the channel on figure \ref{fig:momentum_picture} and \textit{out} is the force going out to the right side on figure \ref{fig:momentum_picture}. 
 The velocity v, can be replaced by $v =Q/A$ and can be simplified:
 
 \begin{multline}\label{mass_flow_speed}
@@ -177,25 +177,35 @@ The Weisbach resistance coefficient is found by the Colebrook-White formula seen
 
 Where f is the Darcy-Weisbach resistance coefficient, k is a pipe roughness coefficient and Re is the Reynolds number.
 
-Last the pressure forces on the x component of the control volume to be found is marked as $P_1$ to $P_3$ in figure \ref{fig:forces_on_CV} 
+Last the pressure forces on the x component of the control volume to be found is marked as $P_1$ to $P_3$ in figure \ref{fig:forces_on_CV}. 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\textwidth]{report/modeling/pictures/palle_fig.png}
-\caption{Forces acting on the control volume \fxnote{Ny tegning og sikkert også caption}}
+\caption{Forces acting on the control volume }
 \label{fig:forces_on_CV}
-\end{figure}
+\end{figure}\fxnote{Ny tegning og sikkert også caption}
 
-The pressure forces acting on the control volume is given as:
-\begin{equation}
+The forces acting on the channel are found by taking a sectional view of it. Furthermore it is assumed to be hydrostatic pressure across the channel, thus the pressure in a height z above the bottom of the channel is given as $g\rho(h-z)$.  
+The pressure forces acting on the control volume to the left is given as:
+\begin{equation}\label{eq:P1}
 	P_1 = \int_{0}^{h_l} \rho \cdot g (h_l - z)\cdot b(z) dz
 \end{equation}
+The pressure force acting on the control volume to the right is given as:
+
+\begin{multline}\label{eq:P2}
+	-\int_{0}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz = -\int_{0}^{h_l} \rho \cdot g (h_l - z)\cdot b(z)dz \\ -\int_{0}^{h_l} \rho \cdot g (h_r - h_l)\cdot b(z)dz -\int_{h_l}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz = -P_1 - P_2 - P_3
+\end{multline}
+The integral of $P_2$ is: 
 \begin{equation}
-	P_2 = -\int_{0}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz
+	P_2 = -\int_{0}^{h_l} \rho \cdot g (h_r - h_l)\cdot b(z)dz = -\rho g \frac{\partial h}{\partial x}\Delta x A_v
 \end{equation}
+By assuming the width, b is constant the following can be approximated: 
 \begin{equation}
-	P_3 = -\int_{h_l}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz
+	P_3 = -\int_{h_l}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz \approx -\rho g b(h) \frac{1}{2}\left(\frac{\partial h}{\partial x}\right)^2
 \end{equation}	
+
+Taking the sum of forces from equations \ref{eq:P1} and \ref{eq:P2}:
 \begin{equation}
 P_1 - P_1 -P_2 - P_3 = -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A  
 \label{pressure_force}

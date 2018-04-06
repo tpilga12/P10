@@ -9,7 +9,7 @@ In figure \ref{fig:tank_model} an illustration of a reservoir is shown.
 \label{fig:tank_model}
 \end{figure} 
 
-This illustration will be used to derive the model for the reservior. From left we have an open channel that discharge the wastewater into the tank. The wastewater have a mass flow rate, $m_{in}$. Within the tank the wastewater has a height, h, and the reservoir has an area, A. To the bottom right the wastewater is discharged, $m_{out}$. This output mass flow is depended on the openings degree (OD) of the valve. The mass balance equation is.
+This illustration will be used to derive the model for the reservior. From left we have an open channel that discharge the wastewater into the tank. The wastewater have a mass flow rate, $m_{in}$. Within the tank the wastewater has a height, h, and the reservoir has an area, A. To the bottom right the wastewater is discharged, $m_{out}$. This output mass flow is depended on the openings degree (OD) of the valve. The mass balance equation is \cite{model_tank}.
 
 %Assumption: incompressible flow
 
@@ -34,7 +34,7 @@ Simplifying equation \ref{eq:balance_reservior}.
 	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-Q_{out}(t)\right)
 \end{equation}
 
-The output flow is, as previous mentioned, depended on the OD of the valve. Therefore a model is needed to described the output flow of the valve. The model for the valve is.
+The output flow is, as previous mentioned, depended on the OD of the valve. Therefore a model is needed to described the output flow of the valve. The model for the valve is \cite{boysen}.
 \begin{equation}\label{eq:valve_model}
 	Q_{out} = kv(OD) \sqrt{\Delta p}
 \end{equation}
