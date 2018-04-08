@@ -1,0 +1,21 @@
+\subsection{Pump model}\label{se:pump_model}
+In this section a model of a pump will be elaborated. The model for the pump will be used in the simulation to rise the wastewater from a lower position to a higher one. 
+
+ The model for a pump is expressed as \cite{kallesoe_pump}.
+
+\begin{equation}\label{sec:eq_pump_exp}
+h= -a_{n2}Q^2+a_{n1}Q\omega+a_{n0}\omega^2
+\end{equation}
+Where $a_{n2}$, $a_{n1}$ and $a_{n0}$ are the constant parameters of the pump, $[Q]$ is the flow of the water, $[\omega]$ is the angular velocity of the pump and h is the pressure delivered by the pump [m]. In table \ref{tab:pump_parameters} the parameters for the pump can be found.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor[HTML]{9B9B9B} 
+\textbf{Parameters:}                     & \textbf{$a_{n2}$} & \textbf{$a_{n1}$} & \textbf{$a_{n0}$} \\ \hline
+\cellcolor[HTML]{9B9B9B}\textbf{Values:} & -0,1830           & -1,8004            & 7,0579              \\ \hline
+\end{tabular}
+\caption{Parameters for the pump model \cite{kallesoe_pump}.}
+\label{tab:pump_parameters}
+\end{table}
