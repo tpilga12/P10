@@ -12,7 +12,7 @@ Some assumptions is made when deriving the Saint-Venant equations:
 \begin{table}[H]
 \begin{enumerate}
 \item The flow in the channel is one dimensional, and prismatic, and as such any curvature or change in width of the sewer line is considered negligible.
-\item Fluid in the sewer line is considered incompressible i.e. the pressure is assumed hydrostatic.
+\item Fluid in the sewer line is considered incompressible and the pressure is assumed hydrostatic.
 \item The only forces considered is friction, pressure and gravity.
 \item The water height and velocity is uniform in the cross-section and only changes horizontally i.e. turbulence in the fluid is not considered.
 \item The slope of the channel bed is small
@@ -247,8 +247,8 @@ Some or all of the terms in equation \ref{saintbernard_momentum} can be utilized
 
 \begin{tabular}{|l|l|l|l|l|} \hline
 %\rowcolor[HTML]{9B9B9B}
-\multirow{2}{*} {Approximation} &   Kinematic & \multirow{2}{*} {Noninertia(2)}  & Quasi-steady(3)  & Dynamic \\
-			 					&  	wave(1)   &  			 					 & dynamic wave  	& wave(4)  \\ \hline
+\multirow{2}{*} {Approximation} &   Kinematic & \multirow{2}{*} {Noninertia (2)}  & Quasi-steady  & Dynamic \\
+			 					&  	wave (1)   &  			 					 & dynamic wave (3) 	& wave (4)  \\ \hline
 
  \multirow{2}{*} {momentum equation} 		&\multirow{2}{*} {$S_b = S_f$}  & \multirow{2}{*} {$\frac{\partial h}{\partial x}= S_b- S_f$ } & $\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x}$ & \multirow{2}{*} {equation \ref{saintbernard_momentum}} \\
 %\rowcolor[HTML]{9B9B9B} 
