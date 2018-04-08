@@ -102,7 +102,7 @@ For channel flows without lateral input the mass conservation is given as:
 
 Momentum of the control volume $\Omega$ shown in figure \ref{fig:momentum_picture} can be found by utilizing Newtons second law which says that force is equal to mass times acceleration.
 Basically this means that the momentum of the control volume can be found by integrating the sum of forces in the following differential equation.
-\begin{equation}
+\begin{equation}\label{eq:momentum_eq}
 	\frac{d \mathcal{M}(t)}{dt} = \sum_{i}F_i(t)
 \end{equation} 
 Where $\mathcal{M}$(t) is the momentum, given as mass times a velocity vector, of the control volume at time t and $\text{F}_i$(t) is the various external forces affecting the control volume.
@@ -210,27 +210,29 @@ Taking the sum of forces from equations \ref{eq:P1} and \ref{eq:P2}:
 P_1 - P_1 -P_2 - P_3 =-\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \left(A_v + \frac{1}{2}b(h)\frac{\partial h}{\partial x} \Delta x \right) =-\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x  \cdot A  
 \label{pressure_force}
 \end{equation}
-Lastly an expression is given for the velocity of storing fluid in the control volume:
+
+By summing all the forces from equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} they can be inserted into the momentum equation \ref{eq:momentum_eq}
+
+\begin{equation}
+\frac{d \mathcal{M}(t)}{dt}	=- \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x
+-S_b \cdot g \cdot \rho \cdot \Delta x \cdot A -S_f \cdot g \cdot \rho \cdot \Delta x \cdot A  -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A
+\end{equation}
+
+Lastly the expression for the momentum is:
 
 \begin{equation}\label{eq:leftside_momentum}
 	\frac{\partial}{\partial t} \left(\rho \frac{Q}{A}A\Delta x\right)
 \end{equation}
-Thereby the all the forces from equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} can be set equal to equation \ref{eq:leftside_momentum}. 
-
-% Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
+Thereby the all the forces from equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} can be set equal to equation \ref{eq:leftside_momentum}.% Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
 % \begin{equation}
 % \frac{\partial}{\partial t}(\rho\cdot v \cdot A\cdot \Delta x) = \frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
 % \end{equation}
 
-Entering the expressions of the conservation of momentum equation then the following is given:
-\\
-\begin{equation}
-\begin{array}{l}
+\begin{multline}
 %\rho \cdot \frac{Q}{A} \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} - \left(\rho \cdot \frac{Q}{A}  \cdot Q - \frac{\partial}{\partial x}(\rho \cdot \frac{Q}{A}  \cdot Q) \cdot \frac{\Delta x}{2} \right)\\
-- \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x
--S_b \cdot g \cdot \rho \cdot \Delta x \cdot A -S_f \cdot g \cdot \rho \cdot \Delta x \cdot A  -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A =\frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
-\end{array}
-\end{equation}
+\frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x) =- \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x
+-S_b \cdot g \cdot \rho \cdot \Delta x \cdot A -S_f \cdot g \cdot \rho \cdot \Delta x \cdot A  \\-\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A 
+\end{multline}
 \\
 Dividing with $\Delta x \rho g A$ and isolating then the following definition of the equation is obtained.
 \\

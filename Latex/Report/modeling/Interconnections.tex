@@ -1,8 +1,24 @@
 \section{Sewer interconnection}\label{se:sewer_interconnection}
+This section will explain how interconnection between channels are modeled and how the mixing between wastewater and wastewater with chemicals.
 
-As mentioned in 
+In figure \ref{fig:interconnections} an illustration of a interconnection between two flows are shown.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.30\textwidth]{report/modeling/pictures/interconnections.jpg}
+\caption{Illustration of an interconnection between two flow inputs and one output.}
+\label{fig:interconnections}
+\end{figure} \fxnote{Ny tegning}
 
+The two channels $Q_1$ and $Q_2$ are connected at the end of each channel here the wastewater from the two channels will be added up. The flow $Q_3$ is calculated as:
 
+\begin{equation}
+	Q_3 = Q_1 + Q_2 	
+\end{equation} 
 
+For dilute chemicals For the mixing between two flows where one of them is transporting chemicals will be done in the same way as for flows. 
+
+\begin{equation}
+	C_3 = \frac{C_1 Q_1 + Q_2}{Q_3}
+\end{equation}
 
