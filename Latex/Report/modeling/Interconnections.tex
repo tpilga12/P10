@@ -19,7 +19,7 @@ The two channels $Q_1$ and $Q_2$ are connected at the end of each channel here t
 For the mixing between two flows where one of them is transporting chemicals will be done in similar way as for flows. 
 
 \begin{equation}
-	C_3 = \frac{C_1 Q_1 + Q_2}{Q_2}
+	C_3 = \frac{C_1 Q_1 + C_2 Q_2}{Q_3}
 \end{equation}
 
-This is done to keep the same amount of chemicals within the wastewater, as the algorithm for transporting chemicals is depended on flow, as seen in section \ref{se:transport_of_concentrate}. Therefore if it is not done this way, then when the flow is increasing the same will the chemicals within the wastewater, thus it is needed to divided by $Q_2$ to get the right amount of chemicals in the wastewater.  
+This is done to keep the same amount of chemicals within the wastewater, as the algorithm for transporting chemicals is depended on flow, as seen in section \ref{se:transport_of_concentrate}. If it is not calculated like this, thus when the flow is increasing the same will the chemicals within the wastewater, hence it is needed to divided by $Q_3$ to get the right amount of chemicals in the wastewater.  
