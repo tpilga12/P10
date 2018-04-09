@@ -21,6 +21,7 @@ C_in = in.C_in; % concentrate input
 Q_in = in.Q_in;
 Q_init = in.Q_init;
 
+
 g = 9.81; %[m/s^2] gravitational constant
 
 % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
@@ -42,49 +43,47 @@ end
             % Regression to a plot, to find Q from a function 
 
             %h_test=0.0001:d/100:d;
-            h_test=0:d/100:d;
+            h_init=0:d/100:d;
             for t = 1:101
-               Q_test(t)=(0.46 - 0.5 *cos(pi*(h_test(t)/d))+0.04*cos(2*pi*(h_test(t)/d)))*Qf;
+               Q_initialize(t)=(0.46 - 0.5 *cos(pi*(h_init(t)/d))+0.04*cos(2*pi*(h_init(t)/d)))*Qf;
             end
-            fitfunc = fit(Q_test',h_test','poly9');
-            h(1:sections) =fitfunc.p1*Q_init^3 + fitfunc.p2*Q_init^2 + fitfunc.p3*Q_init + fitfunc.p4;
-%             h(1:sections) = 0.105;
+            fitfunc = fit(Q_initialize',h_init','poly9');
+            output.fitfunc = fitfunc;
+            h(1:sections) = fitfunc.p1*Q_init.^9 +fitfunc.p2*Q_init.^8 + fitfunc.p3*Q_init.^7 + fitfunc.p4*Q_init.^6 + fitfunc.p5*Q_init.^5 + fitfunc.p6*Q_init.^4 + fitfunc.p7*Q_init.^3 + fitfunc.p8*Q_init^2 + fitfunc.p9*Q_init +fitfunc.p10;
             A(1:sections) = d^2/4 * acos(((d/2)-h(n))/(d/2))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
-%             u = Q./A;
-            
-
-            
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%  
         elseif m > 1 && n == 1
+            Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
             Q(m,n) = Q_in;
-%           h(m,n) =fitfunc.p1*Q_in^3 + fitfunc.p2*Q_in^2 + fitfunc.p3*Q_in + fitfunc.p4;
-            h(m,n) = 0.105;
+            h(m,n) = out.fitfunc.p1*Q_in.^9 +out.fitfunc.p2*Q_in.^8 + out.fitfunc.p3*Q_in.^7 + out.fitfunc.p4*Q_in.^6 + out.fitfunc.p5*Q_in.^5 + out.fitfunc.p6*Q_in.^4 + out.fitfunc.p7*Q_in.^3 + out.fitfunc.p8*Q_in^2 + out.fitfunc.p9*Q_in +out.fitfunc.p10;
             A(m,n) = d^2/4 * acos(((d/2)-h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
             C(m,n) = C_in;
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Iteration %%%%%%%%%%%%%%%%%%%%%%%%%%%  
         elseif m > 1 && n > 1
-        
-        
             H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
-
             h(m,n)=NewtonRoot(@V,@V_dot,h(m-1,n-1),0.05,50,d,Ie,H,Dt,Dx,Theta,m,n);
             A(m,n) = d^2/4 * acos(((d/2)- h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
             Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            %C(m,n)= (Q(m,n)/A(m,n))*(Dt/Dx)*(C(m-1,n-1)-C(m-1,n))+C(m-1,n);
+
 %             if m == 2
+            C(m,n)= (Q(m,n)/A(m,n))*(Dt/Dx)*(C(m-1,n-1)-C(m-1,n))+C(m-1,n);
 %             C(m+1,n)=C(m,n) + (Q(m,n)/A(m,n))*(Dt/2*Dx)*(C_in-C(m,n+1));
 %             else
 %                 
 %             end
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         end
-        if n == 1 && n < sections && m < iteration
-            C(m+1,n)=C(m,n) + (Q(m,n)/A(m,n))*(Dt/(2*Dx))*(C_in-C(m,n+1));
-        elseif n > 1 && n < sections && m < iteration
-            C(m+1,n)=C(m,n) + (Q(m,n)/A(m,n))*(Dt/(2*Dx))*(C(m,n-1)-C(m,n+1));
-        elseif n == sections && m < iteration
-            C(m+1,n)=C(m,n) + (Q(m,n)/A(m,n))*(Dt/(2*Dx))*(C(m,n-1)-C(m,n));
-        end
+%         if n == 1 && n < sections && m < iteration
+%             C(m+1,n)=C(m,n) + (Q(m,n)/A(m,n)) *(Dt/(2*Dx)) * (C_in-C(m,n+1));
+%         elseif n > 1 && n < sections && m < iteration
+%             C(m+1,n)=C(m,n) + (Q(m,n)/A(m,n)) *(Dt/(2*Dx)) * (C(m,n-1)-C(m,n+1));
+%         elseif n == sections && m < iteration
+%             C(m+1,n)=C(m,n) + (Q(m,n)/A(m,n)) *(Dt/(2*Dx)) * (C(m,n-1)-C(m,n));
+%         end
         
     end
 % end
@@ -105,7 +104,9 @@ output.h = h;
 output.C = C;
 output.C_out = C(:,end);
 output.Ie = Ie;
-        
+if m > 1
+output.fitfunc = out.fitfunc;
+end        
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -114,18 +115,10 @@ function f=V(h)%V
 f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.46-0.5*cos(pi*(h/d))+ ...
 0.04*cos(2*pi*(h/d)))*(Dt/Dx)-(1/(2*Theta))*(d^2/4 * acos(((d/2)-h)/(d/2))- ...
 sqrt(h*(d-h))*((d/2)-h)-H);
-
-% f = -3.02*log((0.74*10^-6)/d*sqrt(d*Ie)+(0.0015)/(3.71*d))*d^2*sqrt(d*Ie)*(0.46-0.5*cos(pi*(h/d))+ ...
-% 0.04*cos(2*pi*(h/d)))*(Dt/Dx)-1/(2*Theta)*(d^2/4 * acos(((d/2)-h)/(d/2))- ...
-% sqrt(h*(d-h))*((d/2)-h)-H);
-
 end 
 
 function f=V_dot(h)%Vdot
 f = -72*(d/4)^0.635 * pi*(d/2)^2*Ie(m,n)^0.5*(0.5*pi*sin(pi*(h/d))- ...
 0.08*pi*sin(2*pi*(h/d)))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
-
-% f = -3.02*log((0.74*10^-6)/d*sqrt(d*Ie)+(0.0015)/(3.71*d))*d^2*sqrt(d*Ie)*(0.5*pi*sin(pi*(h/d))- ...
-% 0.08*pi*sin(2*pi*(h/d)))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
 end
 end

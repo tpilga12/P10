@@ -19,7 +19,7 @@ A model for transport of concentrate in sewer pipes is derrived in the following
 \end{enumerate}
 \label{tab:concentrate_flow}
 \end{table}
- In figure \ref{fig:concentrate_volume} the control volume is seen. 
+ In figure \ref{fig:poopvolume} the control volume is seen. 
 
 
 %  \begin{figure}[H]
@@ -42,24 +42,24 @@ The flux of concentrate in and out of the control volume at a given time $\Delta
 
 
  \begin{equation}
-  	\left( F_{in} - F_{out} + F_{lateral} \right) \Delta t   =	F \cdot \Delta t - \left(F + \frac{\partial F}{\partial x}\Delta x \right) \Delta t + m \cdot \Delta x \cdot \Delta t = - \frac{\partial F}{\partial x}\cdot \Delta x \cdot \Delta t +m \cdot \Delta x \cdot \Delta t  
+  	\left( \phi_{in} - \phi_{out} + \phi_{lateral} \right) \Delta t   =	\phi \cdot \Delta t - \left(\phi + \frac{\partial \phi}{\partial x}\Delta x \right) \Delta t + m \cdot \Delta x \cdot \Delta t = - \frac{\partial \phi}{\partial x}\cdot \Delta x \cdot \Delta t +m \cdot \Delta x \cdot \Delta t  
   \label{eq:poop_flux_in_out}
   \end{equation} 
 
 
 
-\fxnote{F er normalt en kraft, bare lige være sikker paa den ikke er taget}Where F is the flux [$\frac{g}{sec}$] and m is lateral flux input to the control volume [$\frac{g}{sec\cdot m}$].
+Where $\phi$ is the flux [$\frac{g}{sec}$] and m is lateral flux input to the control volume [$\frac{g}{sec\cdot m}$].
 
 The continuity equation can now be stated as the change in stored concentration equal to the sum of flux in- and outflow from the control volume as given by equation \ref{eq:poop_storing} and \ref{eq:poop_flux_in_out}:
 
 \begin{equation}
-	\frac{\partial (V\cdot C)}{\partial t}\Delta t = - \frac{\partial F}{\partial x}\cdot \Delta x \cdot \Delta t +m \cdot \Delta x \cdot \Delta t
+	\frac{\partial (V\cdot C)}{\partial t}\Delta t = - \frac{\partial \phi}{\partial x}\cdot \Delta x \cdot \Delta t +m \cdot \Delta x \cdot \Delta t
 \end{equation}
 
 When replacing V with $\text{A}\cdot \Delta \text{x}$ and dividing with $\Delta x \cdot  \Delta t$ then the basic continuity equation of conservation is obtained:
 
 \begin{equation}
-	\frac{\partial (A\cdot C)}{\partial t} = - \frac{\partial F}{\partial x} + m 
+	\frac{\partial (A\cdot C)}{\partial t} = - \frac{\partial \phi}{\partial x} + m 
 \label{eq:concentrate_continuity_equation}
 \end{equation}
 
@@ -69,7 +69,7 @@ Depending on the desired approximation the flux and lateral inflow terms can be 
 \centering
 	\begin{tabular}{|l|l|l|} \hline
 	Approximation 	& Convective flow &	Convective + (dispersion)  \\ \hline
-	Flux term   	& $F = Q \cdot C$ & $ F = Q \cdot C + \left(- \epsilon \cdot A \frac{\partial C}{\partial x} \right)$  \\ \hline
+	Flux term   	& $\phi = Q \cdot C$ & $ \phi = Q \cdot C + \left(- \epsilon \cdot A \frac{\partial C}{\partial x} \right)$  \\ \hline
   	\end{tabular} 
 \caption{Table of convective flux term without and with dispersion where Q if flow, C is concentrate, A is area and $\epsilon$ is a dispersion coefficient [$\frac{m^2}{sec}$] .}
 \label{tab:flux_terms} 
