@@ -25,7 +25,7 @@ Some assumptions is made when deriving the Saint-Venant equations:
 \label{tab:saintbernard_assumptions}
 \end{table}
 
-The equation for conservation of mass gives an expression for the amount of fluid flowing in to the control volume and the flow out plus the fluid stored in it.
+The equation for conservation of mass gives an expression for the amount of fluid flowing into the control volume and the flow out plus the fluid stored in it.
 In figure \ref{fig:firkant_kloak} a flow in a channel is shown.
 %The cross section is given as $A = h \cdot B$ which both is a function of position and time.
 
@@ -194,7 +194,7 @@ The pressure forces acting on the control volume to the left is given as:
 \begin{equation}\label{eq:P1}
 	P_1 = \int_{0}^{h_l} \rho \cdot g (h_l - z)\cdot b(z) dz
 \end{equation}
-The pressure force acting on the control volume to the right is given as:
+Where $h_l$ is the water hight to the left of the channel, b(z) is the width of the channel given z. The pressure force acting on the control volume to the right is given as:
 \begin{equation}\label{eq:P2}
 \begin{array}{l}
 	-\int_{0}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz = \\
@@ -206,7 +206,7 @@ The integral of $P_2$ is:
 \begin{equation}
 	P_2 = -\int_{0}^{h_l} \rho \cdot g (h_r - h_l)\cdot b(z)dz = -\rho g \frac{\partial h}{\partial x}\Delta x A_v
 \end{equation}
-By assuming the width, b is constant the following can be approximated: 
+Where $h_r$ is the water hight to the right of the channel. By assuming the width, b is constant the following can be approximated: 
 \begin{equation}
 	P_3 = -\int_{h_l}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz \approx -\rho g b(h) \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2
 \end{equation}	
