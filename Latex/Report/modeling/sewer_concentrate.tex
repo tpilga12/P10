@@ -32,7 +32,7 @@ A model for transport of concentrate in sewer pipes is derrived in the following
 From the control volume an equation for conservation of continuity can be derived as in section \ref{se:hydraulics_of_sewer_line}. The change of stored concentrate in the control volume is given as:
 
 \begin{equation}
- \left(V \cdot C + \frac{\partial (V\cdot C)}{\partial t} \Delta t \right) - V\cdot C = \frac{\partial (V\cdot C)}{\partial t}\Delta t
+ \left(V \cdot C + \frac{\partial (V\cdot C)}{\partial t} \frac{\Delta x}{2} \Delta t \right) - \left(V \cdot C - \frac{\partial (V\cdot C)}{\partial t} \Delta t \right) = \frac{\partial (V\cdot C)}{\partial t}\Delta t
 \label{eq:poop_storing}
 \end{equation}
 
