@@ -95,7 +95,7 @@ Equation \ref{saintbernard_masse} can be reduced to the following by isolating a
 
 For channel flows without lateral input the mass conservation is given as:
 \begin{equation}	
-\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
+\boxed{\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0}
 \label{saintbernard_mass}
 \end{equation}
 
@@ -156,12 +156,12 @@ where the slope of the pipe bed $\text{S}_\text{b} = tan(\theta) \approx sin(\th
 \begin{equation}
 F_g = S_b \cdot g \cdot \rho \cdot \Delta x \cdot A 
 \end{equation}
-The friction force can be set up similarly as
+The friction force can be set up as:
 \begin{equation}
 F_f = S_f \cdot g \cdot \rho \cdot \Delta x \cdot A 
 \label{friction_force} 
 \end{equation}
-where $S_f$ is a friction coefficient. This coefficient can be estimated by different formulas like Manning's or Darcy-Weishbach formula which is seen in equation \ref{Manning_formula} and \ref{darcy_weisbach_formula} respectively . 
+where $S_f$ is a friction coefficient. This coefficient can be estimated by different formulas like Manning's or Darcy-Weishbach formula which is seen in equation \ref{Manning_formula} and \ref{darcy_weisbach_formula} respectively. 
 \begin{equation}
 	S_f = \frac{n^2 Q^2}{A^2R^{4/3}}= \frac{n^2 v^2}{R^{4/3}}
 \label{Manning_formula}
@@ -249,7 +249,7 @@ Thereby all the sum of forces from equation \ref{eq:sum_of_forces} can be set eq
 Dividing with $\Delta x \rho g A$ and isolating then the following definition of the equation is obtained:
 \\
 \begin{equation}
-\frac{1}{gA} \frac{\partial Q}{\partial t} +\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x} + S_f - S_b = 0
+\boxed{\frac{1}{gA} \frac{\partial Q}{\partial t} +\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x} + S_f - S_b = 0}
 \label{saintbernard_momentum}
 \end{equation}
 \\
