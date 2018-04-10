@@ -1,6 +1,6 @@
 \section{Transport of concentrate}\label{se:transport_of_concentrate}
 
-A model for transport of concentrate in sewer pipes is derrived in the following.
+A model for transport of concentrate in sewer pipes is obtained in the following.
 
 \begin{figure}[H]
 \centering
@@ -48,7 +48,7 @@ The flux of concentrate in and out of the control volume at a given time $\Delta
 
 
 
-Where $\phi$ is the flux [$\frac{g}{sec}$] and m is lateral flux input to the control volume [$\frac{g}{sec\cdot m}$].
+Where $\phi$ is the flux [$\frac{g}{s}$] and m is lateral flux input to the control volume [$\frac{g}{s\cdot m}$].
 
 The continuity equation can now be stated as the change in stored concentration equal to the sum of flux in- and outflow from the control volume as given by equation \ref{eq:poop_storing} and \ref{eq:poop_flux_in_out}:
 
@@ -59,7 +59,7 @@ The continuity equation can now be stated as the change in stored concentration 
 When replacing V with $\text{A}\cdot \Delta \text{x}$ and dividing with $\Delta x \cdot  \Delta t$ then the basic continuity equation of conservation is obtained:
 
 \begin{equation}
-	\frac{\partial (A\cdot C)}{\partial t} = - \frac{\partial \phi}{\partial x} + m 
+	\frac{\partial (A\cdot C)}{\partial t} = - \frac{\partial \phi}{\partial x} + q_c 
 \label{eq:concentrate_continuity_equation}
 \end{equation}
 
@@ -71,7 +71,7 @@ Depending on the desired approximation the flux and lateral inflow terms can be 
 	Approximation 	& Convective flow &	Convective + (dispersion)  \\ \hline
 	Flux term   	& $\phi = Q \cdot C$ & $ \phi = Q \cdot C + \left(- \epsilon \cdot A \frac{\partial C}{\partial x} \right)$  \\ \hline
   	\end{tabular} 
-\caption{Table of convective flux term without and with dispersion where Q if flow, C is concentrate, A is area and $\epsilon$ is a dispersion coefficient [$\frac{m^2}{sec}$] .}
+\caption{Table of convective flux term without and with dispersion where Q if flow, C is concentrate, A is area and $\epsilon$ is a dispersion coefficient [$\frac{m^2}{s}$] .}
 \label{tab:flux_terms} 
 \end{table}
 
@@ -89,12 +89,12 @@ For various concentrates the dispersion coefficient $\epsilon$ which varies with
 Inserting the terms in table \ref{tab:flux_terms} into equation \ref{eq:concentrate_continuity_equation} then the following expressions of the continuity equation is obtained:
 
 \begin{equation}
-	\frac{\partial (A\cdot C)}{\partial t} + \frac{\partial (Q \cdot C)}{\partial x} = m 
+	\frac{\partial (A\cdot C)}{\partial t} + \frac{\partial (Q \cdot C)}{\partial x} = q_c 
 \label{eq:concentrate_continuity_equation_convective}
 \end{equation}
 
 \begin{equation}
-	\frac{\partial (A\cdot C)}{\partial t} + \frac{\partial (Q \cdot C)}{\partial x} - \epsilon \cdot \frac{\partial^2 (A \cdot C)}{\partial x^2} = m 
+	\frac{\partial (A\cdot C)}{\partial t} + \frac{\partial (Q \cdot C)}{\partial x} - \epsilon \cdot \frac{\partial^2 (A \cdot C)}{\partial x^2} = q_c 
 \label{eq:concentrate_continuity_equation_dispersion}
 \end{equation}
 
