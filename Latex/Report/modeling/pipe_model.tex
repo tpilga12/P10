@@ -17,15 +17,15 @@ A model for a pipe is derivate from Newton second law. Where the three forces sh
 
 Newton's second law applied for the pipe, 
 \begin{equation}\label{eq:pipe_newton}
-m\cdot \frac{d}{dt}v = F_{in} - F_{out} - F_r 
+M\cdot \frac{d}{dt}v = F_{in} - F_{out} - F_r 
 \end{equation}
 
-Where $m$ is the mass of the water $[kg]$, $v$ is the velocity of the water $\left[\frac{m}{s}\right]$ and the resultant forces $F_{in}$, $F_r$ and $F_{out}$ $[N]$.  
+Where $M$ is the mass of the water $[kg]$, $v$ is the velocity of the water $\left[\frac{m}{s}\right]$ and the resultant forces $F_{in}$, $F_r$ and $F_{out}$ $[N]$.  
 
 The mass of the water can be written as density times the volume of the pipe,
 
 \begin{equation}
-m = \rho \cdot V 
+M = \rho \cdot V 
 \end{equation}
 
 Where $\rho$ is the density of liquid $\left[\frac{kg}{m^3}\right]$ and $V$ the volume of the pipe $\left[m^3\right]$.
@@ -74,14 +74,14 @@ Where the pressure difference is expressed as $\Delta p$ and the area is divided
 The resistance pressure can now be divided into two resistance, namely form resistance and surface resistance \cite{swamee_pipe}. 
 
 \textbf{Surface resistance:}\\
-The surface resistance describes the pressure loss across a straight pipe.
+The surface resistance describes the pressure loss across a straight pipe \cite{swamee_pipe}.
 \begin{equation}\label{eq:surface_resistance}
 h_f=\frac{8\cdot f\cdot l}{\pi^2\cdot g\cdot d^5} \cdot |Q|\cdot Q
 \end{equation}
 Where $h_f$ is the head loss for the surface resistance of the pipe $[m]$, $f$ is a coefficient for surface resistance, also knows as the friction factor, $g$ is the gravitational acceleration $\left[\frac{m}{s^2}\right]$ and $d$ is the diameter of a circular pipe $[m]$.
 
 \textbf{Form resistance:}\\
-The form resistance describes the pressure losses from fittings in a hydraulic network, 
+The form resistance describes the pressure losses from fittings in a hydraulic network \cite{swamee_pipe}. 
 \begin{equation} \label{eq:form_resistance}
 h_l=k_L \frac{ |v|\cdot v }{2\cdot g}
 \end{equation}
@@ -91,16 +91,15 @@ The form-loss coefficient varies for different components e.g. threaded elbows a
 
 The pressure resistance in the pipe is expressed as:
 \begin{equation}\label{eq:pr_resistance}
-p_r=\rho \cdot g \cdot h 
+p_r=\rho \cdot g \cdot h_n 
 \end{equation}
 
 By substituting $p_r$ in equation \ref{eq:pipe_w_pr} with equation \ref{eq:pr_resistance} the following is obtained,
 
 \begin{equation} \label{eq:pipe_sub_pr}
-\frac{\rho \cdot l}{A}\cdot \frac{d}{dt}Q = \Delta p - \rho \cdot g \cdot h 
+\frac{\rho \cdot l}{A}\cdot \frac{d}{dt}Q = \Delta p - \rho \cdot g \cdot h_n 
 \end{equation}
-
-The surface and form, equations \ref{eq:surface_resistance} and \ref{eq:form_resistance}, can be inserted into equation \ref{eq:pipe_sub_pr},
+Where $h_n$ is the form and surface resistance. The surface and form, equations \ref{eq:surface_resistance} and \ref{eq:form_resistance}, can be inserted into equation \ref{eq:pipe_sub_pr},
 
 % \begin{equation} \label{eq:pipe_sub_pr_2}
 % \frac{\rho \cdot l}{A}\cdot \frac{d}{dt}Q = \Delta p - \rho \cdot g \cdot h_l - \rho \cdot g \cdot h_f
@@ -112,7 +111,7 @@ The surface and form, equations \ref{eq:surface_resistance} and \ref{eq:form_res
 \frac{\rho \cdot l}{A} \cdot \frac{d}{dt}Q = \Delta p - \rho\cdot g\left(k_L \frac{ |v|\cdot v }{2\cdot g}+ \frac{8\cdot f  \cdot l}{\pi^2\cdot g \cdot d^5} \cdot |Q| \cdot Q\right) 
 \end{equation}
 
-Substitute the head loss factors with $k_v$, a coefficient describing the pressure losses in the pipes, and the pipe inertance $J$ instead of $\frac {\rho\cdot l}{A}$, the final pipe model is expressed as,
+Substitute the head loss factors with $k_v$, a coefficient describing the pressure losses in the pipes, and $\frac {\rho\cdot l}{A}$ is inertance $J$. The final pipe model is expressed as,
 
 \begin{equation}\label{eq:pipe_model}
   J\cdot \frac{d}{dt}Q = \Delta p - \rho \cdot g \cdot k_v \cdot |Q| \cdot Q
