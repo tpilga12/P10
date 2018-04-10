@@ -1,6 +1,7 @@
 \section{Transport of concentrate}\label{se:transport_of_concentrate}
 
 A model for transport of concentrate in sewer pipes is obtained in the following.
+In figure \ref{fig:poopvolume} a control volume is seen.
 
 \begin{figure}[H]
 \centering
@@ -9,8 +10,16 @@ A model for transport of concentrate in sewer pipes is obtained in the following
 \label{fig:poopvolume}
 \end{figure} 
 
- A derivation of a one dimensional model for transport of concentration, in channel flow, is given. 
- As in section \ref{se:hydraulics_of_sewer_line} certain assumptions is made when deriving the model.
+As the transport of concentrate is dependent on the flow in a channel then the conservation of continuity in equation \ref{saintbernard_mass_lateral} can be written as:
+\begin{equation}
+\begin{array}{l}
+	\frac{\partial A \cdot C{\partial t} + \frac{\partial Q \cdot C}{\partial x}=q \cdot C \\
+	\updownarrow
+	\frac{\partial A \cdot C{\partial t} + \frac{\partial \phi}{\partial x}=q_c \\
+\end{array}	
+\end{equation}
+ % A derivation of a one dimensional model for transport of concentration, in channel flow, is given. 
+ % As in section \ref{se:hydraulics_of_sewer_line} certain assumptions is made when deriving the model.
 
  \begin{table}[H]
 \begin{enumerate}
@@ -19,38 +28,38 @@ A model for transport of concentrate in sewer pipes is obtained in the following
 \end{enumerate}
 \label{tab:concentrate_flow}
 \end{table}
- In figure \ref{fig:poopvolume} the control volume is seen. 
+ 
 
 
-%  \begin{figure}[H]
-% \centering
-% \includegraphics[width=.6\textwidth]{report/modeling/pictures/concentrate_volume.png}
-% \caption{Illustration of a control volume with concentrate.}
-% \label{fig:concentrate_volume}
-% \end{figure} 
+% %  \begin{figure}[H]
+% % \centering
+% % \includegraphics[width=.6\textwidth]{report/modeling/pictures/concentrate_volume.png}
+% % \caption{Illustration of a control volume with concentrate.}
+% % \label{fig:concentrate_volume}
+% % \end{figure} 
 
-From the control volume an equation for conservation of continuity can be derived as in section \ref{se:hydraulics_of_sewer_line}. The change of stored concentrate in the control volume is given as:
+% From the control volume an equation for conservation of continuity can be derived as in section \ref{se:hydraulics_of_sewer_line}. The change of stored concentrate in the control volume is given as:
 
-\begin{equation}
- \left(V \cdot C + \frac{\partial (V\cdot C)}{\partial t} \frac{\Delta x}{2} \Delta t \right) - \left(V \cdot C - \frac{\partial (V\cdot C)}{\partial t} \Delta t \right) = \frac{\partial (V\cdot C)}{\partial t}\Delta t
-\label{eq:poop_storing}
-\end{equation}
+% \begin{equation}
+%  \left(V \cdot C + \frac{\partial (V\cdot C)}{\partial t} \frac{\Delta x}{2} \Delta t \right) - \left(V \cdot C - \frac{\partial (V\cdot C)}{\partial t} \Delta t \right) = \frac{\partial (V\cdot C)}{\partial t}\Delta t
+% \label{eq:poop_storing}
+% \end{equation}
 
-Where V is the volume [$m^3$] and C is the concentrate [$\frac{g}{m^3}$]. 
+% Where V is the volume [$m^3$] and C is the concentrate [$\frac{g}{m^3}$]. 
 
-The flux of concentrate in and out of the control volume at a given time $\Delta t$ is given as:
+% The flux of concentrate in and out of the control volume at a given time $\Delta t$ is given as:
 
 
- \begin{equation}
-  	\left( \phi_{in} - \phi_{out} + \phi_{lateral} \right) \Delta t   =	\phi \cdot \Delta t - \left(\phi + \frac{\partial \phi}{\partial x}\Delta x \right) \Delta t + m \cdot \Delta x \cdot \Delta t = - \frac{\partial \phi}{\partial x}\cdot \Delta x \cdot \Delta t +m \cdot \Delta x \cdot \Delta t  
-  \label{eq:poop_flux_in_out}
-  \end{equation} 
+%  \begin{equation}
+%   	\left( \phi_{in} - \phi_{out} + \phi_{lateral} \right) \Delta t   =	\phi \cdot \Delta t - \left(\phi + \frac{\partial \phi}{\partial x}\Delta x \right) \Delta t + m \cdot \Delta x \cdot \Delta t = - \frac{\partial \phi}{\partial x}\cdot \Delta x \cdot \Delta t +m \cdot \Delta x \cdot \Delta t  
+%   \label{eq:poop_flux_in_out}
+%   \end{equation} 
 
 
 
 Where $\phi$ is the flux [$\frac{g}{s}$] and m is lateral flux input to the control volume [$\frac{g}{s\cdot m}$].
 
-The continuity equation can now be stated as the change in stored concentration equal to the sum of flux in- and outflow from the control volume as given by equation \ref{eq:poop_storing} and \ref{eq:poop_flux_in_out}:
+%The continuity equation can now be stated as the change in stored concentration equal to the sum of flux in- and outflow from the control volume as given by equation \ref{eq:poop_storing} and \ref{eq:poop_flux_in_out}:
 
 \begin{equation}
 	\frac{\partial (V\cdot C)}{\partial t}\Delta t = - \frac{\partial \phi}{\partial x}\cdot \Delta x \cdot \Delta t +m \cdot \Delta x \cdot \Delta t
