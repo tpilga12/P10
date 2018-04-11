@@ -148,7 +148,7 @@ for n = 2:150
     %    H5(m,n) = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+A(m-1,n-1)+A(m-1,n);
         H= abs(H);
        
-        h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.05,50,d);
+        h(m,n)=NewtonRoot(@V1stDer,@V2ndDer,h(m-1,n-1),0.015,50,d);
 %          h(m,n) =BisectionRoot(@V1stDer,0,2,0.01);
 %             h(m,n) = BiSectionV2(@V1stDer,0,2);
         h(m,n)= abs(h(m,n));
