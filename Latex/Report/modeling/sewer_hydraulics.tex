@@ -7,7 +7,7 @@ Modeling fluids is almost always done by considering it as a control volume. The
 Henceforth the control volume will be denoted by the letter $\Omega$ which will correspond to some amount of fluid in a length of sewer line.		
 
 The open channel flow in gravity sewer lines can be described by the Saint-Venant equations which gives an expression for conservation of mass and momentum.
-Some assumptions is made when deriving the Saint-Venant equations:
+Some assumptions is made when deriving the Saint-Venant equations \cite{schutze2011modelling}:
 
 \begin{table}[H]
 \begin{enumerate}
@@ -38,7 +38,7 @@ In figure \ref{fig:firkant_kloak} a flow in a channel is shown.
 
 The flows, Q, q and cross section area of the flow, A, shown in figure \ref{fig:firkant_kloak} is dependent on time and position, but in the following a simpler notation is used for an easier outline. 
 
-The flow into the control volume where Q is the flow considered from the middle of the control volume is given as
+The flow into the control volume where Q is the flow considered from the middle of the control volume is given as.
 
 \begin{equation}
 Q_{in} \cdot \Delta t =	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delta x}{2}\right) \cdot \Delta t + q \cdot \Delta x \cdot \Delta t
@@ -46,7 +46,7 @@ Q_{in} \cdot \Delta t =	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delt
 \end{equation}
 
 Where q is the lateral inflow across the entire channel [$\frac{m^2}{s}$] and Q is the flow in the channel [$\frac{m^3}{s}$]. Lateral inflow could for example come from adjoint sewer pipes or road drain.
-The discharge flow of the channel is given as
+The discharge flow of the channel is given as:
 
 \begin{equation}
 Q_{out} \cdot \Delta t =\left(Q + \frac{\partial Q}{ \partial x} \frac{\Delta x}{2} \right) \cdot \Delta t 
@@ -68,7 +68,7 @@ Change in stored fluid in the channel is given as:
 % 	\frac{\partial A}{\partial t} \cdot \Delta x	\cdot \Delta t
 % \end{equation}
 
-As the flow into the channel minus the flow out is equal to the change in stored fluid in the channel, then due to the assumption of incompressible fluid and uniformity the following can be written.  
+As the flow into the channel minus the flow out is equal to the change in stored fluid in the channel, then due to the assumption of incompressible fluid and uniformity the following can be written:  
 
 \begin{equation}\label{eq:saintbernard_masse_simpel}
 	Q_{in}\cdot \Delta t - Q_{out}\cdot \Delta t = \frac{\partial A}{\partial t} \cdot \Delta x	\cdot \Delta t
@@ -101,11 +101,11 @@ For channel flows without lateral input the mass conservation is given as:
 
 
 \textbf{Momentum} of the control volume $\Omega$ shown in figure \ref{fig:momentum_picture} can be found by utilizing Newtons second law which says that force is equal to mass times acceleration.  
-Basically this means that the momentum of the control volume can be found by integrating the sum of forces in the following differential equation.
+Basically this means that the momentum of the control volume can be found by integrating the sum of forces in the following differential equation:
 \begin{equation}\label{eq:momentum_eq}
 	\frac{d \mathcal{M}(t)}{dt} = \sum_{i}F_i(t)
 \end{equation} 
-Where $\mathcal{M}$(t) is the momentum, given as mass times a velocity vector, of the control volume at time t and $\text{F}_i$(t) is the various external forces affecting the control volume. It describes the movement of a mass that flows through a control volume plus the sum of forces acting on the volume, which is equal to the velocity by which the movement of the mass is store within the control volume. In the following the forces acting upon the control volume will be elaborated. The forces are given by the hydrodynamic, hydrostatic, friction and gravity.
+Where $\mathcal{M}$(t) is the momentum, given as mass times a velocity vector, of the control volume at time t and $\text{F}_i$(t) is the various external forces affecting the control volume. It describes the movement of a mass that flows through a control volume, plus the sum of forces acting on the volume, which is equal to the velocity by which the movement of the mass is store in the control volume. In the following the forces acting upon the control volume will be elaborated. The forces are given by the hydrodynamic, hydrostatic, friction and gravity.
 
 \begin{figure}[H]
 \centering
@@ -115,15 +115,15 @@ Where $\mathcal{M}$(t) is the momentum, given as mass times a velocity vector, o
 \end{figure}
 
 
-As already mentioned the derivate of the momentum is mass times the velocity which is equal to the force. Therefore the hydrodynamic force given by the fluid particles at each end of a infinite small slice of a control volume is given as.
-\begin{equation}
+As already mentioned the derivate of the momentum is mass times the velocity which is equal to the force. Therefore the hydrodynamic force given by the fluid particles at each end of a infinite small slice of a control volume is given as:
+\begin{equation}\label{eq:force_equal_vrhoQ}
 	F= M \frac{dv}{dt} + \frac{dM}{dt} \cdot v 
 \end{equation}
-This is obtained by using the product rule for the derivate of the momentum. The forces is given as mass $[kg]$ times the acceleration $\left[\frac{m}{s^2}\right]$ plus the derivate of the mass times velocity $\left[\frac{m}{s}\right]$. As the acceleration is insignificant it is neglected as the acceleration with a small slice is close to zero. The derivate of the mass is.
-\begin{equation}
+This is obtained by using the product rule for the derivate of the momentum. The forces is given as mass $[kg]$ times the acceleration $\left[\frac{m}{s^2}\right]$ plus the derivate of the mass times velocity $\left[\frac{m}{s}\right]$. As the acceleration is insignificant it is neglected due to the acceleration in a small slice is close to zero. The derivate of the mass is:
+\begin{equation}\label{eq:mellem_regning_for_momentum}
 	\frac{dM}{dt} = \rho \frac{dV}{t} = \rho\cdot Q
 \end{equation}
-Where the derivate of the mass is equal the the density time the derivate of the volume. The derivate of the volume V $\left[m^3\right]$ is equal to the mass flow Q $\left[\frac{m^3}{s}\right]$ and rho is the density $\left[\frac{kg}{m^3}\right]$. Therefore the force, given by the fluid particles at each end, can be written as.
+Where the derivate of the mass is equal to the density times the derivate of the volume. The derivate of the volume V $\left[m^3\right]$ is equal to the mass flow Q $\left[\frac{m^3}{s}\right]$ and rho is the density $\left[\frac{kg}{m^3}\right]$. By inserting equation \ref{eq:mellem_regning_for_momentum} into equation \ref{eq:force_equal_vrhoQ} the force, given by the fluid particles at each end, can be written as:
 \begin{equation}
 	F = \rho\cdot Q\cdot v 
 \end{equation}
@@ -141,7 +141,7 @@ The hydrodynamic force given by the in- and output of fluid particles in the con
 % \left(\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2}\right)_{in} - \left(\rho \cdot v \cdot Q + \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} \right)_{out} 
 % \end{equation}
 Where subscript "\textit{in}" denote the force going in through the left side of the channel on figure \ref{fig:momentum_picture} and subscript "\textit{out}" is the force going out to the right side on figure \ref{fig:momentum_picture}.
-The change of particle momentum in the control volume is given as $F_{in}- F_{out}$ and by replacing velocity with $Q/A$ the following is obtained
+The change of particle momentum in the control volume is given as $F_{in}- F_{out}$ and by replacing velocity with $Q/A$ the following is obtained:
 
 \begin{equation}\label{mass_flow_speed}
 \begin{array}{l}
@@ -190,12 +190,12 @@ Last the hydrostatic forces on the x component of the control volume to be found
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth]{report/modeling/pictures/palle_fig.png}
+\includegraphics[width=0.75\textwidth]{report/modeling/pictures/palle_fig}
 \caption{Forces acting on the control volume }
 \label{fig:forces_on_CV}
 \end{figure}\fxnote{Ny tegning og sikkert også caption}
 
-The forces acting on the channel are found by taking a sectional view of it. Furthermore it is assumed to be hydrostatic pressure across the channel, thus the pressure in a height z above the bottom of the channel is given as $g\rho(h-z)$.  
+The hydrostatic forces acting on the channel are found by taking a sectional view. Furthermore by assuming hydrostatic pressure across the channel, thus the pressure in a height z above the bottom of the channel is given as $g\rho(h-z)$, here h is the hight of the wastewater.  
 The hydrostatic forces acting on the control volume to the left is given as:
 \begin{equation}\label{eq:P1}
 	F_{P1} = \int_{0}^{h_l} \rho \cdot g (h_l - z)\cdot b(z) dz
