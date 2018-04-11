@@ -20,8 +20,11 @@ C_init = in.C_init; % initial concentrate in pipe
 C_in = in.C_in; % concentrate input
 Q_in = in.Q_in;
 Q_init = in.Q_init;
+
 h_min = 0; h_max = d;
-h'=(h_min+h_max;)
+
+Q_mark = 10; % initial value that makes sure the while loop runs at least once
+epsi = Q_init/100;
 g = 9.81; %[m/s^2] gravitational constant
 
 % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
@@ -35,15 +38,26 @@ end
     for n = 1:sections
        %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
         if m == 1 && n==1
-            while epsi > 0.005
-                
-                
-            end
+     
             Q(1,1:sections) = Q_init;
             C(1,1:sections) = C_init;
             Ie(1:iteration,1:sections) = Ib; % this is gay and cant be right FIGURE IT OUT!!!!!
             Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
             Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie(m,n)^0.5;% Hennings
+
+            while epsi < abs(Q_init-Q_mark)
+                h_mark=(h_min+h_max)
+                Q_mark = 72*hy_radius(h_mark)^(2/3)*sqrt(Ib)*Area_fun(h_mark)  
+                if Q_mark < Q_init
+                    h_min = h_mark;
+                else
+                    h_max = h_mark;
+                end
+            end
+            
+            
+            
+            
             % Regression to a plot, to find Q from a function 
 
             %h_test=0.0001:d/100:d;
@@ -126,10 +140,12 @@ end
     0.08*pi*sin(2*pi*(h/d)))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
     end
 
-    function f = Area(h)
+    function f = Area_fun(h)
         f = d^2/4 * acos(((d/2)-h)/(d/2))-sqrt(h*(d-h))*((d/2)-h);
     end
-
+    function f=hy_radius(h)
+        f = acos(1-(h/d/2))*d;
+    end
     
 end
 

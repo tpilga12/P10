@@ -8,6 +8,7 @@ function [output]=pipe(spec,sim,in,out,m)
                 %length of pipe is Dx*n
 
 % persistent H Q h A C Ie
+persistent h_mark
 Ib = spec.Ib; 
 d = spec.d; %[m] Diameter
 k = spec.k; %sandruhed angives typisk i mm der skal bruges m i formler
@@ -22,7 +23,8 @@ Q_in = in.Q_in;
 Q_init = in.Q_init;
 
 h_min = 0; h_max = d;
-h'=(h_min+h_max;)
+
+Q_mark = 10; % initial value that makes sure the while loop runs at least once
 epsi = Q_init/100;
 g = 9.81; %[m/s^2] gravitational constant
 
@@ -37,15 +39,24 @@ end
     for n = 1:sections
        %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
         if m == 1 && n==1
-            while epsi > 0.005
-                
-                
-            end
+     
             Q(1,1:sections) = Q_init;
             C(1,1:sections) = C_init;
             Ie(1:iteration,1:sections) = Ib; % this is gay and cant be right FIGURE IT OUT!!!!!
             Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
             Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie(m,n)^0.5;% Hennings
+
+            while epsi < abs(Q_init-Q_mark)
+                h_mark=(h_min+h_max)/2
+                area_it = Area_fun(h_mark);
+                Q_mark = 72*(area_it/hy_radius(h_mark))^(2/3)*Ib^0.5*area_it;  
+                if Q_mark < Q_init
+                    h_min = h_mark;
+                else
+                    h_max = h_mark;
+                end
+            end
+            
             % Regression to a plot, to find Q from a function 
 
             %h_test=0.0001:d/100:d;
@@ -55,14 +66,16 @@ end
             end
             fitfunc = fit(Q_initialize',h_init','poly9');
             output.fitfunc = fitfunc;
-            h(1:sections) = fitfunc.p1*Q_init.^9 +fitfunc.p2*Q_init.^8 + fitfunc.p3*Q_init.^7 + fitfunc.p4*Q_init.^6 + fitfunc.p5*Q_init.^5 + fitfunc.p6*Q_init.^4 + fitfunc.p7*Q_init.^3 + fitfunc.p8*Q_init^2 + fitfunc.p9*Q_init +fitfunc.p10;
+ %           h(1:sections) = fitfunc.p1*Q_init.^9 +fitfunc.p2*Q_init.^8 + fitfunc.p3*Q_init.^7 + fitfunc.p4*Q_init.^6 + fitfunc.p5*Q_init.^5 + fitfunc.p6*Q_init.^4 + fitfunc.p7*Q_init.^3 + fitfunc.p8*Q_init^2 + fitfunc.p9*Q_init +fitfunc.p10;
+            h(1:sections) = h_mark;    
             A(1:sections) = d^2/4 * acos(((d/2)-h(n))/(d/2))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%  
         elseif m > 1 && n == 1
             Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
             Q(m,n) = Q_in;
-            h(m,n) = out.fitfunc.p1*Q_in.^9 +out.fitfunc.p2*Q_in.^8 + out.fitfunc.p3*Q_in.^7 + out.fitfunc.p4*Q_in.^6 + out.fitfunc.p5*Q_in.^5 + out.fitfunc.p6*Q_in.^4 + out.fitfunc.p7*Q_in.^3 + out.fitfunc.p8*Q_in^2 + out.fitfunc.p9*Q_in +out.fitfunc.p10;
+            %h(m,n) = out.fitfunc.p1*Q_in.^9 +out.fitfunc.p2*Q_in.^8 + out.fitfunc.p3*Q_in.^7 + out.fitfunc.p4*Q_in.^6 + out.fitfunc.p5*Q_in.^5 + out.fitfunc.p6*Q_in.^4 + out.fitfunc.p7*Q_in.^3 + out.fitfunc.p8*Q_in^2 + out.fitfunc.p9*Q_in +out.fitfunc.p10;
+            h(m,n) = h_mark;
             A(m,n) = d^2/4 * acos(((d/2)-h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
             C(m,n) = C_in;
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -128,10 +141,12 @@ end
     0.08*pi*sin(2*pi*(h/d)))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
     end
 
-    function f = Area(h)
+    function f = Area_fun(h)
         f = d^2/4 * acos(((d/2)-h)/(d/2))-sqrt(h*(d-h))*((d/2)-h);
     end
-
+    function f=hy_radius(h)
+        f = acos(1-(h/(d/2)))*d;
+    end
     
 end
 
