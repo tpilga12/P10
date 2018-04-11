@@ -1,4 +1,4 @@
-function [output]=pipe(spec,sim,in,out,m)
+function [output]=pipe(piping,input,x,out,m)
                 %Pipe(bed slope(Ib),        Ruhedsfaktor(k),
                 %Delta t(Dt),               Delta x(Dx), 
                 %Diameter(d),               Pipe sections(sections),
@@ -8,20 +8,18 @@ function [output]=pipe(spec,sim,in,out,m)
                 %length of pipe is Dx*n
 
 % persistent H Q h A C Ie
+global Dt iterations Q_init C_init
 persistent h_mark
 limitvalue = 0.05; %newton stop iteration value
-Ib = spec.Ib; 
-d = spec.d; %[m] Diameter
-k = spec.k; %sandruhed angives typisk i mm der skal bruges m i formler
-Theta = sim.Theta;
-Dt = sim.Dt; %[s] grid time
-Dx = sim.Dx; %[m] grid distance
-sections = sim.sections; % Number of sections,
-iteration = sim.iterations;
-C_init = in.C_init; % initial concentrate in pipe
-C_in = in.C_in; % concentrate input
-Q_in = in.Q_in;
-Q_init = in.Q_init;
+Ib = piping(x).Ib; 
+d = piping(x).d; %[m] Diameter
+k = piping(x).k; %sandruhed angives typisk i mm der skal bruges m i formler
+Theta = piping(x).Theta;
+Dx = piping(x).Dx; %[m] grid distance
+sections = piping(x).sections; % Number of sections,
+C_in = input.C_in; % concentrate input
+Q_in = input.Q_in;
+
 
 h_min = 0; h_max = d;
 
@@ -37,18 +35,24 @@ if m > 1
     C = out.C;
     Ie = out.Ie;
 end
+
     for n = 1:sections
        %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
         if m == 1 && n==1
-     
-            Q(1,1:sections) = Q_init;
-            C(1,1:sections) = C_init;
-            Ie(1:iteration,1:sections) = Ib; % this is gay and cant be right FIGURE IT OUT!!!!!
+            temp{x+1}= 0;
+            if x == 1
+                Q(1,1:sections) = Q_init;
+                C(1,1:sections) = C_init;
+            else
+                Q(1,1:sections) = Q_init;
+                C(1,1:sections) = C_init;
+            end
+            Ie(1:iterations,1:sections) = Ib; % this is gay and cant be right FIGURE IT OUT!!!!!
             Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
             Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie(m,n)^0.5;% Hennings
 
             while epsi < abs(Q_init-Q_mark)
-                h_mark=(h_min+h_max)/2
+                h_mark=(h_min+h_max)/2;
                 area_it = Area_fun(h_mark);
                 Q_mark = 72*(area_it/hy_perimeter(h_mark))^(2/3)*Ib^0.5*area_it;
 %                Q_mark = -72*(d/4)^0.635 * pi*(d/2)^2*Ib^0.5*(0.46-0.5*cos(pi*(h_mark/d))+0.04*cos(2*pi*(h_mark/d)))
@@ -68,7 +72,7 @@ end
                Q_initialize(t)=(0.46 - 0.5 *cos(pi*(h_init(t)/d))+0.04*cos(2*pi*(h_init(t)/d)))*Qf;
             end
             fitfunc = fit(Q_initialize',h_init','poly9');
-            output.fitfunc = fitfunc;
+            temp{x}.fitfunc = fitfunc;
  %           h(1:sections) = fitfunc.p1*Q_init.^9 +fitfunc.p2*Q_init.^8 + fitfunc.p3*Q_init.^7 + fitfunc.p4*Q_init.^6 + fitfunc.p5*Q_init.^5 + fitfunc.p6*Q_init.^4 + fitfunc.p7*Q_init.^3 + fitfunc.p8*Q_init^2 + fitfunc.p9*Q_init +fitfunc.p10;
             h(1:sections) = h_mark;    
             A(1:sections) = d^2/4 * acos(((d/2)-h(n))/(d/2))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
@@ -98,14 +102,15 @@ end
 %             end
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                %%%% euler bagl?ns %%%%
+                C(m,n)= (C(m,n-1)*A(m,n))/(A(m,n)+Q(m,n)*(Dt/Dx))+(Q(m,n)*C(m-1,n))/(A(m,n)*(Dx/Dt)+Q(m,n)); 
+                %%%%%%%%%%%%%%%%%%%%%%%
+                %%%%%%%%%%% explicit from numerical %%%%%%%
+%               C(m,n)= (Q(m,n)/A(m,n))*(Dt/Dx)*(C(m-1,n-1)-C(m-1,n))+C(m-1,n);
+%               C(m+1,n)=C(m,n) + (Q(m,n)/A(m,n))*(Dt/2*Dx)*(C_in-C(m,n+1));
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%             if m == 2
-%             C(m,n)= (Q(m,n)/A(m,n))*(Dt/Dx)*(C(m-1,n-1)-C(m-1,n))+C(m-1,n);
-            C(m,n)= (C(m,n-1)*A(m,n))/(A(m,n)+Q(m,n)*(Dt/Dx))+(Q(m,n)*C(m-1,n))/(A(m,n)*(Dx/Dt)+Q(m,n));
-%             C(m+1,n)=C(m,n) + (Q(m,n)/A(m,n))*(Dt/2*Dx)*(C_in-C(m,n+1));
-%             else
-%                 
-%             end
+
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         end
 %         if n == 1 && n < sections && m < iteration
@@ -128,17 +133,18 @@ end
 %             end
 %         end
 %        
-output.Q = Q;
-output.Q_out = Q(:,end);
-output.A = A;
-output.h = h;
-output.C = C;
-output.C_out = C(:,end);
-output.Ie = Ie;
+temp{x}.Q = Q;
+temp{x}.Q_out = Q(:,end);
+temp{x}.A = A;
+temp{x}.h = h;
+temp{x}.C = C;
+temp{x}.C_out = C(:,end);
+temp{x}.Ie = Ie;
 if m > 1
-output.fitfunc = out.fitfunc;
-end        
+temp{x}.fitfunc = out.fitfunc;
+end
 
+output = temp;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
