@@ -9,6 +9,7 @@ function [output]=pipe(spec,sim,in,out,m)
 
 % persistent H Q h A C Ie
 persistent h_mark
+limitvalue = 0.05; %newton stop iteration value
 Ib = spec.Ib; 
 d = spec.d; %[m] Diameter
 k = spec.k; %sandruhed angives typisk i mm der skal bruges m i formler
@@ -25,7 +26,7 @@ Q_init = in.Q_init;
 h_min = 0; h_max = d;
 
 Q_mark = 10; % initial value that makes sure the while loop runs at least once
-epsi = Q_init/100;
+epsi = Q_init/10;
 g = 9.81; %[m/s^2] gravitational constant
 
 % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
@@ -49,7 +50,9 @@ end
             while epsi < abs(Q_init-Q_mark)
                 h_mark=(h_min+h_max)/2
                 area_it = Area_fun(h_mark);
-                Q_mark = 72*(area_it/hy_radius(h_mark))^(2/3)*Ib^0.5*area_it;  
+                Q_mark = 72*(area_it/hy_perimeter(h_mark))^(2/3)*Ib^0.5*area_it;
+%                Q_mark = -72*(d/4)^0.635 * pi*(d/2)^2*Ib^0.5*(0.46-0.5*cos(pi*(h_mark/d))+0.04*cos(2*pi*(h_mark/d)))
+                        
                 if Q_mark < Q_init
                     h_min = h_mark;
                 else
@@ -81,15 +84,24 @@ end
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Iteration %%%%%%%%%%%%%%%%%%%%%%%%%%%  
         elseif m > 1 && n > 1
-            H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
-            h(m,n)=NewtonRoot(@V,@V_dot,h(m-1,n-1),0.05,50,d,Ie,H,Dt,Dx,Theta,m,n);
-            A(m,n) = d^2/4 * acos(((d/2)- h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
-            Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
+%             if n == 2
+%                 H = ((1-Theta)*Q(m-1,n-1)-(1-Theta)*Q(m-1,n)+Theta*Q(m,n-1))*Dt/Dx + A(m,n-1);
+%                 h(m,n)=NewtonRoot(@V,@V_dot,h(m-1,n-1),limitvalue,50,d,Ie,H,Dt,Dx,Theta,m,n);
+%                 A(m,n) = d^2/4 * acos(((d/2)- h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
+%                 Q(m,n) =(-1/(Theta))*(A(m,n)-H)*Dx/Dt;
+%             else
+                H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+2*Theta*Q(m,n-1))*Dt/Dx - A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
+                h(m,n)=NewtonRoot(@V,@V_dot,h(m-1,n-1),limitvalue,50,d,Ie,H,Dt,Dx,Theta,m,n);
+                A(m,n) = d^2/4 * acos(((d/2)- h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
+                Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
+
+%             end
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %             if m == 2
-            C(m,n)= (Q(m,n)/A(m,n))*(Dt/Dx)*(C(m-1,n-1)-C(m-1,n))+C(m-1,n);
+%             C(m,n)= (Q(m,n)/A(m,n))*(Dt/Dx)*(C(m-1,n-1)-C(m-1,n))+C(m-1,n);
+            C(m,n)= (C(m,n-1)*A(m,n))/(A(m,n)+Q(m,n)*(Dt/Dx))+(Q(m,n)*C(m-1,n))/(A(m,n)*(Dx/Dt)+Q(m,n));
 %             C(m+1,n)=C(m,n) + (Q(m,n)/A(m,n))*(Dt/2*Dx)*(C_in-C(m,n+1));
 %             else
 %                 
@@ -144,7 +156,7 @@ end
     function f = Area_fun(h)
         f = d^2/4 * acos(((d/2)-h)/(d/2))-sqrt(h*(d-h))*((d/2)-h);
     end
-    function f=hy_radius(h)
+    function f=hy_perimeter(h)
         f = acos(1-(h/(d/2)))*d;
     end
     
