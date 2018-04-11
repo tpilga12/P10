@@ -20,10 +20,8 @@ C_init = in.C_init; % initial concentrate in pipe
 C_in = in.C_in; % concentrate input
 Q_in = in.Q_in;
 Q_init = in.Q_init;
-
 h_min = 0; h_max = d;
 h'=(h_min+h_max;)
-epsi = Q_init/100;
 g = 9.81; %[m/s^2] gravitational constant
 
 % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
