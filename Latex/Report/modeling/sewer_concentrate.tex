@@ -14,7 +14,7 @@ The following assumptions is made obtaining the transport equation.
 In figure \ref{fig:poopvolume} a control volume is seen.
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{report/modeling/pictures/poopvolume.png}
+\includegraphics[width=.6\textwidth]{report/modeling/pictures/poopvolume2.png}
 \caption{Illustration of a control volume containing concentrate.}
 \label{fig:poopvolume}
 \end{figure} 
@@ -26,14 +26,20 @@ The conservation of concentrate in the control volume is dependent on the change
 \frac{\partial A}{\partial t} + \frac{\partial Q}{\partial x}=q
 \end{equation}
 
-Assuming average concentrate, C, across the control volume, and multiplying it with the time derivative and lateral inflow term and replacing the flow Q with a flux term, the following is obtained:
+Assuming average concentrate, C, across the control volume, and multiplying it with the time derivative and lateral inflow term
+
+\begin{equation}
+	\frac{\partial A \cdot C}{\partial t} + \frac{\partial Q}{\partial x}=q \cdot C \\
+\end{equation}
+
+and replacing the flow Q with a flux term, the following is obtained:
 %Multiplying the terms of the continuity equation with the concentrate yields the following:
 \begin{equation}
-\begin{array}{l}
-	\frac{\partial A \cdot C}{\partial t} + \frac{\partial Q}{\partial x}=q \cdot C \\
-	\updownarrow \\
+%\begin{array}{l}
+%	\frac{\partial A \cdot C}{\partial t} + \frac{\partial Q}{\partial x}=q \cdot C \\
+%	\updownarrow \\
 	\frac{\partial A \cdot C}{\partial t} + \frac{\partial \phi}{\partial x}=q_c \\
-\end{array}	
+%\end{array}	
 \label{poop_mass_equation}
 \end{equation}
  % A derivation of a one dimensional model for transport of concentration, in channel flow, is given. 
@@ -65,7 +71,7 @@ Assuming average concentrate, C, across the control volume, and multiplying it w
 %   \label{eq:poop_flux_in_out}
 %   \end{equation} 
 
-Where $\phi$ is the flux [$\frac{g}{s}$] and $q_c$ is lateral flux input to the control volume [$\frac{g}{s\cdot m}$] \cite{vestergaard1989numerical}.
+Where $\phi$ is flux [$\frac{g}{s}$] and $q_c$ is lateral flux input to the control volume [$\frac{g}{s\cdot m}$] \cite{vestergaard1989numerical}.
 
 %The continuity equation can now be stated as the change in stored concentration equal to the sum of flux in- and outflow from the control volume as given by equation \ref{eq:poop_storing} and \ref{eq:poop_flux_in_out}:
 
@@ -117,4 +123,4 @@ Inserting the terms in table \ref{tab:flux_terms} into equation \ref{poop_mass_e
 \label{eq:concentrate_continuity_equation_convective}
 \end{equation}
 
-In closed environments such as sewers longitudinal dispersion can often be neglected\cite{vestergaard1989numerical}. For this reason and to reduce complexity equation \ref{eq:concentrate_continuity_equation_convective} is utilized further on. 
+In closed environments such as sewers longitudinal dispersion can often be neglected\cite{vestergaard1989numerical}. For this reason and to reduce complexity of the simulation, equation \ref{eq:concentrate_continuity_equation_convective} is utilized further on. 
