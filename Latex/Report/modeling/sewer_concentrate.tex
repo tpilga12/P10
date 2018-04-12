@@ -19,19 +19,14 @@ In figure \ref{fig:poopvolume} a control volume is seen.
 \label{fig:poopvolume}
 \end{figure} 
 
-The conservation of concentrate in the control volume is dependent on the change in stored mass, change in flow in a channel then the conservation of mass given by equation \ref{saintbernard_mass_lateral}, which is shown below, can be utilized.
+The conservation of concentrate in the control volume is as in section \ref{se:hydraulics_of_sewer_line} dependent on the change in stored mass and change in flow. This means that the equation for conservation of mass given by equation \ref{saintbernard_mass_lateral}, which is shown below, can be utilized.
 
 \begin{equation}	
 \frac{\partial A}{\partial t} + \frac{\partial Q}{\partial x}=q
 \end{equation}
 
-Assuming average concentrate, C, across the control volume, and multiplying it with the time derivative and lateral inflow term
-
-\begin{equation}
-	\frac{\partial A \cdot C}{\partial t} + \frac{\partial Q}{\partial x}=q \cdot C \\
-\end{equation}
-
-and replacing the flow Q with a flux term, the following is obtained:
+Assuming average concentrate, C, across the control volume, and multiplying it with the terms of the continuity equation, the following is obtained:
+%Assuming average concentrate, C, across the control volume, and multiplying it with the time derivative and lateral inflow term and replacing the flow term, Q, with a flux term, the following is obtained:
 %Multiplying the terms of the continuity equation with the concentrate yields the following:
 \begin{equation}
 %\begin{array}{l}
@@ -70,7 +65,7 @@ and replacing the flow Q with a flux term, the following is obtained:
 %   \label{eq:poop_flux_in_out}
 %   \end{equation} 
 
-Where $\phi$ is flux [$\frac{g}{s}$] and $q_c$ is lateral flux input to the control volume [$\frac{g}{s\cdot m}$] \cite{vestergaard1989numerical}.
+Where $\phi$ is a flux [$\frac{g}{s}$] term replacing the flow term, $Q$ and $q_c$ is lateral flux input to the control volume [$\frac{g}{s\cdot m}$] replacing the lateral inflow term $q$  \cite{vestergaard1989numerical}.
 
 %The continuity equation can now be stated as the change in stored concentration equal to the sum of flux in- and outflow from the control volume as given by equation \ref{eq:poop_storing} and \ref{eq:poop_flux_in_out}:
 
