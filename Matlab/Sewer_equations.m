@@ -231,6 +231,7 @@ for t =1:150
     xlabel('Distance [m]');
     ylabel('Flow [m^3/s]');
     ylim([0. 0.05])
+    
     pause(0.5)
 end
 %%
