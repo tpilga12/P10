@@ -1,6 +1,6 @@
-\section{Hydraulics of sewer line}\label{se:hydraulics_of_sewer_line}
+﻿\section{Hydraulics of sewer line}\label{se:hydraulics_of_sewer_line}
 Methods to model hydraulics of gravity and pressurized sewer lines is explained respectively in the following. 
-
+\fxnote{q beskrives sammen med store Q som flow, der er en fejl. ligning 3.27 mangler lidt forklaring. }
 
 \subsection{Open channel}\label{subse:open_channel}
 Modeling fluids is almost always done by considering it as a control volume. The reason is that it is rarely efficient, computational wise, or possible to consider the individual fluid particles.
@@ -210,7 +210,7 @@ Where $h_l$ is the water hight to the left of the channel, b(z) is the width of 
 \end{equation}
 The integral of $F_{P2}$ is: 
 \begin{equation}
-	F_{P2} = -\int_{0}^{h_l} \rho \cdot g (h_r - h_l)\cdot b(z)dz = -\rho g \frac{\partial h}{\partial x}\Delta x A_v
+	F_{P2} = -\int_{0}^{h_l} \rho \cdot g (h_r - h_l)\cdot b(z)dz = -\rho g \frac{\partial h}{\partial x}\Delta x A_l
 \end{equation}
 Where $h_r$ is the water hight to the right of the channel. By assuming the width, b is constant the following can be approximated: 
 \begin{equation}
