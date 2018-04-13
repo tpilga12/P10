@@ -17,7 +17,7 @@ if call == 1
 
 %%%%%%%%%%%%%%%%%% pipe2 %%%%%%%%%%%%%%
     pipe.Ib = 0.00214; %bed slope
-    pipe.d = 0.6; %[m] Diameter
+    pipe.d = 0.8; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     pipe.Theta = 0.65;
@@ -30,7 +30,7 @@ if call == 1
 
 %%%%%%%%%%%%%%%%%% pipe3 %%%%%%%%%%%%%%
     pipe.Ib = 0.00214; %bed slope
-    pipe.d = 0.6; %[m] Diameter
+    pipe.d = 1.0; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     pipe.Theta = 0.65;

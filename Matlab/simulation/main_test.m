@@ -5,8 +5,8 @@ global Dt iterations Q_init C_init
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
-iterations = 800;
-Dt = 30;
+iterations = 400;
+Dt = 25;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C_init = 8; % initial concentrate in pipe
 
@@ -20,12 +20,9 @@ input.Q_in = 0.015;
 pieces = nr_pipes + 0; %add other pieces that should be in the simulation
 data{1} = 0;
 for m = 1:iterations
-    if m == 200
-        input.Q_in = 0.03;
-    elseif m > 600
-        input.Q_in = 0.05;
+    if m > 200
+        input.Q_in = 0.025;
     end
-    
     for x = 1:pieces
         [data(1,x)] = pipe(pipe_spec,input,data,x,m);
     end
@@ -33,7 +30,7 @@ for m = 1:iterations
 end
 
 %%
-plot_data(data,nr_pipes,0.2,Dt,pipe_spec)
+plot_data(data,nr_pipes,0.1,Dt,pipe_spec)
 
 
 %data = simulation(Q_init,C_init)
