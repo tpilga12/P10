@@ -1,0 +1,53 @@
+\section{Concentrate}\label{sec:concentrate}
+
+Various explicit and implicit schemes exists to solve the transport equation obtained in section \ref{se:transport_of_concentrate} and shown below.
+
+\begin{equation}
+\frac{\partial (A\cdot C)}{\partial t} + \frac{\partial (Q \cdot C)}{\partial x} = q_c 
+\label{eq:transport_sim}
+\end{equation}
+
+
+
+
+\begin{equation}
+	\frac{\partial (A\cdot C)}{\partial t}+ \frac{\partial (Q \cdot C)}{\partial x} = q_c
+\end{equation}
+
+\begin{equation}
+	C \cdot \frac{\partial A}{\partial t} + A \cdot \frac{\partial C}{\partial t} + C \cdot \frac{\partial Q}{\partial x} + Q \cdot \frac{\partial C}{\partial x} = q_c
+\end{equation}
+
+\begin{equation}
+	C \cdot \frac{\partial A}{\partial t} + C \cdot \frac{\partial Q}{\partial x} = q_c
+\end{equation}
+
+
+\begin{equation}
+	A \cdot \frac{\partial C}{\partial t} + Q \cdot \frac{\partial C}{\partial x} = 0
+\end{equation}
+
+
+\begin{equation}
+	A(x,t) \cdot \frac{C(x,t) - C(x,t-\Delta t)}{\Delta t} + Q(x,t) \cdot \frac{C(x,t)-C(x-\Delta x,t)}{\Delta x} = 0
+\end{equation}
+
+
+\begin{equation}
+\begin{array}{l}
+	A(x,t) \cdot \frac{C(x,t)}{\Delta t} + Q(x,t) \cdot \frac{C(x,t)}{\Delta x} = A(x,t) \cdot \frac{C(x,t-\Delta t)}{\Delta t} + Q(x,t) \cdot \frac{C(x-\Delta x,t)}{\Delta x} \\
+
+	\Updownarrow \\
+
+C(x,t) \cdot \left( \frac{A(x,t)}{\Delta t} + \frac{Q(x,t)}{\Delta x} \right) = A(x,t) \cdot \frac{C(x,t-\Delta t)}{\Delta t} + Q(x,t) \cdot \frac{C(x-\Delta x,t)}{\Delta x} \\
+
+\Updownarrow \\
+
+C(x,t) = \frac{ A(x,t) \cdot \frac{C(x,t-\Delta t)}{\Delta t}}{\frac{A(x,t)}{\Delta t} + \frac{Q(x,t)}{\Delta x}}   +   \frac{ Q(x,t) \cdot \frac{C(x-\Delta x,t)}{\Delta x}}{\frac{A(x,t)}{\Delta t} + \frac{Q(x,t)}{\Delta x}} \\
+
+\Updownarrow \\
+
+C(x,t) = \frac{ A(x,t) \cdot C(x,t-\Delta t) }{ A(x,t)+Q(x,t) \cdot \frac{\Delta t}{ \Delta x} } + \frac{Q(x,t) \cdot C(x-\Delta x,t)}{Q(x,t)+A(x,t)\cdot \frac{\Delta x}{\Delta t}}
+
+\end{array}	
+\end{equation}

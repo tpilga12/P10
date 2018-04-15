@@ -1,39 +1,36 @@
 %% Sewer pipe equations
 clc
 clear all
-global Dt iterations Q_init C_init
+global Dt iterations Q_init C_init m
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
-iterations = 800;
-Dt = 30;
+iterations = 400;
+Dt = 25;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C_init = 8; % initial concentrate in pipe
-
 Q_init = 0.015;
 
-input.C_in= 10; % concentrate input [g/m^3]
-input.Q_in = 0.015;
-
-
 [pipe_spec nr_pipes] = pipe_setup(1);
-pieces = nr_pipes + 0; %add other pieces that should be in the simulation
+
 data{1} = 0;
 for m = 1:iterations
-    if m == 200
-        input.Q_in = 0.03;
-    elseif m > 600
-        input.Q_in = 0.05;
-    end
-    
-    for x = 1:pieces
-        [data(1,x)] = pipe(pipe_spec,input,data,x,m);
+    %%%%%% inputs %%%%%%%%%%%%
+    input.C_in= 10; % concentrate input [g/m^3]
+    input.Q_in = 0.015 +sin(m)/100;
+    input.lat.Q{1} = 0.01;
+    input.lat.C{1} = 20;
+    input.lat.Q{2} = 0.05;
+    input.lat.C{2} = 10;
+    %%%%%%%%%%%%%%%%%%%%%%
+    for x = 1:nr_pipes
+        [data(1,x)] = pipe(pipe_spec,input,data,x);
     end
    
 end
 
 %%
-plot_data(data,nr_pipes,0.2,Dt,pipe_spec)
+plot_data(data,nr_pipes,0.1,Dt,pipe_spec)
 
 
 %data = simulation(Q_init,C_init)

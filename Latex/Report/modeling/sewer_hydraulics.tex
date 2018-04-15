@@ -231,11 +231,13 @@ By summing all the hydrostatic forces from equation \ref{mass_flow_speed}, \ref{
 \label{eq:sum_of_forces}
 \end{equation}
 
-Lastly the expression for the momentum is:
+Lastly the time derivative expression of the momentum, which is given by mass times velocity, are:
 
 \begin{equation}\label{eq:leftside_momentum}
 	\frac{\partial}{\partial t} \left(\rho \frac{Q}{A}A\Delta x\right)
 \end{equation}
+Where mass is given by $\rho \cdot A \cdot \Delta x$ and velocity by $Q / A$.
+
 Thereby all the sum of forces from equation \ref{eq:sum_of_forces} can be set equal to  \ref{eq:leftside_momentum}.% Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
 % \begin{equation}
 % \frac{\partial}{\partial t}(\rho\cdot v \cdot A\cdot \Delta x) = \frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
