@@ -32,9 +32,6 @@ if m > 1
     fitfunc = data{x}.fitfunc;
 end
 
-      
-        
-
 for n = 1:sections
     %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
     if m == 1 && n==1
@@ -47,62 +44,55 @@ for n = 1:sections
         end
         fitfunc = fit(Q_initialize',h_init','poly9');
         temp{1}.fitfunc = fitfunc;
-        %h(1:sections) = fitfunc.p1*Q_init.^9 +fitfunc.p2*Q_init.^8 + fitfunc.p3*Q_init.^7 + fitfunc.p4*Q_init.^6 + fitfunc.p5*Q_init.^5 + fitfunc.p6*Q_init.^4 + fitfunc.p7*Q_init.^3 + fitfunc.p8*Q_init^2 + fitfunc.p9*Q_init +fitfunc.p10;
+        %           h(1:sections) = fitfunc.p1*Q_init.^9 +fitfunc.p2*Q_init.^8 + fitfunc.p3*Q_init.^7 + fitfunc.p4*Q_init.^6 + fitfunc.p5*Q_init.^5 + fitfunc.p6*Q_init.^4 + fitfunc.p7*Q_init.^3 + fitfunc.p8*Q_init^2 + fitfunc.p9*Q_init +fitfunc.p10;
+        
         if x == 1
             Q(1,1:sections) = Q_init;
             C(1,1:sections) = C_init;
-            %             h(1:sections) = init_height(epsi,Q_init,Q_mark,0,d);
+%             h(1:sections) = init_height(epsi,Q_init,Q_mark,0,d);
             h(1:sections) = fitfunc.p1*Q_init.^9 +fitfunc.p2*Q_init.^8 + fitfunc.p3*Q_init.^7 + fitfunc.p4*Q_init.^6 + fitfunc.p5*Q_init.^5 + fitfunc.p6*Q_init.^4 + fitfunc.p7*Q_init.^3 + fitfunc.p8*Q_init^2 + fitfunc.p9*Q_init +fitfunc.p10;
-            
+        
         else
-            if piping(x).lat_inflow == 1
-                Q(1,1:sections) = data{x-1}.Q(1,end)+input.lat.Q{x-1};
-                C(1,1:sections) = (data{x-1}.C(m,end)*data{x-1}.Q(m,end)+input.lat.C{x-1}*input.lat.Q{x-1})/(data{x-1}.Q(m,end)+input.lat.Q{x-1});
-                                    
-            else
-                Q(1,1:sections) = data{x-1}.Q(1,end);
-                C(1,1:sections) = data{x-1}.C(1,end);
-            end
+            Q(1,1:sections) = data{x-1}.Q(1,end);
+            C(1,1:sections) = data{x-1}.C(1,end);
             h(1:sections) = data{x-1}.h(1,end);
-            %             h(1:sections) = init_height(epsi,Q(1,1),Q_mark,0,d);
-            %             h(1:sections) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
+%             h(1:sections) = init_height(epsi,Q(1,1),Q_mark,0,d);
+%             h(1:sections) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
         end
+        
         A(1:sections) = d^2/4 * acos(((d/2)-h(n))/(d/2))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
+       
+        
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%
     elseif m > 1 && n == 1
         if x == 1
             Q(m,n) = Q_in;
             C(m,n) = C_in;
-            %             h(m,n) = init_height(epsi,Q_in,Q_mark,0,d);
+%             h(m,n) = init_height(epsi,Q_in,Q_mark,0,d);
             h(m,n) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
         else
-            if piping(x-1).lat_inflow == 1
-                Q(m,n) = data{x-1}.Q(m,end)+input.lat.Q{x-1};
-                C(m,n) = (data{x-1}.C(m,end)*data{x-1}.Q(m,end)+input.lat.C{x-1}*input.lat.Q{x-1})/(data{x-1}.Q(m,end)+input.lat.Q{x-1});
-            else
-                Q(m,n) = data{x-1}.Q(m,end);
-                C(m,n) = data{x-1}.C(m,end);
-            end
+            Q(m,n) = data{x-1}.Q(m,end);
+            C(m,n) = data{x-1}.C(m,end);
             h(m,n) = data{x-1}.h(m,end);
-            %             h(m,n) = init_height(epsi,Q(1,1),Q_mark,0,d);
-            %             h(m,n) = fitfunc.p1*Q(1,1).^9 +fitfunc.p2*Q(1,1).^8 + fitfunc.p3*Q(1,1).^7 + fitfunc.p4*Q(1,1).^6 + fitfunc.p5*Q(1,1).^5 + fitfunc.p6*Q(1,1).^4 + fitfunc.p7*Q(1,1).^3 + fitfunc.p8*Q(1,1)^2 + fitfunc.p9*Q(1,1) +fitfunc.p10;
+%             h(m,n) = init_height(epsi,Q(1,1),Q_mark,0,d);
+%             h(m,n) = fitfunc.p1*Q(1,1).^9 +fitfunc.p2*Q(1,1).^8 + fitfunc.p3*Q(1,1).^7 + fitfunc.p4*Q(1,1).^6 + fitfunc.p5*Q(1,1).^5 + fitfunc.p6*Q(1,1).^4 + fitfunc.p7*Q(1,1).^3 + fitfunc.p8*Q(1,1)^2 + fitfunc.p9*Q(1,1) +fitfunc.p10;
         end
-        %         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
+%         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
         A(m,n) = d^2/4 * acos(((d/2)-h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Iteration %%%%%%%%%%%%%%%%%%%%%%%%%%%
     elseif m > 1 && n > 1
         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+ ...
-            2*Theta*Q(m,n-1))*Dt/Dx - ...
-            A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
+             2*Theta*Q(m,n-1))*Dt/Dx - ...
+             A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
         h(m,n)=NewtonRoot(@V,@V_dot,h(m-1,n-1),limitvalue,50,d,Ie,H,Dt,Dx,Theta,m,n);
         A(m,n) = d^2/4 * acos(((d/2)- h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
         Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%% euler baglaens %%%%
-        %         C(m,n)= (C(m,n-1)*A(m,n))/(A(m,n)+Q(m,n)*(Dt/Dx))+(Q(m,n)*C(m-1,n))/(A(m,n)*(Dx/Dt)+Q(m,n));
+%         C(m,n)= (C(m,n-1)*A(m,n))/(A(m,n)+Q(m,n)*(Dt/Dx))+(Q(m,n)*C(m-1,n))/(A(m,n)*(Dx/Dt)+Q(m,n));
         C(m,n)= (C(m-1,n)*A(m,n))/(A(m,n)+Q(m,n)*(Dt/Dx))+(Q(m,n)*C(m,n-1))/(A(m,n)*(Dx/Dt)+Q(m,n));
         %%%%%%%%%%%%%%%%%%%%%%%
         
