@@ -8,7 +8,7 @@ The numerical method used for solving the Saint Venant equations, described in s
 From section \ref{se:hydraulics_of_sewer_line} the Saint Venant equations for conservation of mass and momentum are derived, they are also shown below.
 
 \begin{equation}\label{eq:saintbernard_mass_preiss}
-\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=q(x,t)
+\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
 \end{equation}
 
 \begin{equation}\label{eq:saintbernard_momentum_preiss}
@@ -46,7 +46,7 @@ These approximations from equations \ref{eq:preissmann_time_derivatie} and \ref{
 
 \begin{equation}\label{eq:continuity_eq_preissmann}
 	\theta \frac{Q_{j+1}^{i+1}-Q_j^{i+1}}{\Delta x}+(1-\theta)\frac{Q_{j+1}^i - Q_j^i}{\Delta x}+
-	\frac{1}{2}\frac{A_{j+1}^{i+1}-A_{j+1}^i}{\Delta t} + \frac{1}{2} \frac{A_{j}^{i+1} - A_j^i}{\Delta t} = q_p
+	\frac{1}{2}\frac{A_{j+1}^{i+1}-A_{j+1}^i}{\Delta t} + \frac{1}{2} \frac{A_{j}^{i+1} - A_j^i}{\Delta t} = 0
 \end{equation}
 
 % \begin{multline}
@@ -82,7 +82,7 @@ The discretized continuity equation \ref{eq:continuity_eq_preissmann} from secti
 
 Where H is a parameter where all the previous flows and areas are known,
 \begin{equation}
-	H = \left(2(1-\theta)Q_j^i-2(1-\theta)Q_{j+1}^i+2\theta Q_j^{i+1}+2q(x,t)\Delta x\right)\frac{\Delta t}{\Delta x}- A_{j}^{i+1}+A_j^i+A_{j+1}^i
+	H = \left(2(1-\theta)Q_j^i-2(1-\theta)Q_{j+1}^i+2\theta Q_j^{i+1}\right)\frac{\Delta t}{\Delta x}- A_{j}^{i+1}+A_j^i+A_{j+1}^i
 \end{equation}
 
 
