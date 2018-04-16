@@ -3,35 +3,18 @@
 Various explicit and implicit schemes exists to solve the transport equation obtained in section \ref{se:transport_of_concentrate} and shown below.
 
 \begin{equation}
-\frac{\partial (A\cdot C)}{\partial t} + \frac{\partial (Q \cdot C)}{\partial x} = q_c 
+A \cdot \frac{\partial C}{\partial t} + Q \cdot \frac{\partial C}{\partial x} = 0
 \label{eq:transport_sim}
 \end{equation}
 
-
-
-
-\begin{equation}
-	\frac{\partial (A\cdot C)}{\partial t}+ \frac{\partial (Q \cdot C)}{\partial x} = q_c
-\end{equation}
-
-\begin{equation}
-	C \cdot \frac{\partial A}{\partial t} + A \cdot \frac{\partial C}{\partial t} + C \cdot \frac{\partial Q}{\partial x} + Q \cdot \frac{\partial C}{\partial x} = q_c
-\end{equation}
-
-\begin{equation}
-	C \cdot \frac{\partial A}{\partial t} + C \cdot \frac{\partial Q}{\partial x} = q_c
-\end{equation}
-
-
-\begin{equation}
-	A \cdot \frac{\partial C}{\partial t} + Q \cdot \frac{\partial C}{\partial x} = 0
-\end{equation}
-
+As area and flow is already found by solving the Saint-Venant equations shown in section \ref{subse:preissmann_scheme} a simple discretization of the transport equation suffices.
+The discretized transport equation is shown below:
 
 \begin{equation}
 	A(x,t) \cdot \frac{C(x,t) - C(x,t-\Delta t)}{\Delta t} + Q(x,t) \cdot \frac{C(x,t)-C(x-\Delta x,t)}{\Delta x} = 0
 \end{equation}
 
+Isolating for C(x,t) in steps is shown in the following:
 
 \begin{equation}
 \begin{array}{l}
@@ -51,3 +34,5 @@ C(x,t) = \frac{ A(x,t) \cdot C(x,t-\Delta t) }{ A(x,t)+Q(x,t) \cdot \frac{\Delta
 
 \end{array}	
 \end{equation}
+
+It can be seen that the concentration can be obtained at current time and place by known values and the solutions of the Saint-Venant equations.

@@ -1,6 +1,5 @@
 ﻿\section{Hydraulics of sewer line}\label{se:hydraulics_of_sewer_line}
 Methods to model hydraulics of gravity and pressurized sewer lines is explained respectively in the following. 
-\fxnote{q beskrives sammen med store Q som flow, der er en fejl. ligning 3.27 mangler lidt forklaring. }
 
 \subsection{Open channel}\label{subse:open_channel}
 Modeling fluids is almost always done by considering it as a control volume. The reason is that it is rarely efficient, computational wise, or possible to consider the individual fluid particles.
@@ -296,7 +295,9 @@ flow acceleration &  &  & acceleration  &  \\ \hline
 
 The kinematic wave is the simplest approximation and ignores the terms representing changes in inertia and pressure by assuming that the slope of the water surface is identical to that of the channel bed. 
 This means that the flow is uniform across an interval $\Delta x$ at a given $\Delta t$ and mechanisms for flood wave peak attenuation is disregarded. Due to the simplicity of the kinematic wave approximation, attenuation which occurs in a real free flowing channel should not be present. Numerical damping can be induced because of the nature of discretization, but mistakenly corrections has been attempted to mitigate the attenuation by choosing smaller step sizes of $\Delta x$ and $\Delta t$, where instead attempts should be made, to fit the sizes, to imitate the natural attenuation of the free flowing channel.     
-Furthermore only one boundary condition is required, which is specified upstream, meaning that any backwater effects such as storing is neglected. This also means that simulation can be done without knowing the lower end boundary of the channel flow. Because of its simplicity the momentum equation in the form of the kinematic wave approximation has been used and researched extensively\cite{stormwatercollectionsystems}.  
+Furthermore only one boundary condition is required, which is specified upstream, meaning that any backwater effects such as storing is neglected. This also means that simulation can be done without knowing the lower end boundary of the channel flow. Because of its simplicity the momentum equation in the form of the kinematic wave approximation has been used and researched extensively\cite{stormwatercollectionsystems}. 
+
+\fxnote{flet noget ind med at vi afgrænser os fra lateralt side input og laver samlings punkter mellem rørerene.} 
 
 
 %\begin{figure}[H]

@@ -15,6 +15,7 @@ Q_init = 0.015;
 
 data{1} = 0;
 for m = 1:iterations
+    if error = 0;
     %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 10; % concentrate input [g/m^3]
     input.Q_in = 0.015 +sin(m)/100;
@@ -26,7 +27,9 @@ for m = 1:iterations
     for x = 1:nr_pipes
         [data(1,x)] = pipe(pipe_spec,input,data,x);
     end
-   
+    else
+        break
+    end
 end
 
 %%

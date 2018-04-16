@@ -17,7 +17,7 @@ rho = 1000;
 g = 9.82;
 h = 0;
 old_hn = 0;
-for n = 2:30
+for n = 2:100
     OD = 1;
     Q_out(n) = abs((b0+b1*OD)*sqrt(rho*g*h(n-1)))
     %Q_out = 0.1+n/100;
@@ -25,4 +25,4 @@ for n = 2:30
     h(n) = h(n-1)+h_dot;
     
 end
-plot(h)
+plot(Dt*(1:n),h)
