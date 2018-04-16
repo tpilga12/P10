@@ -23,8 +23,8 @@ persistent h
       end
       
 
-      Q_out = abs((max_out*O_degree)*sqrt(rho*g*h(m)));
-      h_dot = (1/(Volume/tank_height))*(Q_in - Q_out)/Dt;
+      Q_out = abs((max_out*O_degree*max_out)*sqrt(rho*g*h(m))/1000);
+      h_dot = (1/(Volume/tank_height))*(Q_in - Q_out)*Dt;
       h(m+1) = h(m)+h_dot;
       if h(m+1) < 0
           h(m+1) = 0;
