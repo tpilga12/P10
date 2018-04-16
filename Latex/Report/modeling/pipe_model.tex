@@ -11,33 +11,33 @@ In figure \ref{fig:pipe_3d} an illustration of a pipe is shown.
 \label{fig:pipe_3d}
 \end{figure}
 
-Where the three forces shown in figure \ref{fig:pipe_3d}, $F_{in}$, $F_r$ and $F_{out}$. $F_{in}$ is the force going into the pipe, $F_r$ is the resistance force within the pipe, such as pipe wall and bends. And lastly $F_{out}$ which is the force going out of the pipe. These forces are effecting the wastewater inside the pipe and is equal to the rate of change in the momentum of the water. 
+Where the three forces shown in figure \ref{fig:pipe_3d}, $F_{in}$, $F_r$ and $F_{out}$. $F_{in}$ is the force going into the pipe, $F_r$ is the resistance force within the pipe, such as pipe wall and bends. And lastly $F_{out}$ which is the force going out of the pipe. These forces are effecting the wastewater inside the pipe and is equal to the rate of change in the momentum of the fluid. 
 
 \begin{equation}
 	\frac{d\mathcal{M}}{dt}=F_{sum}
 \end{equation}
 
-Where $\mathcal{M}$ is the momentum $\left[\frac{kg\cdot m}{s}\right]$ and $F_{sum}$ is the sum of all the forces $[N]$. Assuming that the water is incompressible and the pipe is filled with wastewater the following can be obtained: 
+Where $\mathcal{M}$ is the momentum $\left[\frac{kg\cdot m}{s}\right]$ and $F_{sum}$ is the sum of all the forces $[N]$. Assuming that the fluid is incompressible and the pipe is filled with wastewater the following can be obtained: 
 
 \begin{equation}\label{eq:pipe_newton}
 	\frac{d\mathcal{M}}{dt}=\frac{d(M\cdot v)}{dt}=M\frac{dv}{dt}=F_{sum}
 \end{equation}
 %The derivation of the pipe model is based on figure \ref{fig:pipe_3d}, the pipe model is made, with three different forces, $F_{in}$ which is the pressure force going into the pipe, $F_r$ which is the resistance force in the pipe also known as drag force and lastly $F_{out}$ which represents the pressure force pushing to the left.
-Where M is the mass of the water $[kg]$ and v is the velocity $\left[\frac{m}{s}\right]$.  
+Where M is the mass of the fluid $[kg]$ and v is the velocity $\left[\frac{m}{s}\right]$.  
 % Newton's second law applied for the pipe, 
 % \begin{equation}\label{eq:pipe_newton}
 % M\cdot \frac{d}{dt}v = F_{in} - F_{out} - F_r 
 % \end{equation}
-% Where $M$ is the mass of the water $[kg]$, $v$ is the velocity of the water $\left[\frac{m}{s}\right]$ and the resultant forces $F_{in}$, $F_r$ and $F_{out}$ $[N]$.  
-The mass of the water can be written as density times the volume of the pipe,
+% Where $M$ is the mass of the fluid $[kg]$, $v$ is the velocity of the fluid $\left[\frac{m}{s}\right]$ and the resultant forces $F_{in}$, $F_r$ and $F_{out}$ $[N]$.  
+The mass of the fluid can be written as density times the volume of the pipe,
 
 \begin{equation}
 M = \rho \cdot V 
 \end{equation}
 
 Where $\rho$ is the density of liquid $\left[\frac{kg}{m^3}\right]$ and $V$ the volume of the pipe $\left[m^3\right]$.
-%The equation \ref{eq:pipe_newton} is expressing that the water mass multiplied with the water acceleration is equal to the resultant force.\\
-%The mass of the water can be expressed as: 
+%The equation \ref{eq:pipe_newton} is expressing that the fluid mass multiplied with the fluid acceleration is equal to the resultant force.\\
+%The mass of the fluid can be expressed as: 
 %\begin{equation}
 %m = \rho \cdot V \enhed{kg}
 %\end{equation}
@@ -56,7 +56,7 @@ Inserting the previous expressions in equation \ref{eq:pipe_newton} the followin
 \rho \cdot A \cdot l \cdot \frac{d}{dt}v = F_{in}-F_{out}-F_r 
 \end{equation}
 
-The velocity of the water is written as,
+The velocity of the fluid is written as,
 \begin{equation}
 v=\frac{Q}{A} 
 \end{equation}

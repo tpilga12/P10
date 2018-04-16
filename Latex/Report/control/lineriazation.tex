@@ -2,12 +2,16 @@
 To be able to obtain a MPC control algorithm the system needs to be transform into state space form. In this section it will be elaborated how this is obtained.
 
 
-The saint venant equation from section ??? is used. 
+The continuity equation from section ??? and an equation to describe the flow knowing the height is used found in section ????. 
 \begin{equation}\label{eq:linearization_Continuity}
 \frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
 \end{equation}
 
-The equation is expanded to the following:
+\begin{equation}
+	Q = f(h) = \left(0.46-0.5 \cdot cos\left(\pi \frac{h}{d}\right)+0.04\cdot cos\left(2\pi\frac{h}{d}\right)\right)Q_f
+\end{equation}
+
+Equation \ref{eq:linearization_Continuity} is expanded to the following:
 
 \begin{equation}
 	\frac{\partial A(x,t)}{\partial h}\frac{\partial h(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial h}\frac{\partial h(x,t)}{\partial x}=0
@@ -96,7 +100,7 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 		\end{bmatrix}}_{x}
 		\\
 	+ \underbrace{\begin{bmatrix}
-		C \\
+		K \\
 		\\
 					\\
 					\\
@@ -119,7 +123,7 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 		\end{bmatrix}}_{u}
 	\end{aligned}
 \end{equation}
-Where m denotes the numbers of channels in the model.  
+Where m denotes the channel pieces.  
 To obtain a state space for the matrix to the left needs to inversed, thereby obtaining the following equation:
 
 \begin{equation}

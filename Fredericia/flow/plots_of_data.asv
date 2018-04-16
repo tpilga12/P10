@@ -4,12 +4,11 @@ clear all
 close all
 
 load inFlow_fredericia
-flow =  FT1156IndlbsflowMt;
-%%
+flow =  datastr(FT1156IndlbsflowMt;
+
 load Time_fredericia
-time = datetime(Tid);
-%time = datetime(Tid,'format','DD-MM-yyyy');
-%time = [time(:,1), time(:,2), time(:,3), time(:,4), time(:,5), time(:,6)]  
+time = datetime(Tid,'format','HH:mm:ss');
+
 
 figure(1)
 reduce_plot(time,flow)
