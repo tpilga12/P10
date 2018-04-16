@@ -9,21 +9,26 @@ iterations = 400;
 Dt = 25;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C_init = 8; % initial concentrate in pipe
-Q_init = 0.015;
-
+Q_init = 0.025;
+error = 0;
 [pipe_spec nr_pipes] = pipe_setup(1);
 
 data{1} = 0;
 for m = 1:iterations
-    if error = 0;
+    if error == 0;
     %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 10; % concentrate input [g/m^3]
-    input.Q_in = 0.015 +sin(m)/100;
+    input.Q_in = 0.025;% +sin(m)/100;
     input.lat.Q{1} = 0.01;
     input.lat.C{1} = 20;
     input.lat.Q{2} = 0.05;
     input.lat.C{2} = 10;
+    OD = 0.001 +sin(m)/10000;
     %%%%%%%%%%%%%%%%%%%%%%
+   % [Q_out error]=tank(Q_in,OD,pipe_spec,Volume,tank_height,height)
+    [tank_out error]=tank(input.Q_in,OD,pipe_spec,5,3,2);
+    input.Q_in = tank_out;
+    q_tankos(m) = tank_out;
     for x = 1:nr_pipes
         [data(1,x)] = pipe(pipe_spec,input,data,x);
     end
