@@ -23,6 +23,7 @@ The conservation of concentrate in the control volume is as in section \ref{se:h
 
 \begin{equation}	
 \frac{\partial A}{\partial t} + \frac{\partial Q}{\partial x}=q
+\label{eq:saintbernard_continuity_conflow}
 \end{equation}
 
 Assuming average concentrate, C, across the control volume, and multiplying it with the terms of the continuity equation, the following is obtained:
@@ -32,7 +33,7 @@ Assuming average concentrate, C, across the control volume, and multiplying it w
 %\begin{array}{l}
 %	\frac{\partial A \cdot C}{\partial t} + \frac{\partial Q}{\partial x}=q \cdot C \\
 %	\updownarrow \\
-	\frac{\partial A \cdot C}{\partial t} + \frac{\partial \phi}{\partial x}=q_c \\
+	\frac{\partial A \cdot C}{\partial t} + \frac{\partial \phi}{\partial x}=q \cdot C_{lat} \\
 %\end{array}	
 \label{poop_mass_equation}
 \end{equation}
@@ -65,7 +66,7 @@ Assuming average concentrate, C, across the control volume, and multiplying it w
 %   \label{eq:poop_flux_in_out}
 %   \end{equation} 
 
-Where $\phi$ is a flux [$\frac{g}{s}$] term replacing the flow term, $Q$ and $q_c$ is lateral flux input to the control volume [$\frac{g}{s\cdot m}$] replacing the lateral inflow term $q$  \cite{vestergaard1989numerical}.
+Where $\phi$ is a flux [$\frac{g}{s}$] term replacing the flow term, $Q$ and $C_{lat}$ is lateral concentrate input into the control volume [$\frac{g}{m^3}$] \cite{vestergaard1989numerical}.
 
 %The continuity equation can now be stated as the change in stored concentration equal to the sum of flux in- and outflow from the control volume as given by equation \ref{eq:poop_storing} and \ref{eq:poop_flux_in_out}:
 
@@ -108,13 +109,41 @@ For various concentrates the dispersion coefficient $\epsilon$ which varies with
 Inserting the terms in table \ref{tab:flux_terms} into equation \ref{poop_mass_equation} then the following expressions of the continuity equation is obtained:
 
 \begin{equation}
-	\frac{\partial (A\cdot C)}{\partial t} + \frac{\partial (Q \cdot C)}{\partial x} - \epsilon \cdot \frac{\partial^2 (A \cdot C)}{\partial x^2} = q_c 
+	\frac{\partial (A\cdot C)}{\partial t} + \frac{\partial (Q \cdot C)}{\partial x} - \epsilon \cdot \frac{\partial^2 (A \cdot C)}{\partial x^2} = q \cdot C_{lat} 
 \label{eq:concentrate_continuity_equation_dispersion}
 \end{equation}
 
 \begin{equation}
-\boxed{	\frac{\partial (A\cdot C)}{\partial t} + \frac{\partial (Q \cdot C)}{\partial x} = q_c} 
+\frac{\partial (A\cdot C)}{\partial t} + \frac{\partial (Q \cdot C)}{\partial x} = q \cdot C_{lat} 
 \label{eq:concentrate_continuity_equation_convective}
 \end{equation}
 
-In closed environments such as sewers longitudinal dispersion can often be neglected\cite{vestergaard1989numerical}. For this reason and to reduce complexity of the simulation, equation \ref{eq:concentrate_continuity_equation_convective} is utilized further on. 
+In closed environments such as sewers longitudinal dispersion can often be neglected\cite{vestergaard1989numerical}. For this reason and to reduce complexity of the simulation, equation \ref{eq:concentrate_continuity_equation_convective} is utilized further on.
+As the change in flow and area in the channel is solved by the Saint-Venant equations, an expression which only considers change in concentrate suffices.
+The terms in equation \ref{eq:concentrate_continuity_equation_convective} can be rewritten to the following:
+\begin{equation}
+	C \cdot \frac{\partial A}{\partial t} + A \cdot \frac{\partial C}{\partial t} + C \cdot \frac{\partial Q}{\partial x} + Q \cdot \frac{\partial C}{\partial x} = q \cdot C_{lat}
+\label{eq:poop_trans_deriv1}
+\end{equation}
+
+Multiplying equation \ref{eq:saintbernard_continuity_conflow} with C yields:
+\begin{equation}
+	C \cdot \frac{\partial A}{\partial t} + C \cdot \frac{\partial Q}{\partial x} = q \cdot C
+	\label{eq:poop_trans_deriv2} 
+\end{equation} 
+
+Subtracting equation \ref{eq:poop_trans_deriv2} from \ref{eq:poop_trans_deriv1} then results in the following:
+
+\begin{equation}
+	A \cdot \frac{\partial C}{\partial t} + Q \cdot \frac{\partial C}{\partial x} = q \cdot (C_{lat}-C)
+	\label{eq:poop_conservation_semi_final} 
+\end{equation} 
+
+Neglecting lateral flow and concentration inputs the following expression is obtained:
+
+\begin{equation}
+\boxed{	A \cdot \frac{\partial C}{\partial t} + Q \cdot \frac{\partial C}{\partial x} = 0}
+	\label{eq:poop_conservation_final} 
+\end{equation} 
+
+Equation \ref{eq:poop_conservation_final} can thereby be solved with the solutions of Q and A obtained from the Saint-Venant equations.
