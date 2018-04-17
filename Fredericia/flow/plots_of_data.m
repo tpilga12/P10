@@ -5,7 +5,9 @@ close all
 
 load inFlow_fredericia
 flow =  FT1156IndlbsflowMt;
-%%
+
+flow(63422:63481,:)=[871];
+
 load Time_fredericia
 time = datetime(Tid);
 %time = datetime(Tid,'format','DD-MM-yyyy');
