@@ -1,7 +1,7 @@
 %% Sewer pipe equations
 clc
 clear all
-global Dt iterations Q_init C_init m
+global Dt iterations Q_init C_init m afstand
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
@@ -19,16 +19,17 @@ for m = 1:iterations
     %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 10; % concentrate input [g/m^3]
     input.Q_in = 0.020;% +sin(m)/100;
-    input.lat.Q{1} = 0.01;
+    input.lat.Q{1} = 0;%0.01;
     input.lat.C{1} = 20;
-    input.lat.Q{2} = 0.05;
+    input.lat.Q{2} = 0;%0.05;
     input.lat.C{2} = 10;
-    OD = 0.4 +sin(m)/10;
+    OD = 0.5+sin(m)/5;
     %%%%%%%%%%%%%%%%%%%%%%
    % [Q_out error]=tank(Q_in,OD,pipe_spec,Volume,tank_height,height)
-    [tank_out error]=tank(input.Q_in,OD,pipe_spec,5,3,0.5);
+    [tank_out error tank_height]=tank(input.Q_in,OD,pipe_spec,20,3,1);
     input.Q_in = tank_out;
     q_tankos(m) = tank_out;
+    hoejde_tank(m) = tank_height;
     for x = 1:nr_pipes
         [data(1,x)] = pipe(pipe_spec,input,data,x);
     end
@@ -38,7 +39,7 @@ for m = 1:iterations
 end
 
 %%
-plot_data(data,nr_pipes,0.1,Dt,pipe_spec)
+plot_data(data,nr_pipes,0.05,Dt,pipe_spec)
 
 
 %data = simulation(Q_init,C_init)

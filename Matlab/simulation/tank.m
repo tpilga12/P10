@@ -1,4 +1,4 @@
-function [Q_out error]=tank(Q_in,OD,pipe_spec,Volume,tank_height,height)
+function [Q_out error height_out]=tank(Q_in,OD,pipe_spec,Volume,tank_height,height)
 global Dt m
 persistent h
    error = 0;
@@ -10,7 +10,7 @@ persistent h
   if m == 1
       h(m) = height;
   end
-  if height > tank_height
+  if height > tank_height | h(m) > tank_height
       fprintf('Error, fluid height is larger than tank height')
       Q_out = 0;
       error = 1;
@@ -23,11 +23,12 @@ persistent h
       end
       
 
-      Q_out = abs((max_out*O_degree*max_out)*sqrt(rho*g*h(m))/1000);
+      Q_out = abs((max_out*O_degree*max_out)*(sqrt(rho*g*h(m)/10000)));
       h_dot = (1/(Volume/tank_height))*(Q_in - Q_out)*Dt;
       h(m+1) = h(m)+h_dot;
       if h(m+1) < 0
           h(m+1) = 0;
       end
+      height_out = h(m);
   end
 end

@@ -31,8 +31,6 @@ if m > 1
     Ie = data{x}.Ie;
     fitfunc = data{x}.fitfunc;
 end
-
-      
         
 
 for n = 1:sections
