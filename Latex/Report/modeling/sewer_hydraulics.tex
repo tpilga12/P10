@@ -122,7 +122,7 @@ This is obtained by using the product rule for the derivate of the momentum. The
 \begin{equation}\label{eq:mellem_regning_for_momentum}
 	\frac{dM}{dt} = \rho \frac{dV}{t} = \rho\cdot Q
 \end{equation}
-Where the derivate of the mass is equal to the density times the derivate of the volume. The derivate of the volume V $\left[m^3\right]$ is equal to the mass flow Q $\left[\frac{m^3}{s}\right]$ and rho is the density $\left[\frac{kg}{m^3}\right]$. By inserting equation \ref{eq:mellem_regning_for_momentum} into equation \ref{eq:force_equal_vrhoQ} the force, given by the fluid particles at each end, can be written as:
+Where the derivate of the mass is equal to the density, $\rho \left[\frac{kg}{m^3}\right]$, times the derivate of the volume. The derivate of the volume V $\left[m^3\right]$ is equal to the mass flow Q $\left[\frac{m^3}{s}\right]$. By inserting equation \ref{eq:mellem_regning_for_momentum} into equation \ref{eq:force_equal_vrhoQ} the force, given by the fluid particles at each end, can be written as:
 \begin{equation}
 	F = \rho\cdot Q\cdot v 
 \end{equation}
@@ -194,12 +194,12 @@ Last the hydrostatic forces on the x component of the control volume to be found
 \label{fig:forces_on_CV}
 \end{figure}\fxnote{Ny tegning og sikkert også caption}
 
-The hydrostatic forces acting on the channel are found by taking a sectional view. Furthermore by assuming hydrostatic pressure across the channel, thus the pressure in a height z above the bottom of the channel is given as $g\rho(h-z)$, here h is the hight of the wastewater.  
+The hydrostatic forces acting on the channel are found by taking a sectional view. By assuming hydrostatic pressure across the channel, the pressure in a height z above the bottom of the channel is given as $g\rho(h-z)$, where h is the hight of the fluid.  
 The hydrostatic forces acting on the control volume to the left is given as:
 \begin{equation}\label{eq:P1}
 	F_{P1} = \int_{0}^{h_l} \rho \cdot g (h_l - z)\cdot b(z) dz
 \end{equation}
-Where $h_l$ is the water hight to the left of the channel, b(z) is the width of the channel given z. The hydrostatic force acting on the control volume to the right is given as:
+Where $h_l$ is the fluid height to the left of the channel, b(z) is the width of the channel given z. The hydrostatic force acting on the control volume to the right is given as:
 \begin{equation}\label{eq:P2}
 \begin{array}{l}
 	-\int_{0}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz = \vspace{2mm}\\
@@ -207,11 +207,11 @@ Where $h_l$ is the water hight to the left of the channel, b(z) is the width of 
 	-F_{P1} - F_{P2} - F_{P3}
 \end{array}	
 \end{equation}
-The integral of $F_{P2}$ is: 
+The integral of $F_{P2}$ is equal to: 
 \begin{equation}
 	F_{P2} = -\int_{0}^{h_l} \rho \cdot g (h_r - h_l)\cdot b(z)dz = -\rho g \frac{\partial h}{\partial x}\Delta x A_l
 \end{equation}
-Where $h_r$ is the water hight to the right of the channel. By assuming the width, b is constant the following can be approximated: 
+Where $h_r$ is the fluid hight to the right of the channel. Integrating the width of the channel gives the area of the fluid in the channel. The rest in the integral is moved outside the integral as it is a constant. By assuming the width, b is constant for $F_{P3}$ the following can be approximated: 
 \begin{equation}
 	F_{P3}= -\int_{h_l}^{h_r} \rho \cdot g (h_r - z)\cdot b(z)dz \approx -\rho g b(h) \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2
 \end{equation}	
@@ -222,7 +222,7 @@ F_{P1} -F_{P1} -F_{P2} - F_{P3} =-\rho\cdot g \cdot \frac{\partial h}{\partial x
 \label{pressure_force}
 \end{equation}
 
-By summing all the hydrostatic forces from equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} they can be inserted into equation \ref{eq:momentum_eq}:
+By summing all the forces from equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} and inserting them into equation \ref{eq:momentum_eq} the following is obtained:
 
 \begin{equation}
 \frac{d \mathcal{M}(t)}{dt}	=- \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x
@@ -237,7 +237,7 @@ Lastly the time derivative expression of the momentum, which is given by mass ti
 \end{equation}
 Where mass is given by $\rho \cdot A \cdot \Delta x$ and velocity by $Q / A$.
 
-Thereby all the sum of forces from equation \ref{eq:sum_of_forces} can be set equal to  \ref{eq:leftside_momentum}.% Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
+Thereby the sum of forces from equation \ref{eq:sum_of_forces} can be set equal to  \ref{eq:leftside_momentum} and the following equation is given:% Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
 % \begin{equation}
 % \frac{\partial}{\partial t}(\rho\cdot v \cdot A\cdot \Delta x) = \frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
 % \end{equation}
