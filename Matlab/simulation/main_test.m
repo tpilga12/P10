@@ -5,11 +5,11 @@ global Dt iterations Q_init C_init m afstand
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
-iterations = 400;
+iterations = 2;
 Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C_init = 8; % initial concentrate in pipe
-Q_init = 0.02;
+Q_init = 0.1;
 error = 0;
 [pipe_spec nr_pipes] = pipe_setup(1);
 
@@ -18,7 +18,7 @@ for m = 1:iterations
     if error == 0;
     %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 10; % concentrate input [g/m^3]
-    input.Q_in = 0.020;% +sin(m)/100;
+    input.Q_in = 0.10;% +sin(m)/100;
 %     input.lat.Q{1} = 0;%0.01;
 %     input.lat.C{1} = 20;
 %     input.lat.Q{2} = 0;%0.05;
@@ -27,13 +27,13 @@ for m = 1:iterations
       input.lat.Q{k} = 0;
       input.lat.C{k} = 0;
       end
-    OD = 0.2;%+sin(m)/5;
+    OD = 0.2+sin(m)/10;
     %%%%%%%%%%%%%%%%%%%%%%
-   % [Q_out error]=tank(Q_in,OD,pipe_spec,Volume,tank_height,height)
-    %[tank_out error tank_height]=tank(input.Q_in,OD,pipe_spec,20,3,1);
-    input.Q_in = 0.02;
-    %q_tankos(m) = tank_out;
-   % hoejde_tank(m) = tank_height;
+% %    [Q_out error]=tank(Q_in,OD,pipe_spec,Volume,tank_height,height)
+%     [tank_out error tank_height]=tank(input.Q_in,OD,pipe_spec,20,3,1);
+%     input.Q_in = tank_out;
+%     q_tankos(m) = tank_out;
+%    hoejde_tank(m) = tank_height;
     for x = 1:nr_pipes
         [data(1,x)] = pipe(pipe_spec,input,data,x);
     end
