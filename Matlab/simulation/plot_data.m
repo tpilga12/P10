@@ -1,5 +1,6 @@
 function [hej]=plot_data(data,nr_pipes,play_speed,Dt,pipe_spec)
-global afstand 
+global afstand
+fig_nr  = 2000;
 afstand = 0;
 for n = 1: length(pipe_spec)
     for g = length(afstand):pipe_spec(n).sections+length(afstand)
@@ -11,10 +12,10 @@ for n = 1: length(pipe_spec)
     end
     vertical_line(n) = afstand(g-1);
 end
-    flowylim = [0 0.12];
+    flowylim = [0 0.35];
     heightylim = [0 2.0];
     conflowylim = [0 25];
-    conspeedylim = [0 2.0];
+    conspeedylim = [0 4.0];
     distlim = [0 afstand(end-1)]; 
     line_thick = 0.8;
     %%%%% plot!!!%%%%%%%%%%%%
@@ -27,7 +28,7 @@ for m= 1:length(data{1}.Q)
         concentrate(1,v:(pipe_spec(r).sections+v-1)) = data{r}.C(m,1:end);
         v = v+pipe_spec(r).sections;
     end
-    figure(1000)
+    figure(fig_nr)
     clf
     subplot(2,2,1)
 %     plot(afstand(1:end-1),[data{1}.Q(m,1:end) data{2}.Q(m,1:end) data{3}.Q(m,1:end)])

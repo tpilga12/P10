@@ -10,7 +10,7 @@ function [output]=pipe(piping,input,data,x)
 % persistent H Q h A C Ie
 global Dt iterations Q_init C_init m
 
-limitvalue = 0.008; %newton stop iteration value
+limitvalue = 0.00001; %newton stop iteration value
 Ib = piping(x).Ib; 
 d = piping(x).d; %[m] Diameter
 k = piping(x).k; %sandruhed angives typisk i mm der skal bruges m i formler
@@ -61,9 +61,14 @@ for n = 1:sections
                 Q(1,1:sections) = data{x-1}.Q(1,end);
                 C(1,1:sections) = data{x-1}.C(1,end);
             end
-            h(1:sections) = data{x-1}.h(1,end);
-            %             h(1:sections) = init_height(epsi,Q(1,1),Q_mark,0,d);
-            %             h(1:sections) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
+            if x == 1
+%             h(1:sections) = data{x-1}.h(1,end);
+%                         h(1:sections) = init_height(epsi,Q(1,1),Q_mark,0,d);
+            h(1:sections) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
+            else
+                %%%% evt. fjern data(x). i nedenstaaende !!!!!
+                h(1:sections) = data{x}.fitfunc.p1*data{x-1}.Q(1,end).^9 +data{x}.fitfunc.p2*data{x-1}.Q(1,end).^8 + data{x}.fitfunc.p3*data{x-1}.Q(1,end).^7 + data{x}.fitfunc.p4*data{x-1}.Q(1,end).^6 + data{x}.fitfunc.p5*data{x-1}.Q(1,end).^5 + data{x}.fitfunc.p6*data{x-1}.Q(1,end).^4 + data{x}.fitfunc.p7*data{x-1}.Q(1,end).^3 + data{x}.fitfunc.p8*data{x-1}.Q(1,end)^2 + data{x}.fitfunc.p9*data{x-1}.Q(1,end) +data{x}.fitfunc.p10;
+            end  
         end
         A(1:sections) = d^2/4 * acos(((d/2)-h(n))/(d/2))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,15 +87,15 @@ for n = 1:sections
                 Q(m,n) = data{x-1}.Q(m,end);
                 C(m,n) = data{x-1}.C(m,end);
             end
-            h(m,n) = data{x-1}.h(m,end);
+%             h(m,n) = data{x-1}.h(m,end);
             %             h(m,n) = init_height(epsi,Q(1,1),Q_mark,0,d);
-            %             h(m,n) = fitfunc.p1*Q(1,1).^9 +fitfunc.p2*Q(1,1).^8 + fitfunc.p3*Q(1,1).^7 + fitfunc.p4*Q(1,1).^6 + fitfunc.p5*Q(1,1).^5 + fitfunc.p6*Q(1,1).^4 + fitfunc.p7*Q(1,1).^3 + fitfunc.p8*Q(1,1)^2 + fitfunc.p9*Q(1,1) +fitfunc.p10;
+                        h(m,n) = fitfunc.p1*Q(m,n).^9 +fitfunc.p2*Q(m,n).^8 + fitfunc.p3*Q(m,n).^7 + fitfunc.p4*Q(m,n).^6 + fitfunc.p5*Q(m,n).^5 + fitfunc.p6*Q(m,n).^4 + fitfunc.p7*Q(m,n).^3 + fitfunc.p8*Q(m,n)^2 + fitfunc.p9*Q(m,n) +fitfunc.p10;
         end
         %         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
         A(m,n) = d^2/4 * acos(((d/2)-h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Iteration %%%%%%%%%%%%%%%%%%%%%%%%%%%
-    elseif m > 1 && n > 1
+    elseif m > 1 && n > 1 
         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+ ...
             2*Theta*Q(m,n-1))*Dt/Dx - ...
             A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
