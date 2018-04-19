@@ -185,7 +185,7 @@ Where $S_f$ is a friction coefficient. This coefficient can be estimated by diff
 \label{darcy_weisbach_formula}
 \end{equation}
 
-Where n is Manning's roughness factor $[s\cdot m^{-1/3}]$, f is the Weisbach resistance coefficient $[-]$ and R is the hydraulic radius $[m]$ given as the wetted area divided by the wetted perimeter \cite{stormwatercollectionsystems}.
+Where n is Manning's roughness factor $[ \frac{s}{m^{1/3}} ]$, f is the Weisbach resistance coefficient $[\cdot]$ and R is the hydraulic radius $[m]$ given as the wetted area divided by the wetted perimeter \cite{stormwatercollectionsystems}.
 The Weisbach resistance coefficient is found by the Colebrook-White formula seen in equation \ref{colebrook_white_formula}.
 \begin{equation}
 \frac{1}{\sqrt{f}} = -2\cdot log \left( \frac{k}{14.84 \cdot R}+ \frac{2.52}{4 Re \sqrt{f}} \right)
@@ -210,7 +210,7 @@ The forces acting on the left side of the control volume is given as:
 \begin{equation}\label{eq:P1}
 	F_{P1} = \int_{0}^{h_l} \rho \cdot g (h_l - z)\cdot b(z) dz
 \end{equation}
-Where $h_l$ is the fluid height in the left side of the control volume, b(z) is the width of the channel given the height z. The force acting on the right side of the control volume is given as:
+Where $h_l$ is the fluid height at the left side of the control volume, b(z) is the width of the channel given the height z. The force acting on the right side of the control volume is given as:
 \begin{equation}\label{eq:P2}
 \begin{aligned}
 	-\int_{0}^{h_r} \rho \cdot g \cdot(h_r - z)\cdot b(z)dz = 
@@ -223,29 +223,31 @@ Where $h_l$ is the fluid height in the left side of the control volume, b(z) is 
 The integral of $F_{P2}$ is equal to: 
 \begin{equation}
 \begin{aligned}
-	F_{P2} &= -\int_{0}^{h_l} \rho \cdot g (h_r - h_l)\cdot b(z)dz \vspace{2mm}\\
+	F_{P2} &= -\int_{0}^{h_l} \rho \cdot g \cdot (h_r - h_l)\cdot b(z)dz \vspace{2mm}\\
 	&= -\rho g \frac{\partial h}{\partial x}\Delta x A_l
 \end{aligned}
 \end{equation}
-Where $h_r$ is the fluid height in the right side of the control volume. Integrating the width of the channel gives the area of the fluid in the channel. The rest in the integral is moved outside the integral as it is a constant. By assuming the width, b is constant for $F_{P3}$ the following can be approximated: 
+Where $h_r$ is the fluid height at the right side of the control volume. Integrating the width of the channel gives the area of the fluid in the channel. The rest in the integral is moved outside the integral as it is a constant. By assuming the width, b is constant for $F_{P3}$ the following can be approximated: 
 \begin{equation}
 \begin{aligned}
 	F_{P3}=& -\int_{h_l}^{h_r} \rho \cdot g \cdot (h_r - z)\cdot b(z)dz \vspace{2mm} \\
-	\approx& -\rho g b(h) \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2
+	\approx& -\rho \cdot g \cdot b(h) \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2
 \end{aligned}	
 \end{equation}	
 
 Taking the sum of forces from equations \ref{eq:P1} and \ref{eq:P2}:
 \begin{equation}
 \begin{aligned}
-F_{P1} -F_{P1} -F_{P2} - F_{P3} =& -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \left(A_l + \frac{1}{2}b(h)\frac{\partial h}{\partial x} \Delta x \right) \\
+F_{P1} -F_{P1} -F_{P2} - F_{P3} =& 
+	 -\rho g \frac{\partial h}{\partial x}\Delta x A_l 
+	 -\rho g b(h) \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2 \\
+=& -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \left(A_l + \frac{1}{2}b(h)\frac{\partial h}{\partial x} \Delta x \right) \\
 =&-\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x  \cdot A  
 \label{pressure_force}
 \end{aligned}
 \end{equation}
 
 By summing all the forces from equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} and inserting them into equation \ref{eq:momentum_eq} the following is obtained:
-
 \begin{equation}
 \begin{aligned}
 \sum_{i} F_i	=&- \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x \\
@@ -257,13 +259,13 @@ By summing all the forces from equation \ref{mass_flow_speed}, \ref{gravity_forc
 \end{equation}
 
 Lastly the time derivative expression of the momentum, which is given by mass times velocity, are:
-
 \begin{equation}\label{eq:leftside_momentum}
-\frac{d \mathcal{M}(t)}{dt}=	\frac{\partial}{\partial t} \left(\rho \frac{Q}{A}A\Delta x\right)
+\frac{d \mathcal{M}(t)}{dt}=	\frac{\partial}{\partial t} \left(\rho \cdot A \cdot \Delta x \cdot \frac{Q}{A}\right)
 \end{equation}
 Where mass is given by $\rho \cdot A \cdot \Delta x$ and velocity by $Q / A$.
 
-Thereby the sum of forces from equation \ref{eq:sum_of_forces} can be set equal to  \ref{eq:leftside_momentum} and the following equation is given:% Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
+Thereby equation \ref{eq:leftside_momentum} can be set equal to the sum of forces in equation \ref{eq:sum_of_forces} and the following is given:
+%Thereby the sum of forces in equation \ref{eq:sum_of_forces} can be set equal to  \ref{eq:leftside_momentum} and the following equation is given:% Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
 % \begin{equation}
 % \frac{\partial}{\partial t}(\rho\cdot v \cdot A\cdot \Delta x) = \frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
 % \end{equation}
@@ -279,7 +281,7 @@ Thereby the sum of forces from equation \ref{eq:sum_of_forces} can be set equal 
 \end{aligned}
 \end{equation}
 \\
-Dividing with $\Delta x \rho g A$ and isolating then the following definition of the equation is obtained:
+Dividing with $\Delta x \cdot\rho \cdot g \cdot A$ and isolating, then the following definition of the equation is obtained:
 \\
 \begin{equation}
 \boxed{\frac{1}{gA} \frac{\partial Q}{\partial t} +\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x} + S_f - S_b = 0}
@@ -319,11 +321,17 @@ flow acceleration &  &  & acceleration  &  \\ \hline
 \label{momentum_approximations}
 \end{table} 
 
-The kinematic wave is the simplest approximation and ignores the terms representing changes in inertia and pressure by assuming that the slope of the water surface is identical to that of the channel bed. 
-This means that the flow is uniform across an interval $\Delta x$ at a given $\Delta t$ and mechanisms for flood wave peak attenuation is disregarded. Due to the simplicity of the kinematic wave approximation, attenuation which occurs in a real free flowing channel should not be present. Numerical damping can be induced because of the nature of discretization, but mistakenly corrections has been attempted to mitigate the attenuation by choosing smaller step sizes of $\Delta x$ and $\Delta t$, where instead attempts should be made, to fit the sizes, to imitate the natural attenuation of the free flowing channel.     
-Furthermore only one boundary condition is required, which is specified upstream, meaning that any backwater effects such as storing is neglected. This also means that simulation can be done without knowing the lower end boundary of the channel flow. Because of its simplicity the momentum equation in the form of the kinematic wave approximation has been used and researched extensively\cite{stormwatercollectionsystems}. 
+The kinematic wave is the simplest approximation and ignores the terms representing changes in inertia and pressure by assuming that the slope of the water surface is identical to that of the channel bed. Furthermore only one boundary condition is needed, meaning that only the upper boundary of the channel is needed to solve the Saint-Venant equations.  
+Some considerations is needed when utilizing this approximation.      
+Due to the simplicity of the kinematic wave approximation, attenuation, which occurs in a real free flowing channel, should not be present. But due to numerical damping, which is induced because of the nature of discretization, it occurs. Some, wrongfully attempts to mitigate it by choosing smaller steps of $\Delta x$ and $\Delta t$. Instead they should be chosen such that the simulated channel flow mimics that of the real channel.
+Due to its simplicity the kinematic wave approximation has been used and researched extensively. Furthermore if the back water effect is not an issue it is often used when dealing with simulation of flows in sewer lines.
+To limit the complexity of the further work of the project, the kinematic wave approximation, of the momentum equation, is chosen \cite{stormwatercollectionsystems}.
+Furthermore lateral input is neglected as gutter drains is not considered. 
+This means that side input to the main sewer line is assumed attached at the end of the pipe section as shown in table \ref{tab:kloak_diameter}. Further details can be found in section \ref{se:sewer_interconnection}. 
 
-\fxnote{flet noget ind med at vi afgrænser os fra lateralt side input og laver samlings punkter mellem rørerene.} 
+
+%but mistakenly corrections has been attempted to mitigate the attenuation by choosing smaller step sizes of $\Delta x$ and $\Delta t$, where instead attempts should be made, to fit the sizes, to imitate the natural attenuation of the free flowing channel.     
+%Furthermore only one boundary condition is required, which is specified upstream, meaning that any backwater effects such as storing is neglected. This also means that simulation can be done without knowing the lower end boundary of the channel flow. Because of its simplicity the momentum equation in the form of the kinematic wave approximation has been used and researched extensively\cite{stormwatercollectionsystems}. 
 
 
 %\begin{figure}[H]
