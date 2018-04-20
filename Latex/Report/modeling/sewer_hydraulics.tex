@@ -220,18 +220,23 @@ Where $h_l$ is the fluid height at the left side of the control volume, b(z) is 
 	=&-F_{P1} - F_{P2} - F_{P3}
 \end{aligned}	
 \end{equation}
-The integral of $F_{P2}$ is equal to: 
+The pressure force acting on the right side, at a height $h_l$ from the channel bed, is given by $F_{P1}$ and $F_{P2}$, where the last term is the added force due to the fluid above the height $h_l$, and gives:  
+%The integral of $F_{P2}$ is equal to: 
 \begin{equation}
 \begin{aligned}
-	F_{P2} &= -\int_{0}^{h_l} \rho \cdot g \cdot (h_r - h_l)\cdot b(z)dz \vspace{2mm}\\
-	&= -\rho g \frac{\partial h}{\partial x}\Delta x A_l
+	F_{P2} &= \int_{0}^{h_l} \rho \cdot g \cdot (h_r - h_l)\cdot b(z)dz \vspace{2mm}\\
+	&=  \int_{0}^{h_l} \rho \cdot g \cdot (h + \frac{1}{2} \frac{\partial h}{\partial x} - (h - \frac{1}{2} \frac{\partial h}{\partial x}))\cdot b(z)dz \vspace{2mm}\\
+	&= \rho g \frac{\partial h}{\partial x}\Delta x A_l
 \end{aligned}
 \end{equation}
-Where $h_r$ is the fluid height at the right side of the control volume. Integrating the width of the channel gives the area of the fluid in the channel. The rest in the integral is moved outside the integral as it is a constant. By assuming the width, b is constant for $F_{P3}$ the following can be approximated: 
+The remaining pressure force from the height $h_l$ to $h_r$ with the assumption that the difference in height is infinitely small is given as:
+%Where $h_r$ is the fluid height at the right side of the control volume. Integrating the width of the channel gives the area of the fluid in the channel. The rest in the integral is moved outside the integral as it is a constant. By assuming the width, b is constant for $F_{P3}$ the following can be approximated: 
 \begin{equation}
 \begin{aligned}
-	F_{P3}=& -\int_{h_l}^{h_r} \rho \cdot g \cdot (h_r - z)\cdot b(z)dz \vspace{2mm} \\
-	\approx& -\rho \cdot g \cdot b(h) \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2
+	F_{P3}=& \int_{h_l}^{h_r} \rho \cdot g \cdot (h_r - z)\cdot b(z)dz \vspace{2mm} \\
+		  \approx& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \left[ h_h \cdot z - \frac{z^2}{2}  \right]_{h_l}^{h_r} \\
+		  \approx& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \left( h_r\cdot (h_r -h_l) + \frac{1}{2} \left( \frac{\partial h}{\partial x} \cdot \Delta x\right)^2 \right) \\
+	\approx& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2
 \end{aligned}	
 \end{equation}	
 
@@ -242,6 +247,7 @@ F_{P1} -F_{P1} -F_{P2} - F_{P3} =&
 	 -\rho g \frac{\partial h}{\partial x}\Delta x A_l 
 	 -\rho g b(h) \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2 \\
 =& -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \left(A_l + \frac{1}{2}b(h)\frac{\partial h}{\partial x} \Delta x \right) \\
+=& -\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \left(A_l + \frac{1}{2}\frac{\partial A}{\partial x} \Delta x \right) \\
 =&-\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x  \cdot A  
 \label{pressure_force}
 \end{aligned}
@@ -250,7 +256,7 @@ F_{P1} -F_{P1} -F_{P2} - F_{P3} =&
 By summing all the forces from equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} and inserting them into equation \ref{eq:momentum_eq} the following is obtained:
 \begin{equation}
 \begin{aligned}
-\sum_{i} F_i	=&- \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x \\
+\sum_{i} -F_i	=&- \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x \\
 &-S_b \cdot g \cdot \rho \cdot \Delta x \cdot A \\
 &-S_f \cdot g \cdot \rho \cdot \Delta x \cdot A \\ 
 &-\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A
