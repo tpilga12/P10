@@ -14,7 +14,7 @@ The continuity equation from section ??? and an equation to describe the flow kn
 Equation \ref{eq:linearization_Continuity} is expanded to the following:
 
 \begin{equation}
-	\frac{\partial A(x,t)}{\partial h}\frac{\partial h(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial h}\frac{\partial h(x,t)}{\partial x}=0
+	\frac{\partial A(h)}{\partial h}\frac{\partial h(x,t)}{\partial t} + \frac{\partial Q(h)}{\partial h}\frac{\partial h(x,t)}{\partial x}=0
 \end{equation}
 
 By applying the Preissmann scheme from section \ref{subse:preissmann_scheme} equation \ref{eq:preissmann_time_derivatie} and \ref{eq:preissmann_space_derivatie} on the partial derivate of h in terms of time and position, the following is obtained: 
@@ -100,7 +100,7 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 		\end{bmatrix}}_{x}
 		\\
 	+ \underbrace{\begin{bmatrix}
-		K \\
+		c \\
 		\\
 					\\
 					\\

@@ -1,7 +1,6 @@
-clear all 
-clc
+clear all, clc, close all
 
-syms a b c d
+
 Theta = 1;
 m=1;
 Dt = 20; %[s] grid time
@@ -16,10 +15,10 @@ h=0.3; % arbejds punkt
 Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennings
 
 %%% 
-a = (1/(2*Dt))*(2*sqrt(h^2+(h*d)))-Theta/(Dx)*(-1/2*pi/d*sin(pi*h/d)-0.04*(2*pi)/d*sin(2*pi*h/d)*Qf);
-b = (1/(2*Dt))*(2*sqrt(h^2+(h*d)))+Theta/(Dx)*(-1/2*pi/d*sin(pi*h/d)-0.04*(2*pi)/d*sin(2*pi*h/d)*Qf);
-c = (-1/(2*Dt))*(2*sqrt(h^2+(h*d)))-(1-Theta)/(Dx)*(-1/2*pi/d*sin(pi*h/d)-0.04*(2*pi)/d*sin(2*pi*h/d)*Qf);
-d = (-1/(2*Dt))*(2*sqrt(h^2+(h*d)))+(1-Theta)/(Dx)*(-1/2*pi/d*sin(pi*h/d)-0.04*(2*pi)/d*sin(2*pi*h/d)*Qf);
+a = (1/(2*Dt))*(2*sqrt(-h^2+(h*d)))-Theta/(Dx)*(-1/2*pi/d*sin(pi*h/d)-0.04*(2*pi)/d*sin(2*pi*h/d)*Qf);
+b = (1/(2*Dt))*(2*sqrt(-h^2+(h*d)))+Theta/(Dx)*(-1/2*pi/d*sin(pi*h/d)-0.04*(2*pi)/d*sin(2*pi*h/d)*Qf);
+c = (-1/(2*Dt))*(2*sqrt(-h^2+(h*d)))-(1-Theta)/(Dx)*(-1/2*pi/d*sin(pi*h/d)-0.04*(2*pi)/d*sin(2*pi*h/d)*Qf);
+d = (-1/(2*Dt))*(2*sqrt(-h^2+(h*d)))+(1-Theta)/(Dx)*(-1/2*pi/d*sin(pi*h/d)-0.04*(2*pi)/d*sin(2*pi*h/d)*Qf);
 
 F = [ a b 0 0 0 0 0 0 0 0; 
       0 a b 0 0 0 0 0 0 0;
@@ -31,7 +30,7 @@ F = [ a b 0 0 0 0 0 0 0 0;
       0 0 0 0 0 0 0 a b 0;
       0 0 0 0 0 0 0 0 a b;
       0 0 0 0 0 0 0 0 0 a];
-Finv = inv(F)
+Finv = inv(F);
  
 A = [ d 0 0 0 0 0 0 0 0 0;
       c d 0 0 0 0 0 0 0 0;
@@ -43,14 +42,16 @@ A = [ d 0 0 0 0 0 0 0 0 0;
       0 0 0 0 0 0 c d 0 0;
       0 0 0 0 0 0 0 c d 0;
       0 0 0 0 0 0 0 0 c d];
-A = Finv*A
+A = (Finv*A)';
 B = Finv*[1 0 0 0 0 0 0 0 0 0]';
-C = [1 0 0 0 0 0 0 0 0 0];
+C = [0 0 0 0 0 0 0 0 0 1];
 D = 0;
 
 Sys = ss(A,B,C,D)
 
 t = 1:Dt:3600;
 X0(1:10) =0.3;
-u(1:length(t))= 0.0455;
-Y=lsim(Sys,u,t,X0)
+d1= sin(-0.01:1.1112e-04:0.01);
+u(1:length(t))= 0.0445;
+[Y t1 x1]=lsim(Sys,u,t);
+plot(t,Y)
