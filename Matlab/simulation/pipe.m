@@ -67,7 +67,7 @@ for n = 1:sections
             h(1:sections) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
             else
                 %%%% evt. fjern data(x). i nedenstaaende !!!!!
-                h(1:sections) = data{x}.fitfunc.p1*data{x-1}.Q(1,end).^9 +data{x}.fitfunc.p2*data{x-1}.Q(1,end).^8 + data{x}.fitfunc.p3*data{x-1}.Q(1,end).^7 + data{x}.fitfunc.p4*data{x-1}.Q(1,end).^6 + data{x}.fitfunc.p5*data{x-1}.Q(1,end).^5 + data{x}.fitfunc.p6*data{x-1}.Q(1,end).^4 + data{x}.fitfunc.p7*data{x-1}.Q(1,end).^3 + data{x}.fitfunc.p8*data{x-1}.Q(1,end)^2 + data{x}.fitfunc.p9*data{x-1}.Q(1,end) +data{x}.fitfunc.p10;
+                h(1:sections) = fitfunc.p1*data{x-1}.Q(1,end).^9 +fitfunc.p2*data{x-1}.Q(1,end).^8 + fitfunc.p3*data{x-1}.Q(1,end).^7 + fitfunc.p4*data{x-1}.Q(1,end).^6 + fitfunc.p5*data{x-1}.Q(1,end).^5 + fitfunc.p6*data{x-1}.Q(1,end).^4 + fitfunc.p7*data{x-1}.Q(1,end).^3 + fitfunc.p8*data{x-1}.Q(1,end)^2 + fitfunc.p9*data{x-1}.Q(1,end) + fitfunc.p10;
             end  
         end
         A(1:sections) = d^2/4 * acos(((d/2)-h(n))/(d/2))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
