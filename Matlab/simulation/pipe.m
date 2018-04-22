@@ -66,7 +66,6 @@ for n = 1:sections
 %                         h(1:sections) = init_height(epsi,Q(1,1),Q_mark,0,d);
             h(1:sections) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
             else
-                %%%% evt. fjern data(x). i nedenstaaende !!!!!
                 h(1:sections) = fitfunc.p1*data{x-1}.Q(1,end).^9 +fitfunc.p2*data{x-1}.Q(1,end).^8 + fitfunc.p3*data{x-1}.Q(1,end).^7 + fitfunc.p4*data{x-1}.Q(1,end).^6 + fitfunc.p5*data{x-1}.Q(1,end).^5 + fitfunc.p6*data{x-1}.Q(1,end).^4 + fitfunc.p7*data{x-1}.Q(1,end).^3 + fitfunc.p8*data{x-1}.Q(1,end)^2 + fitfunc.p9*data{x-1}.Q(1,end) + fitfunc.p10;
             end  
         end
@@ -88,8 +87,13 @@ for n = 1:sections
                 C(m,n) = data{x-1}.C(m,end);
             end
 %             h(m,n) = data{x-1}.h(m,end);
-            %             h(m,n) = init_height(epsi,Q(1,1),Q_mark,0,d);
+%             h(m,n) = init_height(epsi,Q(1,1),Q_mark,0,d);
                         h(m,n) = fitfunc.p1*Q(m,n).^9 +fitfunc.p2*Q(m,n).^8 + fitfunc.p3*Q(m,n).^7 + fitfunc.p4*Q(m,n).^6 + fitfunc.p5*Q(m,n).^5 + fitfunc.p6*Q(m,n).^4 + fitfunc.p7*Q(m,n).^3 + fitfunc.p8*Q(m,n)^2 + fitfunc.p9*Q(m,n) +fitfunc.p10;
+%                 H = (2*(1-Theta)*data{x-1}.Q(m-1,end)-2*(1-Theta)*Q(m-1,n)+ ...
+%                     2*Theta*data{x-1}.Q(m,end))*Dt/Dx - ...
+%                     data{x-1}.A(m,end)+ data{x-1}.A(m-1,end)+ A(m-1,n);
+%                 h(m,n)=NewtonRoot(@V,@V_dot,data{x-1}.h(m-1,end),limitvalue,50,d,Ie,H,Dt,Dx,Theta,m,n);
+
         end
         %         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
         A(m,n) = d^2/4 * acos(((d/2)-h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
@@ -137,9 +141,17 @@ output = temp;
             0.08*pi*sin(2*pi*(h/d)))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
     end
 
+%     function H = H_func()
+%         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+ ...
+%             2*Theta*Q(m,n-1))*Dt/Dx - ...
+%             A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
+%     end
+
     function f = Area_fun(h)
         f = d^2/4 * acos(((d/2)-h)/(d/2))-sqrt(h*(d-h))*((d/2)-h);
     end
+
+
     function f=hy_perimeter(h)
         f = acos(1-(h/(d/2)))*d;
     end

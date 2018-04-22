@@ -5,7 +5,7 @@ global Dt iterations Q_init C_init m afstand
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
-iterations = 2;
+iterations = 200;
 Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C_init = 8; % initial concentrate in pipe
