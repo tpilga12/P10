@@ -225,17 +225,17 @@ The pressure force acting on the right side, at a height $h_l$ from the channel 
 \begin{equation}
 \begin{aligned}
 	F_{P2} &= \int_{0}^{h_l} \rho \cdot g \cdot (h_r - h_l)\cdot b(z)dz \vspace{2mm}\\
-	&=  \int_{0}^{h_l} \rho \cdot g \cdot (h + \frac{1}{2} \frac{\partial h}{\partial x} - (h - \frac{1}{2} \frac{\partial h}{\partial x}))\cdot b(z)dz \vspace{2mm}\\
+	&=  \int_{0}^{h_l} \rho \cdot g \cdot \left(h + \frac{1}{2} \frac{\partial h}{\partial x} - \left(h - \frac{1}{2} \frac{\partial h}{\partial x}\right)\right)\cdot b(z)dz \vspace{2mm}\\
 	&= \rho g \frac{\partial h}{\partial x}\Delta x A_l
 \end{aligned}
 \end{equation}
-The remaining pressure force from the height $h_l$ to $h_r$ with the assumption that the difference in height is infinitely small is given as:
+The remaining pressure force, resulting from the height difference between $h_l$ and $h_r$, is to be found. If, as a result of a small angle, it is assumed that the difference in height at each side is infinitely small. Then the force $F_{P3}$ is given as:
 %Where $h_r$ is the fluid height at the right side of the control volume. Integrating the width of the channel gives the area of the fluid in the channel. The rest in the integral is moved outside the integral as it is a constant. By assuming the width, b is constant for $F_{P3}$ the following can be approximated: 
 \begin{equation}
 \begin{aligned}
 	F_{P3}=& \int_{h_l}^{h_r} \rho \cdot g \cdot (h_r - z)\cdot b(z)dz \vspace{2mm} \\
 		  \approx& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \left[ h_h \cdot z - \frac{z^2}{2}  \right]_{h_l}^{h_r} \\
-		  \approx& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \left( h_r\cdot (h_r -h_l) + \frac{1}{2} \left( \frac{\partial h}{\partial x} \cdot \Delta x\right)^2 \right) \\
+		  =& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \left( h_r\cdot (h_r -h_l) + \frac{1}{2} \left( \frac{\partial h}{\partial x} \cdot \Delta x\right)^2 \right) \\
 	\approx& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2
 \end{aligned}	
 \end{equation}	
@@ -330,9 +330,9 @@ flow acceleration &  &  & acceleration  &  \\ \hline
 The kinematic wave is the simplest approximation and ignores the terms representing changes in inertia and pressure by assuming that the slope of the water surface is identical to that of the channel bed. Furthermore only one boundary condition is needed, meaning that only the upper boundary of the channel is needed to solve the Saint-Venant equations.  
 Some considerations is needed when utilizing this approximation.      
 Due to the simplicity of the kinematic wave approximation, attenuation, which occurs in a real free flowing channel, should not be present. But due to numerical damping, which is induced because of the nature of discretization, it occurs. Some, wrongfully attempts to mitigate it by choosing smaller steps of $\Delta x$ and $\Delta t$. Instead they should be chosen such that the simulated channel flow mimics that of the real channel.
-Due to its simplicity the kinematic wave approximation has been used and researched extensively. Furthermore if the back water effect is not an issue it is often used when dealing with simulation of flows in sewer lines.
+Due to its simplicity the kinematic wave approximation has been used and researched extensively. If the back water effect is not an issue the kinematic wave approximation is often used when dealing with simulation of flows in sewer lines.
 To limit the complexity of the further work of the project, the kinematic wave approximation, of the momentum equation, is chosen \cite{stormwatercollectionsystems}.
-Furthermore lateral input is neglected as gutter drains is not considered. 
+Furthermore it is decided to disregard lateral input, i.e. not take gutter drains into consideration. 
 This means that side input to the main sewer line is assumed attached at the end of the pipe section as shown in table \ref{tab:kloak_diameter}. Further details can be found in section \ref{se:sewer_interconnection}. 
 
 
