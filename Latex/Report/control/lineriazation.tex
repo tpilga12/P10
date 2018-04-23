@@ -19,15 +19,17 @@ Equation \ref{eq:linearization_Continuity} is expanded to the following:
 
 By applying the Preissmann scheme from section \ref{subse:preissmann_scheme} equation \ref{eq:preissmann_time_derivatie} and \ref{eq:preissmann_space_derivatie} on the partial derivate of h in terms of time and position, the following is obtained: 
 
-\begin{multline}
-	\frac{\partial A(x,t)}{\partial h} \left(\frac{1}{2}\frac{h_{j+1}^{i+1}-h_{j+1}^i}{\Delta t} +  \frac{1}{2} \frac{h_{j}^{i+1} - h_j^i}{\Delta t}\right) + \\ \frac{\partial Q(x,t)}{\partial h}\left(\theta \frac{h_{j+1}^{i+1}-h_j^{i+1}}{\Delta x}+(1-\theta)\frac{h_{j+1}^i - h_j^i}{\Delta x}\right)=0
-\end{multline}
+\begin{equation}
+\begin{aligned}
+	&\frac{\partial A(x,t)}{\partial h} \left(\frac{1}{2}\frac{h_{j+1}^{i+1}-h_{j+1}^i}{\Delta t} +  \frac{1}{2} \frac{h_{j}^{i+1} - h_j^i}{\Delta t}\right) + \\ &\frac{\partial Q(x,t)}{\partial h}\left(\theta \frac{h_{j+1}^{i+1}-h_j^{i+1}}{\Delta x}+(1-\theta)\frac{h_{j+1}^i - h_j^i}{\Delta x}\right)=0
+\end{aligned}
+\end{equation}
 This equation can be written on a matrix form:
 
 \begin{equation}
 \begin{aligned}
 	\begin{bmatrix}
-		\underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{a}  & \underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{b} 
+		&\underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{a}   \underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{b} 
 	\end{bmatrix}
 	\begin{bmatrix}
 		h_{j}^{i+1} \\
@@ -35,7 +37,7 @@ This equation can be written on a matrix form:
 	\end{bmatrix}
 	= \\ -
 	\begin{bmatrix}
-		\underbrace{\frac{-1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{(1-\theta)}{\Delta x}\frac{\partial Q}{\partial h}}_{c} & \underbrace{\frac{-1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{d} 
+		&\underbrace{\frac{-1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{(1-\theta)}{\Delta x}\frac{\partial Q}{\partial h}}_{c} & \underbrace{\frac{-1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{d} 
 	\end{bmatrix}
 	\begin{bmatrix}
 		h_{j}^{i} \\
@@ -55,70 +57,37 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 \begin{aligned}
 	   \underbrace{\begin{bmatrix}
 	    	a & b \\
-	    	  & a & b \\
-	    	  &   & a & b  \\
-	    	  &   &   & \ddots  & \ddots \\
-	    	  &   &   &   &  &  \\
-	    	  &   &   &   &  &  &  \\
-	    	  &   &   &   &  &  &  &  \\
-	    	  &   &   &   &  &  &  & a  &b\\
-	    	  &   &   &   &  &  &  &  &  a\\
+	    	  & \ddots  & \ddots \\
+	    	  &  		& a  		&b\\
+	          &  		&  			&  a\\
 	   \end{bmatrix}}_{\xi}
 	    \underbrace{\begin{bmatrix}
 		h_{1}^{i+1} \\
 		h_{2}^{i+1}\\
-					\\
-					\\
 		\vdots		\\
-					\\
-					\\
-					\\
 		h_{m}^{i+1}\\
 	\end{bmatrix}}_{\dot{x}}
 	= -
 	\underbrace{\begin{bmatrix}
 	    	d &  \\
 	    	c & d & \\
-	    	  & c & d 		&   \\
-	    	  &   &	\ddots   & \ddots  &  \\
-	    	  &   &   &  	&  &  \\
-	    	  &   &   &   &  &  &  \\
-	    	  &   &   &   &  &  &  &  \\
-	    	  &   &   &   &  &  &  &   &\\
-	    	  &   &   &   &  &  &  & c &  d\\
+	    	  &	\ddots  & \ddots   \\
+	    	  &   &  c &  d\\
 	    \end{bmatrix}}_{A}
 	    	\underbrace{\begin{bmatrix}
 		h_{1}^{i} \\
 		h_{2}^{i}\\
-					\\
-					\\
 		\vdots		\\
-					\\
-					\\
-					\\
 		h_{m}^{i}\\
 		\end{bmatrix}}_{x}
-		\\
 	+ \underbrace{\begin{bmatrix}
 		c \\
-		\\
-					\\
-					\\
 		\vdots		\\
-					\\
-					\\
-					\\
 		0\\
 		\end{bmatrix}}_{B}
 		\underbrace{\begin{bmatrix}
-		Q_{in} \\
-		\\
-					\\
-					\\
+		h_{0} \\
 		\vdots		\\
-					\\
-					\\
-					\\
 		0\\
 		\end{bmatrix}}_{u}
 	\end{aligned}
