@@ -40,5 +40,5 @@ if i == imax
     fprintf('solution was not observed in %i iterations .\n',imax)
     Xs = ('no answer');
     Xest
-    X
+    %X
 end
