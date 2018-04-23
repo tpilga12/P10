@@ -3,7 +3,7 @@ A method to model hydraulics of gravity and pressurized sewer lines is explained
 
 \subsection{Open channel}\label{subse:open_channel}
 Modeling fluids is almost always done by considering it as a control volume. The reason is that it is rarely efficient, computational wise, or possible to consider the individual fluid particles.
-Henceforth the control volume will be denoted by the letter $\Omega$ which will correspond to some amount of fluid in a length of sewer line.		
+Henceforth the control volume will be denoted by the letter $\Omega$ which will correspond to some amount of fluid in a length of a sewer line.		
 
 The open channel flow in gravity sewer lines can be described by the Saint-Venant equations which gives an expression for conservation of mass and momentum.
 Some assumptions is made when deriving the Saint-Venant equations \cite{schutze2011modelling}:
@@ -72,7 +72,7 @@ Average change in stored fluid in the channel is given as:
 % 	\frac{\partial A}{\partial t} \cdot \Delta x	\cdot \Delta t
 % \end{equation}
 
-As the flow into the channel minus the flow out is equal to the change in stored fluid in the channel, then due to the assumption of incompressible fluid and uniformity the following can be written:  
+As the flow into the channel minus the flow out is equal to the change in stored fluid in the channel. Then due to the assumption of incompressible fluid and uniformity the following can be written:  
 
 \begin{equation}\label{eq:saintbernard_masse_simpel}
 	Q_{in}\cdot \Delta t - Q_{out}\cdot \Delta t = \frac{\partial A}{\partial t} \cdot \Delta x	\cdot \Delta t
@@ -149,7 +149,7 @@ is given as:
 % \left(\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2}\right)_{in} - \left(\rho \cdot v \cdot Q + \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} \right)_{out} 
 % \end{equation}
 Where subscript "\textit{in}" denote the force going in through the left side of the channel in figure \ref{fig:momentum_picture} and subscript "\textit{out}" is the force going out to the right side.% in figure \ref{fig:momentum_picture}.
-The change of particle momentum in the control volume is given as $F_{in}- F_{out}$ and by replacing velocity with $Q/A$ the following is obtained:
+ The change of particle momentum in the control volume is given as $F_{in}- F_{out}$ and by replacing velocity with $Q/A$ the following is obtained:
 
 \begin{equation}\label{mass_flow_speed}
 \begin{array}{l}
@@ -159,7 +159,7 @@ The change of particle momentum in the control volume is given as $F_{in}- F_{ou
 \end{array}
 \end{equation}
 
-The remaining to be found is the forces imposed by gravity, friction and pressure.
+The remaining to be found are the forces imposed by gravity, friction and pressure.
 The force applied by gravity is given as:
 \begin{equation}
 F_g = sin(\theta)\cdot g \cdot \rho \cdot \Delta x \cdot A
@@ -220,7 +220,7 @@ Where $h_l$ is the fluid height at the left side of the control volume, b(z) is 
 	=&-F_{P1} - F_{P2} - F_{P3}
 \end{aligned}	
 \end{equation}
-The pressure force acting on the right side, at a height $h_l$ from the channel bed, is given by $F_{P1}$ and $F_{P2}$, where the last term is the added force due to the fluid above the height $h_l$, and gives:  
+The pressure force acting on the right side, at a height $h_l$ from the channel bed, is given by $F_{P1}$ and $F_{P2}$, where the last term is the added force due to the fluid above the height $h_l$, and gives:  \fxnote{Forstaar ikke lige det her, Jacob}
 %The integral of $F_{P2}$ is equal to: 
 \begin{equation}
 \begin{aligned}
