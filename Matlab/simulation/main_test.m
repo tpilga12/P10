@@ -12,7 +12,7 @@ Dt = 20;
 C_init = 8; % initial concentrate in pipe
 Q_init = 0.04;
 error = 0;
-[pipe_spec nr_pipes] = pipe_setup(1);
+[pipe_spec nr_pipes] = pipe_setup_test_jacob(1);
 
 data{1} = 0;
 for m = 1:iterations
