@@ -3,7 +3,7 @@ A method to model hydraulics of gravity and pressurized sewer lines is explained
 
 \subsection{Open channel}\label{subse:open_channel}
 Modeling fluids is almost always done by considering it as a control volume. The reason is that it is rarely efficient, computational wise, or possible to consider the individual fluid particles.
-Henceforth the control volume will be denoted by the letter $\Omega$ which will correspond to some amount of fluid in a length of a sewer line.		
+Henceforth the control volume will be denoted by the letter $\Omega$ which will correspond to some amount of fluid in a length of sewer line.		
 
 The open channel flow in gravity sewer lines can be described by the Saint-Venant equations which gives an expression for conservation of mass and momentum.
 Some assumptions is made when deriving the Saint-Venant equations \cite{schutze2011modelling}:
@@ -72,7 +72,7 @@ Average change in stored fluid in the channel is given as:
 % 	\frac{\partial A}{\partial t} \cdot \Delta x	\cdot \Delta t
 % \end{equation}
 
-As the flow into the channel minus the flow out is equal to the change in stored fluid in the channel. Then due to the assumption of incompressible fluid and uniformity the following can be written:  
+As the flow into the channel minus the flow out is equal to the change in stored fluid in the channel, then due to the assumption of incompressible fluid and uniformity, the following can be written:  
 
 \begin{equation}\label{eq:saintbernard_masse_simpel}
 	Q_{in}\cdot \Delta t - Q_{out}\cdot \Delta t = \frac{\partial A}{\partial t} \cdot \Delta x	\cdot \Delta t
@@ -220,7 +220,7 @@ Where $h_l$ is the fluid height at the left side of the control volume, b(z) is 
 	=&-F_{P1} - F_{P2} - F_{P3}
 \end{aligned}	
 \end{equation}
-The pressure force acting on the right side, at a height $h_l$ from the channel bed, is given by $F_{P1}$ and $F_{P2}$, where the last term is the added force due to the fluid above the height $h_l$, and gives:  \fxnote{Forstaar ikke lige det her, Jacob}
+The pressure force acting on the right side, at a height $h_l$ from the channel bed, is given by $F_{P1}$, $F_{P2}$ and $F_{P3}$ is the remaining force from $h_l$ to $h_r$. The force $F_{P2}$ is given as:
 %The integral of $F_{P2}$ is equal to: 
 \begin{equation}
 \begin{aligned}
