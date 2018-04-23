@@ -40,5 +40,9 @@ if i == imax
     fprintf('solution was not observed in %i iterations .\n',imax)
     Xs = ('no answer');
     Xest
+<<<<<<< HEAD
     %X
+=======
+%     X
+>>>>>>> 786ac4f19a28c9756ec20a287e1dff9a33c121c5
 end

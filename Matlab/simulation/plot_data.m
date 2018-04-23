@@ -85,6 +85,8 @@ for m= 1:length(data{1}.Q)
     xlabel('distance (m)')
     
 %     suptitle(['Minutes ', num2str(m*Dt/60,3)])
+
     pause(play_speed) 
+    
 end
 end
