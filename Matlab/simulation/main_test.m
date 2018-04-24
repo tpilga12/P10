@@ -1,6 +1,9 @@
 %% Sewer pipe equations
 clc
 clear all
+clear path
+format long
+addpath(['functions'], ['setup'])
 global Dt iterations Q_init C_init m afstand
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
