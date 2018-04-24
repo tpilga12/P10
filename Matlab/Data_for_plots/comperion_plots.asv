@@ -1,0 +1,18 @@
+%% Script for compersion of nonlinear open channel and ss open channel 
+clc, clear all, close all
+
+
+load h_data.mat
+load h_start_tank.mat
+load output_fra_ss.mat
+load time.mat
+load tank_height_for_ss_model.mat
+
+figure(1)
+plot(t,tank_input_height+h_start_tank)
+title('Input height')
+xlabel('Time [s]')
+ylabel('Input height [m]')
+xlim([0 4000])
+
+figure(2)

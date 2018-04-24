@@ -28,16 +28,16 @@ This equation can be written on a matrix form:
 
 \begin{equation}
 \begin{aligned}
-	\begin{bmatrix}
-		&\underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{a}   \underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{b} 
+	&\begin{bmatrix}
+		\underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{a}   \underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{b} 
 	\end{bmatrix}
 	\begin{bmatrix}
 		h_{j}^{i+1} \\
 		h_{j+1}^{i+1}
 	\end{bmatrix}
 	= \\ -
-	\begin{bmatrix}
-		&\underbrace{\frac{-1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{(1-\theta)}{\Delta x}\frac{\partial Q}{\partial h}}_{c} & \underbrace{\frac{-1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{d} 
+	&\begin{bmatrix}
+		\underbrace{\frac{-1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{(1-\theta)}{\Delta x}\frac{\partial Q}{\partial h}}_{c} & \underbrace{\frac{-1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{d} 
 	\end{bmatrix}
 	\begin{bmatrix}
 		h_{j}^{i} \\
@@ -100,3 +100,17 @@ To obtain a state space for the matrix to the left needs to inversed, thereby ob
 \end{equation}
 
 
+
+\begin{figure}[H]
+ \centering
+ \input{report/control/tikz/height_input_for_comparision}
+\caption{Input height for the simulation.}
+\label{fig:height_input_for_comparision}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \input{report/control/tikz/height_output_nonlinear_and_linear_model}
+\caption{Output height for the linear and non-linear simulation.}
+\label{fig:height_output_nonlinear_and_linear_model}
+\end{figure}
