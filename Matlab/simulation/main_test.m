@@ -1,12 +1,15 @@
 %% Sewer pipe equations
 clc
 clear all
+clear path
+format long
+addpath(['functions'], ['setup'])
 global Dt iterations Q_init C_init m afstand
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
 
-iterations = 500;
+iterations = 900;
 Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C_init = 8; % initial concentrate in pipe
