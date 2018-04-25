@@ -1,7 +1,7 @@
-clear all, clc,
+% clear all, clc,
 
 
-Theta = 1;
+Theta = 0.99999;
 Dt =20; %[s] grid time
 Dx = 8; %[m] grid distance
 d = 0.6; %[m] Diameter.
@@ -42,21 +42,25 @@ A = [ d 0 0 0 0 0 0 0 0 0;
       0 0 0 0 0 0 0 0 c d];
 A = Finv*A;
 B = Finv*[c 0 0 0 0 0 0 0 0 0]';
+     %     c 0 0 0 0 0 0 0 0 0]';
 C = [0 0 0 0 0 0 0 0 0 1];
 D = 0;
 
 Sys = ss(A,B,C,D)
 
-h_start_tank = 0.1708;
-load tank_height_for_ss_model.mat
-
-
 t = (1:900).*Dt;
+%h_start_tank = 0.1708;
+h_start_tank = 0.1;
+load tank_height_for_ss_model.mat
+h_input(1:length(t))= tank_input_height;
+Q_input= ((0.46 - 0.5 *cos(pi*(h_input)/dd)+0.04*cos(2*pi*(h_input)/dd)))*Qf;
+
+
 X0(1:10) =0;
-d1= sin(-0.01:1.1112e-04:0.01);
-u(1:length(t))=tank_input_height;
+
+u(1:length(t))=h_input;
 [Y t1 x1]=lsim(Sys,u,t);
 figure(2)
-plot(t,Y+h_start_tank)
+plot(t,Y)
 end_height = x1(end,end)
-Q_out = (0.46 - 0.5 *cos(pi*(x1(end,end)/dd))+0.04*cos(2*pi*(x1(end,end)/dd)))*Qf
+Q_out = (0.46 - 0.5 *cos(pi*(x1(end,end)/dd))+0.04*cos(2*pi*(x1(end,end)/dd)))*Qf;

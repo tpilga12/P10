@@ -1,6 +1,6 @@
 %% Sewer pipe equations
-clc
-clear all
+%clc
+%clear all
 global Dt iterations Q_init C_init m afstand
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -10,7 +10,7 @@ iterations = 900;
 Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 C_init = 8; % initial concentrate in pipe
-Q_init = 0.04;
+Q_init = 0.0186;
 error = 0;
 [pipe_spec nr_pipes] = pipe_setup_test_jacob(1);
 
@@ -44,7 +44,7 @@ for m = 1:iterations
 end
 
 %%
-plot_data(data,nr_pipes,0.05,Dt,pipe_spec)
+plot_data(data,nr_pipes,1,Dt,pipe_spec)
 
 
 %data = simulation(Q_init,C_init)

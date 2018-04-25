@@ -23,7 +23,7 @@ grid
 figure(2)
 plot(t,Y_hat+Y_bar)
 hold on
-plot(t,data{1,1}.h(:,end))
+plot(t,data{1,1}.h(:,10))
 title('Comparison of Preissmann scheme and linear open channel models')
 xlabel('Time [s]')
 ylabel('Output height [m]')
