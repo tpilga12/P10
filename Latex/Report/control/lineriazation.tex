@@ -56,9 +56,9 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 \begin{equation}
 \begin{aligned}
 	   \underbrace{\begin{bmatrix}
-	    	a & b \\
-	    	  & \ddots  & \ddots \\
-	    	  &  		& a  		&b\\
+	    	a & b       &           &   \\
+	    	  & \ddots  & \ddots    &   \\
+	    	  &  		& a  		&b  \\
 	          &  		&  			&  a\\
 	   \end{bmatrix}}_{\xi}
 	    \underbrace{\begin{bmatrix}
@@ -67,7 +67,7 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 		\vdots		\\
 		h_{m}^{i+1}\\
 	\end{bmatrix}}_{\dot{x}}
-	= -
+	= 
 	\underbrace{\begin{bmatrix}
 	    	d &  \\
 	    	c & d & \\
@@ -81,15 +81,15 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 		h_{m}^{i}\\
 		\end{bmatrix}}_{x}
 	+ \underbrace{\begin{bmatrix}
-		c \\
-		\vdots		\\
-		0\\
+		c & -a\\
+		\vdots  & \vdots \\
+		0 & 0\\
 		\end{bmatrix}}_{B}
 		\underbrace{\begin{bmatrix}
-		h_{0} \\
-		\vdots		\\
-		0\\
+		h_{0}^{i} \\
+		h_{0}^{i+1} \\
 		\end{bmatrix}}_{u}
+		+ Bd
 	\end{aligned}
 \end{equation}
 Where m denotes the channel pieces.  
@@ -111,6 +111,6 @@ To obtain a state space for the matrix to the left needs to inversed, thereby ob
 \begin{figure}[H]
  \centering
  \input{report/control/tikz/height_output_nonlinear_and_linear_model}
-\caption{Output height for the linear and non-linear simulation.}
+\caption{Output height for the linear and Preissmann scheme simulation.}
 \label{fig:height_output_nonlinear_and_linear_model}
 \end{figure}
