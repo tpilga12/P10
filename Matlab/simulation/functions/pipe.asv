@@ -73,7 +73,7 @@ for n = 1:sections
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%
     elseif m > 1 && n == 1
-        Ie(m,1:sections) = piping(x).Ib;
+        Ie(x,1:sections) = piping(x).Ib;
         if x == 1
             Q(m,n) = Q_in;
             C(m,n) = C_in;
