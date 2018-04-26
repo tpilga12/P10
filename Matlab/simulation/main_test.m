@@ -12,7 +12,7 @@ global Dt iterations m afstand
 iterations = 300;
 Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-[pipe_spec nr_pipes] = pipe_setup(1);
+[pipe_spec nr_pipes] = pipe_setup_test_jacob(1);
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.04;
 for k = 1:length(pipe_spec)

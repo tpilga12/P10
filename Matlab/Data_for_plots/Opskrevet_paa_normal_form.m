@@ -1,4 +1,4 @@
- clear all, clc,
+ %clear all, clc,
 
 
 Theta = 1;
@@ -52,7 +52,7 @@ t = (1:900).*Dt;
 %h_start_tank = 0.1708;
 h_start_tank = 0.01;
 load tank_height_for_ss_model.mat
-h_input(1:length(t))=0.1 ;%tank_input_height; %h_data_hat;
+h_input(1:length(t))=h_data_hat ;%tank_input_height; %h_data_hat;
 Q_input= ((0.46 - 0.5 *cos(pi*(h_input)/dd)+0.04*cos(2*pi*(h_input)/dd)))*Qf;
 h_input2(1:length(t)) = 0;
 

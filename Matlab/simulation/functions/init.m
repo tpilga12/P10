@@ -10,7 +10,7 @@ function [out]=init(piping,input)
 % persistent H Q h A C Ie
 global Dt
 m = 0;
-limit = 1e-15;
+limit = 1e-8;
 avg = 10;
 desired = 0;
 while abs(avg-desired) > limit
