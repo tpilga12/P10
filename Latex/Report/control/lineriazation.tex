@@ -29,7 +29,7 @@ This equation can be written on a matrix form:
 \begin{equation}
 \begin{aligned}
 	&\begin{bmatrix}
-		\underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{a}   \underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{b} 
+		\underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{a} & \underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{b} 
 	\end{bmatrix}
 	\begin{bmatrix}
 		h_{j}^{i+1} \\
@@ -82,6 +82,7 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 		\end{bmatrix}}_{x}
 	+ \underbrace{\begin{bmatrix}
 		c & -a\\
+		0 & 0 \\
 		\vdots  & \vdots \\
 		0 & 0\\
 		\end{bmatrix}}_{B}
