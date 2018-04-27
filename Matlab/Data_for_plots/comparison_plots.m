@@ -24,9 +24,9 @@ figure(2)
 plot(t,Y_hat+Y_bar)
 hold on
 plot(t,data{1,1}.h(:,end))
-title('Comparison of Preissmann scheme and linear open channel models')
+title('Comparison of Non-linear and linear open channel models')
 xlabel('Time [s]')
 ylabel('Output height [m]')
 xlim([0 4000])
-legend('Linear','Preissmann scheme')
+legend('Linear','Non-linear')
 grid
