@@ -10,7 +10,7 @@ function [out]=init(piping,input)
 % persistent H Q h A C Ie
 global Dt
 m = 0;
-limit = 1e-15;
+limit = 1e-9;
 avg = 10;
 desired = 0;
 while abs(avg-desired) > limit
@@ -32,10 +32,10 @@ while abs(avg-desired) > limit
             %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
             if m == 1 && n==1
 %                 Ie(1:iterations,1:sections) = Ib; % this is gay and cant be right FIGURE IT OUT!!!!!
-                h_init=0:d/100:d;
+                h_init=0:d/1000:d;
                 %         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
                 Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ib^0.5;% Hennings
-                for t = 1:101
+                for t = 1:1001
                     Q_initialize(t)=(0.46 - 0.5 *cos(pi*(h_init(t)/d))+0.04*cos(2*pi*(h_init(t)/d)))*Qf;
                 end
                 data{x}.fitfunc = fit(Q_initialize',h_init','poly9');
@@ -108,7 +108,7 @@ while abs(avg-desired) > limit
             avg = sum([pipe_avg_value{:}])/j;
             desired = sum([desired_value{:}])/j;
         end
-        
+        hej = [avg desired]
     end
     for l = 1:length(piping)
     out_data{l}.Q=data{l}.Q(end,:);
