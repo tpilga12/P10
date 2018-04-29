@@ -46,26 +46,25 @@ B = Finv*[c 0 0 0 0 0 0 0 0 0;
 C = [0 0 0 0 0 0 0 0 0 1];
 D = 0;
 
-Sys = ss(A,B,C,D)
+Sys = ss(A,B,C,D,0)
 
+h_data_hat=data{1,1}.h(:,1)-data{1,1}.h(1,1);% Data fra den non linear
 t = (1:900).*Dt;
-%h_start_tank = 0.1708;
-h_start_tank = 0.01;
-load tank_height_for_ss_model.mat
-h_input(1:length(t))=h_data_hat ;%tank_input_height; %h_data_hat;
-Q_input= ((0.46 - 0.5 *cos(pi*(h_input)/dd)+0.04*cos(2*pi*(h_input)/dd)))*Qf;
-h_input2(1:length(t)) = 0;
+h_input(1:length(t))=h_data_hat ;%Input height
+Q_input= ((0.46 - 0.5 *cos(pi*(h_input)/dd)+0.04*cos(2*pi*(h_input)/dd)))*Qf;% calc for input flow
+h_input2(1:length(t)) = 0; % Input height, test for at sætte a = 0
 
 X0(1:10) =0;
 
 u=[h_input; h_input2];
 [Y_hat t1 x1]=lsim(Sys,u,t);
+
+
 figure(2)
 plot(t,Y_hat)
 
-
-end_height = x1(end,end)
+end_height = x1(end,end);
 Q_out = (0.46 - 0.5 *cos(pi*(x1(end,end)/dd))+0.04*cos(2*pi*(x1(end,end)/dd)))*Qf;
 
-h_bar = data{1,1}.h(1,1);
+h_bar = data{1,1}.h(1,1); % Sæt små signaler
 Y_bar =h_bar;

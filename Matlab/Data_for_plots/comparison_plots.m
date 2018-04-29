@@ -1,5 +1,6 @@
 %% Script for comparison of nonlinear open channel and ss open channel 
-% clc, clear all, close all
+% clc, clear all,
+close all
 % 
 % % Load data from main test - Run main test, save the following dataset
 % % data{1,1}.h(:,end), and data{1,1}.h(:,1) which is the output height and
