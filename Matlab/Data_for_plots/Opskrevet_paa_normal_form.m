@@ -1,7 +1,7 @@
  %clear all, clc,
 
 
-Theta = 1;
+Theta = 0.65;
 Dt =20; %[s] grid time
 Dx = 8; %[m] grid distance
 d = 0.6; %[m] Diameter.
@@ -13,10 +13,10 @@ h=0.3; % arbejds punkt
 Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennings fyldsning flow
 
 %%% 
-a = ((1/(2*Dt))*(2*abs(sqrt(-h^2+(h*d))))) - (Theta/(Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
-b = ((1/(2*Dt))*(2*abs(sqrt(-h^2+(h*d))))) + (Theta/(Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
-c = ((1/(2*Dt))*(2*abs(sqrt(-h^2+(h*d))))) + ((1-Theta)/(Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
-d = ((1/(2*Dt))*(2*abs(sqrt(-h^2+(h*d))))) - ((1-Theta)/(Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
+a = ((1/(2*Dt))*(2*abs(sqrt(-h^2+(h*d))))) - ((Theta/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
+b = ((1/(2*Dt))*(2*abs(sqrt(-h^2+(h*d))))) + ((Theta/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
+c = ((1/(2*Dt))*(2*abs(sqrt(-h^2+(h*d))))) + (((1-Theta)/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
+d = ((1/(2*Dt))*(2*abs(sqrt(-h^2+(h*d))))) - (((1-Theta)/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
 
 F = [ b 0 0 0 0 0 0 0 0 0; 
       a b 0 0 0 0 0 0 0 0;
