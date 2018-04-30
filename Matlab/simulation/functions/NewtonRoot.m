@@ -13,18 +13,18 @@ function Xs = NewtonRoot(Fun,FunDer,Xest,Err,imax,d,Ie,H,Dt,Dx,Theta,m,n)
 
 for i = 1:imax
 %     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    if i == 1
-    %X = Fun(Xest)/FunDer(Xest);
-    X = Xest;
-    end
-      
-    if X < Err
-        X
-        fprintf('solution was observed')
-    else
-        fprintf('solution is here')
-        X = abs(X-Fun(X)/FunDer(X));
-    end
+%     if i == 1
+%     %X = Fun(Xest)/FunDer(Xest);
+%     X = Xest;
+%     end
+%       
+%     if X < Err
+%         X
+%         fprintf('solution was observed')
+%     else
+%         fprintf('solution is here')
+%         X = abs(X-Fun(X)/FunDer(X));
+%     end
 %     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     Xi =abs( Xest - feval(Fun,Xest)/feval(FunDer,Xest));
    

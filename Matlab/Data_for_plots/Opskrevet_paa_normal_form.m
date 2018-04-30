@@ -45,8 +45,10 @@ B = Finv*[c 0 0 0 0 0 0 0 0 0;
           -a 0 0 0 0 0 0 0 0 0]';
 C = [0 0 0 0 0 0 0 0 0 1];
 D = 0;
+
 sample = 20;
 Sys = ss(A,B,C,D,sample)
+
 
 h_data_hat=data{1,1}.h(:,1)-data{1,1}.h(1,1);% Data fra den non linear
 t = (1:sample:900*sample);
