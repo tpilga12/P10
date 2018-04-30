@@ -38,9 +38,9 @@ for n = 0:86400
     x = x+1;
 end
 
-f1_1=(f*3.6)*517/2000;
-f1_2=(f*3.6)*344/2000;
-f1_3=(f*3.6)*1505/2000;
+f1_1=(f/1000)*517/2000;
+f1_2=(f/1000)*344/2000;
+f1_3=(f/1000)*1505/2000;
 f2=(f*3.6)*173/2000;
 f3=(f*3.6)*517/2000;
 f4=(f*3.6)*5799/2000;
@@ -56,7 +56,7 @@ close all
 %xtime = datetime(xtime,'format','hh')
 %  reduce_plot(xtime/3600,f1T)
 % hold on
-reduce_plot(xtime/3600,f1N)
+reduce_plot(xtime/3600,f1_1)
 % hold on
 % reduce_plot(xtime/3600,f2)
 % hold on

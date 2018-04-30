@@ -9,12 +9,12 @@ global Dt iterations m afstand
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
 
-iterations = 900;
-Dt = 20;
+iterations = 25000;
+Dt = 10;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [pipe_spec nr_pipes] = pipe_setup_zone_1(1);
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.04;
+input.Q_init = 0.01;
 for k = 1:length(pipe_spec)
     input.lat.Q{k} = 0;
     input.lat.C{k} = 0;
@@ -30,10 +30,10 @@ for m = 1:iterations
     if error == 0;
     %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 8; % concentrate input [g/m^3]
-    input.Q_in =f1_3(m);% 0.04 + sin(m)/1000;
-    input.lat.Q{1} = f1_2(m);%0.01;
+    input.Q_in =f1_3(m)+0.01;% 0.04 + sin(m)/1000;
+    input.lat.Q{1} = f1_2(m)+0.01;%0.01;
     input.lat.C{1} = 0;
-    input.lat.Q{2} = f1_1(m);%0;%0.05;
+    input.lat.Q{2} = f1_1(m)+0.01;%0;%0.05;
     input.lat.C{2} = 0;
 
     OD = 0.2+sin(m)/10;
@@ -56,7 +56,7 @@ for m = 1:iterations
 end
 
 %%
-plot_data(data,nr_pipes,0.05,Dt,pipe_spec)
+plot_data(data,nr_pipes,5e-6,Dt,pipe_spec)
 
 
 %data = simulation(Q_init,C_init)
