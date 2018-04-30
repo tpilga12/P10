@@ -30,44 +30,15 @@ for n = 0:86400
     x = x+1;
 end
 
-f1T=(f*3.6)*2.8;
-f1N=(f*3.6)*2.8*(0.569/0.167);
+f1=(f*3.6)*2.8;
+f11=(f*3.6)*2.8*(0.569/0.167);
 f2=(f*3.6)*2.8*(0.056/0.167);
-f3=(f*3.6)*2.8*(0.167/0.167);
-f4=(f*3.6)*2.8*(1.872/0.167);
-f5=(f*3.6)*2.8*(0.104/0.167);
-f6=(f*3.6)*2.8*(0.115/0.167);
-f7=(f*3.6)*2.8*(0.771/0.167);
-f89=(f*3.6)*2.8*(0.667/0.167);
-f11=(f*3.6)*2.8*(0.278/0.167);
-
 xtime= 1:1:86400;
 %xtime = datetime(xtime,'format','hh')
-plot(xtime/3600,f1T)
-hold on
-plot(xtime/3600,f1N)
-hold on
-plot(xtime/3600,f2)
-hold on
-plot(xtime/3600,f3)
-hold on
-plot(xtime/3600,f4)
-hold on
-plot(xtime/3600,f5)
-hold on
-plot(xtime/3600,f6)
-hold on
-plot(xtime/3600,f7)
-hold on
-plot(xtime/3600,f89)
-hold on
 plot(xtime/3600,f11)
-hold on
-
 xticklabels({'00:00','05:00','10:00','15:00','20:00'})
 grid
 xlim([0 24])
-legend('1T','1N','2','3','4','5','6','7','8-9','11')
 title('Daily flow')
 xlabel('Time [hh:mm]')
 ylabel('Flow [m^3/hr]')

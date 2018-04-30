@@ -150,7 +150,7 @@ From figure \ref{fig:kloakgrid_simplified} it can be seen that 11 different flow
 \label{tab:size_of_areas}
 \end{table}
 
-By knowing the area and density of the population a flow profile can be scale to each of the residential and industrial areas. On average 2,6 persons lives per house in Denmark and it is chosen that zone one, two, three, four, five, six, eight, nine and eleven are normal houses and zone seven and ten are apartments. To find the density of a residential area the number of houses in zone one for Thulesvej have been counted. There are approximately 199 houses and by knowing how many there lives on average per house, it has been calculated that 517,4 persons lives in that area. This gives a density per km at 3098,2. This density have been applied to the rest of the residential zones except seven and ten. The amount of people living in each zone can be seen in appendix. The total amount of people living in theses areas are 12377,3. It is assumed that 30000 people of the 41000 that lives in Fredericia lives in the northern part of the city, therefore the remaining 17622,7 lives in zone seven and ten. And as these zones consists mainly of apartments and are nearly the half size of the entire area for the northern part it is deemed to be a fitting division of the city. By knowing how many people that lives in each respective zone a flow profile will be constructed to one zone and this profile will afterwards be scaled to fit the other zones. In figure \ref{fig:flow_profile_thulevej} a flow profile is shown for Thulesvej which is located in residential area one closet to the main sewer line. 
+By knowing the area and density of the population a flow profile can be scale to each of the residential and industrial areas. On average 2,6 persons lives per house in Denmark and it is assumed that zone one, two, three, four, five, six, eight, nine and eleven are single-family houses and zone seven and ten are apartments. To find the density of a residential area the number of houses in zone one for Thulesvej have been counted. There are approximately 199 houses and by knowing how many there lives on average per house, it has been calculated that 517,4 persons lives in that area. This gives a density per km at 3098,2. This density have been applied to the rest of the residential zones except seven and ten. The amount of people living in each zone can be seen in appendix. The total amount of people living in theses areas are 12377,3. It is assumed that 30000 people of the 41000 that lives in Fredericia lives in the northern part of the city, therefore the remaining 17622,7 lives in zone seven and ten. Zone seven is approximately a third of the size of zone ten, therefore 5874 people lives in zone seven and 11749 people lives in zone 10.  And as these zones consists mainly of apartments and are nearly the half size of the entire area for the northern part it is deemed to be a fitting division of the city. By knowing how many people that lives in each respective zone a flow profile will be constructed to each zone. In figure \ref{fig:flow_profile_thulevej} a flow profile is shown for Thulesvej which is located in residential area one closet to the main sewer line. 
 
 %Furthermore, from one of the pumping stations a measurement is obtained that illustrates the flow from that zone. This will be used to construct a flow profile according to the area that this pumping station is covering. 
 
@@ -170,4 +170,15 @@ From the second zone only one flow profile will be used and as the zone is close
 Zone five and six will have a normal profiles without delays. Zone seven will have a profile with delay as it also stretch across a long sewer line before reaching the main sewer line. Zone eight, nine and eleven will all have the same profile just scaled according to the size of the zones, and the industrial area is the same as the one in zone four. 
 
 From zone ten a pump is pumping the wastewater to the main sewer line every 30 minuted for a period of 15 minutes. The pump has a pumping capacity of 0,350 $m^3/s$ which have been state by Fredericia. Therefore the flow profile for this area will be a constant input of 0,350 $m^3/s$ for 15 minutes every 30 minute. 
+
+The flow coming from one of the industries into the main sewer line is given by Fredericia. The original dataset can be seen in appendix/attachment\fxnote{Hvor skal det være} and in figure \ref{fig:flow_profile_industry} a simplification of the dataset can be seen.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{report/system_overview/pictures/flow_profile_industry}
+	\caption{Flow profile for a company in Fredericia, data is given by Fredericia.}
+	\label{fig:flow_profile_industry}
+\end{figure}			
+From the plot it can be seen that the flow coming from industry is coming in pulses of 190 $m^3/hr$ in 45 minutes every 45 minute.  
 
