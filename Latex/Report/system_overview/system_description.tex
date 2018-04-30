@@ -1,22 +1,22 @@
 \chapter{System description}\label{se:system_description}
 This section will go into details of the structure of the sewer network for which the further work of this project will be based upon.
 
-As mentioned in section \ref{sec:WWTP_challenges} a steady flow of sewage with a fixed level of contaminants is desired such that an optimal utilization of the wastewater treatment plant can be obtained. An area of interest is Fredericia with a sizable population of approximately 40.000 people and industries where some of the largest consists of a brewery, bottling plant, refinery and a dairy plant \cite{Statistic_Denmark}. All of these industries are placed at the outskirts of the city, meaning that the wastewater discharged into the sewer goes through populated areas creating an uneven flow of wastewater to the WWTP. Two main sewer lines separates the northern and southern part of the city. To limit the scope of the project only the northern main sewer line is considered. This line covers the largest part of the households and the industry located in the city. % This excludes the dairy from the scope of the project as it is located southeast from the wastewater treatment plant. 
-In figure \ref{fig:kloakgrid_simplified}, a simplified overview is given of the northern main sewer line in Fredricia. The placement of the sewers shown in \ref{fig:kloakgrid_simplified} is obtained from a Geographically Information System (GIS) map publicly available by the municipal of Fredericia \cite{GIS_kort}. The red and green lines indicate sewers with flows of wastewater only and combined sewers with wastewater and surface runoff, respectively. The populated areas are indicated by two different transparent blue colors, to easier be able to distinguish between the different parts of the sewer network. The red transparent areas indicate small to medium sized industry. 
+As mentioned in section \ref{sec:WWTP_challenges} a steady flow of sewage with a fixed level of contaminants is desired such that an optimal utilization of the wastewater treatment plant can be obtained. An area of interest is Fredericia with a sizable population of approximately 40.000 people and industries where some of the largest consists of a brewery, bottling plant, refinery and a dairy plant \cite{Statistic_Denmark}. All of these industries are placed at the outskirts of the city, meaning that the wastewater discharged into the sewer goes through populated areas creating an uneven flow of wastewater to the WWTP. Two main sewer lines separates the northern and southern part of the city. To limit the scope of the project only the northern main sewer line is considered. This line covers the largest part of the households and the industry, located in the city. % This excludes the dairy from the scope of the project as it is located southeast from the wastewater treatment plant. 
+In figure \ref{fig:kloakgrid_simplified}, a simplified overview is given of the northern main sewer line in Fredericia. The placement of the sewers shown in the figure is obtained from a Geographically Information System (GIS) map, which is made publicly available by the municipal of Fredericia \cite{GIS_kort}. The red and green lines indicate sewers with flows of wastewater only and combined sewers with flows of wastewater and surface runoff, respectively. The populated areas are indicated by two different transparent blue colors, to easier be able to distinguish between the different parts of the sewer network. The red transparent areas indicate small to medium sized industry. 
 Only the sewer lines out of or between the separate areas are shown. Furthermore the areas connected by a red line has a separate sewer system for surface runoff, which is lead into various ponds or the sea, minimizing the load on the wastewater treatment plant.
-The bottling plant, refinery and the brewery is marked by the purple, brown and black rings, respectively. Several inlets for surface runoff connected directly to the main sewer line exists. %The added disturbance from these inlets is neglected on the assumption that the disturbances from the connected areas will be considerable larger.  
-
+The bottling plant, refinery and the brewery is marked by the purple, brown and black rings, respectively. Furthermore several inlets for surface runoff connected directly to the main sewer line exists. %The added disturbance from these inlets is neglected on the assumption that the disturbances from the connected areas will be considerable larger.  
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{report/system_overview/pictures/kloakgrid_simplified9.png}
-\caption{Simplified mapping of the northern part of the sewer network in Fredericia. The two blue transparent colors indicate populated areas and the red transparent area indicate industry. Red and green lines is sewers with flows of wastewater and combined wastewater and surface runoff  respectively. Bottling plant, refinery and brewery is marked by purple, brown and black circles respectively. The black circle denotes the start point for the main sewer line. The green sewer line with an yellow line within it is the main sewer line. The purple dot is a connecting point with two incoming and two outgoing sewer lines. Blue dot is a wastewater pumping station which elevates sewage such that gravity can be utilized for the remaining transport into the treatment plant. Blue rectangle marks the location of the wastewater treatment plant.
+\includegraphics[width=1\textwidth]{report/system_overview/pictures/kloakgrid_simplified9_temp.png}
+\caption{Simplified mapping of the northern part of the sewer network in Fredericia. The two blue transparent colors indicate populated areas and the red transparent area indicate industry. Red and green lines is sewers with flows of wastewater and combined wastewater and surface runoff  respectively. Bottling plant, refinery and brewery is marked by purple, brown and black circles respectively. The black circle denotes the starting point of the main sewer line. The green line with a yellow stripe within represent the main sewer line. The purple dot is a connecting point with two incoming and two outgoing sewer lines. The blue dot is a wastewater pumping station which elevates sewage such that gravity can be utilized for the remaining transport into the treatment plant. Blue rectangle marks the location of the wastewater treatment plant.
 %Mapping of part of the sewer network in Fredericia. The red and green lines indicate sewers where the red sewers has flows of sewage only and the green line is combined sewage and runoff from urban surfaces. Transparent parts indicate that the area has a connected sewer grid within and the red/green lines from this grid indicates the output from this area. Two shades of transparent blue is used to illustrate sewer systems in populated areas. The red transparent areas indicate minor industry and the black, brown and purple rings is brewery, refinery and bottling plant respectively. The purple dot indicate a splitting point with two incoming and outgoing sewer pipes. The light blue dot is a sewer reservoir before wastewater is led to the wastewater treatment plant indicated by the blue rectangle.
 \cite{Krak} \cite{GIS_kort}}
 \label{fig:kloakgrid_simplified}
 \end{figure}
 
+\newpage
 
 The various enumerated parts in figure \ref{fig:kloakgrid_simplified} is shown by order of attachment to the main sewer line, together with distance between each attachment, in figure \ref{fig:sewer_line_diagram}. 
 
@@ -27,7 +27,7 @@ The various enumerated parts in figure \ref{fig:kloakgrid_simplified} is shown b
 \label{fig:sewer_line_diagram}
 \end{figure}
 
-Furthermore the different sections consist of pipe of varying diameters as can be seen in table \ref{tab:kloak_diameter}.
+Furthermore the different sections consist of pipes with varying diameters which can be seen in table \ref{tab:kloak_diameter}.
 
 % \begin{table} 
 % \centering
@@ -100,8 +100,8 @@ Total length 		    				 & \multirow{2}{*}{5070}  &	  & & & 	 \\
 \label{tab:kloak_diameter}
 \end{table}
 
-Some assumptions is made to avoid complications during simulation. The negative slope of the section between connection point four and five is flipped such that no permanent storage of sewage happens. The reason for this assumption is that it will ease the computation, of the free flow in that section, if storage in the pipe sections could be disregarded during simulation. Furthermore the new slope is deemed acceptable based on the obtained slopes for the remaining pipe sections. 
-For the two pipe sections between point seven and eight, where out- and input datum is unknown, are gathered in to a single pipe section. This section will be designated an inner diameter of 1200 mm as the section with the larger diameter is assumed insignificant for the free flow at the end points of the entire section.
+Some assumptions is made to avoid possible complications during simulation. The negative slope of the section between connection point four and five is flipped such that no permanent storage of sewage happens. The reason for this assumption is that it will ease the computation, of the free flow in that section, if storage in the pipe sections could be disregarded during simulation. Furthermore the new slope is deemed acceptable based on the obtained slopes of the remaining pipe sections. 
+The two pipe sections between point seven and eight, where out- and input datum is unknown, are gathered into a single pipe section. This section will be designated an inner diameter of 1200 mm as the section with the larger diameter, because of its short length, is assumed insignificant when considering the free flow at the end point of the combined section.
 
 \begin{table} [H]
 \centering
@@ -124,7 +124,8 @@ For the two pipe sections between point seven and eight, where out- and input da
 \end{table}
 
 
-To simulate how the wastewater propagation throughout the sewer network the flows in each residential and industrial area needs to be known. However Fredericia does not have measurement of the flow from each area, they only have measurements at some pumping stations across the city. Therefore it is chosen to use the flow profile shown in figure \ref{fig:input_to_wwtp} for the residential areas, as an estimate of the flow across a day. This flow profile will be scaled to fit each residential area in figure \ref{fig:sewer_line_diagram}.
+To be able to simulate how the wastewater propagates throughout the main line the flows in each residential and industrial area needs to be known. However Fredericia does not have measurement of the flow from each area, only limited measurements at some pumping stations at various positions in the city are available. Therefore flow profiles for the various inputs shown in figure \ref{fig:sewer_line_diagram} needs to be designed.
+For this reason the flow profile seen in figure \ref{fig:input_to_wwtp} is utilized for the residential and minor industry areas, as an estimate of the flow across a day. The flow profiles is scaled to fit the size of each area and delayed approximately with the distance to the main line in figure \ref{fig:sewer_line_diagram}.
 
 From figure \ref{fig:kloakgrid_simplified} it can be seen that 11 different flow profiles needs to constructed to cover each residential and industrial area. Each of these residential and industrial areas have been measured to give an estimate of the area for each zone. In table \ref{tab:size_of_areas} the size of the residential and industrial areas are shown. 
 

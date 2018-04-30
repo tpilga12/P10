@@ -30,7 +30,7 @@ for m = 1:iterations
     if error == 0;
     %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 8; % concentrate input [g/m^3]
-    input.Q_in = 0.04 + sin(m)/1000;
+    input.Q_in = 0.04 + sin(m/10)/1000;
 %     input.lat.Q{1} = 0;%0.01;
 %     input.lat.C{1} = 20;
 %     input.lat.Q{2} = 0;%0.05;
