@@ -2,7 +2,7 @@
 
 
 Theta = 0.65;
-Dt =20; %[s] grid time
+Dt =1; %[s] grid time
 Dx = 8; %[m] grid distance
 d = 0.6; %[m] Diameter.
 dd= d;
@@ -28,7 +28,7 @@ F = [ b 0 0 0 0 0 0 0 0 0;
       0 0 0 0 0 0 a b 0 0;
       0 0 0 0 0 0 0 a b 0;
       0 0 0 0 0 0 0 0 a b];
-Finv = -inv(F);
+Finv = inv(F);
  
 A = [ d 0 0 0 0 0 0 0 0 0;
       c d 0 0 0 0 0 0 0 0;
@@ -46,7 +46,7 @@ B = Finv*[c 0 0 0 0 0 0 0 0 0;
 C = [0 0 0 0 0 0 0 0 0 1];
 D = 0;
 
-Sys = ss(A,B,C,D,0)
+Sys = ss(A,B,C,D,1)
 
 h_data_hat=data{1,1}.h(:,1)-data{1,1}.h(1,1);% Data fra den non linear
 t = (1:900).*Dt;
@@ -67,4 +67,4 @@ end_height = x1(end,end);
 Q_out = (0.46 - 0.5 *cos(pi*(x1(end,end)/dd))+0.04*cos(2*pi*(x1(end,end)/dd)))*Qf;
 
 h_bar = data{1,1}.h(1,1); % Sæt små signaler
-Y_bar =h_bar;
+Y_bar =data{1,1}.h(1,end);
