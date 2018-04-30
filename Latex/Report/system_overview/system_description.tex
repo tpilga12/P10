@@ -119,15 +119,22 @@ The two pipe sections between point seven and eight, where out- and input datum 
 			 							& 116			  & 1200   &   2,10\\ \hline
 
 \end{tabular}
-\caption{New slope values for sections with negative slope and unknown values.}
+\caption{New slope values for sections with negative slope and unknown values.}½
 \label{tab:new_slope_values}
 \end{table}
 
 
-To be able to simulate how the wastewater propagates throughout the main line the flows in each residential and industrial area needs to be known. However Fredericia does not have measurement of the flow from each area, only limited measurements at some pumping stations at various positions in the city are available. Therefore flow profiles for the various inputs shown in figure \ref{fig:sewer_line_diagram} needs to be designed.
-For this reason the flow profile seen in figure \ref{fig:input_to_wwtp} is utilized for the residential and minor industry areas, as an estimate of the flow across a day. The flow profiles is scaled to fit the size of each area and delayed approximately with the distance to the main line in figure \ref{fig:sewer_line_diagram}.
+To be able to simulate how the wastewater propagates throughout the main line the flows in each residential and industrial area is needed. However Fredericia Spildevand og Energi A/S does not have measurements of the flow or concentration from the specific areas. Only at a limited amount of pumping stations, at various positions in the city, are there flow measurements available. Therefore flow profiles for the various inputs shown in figure \ref{fig:sewer_line_diagram} needs to be designed.
+For this purpose the flow profile seen in figure \ref{fig:input_to_wwtp} is utilized, for the residential and minor industry areas, as an estimate of the flow during 24 hours. The flow profiles is scaled to fit the size of each area and delayed approximately with the distances to the main line seen in figure \ref{fig:kloakgrid_simplified}.
 
-From figure \ref{fig:kloakgrid_simplified} it can be seen that 11 different flow profiles needs to constructed to cover each residential and industrial area. Each of these residential and industrial areas have been measured to give an estimate of the area for each zone. In table \ref{tab:size_of_areas} the size of the residential and industrial areas are shown. 
+From figure \ref{fig:sewer_line_diagram} it can be seen that 11 different flow profiles needs to be constructed to cover each residential and industrial area wastewater contribution to the main line. %Each of these residential and industrial areas have been measured to give an estimate of the area for each zone. 
+By knowing the area and density of the population a flow profile can be scaled to each of the residential and industrial areas. 
+On average there is 2,6 residents per house in Denmark which will henceforth be the foundation for obtaining population for the various areas \cite{nykredit}. 
+Furthermore it is assumed that the urban areas one to six together with eight, nine and eleven are single-family houses and zone seven and ten are apartments in buildings with several floors,meaning that area seven and ten has a higher density of population per square kilometers.
+As the northern part of Fredericia consists of the largest part of the city, the assumption is that around 30.000 of the approximately 40.000 people resides there. 
+The residential area 1,1 is used to obtain an approximately density of people per square kilometer within the urban areas. The amount of houses located in this area is found to be 199 which gives an average urban population density of 3098,2 per square kilometer.
+The approximated size of the various areas is found, and from that the population by multiplying with the average population density. The remaining of the population is divided between area seven and ten. As area seven is approximately a third of the combined area it is given a third of the remaining population leaving the remaining to area ten.
+In table \ref{tab:size_of_areas} the approximated size of the residential and industrial areas, together with the population of the residential areas, are shown. 
 
 \begin{table}[H]
 \centering
@@ -151,39 +158,43 @@ From figure \ref{fig:kloakgrid_simplified} it can be seen that 11 different flow
 11     				  	& 0,278         & -		       & -\\ \hline
 \textbf{Total area}    	& 7,45        	& 1,294  	   &    	\\ \hline
 \end{tabular}
-\caption{Table over the size of the are different residential and industrial zones \cite{nykredit}.}
+\caption{Table of the sizes of the residential and industrial areas and the population in the residential areas \cite{nykredit}.}
 \label{tab:size_of_areas}
 \end{table}
 
-By knowing the area and density of the population a flow profile can be scale to each of the residential and industrial areas. On average 2,6 persons lives per house in Denmark and it is assumed that zone one, two, three, four, five, six, eight, nine and eleven are single-family houses and zone seven and ten are apartments. To find the density of a residential area the number of houses in zone one for Thulesvej have been counted. There are approximately 199 houses and by knowing how many there lives on average per house, it has been calculated that 517,4 persons lives in that area. This gives a density per km at 3098,2. This density have been applied to the rest of the residential zones except seven and ten. The amount of people living in each zone can be seen in appendix. The total amount of people living in theses areas are 12377,3. It is assumed that 30000 people of the 41000 that lives in Fredericia lives in the northern part of the city, therefore the remaining 17622,7 lives in zone seven and ten. Zone seven is approximately a third of the size of zone ten, therefore 5874 people lives in zone seven and 11749 people lives in zone 10.  And as these zones consists mainly of apartments and are nearly the half size of the entire area for the northern part it is deemed to be a fitting division of the city. By knowing how many people that lives in each respective zone a flow profile will be constructed to each zone. In figure \ref{fig:flow_profile_thulevej} a flow profile is shown for Thulesvej which is located in residential area one closet to the main sewer line. 
+%By knowing the area and density of the population a flow profile can be scaled to each of the residential and industrial areas. On average there is 2,6 residents per house in Denmark and it is assumed that zone one, two, three, four, five, six, eight, nine and eleven are single-family houses and zone seven and ten are apartments. To find the density of a residential area the number of houses in area 1,1 is counted. There are approximately 199 houses and by knowing how many there lives on average per house, it has been calculated that 517,4 persons lives in that area. This gives a density per km at 3098,2. This density have been applied to the rest of the residential zones except seven and ten. The amount of people living in each zone can be seen in appendix. The total amount of people living in theses areas are 12377,3. It is assumed that 30000 people of the 41000 that lives in Fredericia lives in the northern part of the city, therefore the remaining 17622,7 lives in zone seven and ten. Zone seven is approximately a third of the size of zone ten, therefore 5874 people lives in zone seven and 11749 people lives in zone 10.  And as these zones consists mainly of apartments and are nearly the half size of the entire area for the northern part it is deemed to be a fitting division of the city. By knowing how many people that lives in each respective zone a flow profile will be constructed to each zone. 
+In figure \ref{fig:flow_profile_thulevej} a flow profile is shown for the residential area 1,1. 
 
 %Furthermore, from one of the pumping stations a measurement is obtained that illustrates the flow from that zone. This will be used to construct a flow profile according to the area that this pumping station is covering. 
 
 \begin{figure}[H]
 \centering
 \input{report/system_overview/tikz/flow_profile_thulevej}
-\caption{A flow profile for Thulesvej.}
+\caption{Flow profile for the residential area 1,1.}
 \label{fig:flow_profile_thulevej}
 \end{figure}  
 
-From the data given by Fredericia WWTP, which can be seen in attachments /Data\_pump\_stations/Thulesvej-217, this flow profile have been constructed to fit a working day flow for Thulesvej. It has been chosen to only produce flow profiles for working days and therefore non of the profiles fits a weekend. This profile covers both the wastewater from the residential and industrial area at Thulesvej. The remaining flow profiles for the rest of the zones can be seen in appendix \fxnote{appendix mangler, samt en reference}. Furthermore, these flow profiles illustrates the input flow into the main sewer line, and therefore some of the flow profiles will have added a delay, due to longer transport time from the zone to the main sewer line. An explanation for each profile to a zone is given below.    
+Flow profiles for the various residential and minor industry inputs to the main line and details on the creation of them can be found in appendix \ref{app:flow_profiles}.
 
-The residential areas denoted with one in figure \ref{fig:sewer_line_diagram}, stretch across a long sewer line. Where the sewage have to be transported a longer distance from the zone furthest away before reaching the main sewer line. It is therefore chosen to make two flow profiles, one from the residential and industrial area right next to the main sewer line, and one for the rest of the zones. These two flow profiles will be add together, and thereby the peaks will be extended for a longer period than a normal profile. The industrial area consists mainly of auto shops, recycle factory and workshops and therefore they will have the same flow profile as for residential area. 
+%From the data given by Fredericia WWTP, which can be seen in attachments /Data\_pump\_stations/Thulesvej-217, this flow profile have been constructed to fit a working day flow for Thulesvej. It has been chosen to only produce flow profiles for working days and therefore non of the profiles fits a weekend. This profile covers both the wastewater from the residential and industrial area at Thulesvej. The remaining flow profiles for the rest of the zones can be seen in appendix \fxnote{appendix mangler, samt en reference}. Furthermore, these flow profiles illustrates the input flow into the main sewer line, and therefore some of the flow profiles will have added a delay, due to longer transport time from the zone to the main sewer line. An explanation for each profile to a zone is given below.    
 
-From the second zone only one flow profile will be used and as the zone is close to main sewer line no delay in the profile is added. At zone three the distance from the residential area to the main sewer line is long, and therefore a delay will be added. The fourth zone covers a larger area and as some of the residential are far away from the main sewer line, therefore the flow profile is extended in the peaks. The industrial consists of grocery stores, workshops and car shops and therefore will have the same flow profile.
+%The residential areas denoted with one in figure \ref{fig:sewer_line_diagram}, stretch across a long sewer line. Where the sewage have to be transported a longer distance from the zone furthest away before reaching the main sewer line. It is therefore chosen to make two flow profiles, one from the residential and industrial area right next to the main sewer line, and one for the rest of the zones. These two flow profiles will be add together, and thereby the peaks will be extended for a longer period than a normal profile. The industrial area consists mainly of auto shops, recycle factory and workshops and therefore they will have the same flow profile as for residential area. 
 
-Zone five and six will have a normal profiles without delays. Zone seven will have a profile with delay as it also stretch across a long sewer line before reaching the main sewer line. Zone eight, nine and eleven will all have the same profile just scaled according to the size of the zones, and the industrial area is the same as the one in zone four. 
+%From the second zone only one flow profile will be used and as the zone is close to main sewer line no delay in the profile is added. At zone three the distance from the residential area to the main sewer line is long, and therefore a delay will be added. The fourth zone covers a larger area and as some of the residential are far away from the main sewer line, therefore the flow profile is extended in the peaks. The industrial consists of grocery stores, workshops and car shops and therefore will have the same flow profile.
 
-From zone ten a pump is pumping the wastewater to the main sewer line every 30 minuted for a period of 15 minutes. The pump has a pumping capacity of 0,350 $m^3/s$ which have been state by Fredericia. Therefore the flow profile for this area will be a constant input of 0,350 $m^3/s$ for 15 minutes every 30 minute. 
+%Zone five and six will have a normal profiles without delays. Zone seven will have a profile with delay as it also stretch across a long sewer line before reaching the main sewer line. Zone eight, nine and eleven will all have the same profile just scaled according to the size of the zones, and the industrial area is the same as the one in zone four. 
 
-The flow coming from one of the industries into the main sewer line is given by Fredericia. The original dataset can be seen in appendix/attachment\fxnote{Hvor skal det være} and in figure \ref{fig:flow_profile_industry} a simplification of the dataset can be seen.
+%From zone ten a pump is pumping the wastewater to the main sewer line every 30 minuted for a period of 15 minutes. The pump has a pumping capacity of 0,350 $m^3/s$ which have been state by Fredericia. Therefore the flow profile for this area will be a constant input of 0,350 $m^3/s$ for 15 minutes every 30 minute. 
 
+Lastly profiles is needed from the industry which counts the brewery, bottling plant and the refinery. In figure \ref{fig:flow_profile_industry} combined flow from the brewery and bottling plant during 24 hours is seen.
+%The flow coming from one of the industries into the main sewer line is given by Fredericia. The original dataset can be seen in appendix/attachment\fxnote{Hvor skal det være} and in figure \ref{fig:flow_profile_industry} a simplification of the dataset can be seen.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\textwidth]{report/system_overview/pictures/flow_profile_industry}
-	\caption{Flow profile for a company in Fredericia, data is given by Fredericia.}
+	\caption{Flow profile from brewery and bottling plant combined during 24 hours.}
 	\label{fig:flow_profile_industry}
-\end{figure}			
+\end{figure}	
+
 From the plot it can be seen that the flow coming from industry is coming in pulses of 190 $m^3/hr$ in 45 minutes every 45 minute.  
 

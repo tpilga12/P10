@@ -234,7 +234,7 @@ The remaining pressure force, resulting from the height difference between $h_l$
 \begin{equation}
 \begin{aligned}
 	F_{P3}=& \int_{h_l}^{h_r} \rho \cdot g \cdot (h_r - z)\cdot b(z)dz \vspace{2mm} \\
-		  \approx& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \left[ h_h \cdot z - \frac{z^2}{2}  \right]_{h_l}^{h_r} \\
+		  \approx& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \left[ h_r \cdot z - \frac{z^2}{2}  \right]_{h_l}^{h_r} \\
 		  =& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \left( h_r\cdot (h_r -h_l) + \frac{1}{2} \left( \frac{\partial h}{\partial x} \cdot \Delta x\right)^2 \right) \\
 	\approx& \hspace{1mm} \rho \cdot g \cdot b(h) \cdot \frac{1}{2}\left(\frac{\partial h}{\partial x}\Delta x\right)^2
 \end{aligned}	
@@ -256,7 +256,7 @@ F_{P1} -F_{P1} -F_{P2} - F_{P3} =&
 By summing all the forces from equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} and inserting them into equation \ref{eq:momentum_eq} the following is obtained:
 \begin{equation}
 \begin{aligned}
-\sum_{i} -F_i	=&- \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x \\
+-\sum_{i} F_i	=&- \frac{\partial}{\partial x} \rho \frac{Q^2}{A}\Delta x \\
 &-S_b \cdot g \cdot \rho \cdot \Delta x \cdot A \\
 &-S_f \cdot g \cdot \rho \cdot \Delta x \cdot A \\ 
 &-\rho\cdot g \cdot \frac{\partial h}{\partial x} \cdot \Delta x \cdot A
@@ -270,7 +270,7 @@ Lastly the time derivative expression of the momentum, which is given by mass ti
 \end{equation}
 Where mass is given by $\rho \cdot A \cdot \Delta x$ and velocity by $Q / A$.
 
-Thereby equation \ref{eq:leftside_momentum} can be set equal to the sum of forces in equation \ref{eq:sum_of_forces} and the following is given:
+Having obtained expressions for equation \ref{eq:leftside_momentum} and equation \ref{eq:sum_of_forces} they can be inserted into equation \ref{eq:momentum_eq} yielding the following expression:
 %Thereby the sum of forces in equation \ref{eq:sum_of_forces} can be set equal to  \ref{eq:leftside_momentum} and the following equation is given:% Adding equation \ref{mass_flow_speed}, \ref{gravity_force}, \ref{friction_force} and \ref{pressure_force} an expression is given for the velocity of storing fluid in the control volume which is equal to:
 % \begin{equation}
 % \frac{\partial}{\partial t}(\rho\cdot v \cdot A\cdot \Delta x) = \frac{\partial}{\partial t} (\rho \frac{Q}{A}A\cdot \Delta x)
