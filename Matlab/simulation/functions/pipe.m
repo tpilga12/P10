@@ -9,8 +9,8 @@ function [output]=pipe(piping,input,data,x)
 
 % persistent H Q h A C Ie
 global Dt iterations m
-
-limitvalue = 0.00001; %newton stop iteration value
+newt_iter = 50;
+limitvalue = 0.01; %newton stop iteration value
 Ib = piping(x).Ib; 
 d = piping(x).d; %[m] Diameter
 k = piping(x).k; %sandruhed angives typisk i mm der skal bruges m i formler
@@ -104,7 +104,7 @@ for n = 1:sections
         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+ ...
             2*Theta*Q(m,n-1))*Dt/Dx - ...
             A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
-        h(m,n)=NewtonRoot(@V,@V_dot,h(m-1,n-1),limitvalue,50,d,Ie,H,Dt,Dx,Theta,m,n);
+        h(m,n)=NewtonRoot(@V,@V_dot,h(m-1,n-1),limitvalue,newt_iter,d,Ie,H,Dt,Dx,Theta,m,n);
         A(m,n) = d^2/4 * acos(((d/2)- h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
         Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -10,7 +10,7 @@ g = 9.81; %[m/s^2]
 % Friction part 
 Ie = 0.0021;% [.] Resistance Ie = f * v^2/(2*g)*1/R
 h=0.1728; % arbejds punkt
-Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennings fyldsning flow
+Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennings fyldnings grad
 
 %%% 
 a = ((1/(2*Dt))*(2*sqrt(-h^2+(h*d)))) - ((Theta/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));

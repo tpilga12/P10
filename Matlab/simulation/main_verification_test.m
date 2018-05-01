@@ -9,7 +9,7 @@ global Dt iterations m afstand
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
 
-iterations = 2000;
+iterations = 2700;
 Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [pipe_spec nr_pipes] = pipe_setup_test_verification(1);
