@@ -27,7 +27,7 @@ for i = 1:imax
         X = abs(X-2*Fun(X)/FunDer(X));
     end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    Xi =abs( Xest - 1*feval(Fun,Xest)/feval(FunDer,Xest));
+    Xi =abs( Xest - feval(Fun,Xest)/feval(FunDer,Xest));
    
  
     if abs((Xi-Xest)/Xest) < Err
@@ -43,3 +43,9 @@ if i == imax
     Xest;
 
 end
+
+
+
+
+
+

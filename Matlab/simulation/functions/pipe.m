@@ -10,7 +10,7 @@ function [output]=pipe(piping,input,data,x)
 % persistent H Q h A C Ie
 global Dt iterations m
 newt_iter = 50;
-limitvalue = 0.00001; %newton stop iteration value
+limitvalue = 0.0001; %newton stop iteration value
 Ib = piping(x).Ib; 
 d = piping(x).d; %[m] Diameter
 k = piping(x).k; %sandruhed angives typisk i mm der skal bruges m i formler
@@ -20,7 +20,7 @@ sections = piping(x).sections; % Number of sections,
 C_in = input.C_in; % concentrate input
 Q_in = input.Q_in;
 Q_mark = 10; % initial value that makes sure the while loop runs at least once
-epsi = input.Q_init/10;
+epsi = input.Q_init/1000;
 g = 9.81; %[m/s^2] gravitational constant
 % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
 if m > 1
@@ -77,7 +77,7 @@ for n = 1:sections
         if x == 1
             Q(m,n) = Q_in;
             C(m,n) = C_in;
-            %             h(m,n) = init_height(epsi,Q_in,Q_mark,0,d);
+%                         h(m,n) = init_height(epsi,Q_in,Q_mark,0,d);
             h(m,n) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
         else
             if piping(x-1).lat_inflow == 1
@@ -161,7 +161,7 @@ output = temp;
     end
 
     function height = init_height(epsi,Q_init,Q_mark,h_min,h_max)
-        while epsi < abs(Q_init-Q_mark)
+           while epsi < abs(Q_init-Q_mark)
             h_mark=(h_min+h_max)/2;
             area_it = Area_fun(h_mark);
             Q_mark = 72*(area_it/hy_perimeter(h_mark))^(2/3)*Ib^0.5*area_it;
@@ -173,5 +173,6 @@ output = temp;
         end
         height = h_mark;
     end
-end
+
+    end
 

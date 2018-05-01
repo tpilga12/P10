@@ -8,11 +8,10 @@ global Dt iterations m afstand
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
-
-iterations = 2700;
 Dt = 20;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [pipe_spec nr_pipes] = pipe_setup_test_verification(1);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.015;
 for k = 1:length(pipe_spec)
@@ -21,10 +20,11 @@ for k = 1:length(pipe_spec)
 end
 error = 0;
 
-init_data = init(pipe_spec,input);
+init_data = init(pipe_spec,input,1e-7);
 %% run stuff !!!!!
 clc
 data = init_data;
+iterations = 2700;
 % data{1} = 0;
 for m = 1:iterations
     if error == 0;
