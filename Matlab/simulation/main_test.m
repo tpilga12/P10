@@ -56,7 +56,7 @@ for m = 1:iterations
 end
 
 %%
-plot_data(data,nr_pipes,0.05,Dt,pipe_spec)
+plot_data(data,nr_pipes,0.0005,Dt,pipe_spec)
 
 
 %data = simulation(Q_init,C_init)
