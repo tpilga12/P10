@@ -19,15 +19,15 @@ for i = 1:imax
     end
       
     if X < Err
-        X
+        X;
         fprintf('solution was observed')
         
     else
         %fprintf('solution is here')
-        X = abs(X-Fun(X)/FunDer(X));
+        X = abs(X-2*Fun(X)/FunDer(X));
     end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    Xi =abs( Xest - feval(Fun,Xest)/feval(FunDer,Xest));
+    Xi =abs( Xest - 1*feval(Fun,Xest)/feval(FunDer,Xest));
    
  
     if abs((Xi-Xest)/Xest) < Err
@@ -40,6 +40,6 @@ end
 if i == imax
     fprintf('solution was not observed in %i iterations .\n',imax)
     Xs = ('no answer');
-    Xest
+    Xest;
 
 end

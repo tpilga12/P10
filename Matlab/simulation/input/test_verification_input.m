@@ -7,10 +7,10 @@ time = tid*Dt;
 lengths = [14 9 21 13 18.5 10 22.5 11 20 9 100000];
 if tid == 1
     n = 1;
-    stamp(n) = mm(14)*Dt;
+    stamp(n) = mm(14);
 end
 if time >= floor(stamp(n))
-    stamp(n+1) = stamp(n) + mm(lengths(n+1))*Dt;
+    stamp(n+1) = stamp(n) + mm(lengths(n+1));
     n = n+1;
 end
 

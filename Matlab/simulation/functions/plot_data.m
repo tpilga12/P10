@@ -85,7 +85,8 @@ for m= 1:length(data{1}.Q)
     xlabel('distance (m)')
     
 %     suptitle(['Minutes ', num2str(m*Dt/60,3)])
-
+    [ax,h3] = suplabel(['Minutes ', num2str(m*(Dt/60),3)],'t');
+    set(h3,'FontSize',20);
     pause(play_speed) 
     
 end

@@ -10,7 +10,7 @@ function [output]=pipe(piping,input,data,x)
 % persistent H Q h A C Ie
 global Dt iterations m
 newt_iter = 50;
-limitvalue = 0.01; %newton stop iteration value
+limitvalue = 0.00001; %newton stop iteration value
 Ib = piping(x).Ib; 
 d = piping(x).d; %[m] Diameter
 k = piping(x).k; %sandruhed angives typisk i mm der skal bruges m i formler

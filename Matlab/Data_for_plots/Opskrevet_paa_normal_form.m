@@ -2,7 +2,7 @@
 
 
 Theta = 0.65;
-Dt =1; %[s] grid time
+Dt =20; %[s] grid time
 Dx = 8; %[m] grid distance
 d = 0.6; %[m] Diameter.
 dd= d;
@@ -46,8 +46,8 @@ B = Finv*[c 0 0 0 0 0 0 0 0 0;
 C = [0 0 0 0 0 0 0 0 0 1];
 D = 0;
 
-sample = 20;
-Sys = ss(A,B,C,D,sample)
+sample = 1;
+Sys = ss(A,B,C,D)
 
 
 h_data_hat=data{1,1}.h(:,1)-data{1,1}.h(1,1);% Data fra den non linear
