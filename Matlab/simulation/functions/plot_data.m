@@ -20,7 +20,7 @@ end
     line_thick = 0.8;
     %%%%% plot!!!%%%%%%%%%%%%
     
-for m= 1:length(data{1}.Q)
+for m= 1:length(data{1}.Q(:,1))
     v = 1; %Santas little helper
     for r = 1:length(pipe_spec)
         flow(1,v:(pipe_spec(r).sections+v-1)) = data{r}.Q(m,1:end);
@@ -31,7 +31,6 @@ for m= 1:length(data{1}.Q)
     figure(fig_nr)
     clf
     subplot(2,2,1)
-%     plot(afstand(1:end-1),[data{1}.Q(m,1:end) data{2}.Q(m,1:end) data{3}.Q(m,1:end)])
     plot(afstand(1:end-1),flow)
     hold on
     for p=1:(length(vertical_line)-1)
@@ -44,7 +43,6 @@ for m= 1:length(data{1}.Q)
      title(['Flow'])
      
     subplot(2,2,2)
-%     plot(afstand(1:end-1),[data{1}.h(m,1:end) data{2}.h(m,1:end) data{3}.h(m,1:end)])
     plot(afstand(1:end-1),height)
     hold on
     for p=1:(length(vertical_line)-1)
@@ -56,10 +54,7 @@ for m= 1:length(data{1}.Q)
     xlabel('distance (m)')
     title(['Height'])
    
-    
-%     figure(2000)
     subplot(2,2,3)
-%     plot(afstand(1:end-1),[data{1}.C(m,1:end) data{2}.C(m,1:end) data{3}.C(m,1:end)])
     plot(afstand(1:end-1),concentrate)
     hold on
     for p=1:(length(vertical_line)-1)
@@ -72,7 +67,6 @@ for m= 1:length(data{1}.Q)
     xlim(distlim)
     
     subplot(2,2,4)
-%     plot(afstand(1:end-1),[data{1}.C(m,1:end).*data{1}.Q(m,1:end) data{2}.C(m,1:end).*data{2}.Q(m,1:end) data{3}.C(m,1:end).*data{3}.Q(m,1:end)])
     plot(afstand(1:end-1),concentrate.*flow)
     hold on
     for p=1:(length(vertical_line)-1)
@@ -84,7 +78,6 @@ for m= 1:length(data{1}.Q)
     ylabel('g/s')
     xlabel('distance (m)')
     
-%     suptitle(['Minutes ', num2str(m*Dt/60,3)])
     [ax,h3] = suplabel(['Minutes ', num2str(m*(Dt/60),3)],'t');
     set(h3,'FontSize',20);
     pause(play_speed) 

@@ -1,4 +1,4 @@
-function [out]=init(piping,input)
+function [out]=init(piping,input,accuracy)
 %Pipe(bed slope(Ib),        Ruhedsfaktor(k),
 %Delta t(Dt),               Delta x(Dx),
 %Diameter(d),               Pipe sections(sections),
@@ -11,7 +11,7 @@ function [out]=init(piping,input)
 global Dt
 m = 0;
 
-limit = 1e-8;
+limit = accuracy;
 
 avg = 10;
 desired = 0;

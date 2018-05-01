@@ -18,7 +18,7 @@ plot(t,data{1,1}.h(:,1))
 title('Input height')
 xlabel('Time [s]')
 ylabel('Input height [m]')
-xlim([0 900])
+% xlim([0 900])
 grid
 
 figure(2000)
@@ -28,6 +28,6 @@ plot(t,data{1,1}.h(:,end))
 title('Comparison of Non-linear and linear open channel models')
 xlabel('Time [s]')
 ylabel('Output height [m]')
-xlim([0 900])
+% xlim([0 900])
 legend('Linear','Non-linear')
 grid

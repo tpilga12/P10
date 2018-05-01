@@ -7,12 +7,10 @@ addpath(['functions'], ['setup'])
 global Dt iterations m afstand
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-
-iterations = 900;
-Dt = 20;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Dt = 10;
 [pipe_spec nr_pipes] = pipe_setup_test_jacob(1);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.04;
 for k = 1:length(pipe_spec)
@@ -21,16 +19,17 @@ for k = 1:length(pipe_spec)
 end
 error = 0;
 
-init_data = init(pipe_spec,input);
+init_data = init(pipe_spec,input,1e-7);
 %% run stuff !!!!!
 clc
+iterations = 1000;
 data = init_data;
 % data{1} = 0;
 for m = 1:iterations
     if error == 0;
     %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 8; % concentrate input [g/m^3]
-    input.Q_in = 0.04 + sin(m/1)/50;
+    input.Q_in = 0.04 + sin(m/50)/30;
 %     input.lat.Q{1} = 0;%0.01;
 %     input.lat.C{1} = 20;
 %     input.lat.Q{2} = 0;%0.05;
@@ -56,7 +55,7 @@ for m = 1:iterations
 end
 
 %%
-plot_data(data,nr_pipes,0.0005,Dt,pipe_spec)
+plot_data(data,nr_pipes,0.5,Dt,pipe_spec)
 
 
 %data = simulation(Q_init,C_init)
