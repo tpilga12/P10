@@ -10,9 +10,9 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="145.92702mm"
-   height="75.235397mm"
-   viewBox="0 0 145.92702 75.235397"
+   width="112.80791mm"
+   height="72.709511mm"
+   viewBox="0 0 112.80792 72.70951"
    version="1.1"
    id="svg921"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
@@ -217,8 +217,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="192.69036"
-     inkscape:cy="189.16606"
+     inkscape:cx="167.83796"
+     inkscape:cy="135.20727"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -247,15 +247,15 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-35.699248,-86.052941)">
+     transform="translate(-51.20996,-88.57883)">
     <path
        style="fill:url(#linearGradient851);fill-opacity:1;stroke:#000000;stroke-width:1.46500015;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 81.659805,99.318461 V 137.87203 H 135.71041 V 99.319885 Z"
        id="path819"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.92214948;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker4347)"
-       d="M 38.823555,118.28245 H 80.19181"
+       style="fill:none;stroke:#000000;stroke-width:0.77184623;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker4347)"
+       d="M 51.20996,118.28245 H 80.19181"
        id="path881"
        inkscape:connector-curvature="0" />
     <path
@@ -281,22 +281,22 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="140.22917"
-       y="137.77753"
+       x="140.60715"
+       y="135.88765"
        id="text4184"><tspan
          sodipodi:role="line"
          id="tspan4182"
-         x="140.22917"
-         y="137.77753"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.46666622px;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332">Air</tspan></text>
+         x="140.60715"
+         y="135.88765"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332">Air</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.76499999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 125.4881,133.05283 15.21354,0.75595"
        id="path4188"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.89498854;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker4429)"
-       d="m 135.70019,118.28245 h 38.96745"
+       style="fill:none;stroke:#000000;stroke-width:0.74296319;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker4429)"
+       d="m 135.70019,118.28245 h 26.85354"
        id="path881-8"
        inkscape:connector-curvature="0" />
     <path
@@ -307,14 +307,14 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="110.38232"
-       y="153.94397"
+       x="109.81535"
+       y="148.08534"
        id="text5912"><tspan
          sodipodi:role="line"
          id="tspan5910"
-         x="110.38232"
-         y="153.94397"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.46666622px;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332">Sludge</tspan></text>
+         x="109.81535"
+         y="148.08534"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332">Sludge</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.66181475;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker5936)"
        d="M 108.33102,146.32213 H 70.410107 v -26.76147"
@@ -323,29 +323,34 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.14999998;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="41.760872"
-       y="136.97238"
+       x="51.210278"
+       y="134.65727"
        id="text6084"><tspan
          sodipodi:role="line"
-         id="tspan6082"
-         x="41.760872"
-         y="136.97238"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.46666622px;line-height:1;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332">Reused</tspan><tspan
+         x="51.210278"
+         y="134.65727"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;line-height:1;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332"
+         id="tspan6086">Reused </tspan><tspan
          sodipodi:role="line"
-         x="41.760872"
-         y="149.14322"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.46666622px;line-height:1;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332"
-         id="tspan6086">sludge</tspan></text>
+         x="51.210278"
+         y="146.82811"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;line-height:1;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332"
+         id="tspan7223" /><tspan
+         sodipodi:role="line"
+         x="51.210278"
+         y="158.99893"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;line-height:1;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332"
+         id="tspan7225" /></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1;font-family:'computer modern';-inkscape-font-specification:'computer modern';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="41.027504"
-       y="113.49387"
+       x="51.988815"
+       y="115.00578"
        id="text6090"><tspan
          sodipodi:role="line"
-         x="41.027504"
-         y="113.49387"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.46666622px;line-height:1;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332"
+         x="51.988815"
+         y="115.00578"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;line-height:1;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332"
          id="tspan6094">Input</tspan></text>
     <text
        xml:space="preserve"
@@ -356,18 +361,29 @@
          sodipodi:role="line"
          x="138.75768"
          y="113.38585"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.46666622px;line-height:1;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;line-height:1;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332"
          id="tspan6094-9">Output</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:'computer modern';-inkscape-font-specification:'computer modern';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="76.558472"
+       x="86.083481"
        y="93.630608"
        id="text6460"><tspan
          sodipodi:role="line"
          id="tspan6458"
-         x="76.558472"
+         x="86.083481"
          y="93.630608"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332">Aeration tank</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05555534px;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332">Aeration tank</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:'computer modern';-inkscape-font-specification:'computer modern';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="51.498646"
+       y="140.37692"
+       id="text7229"><tspan
+         sodipodi:role="line"
+         id="tspan7227"
+         x="51.498646"
+         y="140.37692"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;font-family:'CMU Serif';-inkscape-font-specification:'CMU Serif';stroke-width:0.26458332">sludge</tspan></text>
   </g>
 </svg>
