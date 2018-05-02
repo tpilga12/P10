@@ -1,10 +1,10 @@
 function [hej]=plot_data(data,nr_pipes,play_speed,Dt,pipe_spec,sampling)
 global pipe_sep_line
 fig_nr  = 2000;
-decimals_plot = 4; %amount of decimals shown -> "minutes %value"
+time_font_size = 14; % font size of time and iteration
 topplot_adjust = 1.1; %set how much headroom there should be from graph to top, 1.1 = 110% 
 botplot_adjust = 0.9; %set how much headroom there should be from bot to graph, 0.9 = 10% 
-
+hours = 0; % initialize hours in plot
     [plot_limits vertical_line pipe_sep_line] = find_plot_limits(pipe_spec,data,topplot_adjust,botplot_adjust);
     
     flowylim = [plot_limits(1,1) plot_limits(1,2)];
@@ -74,8 +74,12 @@ for m= 1:sampling:length(data{1}.Q(:,1))
     ylabel('g/s')
     xlabel('distance (m)')
     
-    [ax,h3] = suplabel(['Minutes ', num2str(m*(Dt/60)-(Dt/60),decimals_plot)],'t');
-    set(h3,'FontSize',20);
+    minutes = m*(Dt/60)-(Dt/60);
+    if 1 <= minutes/((hours+1)*60)
+        hours = hours + 1;
+    end
+    [ax,h3] = suplabel([num2str(hours,4),' Hours ',num2str(round(minutes-hours*60),2), ' Minutes ',num2str((minutes-floor(minutes))*60,2), ' Seconds ', ' - Iteration ', num2str(m*sampling,5),],'t');
+    set(h3,'FontSize',time_font_size);
     pause(play_speed) 
     
 end

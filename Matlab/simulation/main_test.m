@@ -56,7 +56,7 @@ for m = 1:iterations
 end
 
 %%
-sampling = 17; %increase number to skip samples in playback to increase speed
-playback_speed = 1/30; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu power)
+sampling = 3; %increase number to skip samples in playback to increase speed
+playback_speed = 1/2; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu power)
 plot_data(data,nr_pipes,playback_speed,Dt,pipe_spec,sampling)
 
