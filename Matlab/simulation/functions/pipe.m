@@ -34,43 +34,7 @@ end
         
 
 for n = 1:sections
-    %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
     if m == 1 && n==1
-%         Ie(1:iterations,1:sections) = Ib; % this is gay and cant be right FIGURE IT OUT!!!!!
-% %         h_init=0:d/100:d;
-% % %         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
-% %         Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ie(m,n)^0.5;% Hennings
-% %         for t = 1:101
-% %             Q_initialize(t)=(0.46 - 0.5 *cos(pi*(h_init(t)/d))+0.04*cos(2*pi*(h_init(t)/d)))*Qf;
-% %         end
-% %         fitfunc = fit(Q_initialize',h_init','poly9');
-% %         temp{1}.fitfunc = fitfunc;
-% %         %h(1:sections) = fitfunc.p1*Q_init.^9 +fitfunc.p2*Q_init.^8 + fitfunc.p3*Q_init.^7 + fitfunc.p4*Q_init.^6 + fitfunc.p5*Q_init.^5 + fitfunc.p6*Q_init.^4 + fitfunc.p7*Q_init.^3 + fitfunc.p8*Q_init^2 + fitfunc.p9*Q_init +fitfunc.p10;
-% %         if x == 1
-% %             Q(1,1:sections) = input.Q_init;
-% %             C(1,1:sections) = input.C_init;
-% %             %             h(1:sections) = init_height(epsi,Q_init,Q_mark,0,d);
-% %             h(1:sections) = fitfunc.p1*input.Q_init.^9 +fitfunc.p2*input.Q_init.^8 + fitfunc.p3*input.Q_init.^7 + fitfunc.p4*input.Q_init.^6 + fitfunc.p5*input.Q_init.^5 + fitfunc.p6*input.Q_init.^4 + fitfunc.p7*input.Q_init.^3 + fitfunc.p8*input.Q_init^2 + fitfunc.p9*input.Q_init +fitfunc.p10;
-% %             
-% %         else
-% %             if piping(x).lat_inflow == 1
-% %                 Q(1,1:sections) = data{x-1}.Q(1,end)+input.lat.Q{x-1};
-% %                 C(1,1:sections) = (data{x-1}.C(m,end)*data{x-1}.Q(m,end)+input.lat.C{x-1}*input.lat.Q{x-1})/(data{x-1}.Q(m,end)+input.lat.Q{x-1});
-% %                                     
-% %             else
-% %                 Q(1,1:sections) = data{x-1}.Q(1,end);
-% %                 C(1,1:sections) = data{x-1}.C(1,end);
-% %             end
-% %             if x == 1
-% % %             h(1:sections) = data{x-1}.h(1,end);
-% % %                         h(1:sections) = init_height(epsi,Q(1,1),Q_mark,0,d);
-% %             h(1:sections) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
-% %             else
-% %                 h(1:sections) = fitfunc.p1*data{x-1}.Q(1,end).^9 +fitfunc.p2*data{x-1}.Q(1,end).^8 + fitfunc.p3*data{x-1}.Q(1,end).^7 + fitfunc.p4*data{x-1}.Q(1,end).^6 + fitfunc.p5*data{x-1}.Q(1,end).^5 + fitfunc.p6*data{x-1}.Q(1,end).^4 + fitfunc.p7*data{x-1}.Q(1,end).^3 + fitfunc.p8*data{x-1}.Q(1,end)^2 + fitfunc.p9*data{x-1}.Q(1,end) + fitfunc.p10;
-% %             end  
-% %         end
-% %         A(1:sections) = d^2/4 * acos(((d/2)-h(n))/(d/2))-sqrt(h(n)*(d-h(n)))*((d/2)-h(n));
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%
     elseif m > 1 && n == 1
         Ie(m,1:sections) = piping(x).Ib;

@@ -1,7 +1,7 @@
 function [hej]=plot_data(data,nr_pipes,play_speed,Dt,pipe_spec,sampling)
 global pipe_sep_line
 fig_nr  = 2000;
-decimals_plot = 4; %amount of decimals shown -> "minutes %value"
+decimals_plot = 4; %amount of decimals shown -> "minutes" %number"
 topplot_adjust = 1.1; %set how much headroom there should be from graph to top, 1.1 = 110% 
 botplot_adjust = 0.9; %set how much headroom there should be from bot to graph, 0.9 = 10% 
 

@@ -56,13 +56,7 @@ for m = 1:iterations
 end
 
 %%
-plot_data(data,nr_pipes,5e-6,Dt,pipe_spec)
 
-
-%data = simulation(Q_init,C_init)
-
-% for m = 1:iterations
- %[pipe1] = pipe(setup(1),pipe1,m);
-%  [pipe1] = pipe(pipe2.pipe_spec,pipe2.pipe_sim,pipe2.pipe_in,pipe2.pipe1,m);
-% [Q2 C2 A2 h2] = pipe(Ib,k,Dt,Dx,d,sections,m,Q_init,Q1(m,end),C_init,C1(m,end),Theta,iterations);
-% end
+sampling = 17; %increase number to skip samples in playback to increase speed
+playback_speed = 1/30; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu power)
+plot_data(data,nr_pipes,playback_speed,Dt,pipe_spec,sampling)
