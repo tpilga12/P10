@@ -9,13 +9,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="31.008917mm"
-   height="31.927511mm"
-   viewBox="0 0 31.008917 31.927511"
+   width="30.949572mm"
+   height="31.927643mm"
+   viewBox="0 0 30.949572 31.927643"
    version="1.1"
    id="svg2624"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="interconnection.svg">
+   sodipodi:docname="interconnection.svg"
+   inkscape:export-filename="C:\Users\Jacob\Dropbox\AAU\10 semester\Github\P10\inkswag\interconnection.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs2618">
     <marker
@@ -177,9 +180,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="52.866869"
-     inkscape:cy="68.613499"
+     inkscape:zoom="5.6"
+     inkscape:cx="15.896906"
+     inkscape:cy="53.251221"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -209,10 +212,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-75.682299,-36.679056)">
+     transform="translate(-75.741805,-36.678923)">
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.15518436px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 81.728649,43.645168 8.805353,11.201778"
+       style="fill:none;stroke:#000000;stroke-width:0.27580979;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 75.848115,36.815054 91.186756,55.37872"
        id="path3185"
        inkscape:connector-curvature="0" />
     <circle
@@ -222,7 +225,7 @@
        cy="55.378719"
        r="1.5" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:0.26499999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 106.58929,36.76339 91.186756,55.37872"
        id="path3185-4"
        inkscape:connector-curvature="0" />
@@ -256,21 +259,21 @@
          id="tspan7071"
          x="82.085152"
          y="41.223061"
-         style="font-size:1.41111112px;line-height:0.25;stroke-width:0.26458332">Q<tspan
-   style="font-size:0.9172222px;line-height:0.25;baseline-shift:sub"
+         style="font-size:2.11666656px;line-height:0.25;stroke-width:0.26458332;-inkscape-font-specification:'computer moden';font-family:'computer moden';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">Q<tspan
+   style="font-size:2.11666656px;line-height:0.25;baseline-shift:sub;-inkscape-font-specification:'computer moden';font-family:'computer moden';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
    id="tspan7075">1</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="97.654037"
-       y="41.271519"
+       x="96.785408"
+       y="41.171291"
        id="text7073-0"><tspan
          sodipodi:role="line"
          id="tspan7071-5"
-         x="97.654037"
-         y="41.271519"
-         style="font-size:1.41111112px;line-height:0.25;stroke-width:0.26458332">Q<tspan
-   style="font-size:0.9172222px;baseline-shift:sub"
+         x="96.785408"
+         y="41.171291"
+         style="font-size:2.11666656px;line-height:0.25;stroke-width:0.26458332">Q<tspan
+   style="font-size:2.11666656px;baseline-shift:sub"
    id="tspan7098">2</tspan></tspan></text>
     <text
        xml:space="preserve"
@@ -282,8 +285,8 @@
          id="tspan7071-5-1"
          x="93.582306"
          y="61.984905"
-         style="font-size:1.41111112px;line-height:0.25;stroke-width:0.26458332">Q<tspan
-   style="font-size:64.99999762%;baseline-shift:sub"
+         style="font-size:2.11666656px;line-height:0.25;stroke-width:0.26458332">Q<tspan
+   style="font-size:2.11666656px;baseline-shift:sub"
    id="tspan7121">3</tspan></tspan></text>
   </g>
 </svg>
