@@ -7,7 +7,7 @@ addpath(['functions'], ['setup'])
 global Dt iterations m afstand
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Dt = 20;
+Dt = 1;
 [pipe_spec nr_pipes] = pipe_setup_test_jacob(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -22,7 +22,7 @@ error = 0;
 init_data = init(pipe_spec,input,1e-7);
 %% run stuff !!!!!
 clc
-iterations = 1000;
+iterations = 10000;
 data = init_data;
 % data{1} = 0;
 for m = 1:iterations
