@@ -12,7 +12,7 @@ for n = 1: length(pipe_spec)
     end
     vertical_line(n) = afstand(g-1);
 end
-    flowylim = [0 0.35];
+    flowylim = [0 0.05];
     heightylim = [0 2.0];
     conflowylim = [0 25];
     conspeedylim = [0 4.0];
