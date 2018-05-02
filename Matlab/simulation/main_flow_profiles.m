@@ -30,19 +30,11 @@ for m = 1:iterations
     if error == 0;
     %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 8; % concentrate input [g/m^3]
-<<<<<<< HEAD
-    input.Q_in =f1_3(m)+0.01;% 0.04 + sin(m)/1000;
-%     input.lat.Q{1} = f1_2(m)+0.01;%0.01;
-%     input.lat.C{1} = 0;
-%     input.lat.Q{2} = f1_1(m)+0.01;%0;%0.05;
-%     input.lat.C{2} = 0;
-=======
     input.Q_in =f1_3(m*Dt)+0.01;% 0.04 + sin(m)/1000;
     input.lat.Q{1} = f1_2(m*Dt)+0.01;%0.01;
     input.lat.C{1} = 0;
     input.lat.Q{2} = f1_1(m*Dt)+0.01;%0;%0.05;
     input.lat.C{2} = 0;
->>>>>>> fc866dbd5f9192700aa89d23635fa2aaee5074a3
 
 %     OD = 0.2+sin(m)/10;
     %%%%%%%%%%%%%%%%%%%%%%
