@@ -56,10 +56,10 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 \begin{equation}
 \begin{aligned}
 	   \underbrace{\begin{bmatrix}
-	    	a & b       &           &   \\
-	    	  & \ddots  & \ddots    &   \\
-	    	  &  		& a  		&b  \\
-	          &  		&  			&  a\\
+	    	b_1 &        	&           &   \\
+	    	a_{m-1} & b_2  		&     		&   \\
+	    	  &	\ddots  & \ddots   \\
+	          &  		&  		   a_{m-1}&  b_m\\
 	   \end{bmatrix}}_{\xi}
 	    \underbrace{\begin{bmatrix}
 		h_{1}^{i+1} \\
@@ -69,10 +69,10 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 	\end{bmatrix}}_{\dot{x}}
 	= 
 	\underbrace{\begin{bmatrix}
-	    	d &  \\
-	    	c & d & \\
+	    	d_1 &  \\
+	    	c_{m-1} & d_2 & \\
 	    	  &	\ddots  & \ddots   \\
-	    	  &   &  c &  d\\
+	    	  &   &  c_{m-1} &  d_m\\
 	    \end{bmatrix}}_{A}
 	    	\underbrace{\begin{bmatrix}
 		h_{1}^{i} \\
@@ -81,7 +81,7 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 		h_{m}^{i}\\
 		\end{bmatrix}}_{x}
 	+ \underbrace{\begin{bmatrix}
-		c & -a\\
+		c_0 & -a_0\\
 		0 & 0 \\
 		\vdots  & \vdots \\
 		0 & 0\\
