@@ -1,6 +1,6 @@
 %% Sewer pipe equations
 clc
-%clear all
+% clear all
 clear path
 format long
 addpath(['functions'], ['setup'])
@@ -10,7 +10,7 @@ global Dt iterations m afstand
 % 
 
 iterations = 25000;
-Dt = 10;
+Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [pipe_spec nr_pipes] = pipe_setup_zone_1(1);
 input.C_init = 8; % initial concentrate in pipe
@@ -21,7 +21,7 @@ for k = 1:length(pipe_spec)
 end
 error = 0;
 
-init_data = init(pipe_spec,input);
+init_data = init(pipe_spec,input,1e-7);
 %% run stuff !!!!!
 clc
 data = init_data;

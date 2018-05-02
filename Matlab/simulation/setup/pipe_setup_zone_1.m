@@ -4,7 +4,7 @@ if call == 1
     while load < 100 
 %%%%%%%%%%%%%%%%%% pipe1.3 %%%%%%%%%%%%%%
     pipe.length = 1400; % length in meter
-    pipe.sections = 175; % Number of sections,
+    pipe.sections = 50; % Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.0098; %11,56 slut punkt  bed slope
     pipe.d = 0.6; %[m] Diameter
@@ -18,7 +18,7 @@ if call == 1
     
     %%%%%%%%%%%%%%%%%% pipe1.2 %%%%%%%%%%%%%%
     pipe.length = 450; % length in meter
-    pipe.sections = 50; % Number of sections,
+    pipe.sections = 25; % Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.0031; %bed slope
     pipe.d = 0.6; %[m] Diameter
@@ -32,7 +32,7 @@ if call == 1
     
     %%%%%%%%%%%%%%%%%% pipe1.2 %%%%%%%%%%%%%%
     pipe.length = 640; % length in meter
-    pipe.sections = 40; % Number of sections,
+    pipe.sections = 20; % Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.003; %bed slope
     pipe.d = 1; %[m] Diameter

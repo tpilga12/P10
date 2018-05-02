@@ -128,12 +128,12 @@ while abs(avg-desired) > limit
     function f1=V(h)%V
     f1 = -72*(d/4)^0.635 * pi*(d/2)^2*Ib^0.5*(0.46-0.5*cos(pi*(h/d))+ ...
         0.04*cos(2*pi*(h/d)))*(Dt/Dx)-(1/(2*Theta))*(d^2/4 * acos(((d/2)-h)/(d/2))- ...
-        sqrt(h*(d-h))*((d/2)-h)-H)
+        sqrt(h*(d-h))*((d/2)-h)-H);
     end
     
     function f2=V_dot(h)%Vdot
     f2 = -72*(d/4)^0.635 * pi*(d/2)^2*Ib^0.5*(0.5*pi*sin(pi*(h/d))- ...
-        0.08*pi*sin(2*pi*(h/d)))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h))
+        0.08*pi*sin(2*pi*(h/d)))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
     end
     
    
