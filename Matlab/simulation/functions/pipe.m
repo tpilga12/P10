@@ -81,8 +81,6 @@ for n = 1:sections
     end
 end
 
-
-
 if m == 1
     temp = data;
 else

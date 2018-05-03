@@ -44,7 +44,7 @@ while abs(avg-desired) > limit
                 if x == 1
                     data{x}.Q(1,1:sections) = input.Q_init;
                     data{x}.C(1,1:sections) = input.C_init;
-                    data{x}.h(1:sections) = data{x}.fitfunc.p1*input.Q_init.^9 +data{x}.fitfunc.p2*input.Q_init.^8 + data{x}.fitfunc.p3*input.Q_init.^7 + data{x}.fitfunc.p4*input.Q_init.^6 + data{x}.fitfunc.p5*input.Q_init.^5 + data{x}.fitfunc.p6*input.Q_init.^4 + data{x}.fitfunc.p7*input.Q_init.^3 + data{x}.fitfunc.p8*input.Q_init^2 + data{x}.fitfunc.p9*input.Q_init +data{x}.fitfunc.p10;
+                    data{x}.h(1:sections) = data{x}.fitfunc(input.Q_init)
                 else
                     if piping(x).lat_inflow == 1
                         data{x}.Q(1,1:sections) = data{x-1}.Q(1,end)+input.lat.Q{x-1};
@@ -53,11 +53,11 @@ while abs(avg-desired) > limit
                         data{x}.Q(1,1:sections) = data{x-1}.Q(1,end);
                         data{x}.C(1,1:sections) = data{x-1}.C(1,end);
                     end
-                    if x == 1
-                        data{x}.h(1:sections) = data{x}.fitfunc.p1*Q_in.^9 + data{x}.fitfunc.p2*Q_in.^8 + data{x}.fitfunc.p3*Q_in.^7 + data{x}.fitfunc.p4*Q_in.^6 + data{x}.fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + data{x}.fitfunc.p7*Q_in.^3 + data{x}.fitfunc.p8*Q_in^2 + data{x}.fitfunc.p9*Q_in + data{x}.fitfunc.p10;
-                    else
-                        data{x}.h(1:sections) = data{x}.fitfunc.p1*data{x-1}.Q(1,end).^9 + data{x}.fitfunc.p2*data{x-1}.Q(1,end).^8 + data{x}.fitfunc.p3*data{x-1}.Q(1,end).^7 + data{x}.fitfunc.p4*data{x-1}.Q(1,end).^6 + data{x}.fitfunc.p5*data{x-1}.Q(1,end).^5 + data{x}.fitfunc.p6*data{x-1}.Q(1,end).^4 + data{x}.fitfunc.p7*data{x-1}.Q(1,end).^3 + data{x}.fitfunc.p8*data{x-1}.Q(1,end)^2 + data{x}.fitfunc.p9*data{x-1}.Q(1,end) + data{x}.fitfunc.p10;
-                    end
+%                     if x == 1
+%                         data{x}.h(1:sections) = data{x}.fitfunc(Q_in);
+%                     else
+                        data{x}.h(1:sections) = data{x}.fitfunc(data{x-1}.Q(1,end));
+%                     end
                 end
                 data{x}.A(1:sections) = d^2/4 * acos(((d/2)-data{x}.h(n))/(d/2))-sqrt(data{x}.h(n)*(d-data{x}.h(n)))*((d/2)-data{x}.h(n));
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,7 +66,7 @@ while abs(avg-desired) > limit
                 if x == 1
                     data{x}.Q(m,n) = input.Q_init;
                     data{x}.C(m,n) = input.C_init;
-                    data{x}.h(m,n) = data{x}.fitfunc.p1*input.Q_init.^9 + data{x}.fitfunc.p2*input.Q_init.^8 + data{x}.fitfunc.p3*input.Q_init.^7 + data{x}.fitfunc.p4*input.Q_init.^6 + data{x}.fitfunc.p5*input.Q_init.^5 + data{x}.fitfunc.p6*input.Q_init.^4 + data{x}.fitfunc.p7*input.Q_init.^3 + data{x}.fitfunc.p8*input.Q_init^2 + data{x}.fitfunc.p9*input.Q_init + data{x}.fitfunc.p10;
+                    data{x}.h(m,n) = data{x}.fitfunc(input.Q_init);
                 else
                     if piping(x-1).lat_inflow == 1
                         data{x}.Q(m,n) = data{x-1}.Q(m,end)+input.lat.Q{x-1};
@@ -75,7 +75,8 @@ while abs(avg-desired) > limit
                         data{x}.Q(m,n) = data{x-1}.Q(m,end);
                         data{x}.C(m,n) = data{x-1}.C(m,end);
                     end
-                    data{x}.h(m,n) = data{x}.fitfunc.p1*data{x}.Q(m,n).^9 + data{x}.fitfunc.p2*data{x}.Q(m,n).^8 + data{x}.fitfunc.p3*data{x}.Q(m,n).^7 + data{x}.fitfunc.p4*data{x}.Q(m,n).^6 + data{x}.fitfunc.p5*data{x}.Q(m,n).^5 + data{x}.fitfunc.p6*data{x}.Q(m,n).^4 + data{x}.fitfunc.p7*data{x}.Q(m,n).^3 + data{x}.fitfunc.p8*data{x}.Q(m,n)^2 + data{x}.fitfunc.p9*data{x}.Q(m,n) + data{x}.fitfunc.p10;
+%                     data{x}.h(m,n) = data{x}.fitfunc.p1*data{x}.Q(m,n).^9 + data{x}.fitfunc.p2*data{x}.Q(m,n).^8 + data{x}.fitfunc.p3*data{x}.Q(m,n).^7 + data{x}.fitfunc.p4*data{x}.Q(m,n).^6 + data{x}.fitfunc.p5*data{x}.Q(m,n).^5 + data{x}.fitfunc.p6*data{x}.Q(m,n).^4 + data{x}.fitfunc.p7*data{x}.Q(m,n).^3 + data{x}.fitfunc.p8*data{x}.Q(m,n)^2 + data{x}.fitfunc.p9*data{x}.Q(m,n) + data{x}.fitfunc.p10;
+                    data{x}.h(m,n) = data{x-1}.h(m,end);
                 end
                 data{x}.A(m,n) = d^2/4 * acos(((d/2)-data{x}.h(m,n))/(d/2))-sqrt(data{x}.h(m,n)*(d-data{x}.h(m,n)))*((d/2)-data{x}.h(m,n));
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -110,7 +111,7 @@ while abs(avg-desired) > limit
             avg = sum([pipe_avg_value{:}])/j;
             desired = sum([desired_value{:}])/j;
         end
-        hej = [avg desired]
+        converging_target = [avg desired]
     end
     for l = 1:length(piping)
     out_data{l}.Q=data{l}.Q(end,:);

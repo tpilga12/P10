@@ -15,7 +15,7 @@ hours = 0; % initialize hours in plot
     line_thick = 0.8;
     %%%%% plot!!!%%%%%%%%%%%%
 
-    
+    iter_count = 1;
 for m= 1:sampling:length(data{1}.Q(:,1))
     v = 1; %Santas little helper
     for r = 1:length(pipe_spec)
@@ -78,9 +78,9 @@ for m= 1:sampling:length(data{1}.Q(:,1))
     if 1 <= minutes/((hours+1)*60)
         hours = hours + 1;
     end
-    [ax,h3] = suplabel([num2str(hours,4),' Hours ',num2str(round(minutes-hours*60),2), ' Minutes ',num2str((minutes-floor(minutes))*60,2), ' Seconds ', ' - Iteration ', num2str(m*sampling,5),],'t');
+    [ax,h3] = suplabel([num2str(hours,4),' Hours ',num2str(round(minutes-hours*60),2), ' Minutes ',num2str((minutes-floor(minutes))*60,2), ' Seconds ', ' - Iteration ', num2str(iter_count*sampling,5),],'t');
     set(h3,'FontSize',time_font_size);
     pause(play_speed) 
-    
+    iter_count = iter_count + 1;
 end
 end
