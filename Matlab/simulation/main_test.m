@@ -9,7 +9,8 @@ global Dt iterations m afstand
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Dt = 20;
 % [pipe_spec nr_pipes] = pipe_setup_test_jacob(1);
-[pipe_spec nr_pipes] = pipe_setup(1);
+% [pipe_spec nr_pipes] = pipe_setup(1);
+[pipe_spec,nr_pipes,tank_spec,nr_tanks,sys_setup] = pipe_tank_setup(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
