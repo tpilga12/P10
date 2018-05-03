@@ -21,15 +21,10 @@ title('Inflow to Fredericia WWTP over a week')
 grid 
 
 %%
-
-reduce_plot(10081:1:27361,flow(10081:27361))
+reduce_plot(1:1:10081,flow(1:10081))
 ylabel('Flow [m^3/hr]')
-xlabel('Time [hh:mm]')
-xticklabels({'00:00','03:25','06:50','10:15','13:40','17:05','20:30','00:00'})
+xlabel('Date and time')
 grid
-set(gca,'xtick',[10081:2460:27361])
-xlim([10081 27362])
-
 
 %%
 % for n = 2:9
