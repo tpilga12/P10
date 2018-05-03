@@ -9,7 +9,8 @@ global Dt iterations m afstand
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Dt = 20;
 % [pipe_spec nr_pipes] = pipe_setup_test_jacob(1);
-[pipe_spec nr_pipes] = pipe_setup(1);
+% [pipe_spec nr_pipes] = pipe_setup(1);
+[pipe_spec,nr_pipes,tank_spec,nr_tanks,sys_setup] = pipe_tank_setup(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
@@ -56,7 +57,9 @@ for m = 1:iterations
 end
 
 %%
+
 sampling = 3; %increase number to skip samples in playback to increase speed
+
 playback_speed = 1/10; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu power)
 plot_data(data,nr_pipes,playback_speed,Dt,pipe_spec,sampling)
 
