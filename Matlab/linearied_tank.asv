@@ -1,0 +1,13 @@
+%% Linearized tank
+
+% dh/dt = 1/A * (Qin - u*Qpump)
+% Qpump kan være = med Qf for det efterfølgende rør
+% u er styringssignalet
+% Qin er det der kommer fra røret før.
+% h = f(Qin)
+% A er arealet af tanken
+
+a = [1/A]M
+
+
+

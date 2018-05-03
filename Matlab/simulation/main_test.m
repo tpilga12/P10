@@ -23,7 +23,7 @@ error = 0;
 init_data = init(pipe_spec,input,1e-7);
 %% run stuff !!!!!
 clc
-iterations = 10000;
+iterations = 1000;
 data = init_data;
 % data{1} = 0;
 for m = 1:iterations
@@ -57,6 +57,6 @@ end
 
 %%
 sampling = 3; %increase number to skip samples in playback to increase speed
-playback_speed = 1/2; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu power)
+playback_speed = 1/10; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu power)
 plot_data(data,nr_pipes,playback_speed,Dt,pipe_spec,sampling)
 
