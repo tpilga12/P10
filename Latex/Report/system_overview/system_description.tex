@@ -142,7 +142,7 @@ In table \ref{tab:size_of_areas} the approximated size of the residential and in
 \hline
 \textbf{Zone} & \textbf{\begin{tabular}[c]{@{}c@{}}Residential\\ area $[km^2]$\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Industrial\\ area $[km^2]$\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Population \\per area \end{tabular}}\\ \hline
 1,1 					& 0,167         & 0,0083       & 517	\\ \hline
-1,2 					& 0.111     	&   -		   & 344	\\ \hline 
+1,2 					& 0,111     	&   -		   & 344	\\ \hline 
 1,3 					& 0,458 		& 0,543        & 1418	\\ \hline
 2   					& 0,056         & -            & 173	\\ \hline
 3   					& 0,167         & -            & 517	\\ \hline
@@ -206,4 +206,8 @@ In figure \ref{fig:flow_input_wwtp} the flow input into the WWTP can be seen.
 \label{fig:flow_input_wwtp}
 \end{figure}  
 
-From the figure it can be seen how the flow into the WWTP fluctuates. From 00:00 to 03:25 the flow fluctuates between 1000 $m^3/hr$ to 1200 $m^3/hr$ and these huge shirts in flow rate is ongoing the entire day. Around 07:00 a large shift in flow occur, it is unknown if this is a false measurement or it is due to a huge load change, as this peck seems to be only for one sample. However, it is very clear that the flow fluctuates across the entire day and it would be desirable to smooth the flow out.    
+From the figure, it can be seen how the flow into the WWTP fluctuates. From 00:00 to 03:25 the flow fluctuates between 1000 $m^3/hr$ to 1200 $m^3/hr$ and these huge shirts in flow rate is ongoing the entire day. Around 07:00 a large shift in flow occurs, it is unknown if this is a false measurement or it is due to a huge load change, as this peck seems to be only for one sample. However, it is very clear that the flow fluctuates across the entire day and it would be desirable to smooth the flow out.    
+
+In appendix ???? COD, phosphorus and nitrogen measurements from the input to the WWTP plan is shown. These figures show a similar pattern as the flow measurement, however, they do not vary as much as the flow. But a direct comparison cannot be done, as these measurements, the concentration measurements and the flow measurement, are measured at different dates, and therefore it can not be concluded if these concentrations are varying as much as the flow measurement. However, it can be concluded that these measurements also fluctuates across a day and therefore needs to be smoothed out to obtain a better cleansing process at the WWTP. 
+
+In this project, it is decided to use a tank to smoothen the flow and concentration. Using a tank will remove these fluctuations, as seen in figure \ref{fig:flow_input_wwtp} for flow, and thereby have a more smooth input to the WWTP. The output of the tank can be controlled to achieve a desired input to the WWTP, however, the tank must be designed in a way where overflow in the tank is not permitted. The output of the tank can either be controlled by a pump or a valve, depended on the geographical location on the tank.     
