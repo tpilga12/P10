@@ -1,6 +1,7 @@
 % function [sys] = linearize_it(pipe_spec,tank_spec,sys_setup,init_data)
 %LINEARIZE_IT Summary of this function goes here
 %   Detailed explanation goes here
+
 global Dt
 dimension = sum([pipe_spec(:).sections]); % matrix dimensions for linearized pipes
 A = zeros(dimension);
@@ -8,7 +9,7 @@ B(1:dimension,1:2) = 0;
 F = A;
 C(1:dimension) = 0;
 s_c = 1; %state counter
-l
+
 for n = 1:length(pipe_spec)
     for m = s_c:(s_c+pipe_spec(n).sections-1)
         if m == 1
@@ -30,6 +31,10 @@ slim_matrix = 1e-5;
 AF = A/F;
 AF2 = AF;
  AF2(abs(AF2) < slim_matrix) = 0;
+%  diag_af = diag(AF);
+%  for w = 1:length(AF2)
+%  AF2(w,w) = diag_af(w);
+%  end
 BF = inv(F)*B;
 BF2 = BF;
  BF2(abs(BF2) < slim_matrix) = 0;
@@ -40,19 +45,12 @@ sys2 = ss(AF2,BF2,C,0,Dt);
 
 
 
-
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 sample = Dt;
-d = pipe_spec(1).d;
-Ie = pipe_spec(1).Ib;
-Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;
 h_data_hat=data{1,1}.h(:,1)-data{1,1}.h(1,1);% Data fra den non linear
 t = (sample:sample:length(h_data_hat)*sample)-sample;
 h_input(1:length(t))=h_data_hat ;%Input height
-Q_input= ((0.46 - 0.5 *cos(pi*(h_input)/d)+0.04*cos(2*pi*(h_input)/d)))*Qf;% calc for input flow
-h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
 
-X0(1:10) =0;
 
 u=[h_input; h_input];
 [Y_hat t1 x1]=lsim(sys,u);

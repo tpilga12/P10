@@ -14,7 +14,7 @@ Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.2;
+input.Q_init = 0.3;
 for k = 1:length(pipe_spec)
     input.lat.Q{k} = 0;
     input.lat.C{k} = 0;
@@ -31,7 +31,7 @@ for m = 1:iterations
     if error == 0;
     %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 8; % concentrate input [g/m^3]
-    input.Q_in = 0.2 + sin(m/50)/30;
+    input.Q_in = 0.3 + sin(m/50)/15;
 %     input.lat.Q{1} = 0;%0.01;
 %     input.lat.C{1} = 20;
 %     input.lat.Q{2} = 0;%0.05;
