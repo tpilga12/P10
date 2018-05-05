@@ -1,4 +1,4 @@
-function [init_pipe,pipes,init_tank,tanks,sys_order]=pipe_tank_setup(call)
+function [init_pipe,pipes,init_tank,tanks,state_spec]=pipe_tank_setup(call)
 if call == 1
     pipe_load = 1;
     tank_load = 1;
@@ -81,6 +81,7 @@ if call == 1
     sys_order{order} = ('Pipe');
     order = order +1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%% pipe2.3 %%%%%%%%%%%%%%
     pipe.length = 318; % length in meter
@@ -324,7 +325,7 @@ if call == 1
 %%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     pipes = pipe_load-1; % amount of pipes
     tanks = tank_load-1; % amount of tanks
-    sys_order = sys_order';
+    state_spec = find_state_count(init_pipe,sys_order'); % make list of information on system setup with state count 
 return
 end
 

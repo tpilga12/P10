@@ -1,4 +1,4 @@
-function [out]=init(piping,input,accuracy)
+function [out]=init(piping,sys_setup,input,accuracy)
 %Pipe(bed slope(Ib),        Ruhedsfaktor(k),
 %Delta t(Dt),               Delta x(Dx),
 %Diameter(d),               Pipe sections(sections),
@@ -10,33 +10,35 @@ function [out]=init(piping,input,accuracy)
 % persistent H Q h A C Ie
 global Dt
 m = 0;
-
 limit = accuracy;
+limitvalue = 0.00001; %newton stop iteration value
 
 avg = 10;
 desired = 0;
+Q_mark = 10; % initial value that makes sure the while loop runs at least once
+epsi = input.Q_init/10;
+g = 9.81; %[m/s^2] gravitational constant
+
+
+
 while abs(avg-desired) > limit
     m = m + 1;
     for x = 1:length(piping)
-        limitvalue = 0.00001; %newton stop iteration value
+        
         Ib = piping(x).Ib;
         d = piping(x).d; %[m] Diameter
         k = piping(x).k; %sandruhed angives typisk i mm der skal bruges m i formler
         Theta = piping(x).Theta;
         Dx = piping(x).Dx; %[m] grid distance
         sections = piping(x).sections; % Number of sections,
-        Q_mark = 10; % initial value that makes sure the while loop runs at least once
-        epsi = input.Q_init/10;
-        g = 9.81; %[m/s^2] gravitational constant
-        % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
 
         for n = 1:sections
             %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
             if m == 1 && n==1
 %                 Ie(1:iterations,1:sections) = Ib; % this is gay and cant be right FIGURE IT OUT!!!!!
-                h_init=0:d/1000:d;
-                %         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
+                %    Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
                 Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ib^0.5;% Hennings
+                h_init=0:d/1000:d;
                 for t = 1:1001
                     Q_initialize(t)=(0.46 - 0.5 *cos(pi*(h_init(t)/d))+0.04*cos(2*pi*(h_init(t)/d)))*Qf;
                 end
@@ -53,11 +55,7 @@ while abs(avg-desired) > limit
                         data{x}.Q(1,1:sections) = data{x-1}.Q(1,end);
                         data{x}.C(1,1:sections) = data{x-1}.C(1,end);
                     end
-%                     if x == 1
-%                         data{x}.h(1:sections) = data{x}.fitfunc(Q_in);
-%                     else
-                        data{x}.h(1:sections) = data{x}.fitfunc(data{x-1}.Q(1,end));
-%                     end
+                    data{x}.h(1:sections) = data{x}.fitfunc(data{x-1}.Q(1,end));
                 end
                 data{x}.A(1:sections) = d^2/4 * acos(((d/2)-data{x}.h(n))/(d/2))-sqrt(data{x}.h(n)*(d-data{x}.h(n)))*((d/2)-data{x}.h(n));
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -136,12 +134,7 @@ while abs(avg-desired) > limit
     f2 = -72*(d/4)^0.635 * pi*(d/2)^2*Ib^0.5*(0.5*pi*sin(pi*(h/d))- ...
         0.08*pi*sin(2*pi*(h/d)))*Dt/Dx-(d/Theta)*sqrt(-h^2+(d*h));
     end
-    
-   
-    function f = Area_fun(h)
-    f = d^2/4 * acos(((d/2)-h)/(d/2))-sqrt(h*(d-h))*((d/2)-h);
-    end
-    
+
     
 end
 
