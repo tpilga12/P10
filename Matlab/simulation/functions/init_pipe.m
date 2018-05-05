@@ -108,7 +108,7 @@ while abs(avg-desired) > limit
             avg = sum([pipe_avg_value{:}])/j;
             desired = sum([desired_value{:}])/j;
         end
-        converging_target = [avg desired]
+%         converging_target = [avg desired]
     end
     for l = 1:length(piping)
     out_data{l}.Q=data{l}.Q(end,:);
@@ -119,7 +119,7 @@ while abs(avg-desired) > limit
     out_data{l}.fitfunc = data{l}.fitfunc;
     end
     out = [out_data];
-   init_iterations = m
+%    init_iterations = m
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%% Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
