@@ -3,6 +3,7 @@ function [state_spec] = find_state_count(pipe_spec,sys_setup)
 m = 1; 
 v = 0;
 pipe_number = 1;
+state.sections = 0;
 for g = 1:length(sys_setup)
     if strcmp(sys_setup(g),('Tank')) || strcmp(sys_setup(g),('tank'))
         v = v+1;

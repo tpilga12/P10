@@ -335,6 +335,9 @@ if call == 1
 %%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     pipes = pipe_load-1; % amount of pipes
     tanks = tank_load-1; % amount of tanks
+    if tanks == 0
+        init_tank = 0;
+    end
     state_spec = find_state_count(init_pipe,sys_order'); % make list of information on system setup with state count 
 return
 end

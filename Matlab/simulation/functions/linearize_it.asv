@@ -76,7 +76,7 @@ function [out] = lin_tank(h,A,Q_max,fetch)
     elseif fetch == 'b'
         out = (1/A)*Q_max; %this too
     else
-        printf('Incorrect input (tank inearization), please enter a or b');
+        printf('Incorrect input "fetch", please enter a or b');
     end
 end
 
@@ -96,7 +96,7 @@ function [out] = lin_pipe(h,n,pipe_spec,fetch)
     elseif fetch == 'd'
         out = ((1/(2*Dt))*(2*sqrt(-h^2+(h*d)))) - (((1-Theta)/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
     else
-        printf('Incorrect input (pipe linearization), please enter a, b, c or d');
+        printf('Incorrect input "fetch", please enter a, b, c or d');
     end
 end
 end
