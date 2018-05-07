@@ -24,8 +24,12 @@ end
 error = 0;
 
 % init_data = init_pipe(pipe_spec,input,1e-7);
+tic
 [init_data tank_spec] = initialize(input, sys_setup, pipe_spec, tank_spec);
+toc
+tic
 lin_sys = linearize_it(pipe_spec, tank_spec, sys_setup, input, init_data);
+toc
 %% run stuff !!!!!
 clc
 iterations = 100;

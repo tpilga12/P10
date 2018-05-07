@@ -14,7 +14,7 @@ global Dt
 dimension = sys_setup(end).sections;
 A = zeros(dimension);  F = A; 
 B(1:dimension,1) = 0; B_2(1:dimension,1) = 0; Bd(1:dimension,1) = 0; C(1:dimension) = 0;
-
+StateName = cell(dimension,1);
 s_c = 1; %state counter
 section = 1; %keeps track of which cell data should be fetched in data
 pipe_fetch = 1;
@@ -25,11 +25,13 @@ for run = 1:length(sys_setup)-1
         section = section + 1;
         F(s_c,s_c) = 1;
         A(s_c,s_c) = 1;
+        
         B_2(s_c,1) = 1;
         Bd(s_c,1) = 1;
         B(s_c,1) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'a');
         B(s_c+1,1) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'b');
-        %%%% need to fix equations to find input (B) to tank and to pipe input
+       
+        StateName{s_c,1} = ['Tank_',num2str(tank_counter)];
         s_c = s_c + 1;
         new_pipe_section = 1;
         tank_counter = tank_counter +1;
@@ -50,6 +52,8 @@ for run = 1:length(sys_setup)-1
                     A(s_c,s_c-1) = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'c');
                     A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
                 end
+               
+               StateName{s_c,1} = ['Q_pipe_',num2str(pipe_fetch),'_',num2str(k)];
                k = k +1;
                s_c = s_c+1;
             end
@@ -74,8 +78,8 @@ BF = inv(F)*B;
 BF2 = BF;
  BF2(abs(BF2) < slim_matrix) = 0;
 
-sys = ss(AF,[BF+B_2 Bd],C,0,Dt);
-sys2 = ss(AF2,BF2,C,0,Dt);
+sys = ss(AF,[BF+B_2 Bd],C,0,Dt,'StateName', StateName);
+sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName);
 
 
 %%%%%%%%%%%%%%%%%%%%%% Linearizing functions %%%%%%%%%%%%%%

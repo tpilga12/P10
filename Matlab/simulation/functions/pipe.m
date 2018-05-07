@@ -78,7 +78,7 @@ for n = 1:sections
         % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%% euler baglaens %%%%
         %         C(m,n)= (C(m,n-1)*A(m,n))/(A(m,n)+Q(m,n)*(Dt/Dx))+(Q(m,n)*C(m-1,n))/(A(m,n)*(Dx/Dt)+Q(m,n));
-        C(m,n)= (C(m-1,n)*A(m,n))/(A(m,n)+Q(m,n)*(Dt/Dx)) + (Q(m,n)*C(m,n-1))/(A(m,n)*(Dx/Dt)+Q(m,n));
+        C(m,n)= (( C(m-1,n)*A(m,n) ) / ( A(m,n)+Q(m,n)*(Dt/Dx) )) + (( Q(m,n)*C(m,n-1) ) / ( A(m,n)*(Dx/Dt)+Q(m,n) ));
         %%%%%%%%%%%%%%%%%%%%%%%
         
     end
