@@ -1,0 +1,265 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>State Space MPC Tutorial</title><meta name="generator" content="MATLAB 7.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2011-07-02"><meta name="DC.source" content="ssmpctutorial.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>State Space MPC Tutorial</h1><!--introduction--><p>This document explains how to use the setup function and online controller returned by ssmpcsetup.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">State-space MPC set-up</a></li><li><a href="#2">Online controller</a></li><li><a href="#3">A two-CSTR example</a></li><li><a href="#4">MPC parameters</a></li><li><a href="#5">MPC set-up</a></li><li><a href="#6">Simulation</a></li><li><a href="#8">Results</a></li></ul></div><h2>State-space MPC set-up<a name="1"></a></h2><p>The online controller has to be set-up before use. To set-up the state space MPC controller, the user has to supply the state-space model, represented by A, B, C and D matrices (Note: it should be in discrete-time), the predication horizon, P, moving horizon, M and performance weights, Q and R. The default initial state and input are set to zero.</p><p>SSMPC=MPCSETUP(A,B,C,D,P,M,Q,R,X0,U0);</p><h2>Online controller<a name="2"></a></h2><p>The returned function handle from the MPC setup program is an online controller, SSMPC. The controller is called by proving two inputs: current measurement, Y and future reference, Ref. On return, it produces the optimal input, U for next step:</p><p>U = SSMPC(Y,Ref);</p><h2>A two-CSTR example<a name="3"></a></h2><p>A two-CSTR (Continuous Stired Reaction Tank) process is shown as follows.</p><p>
+<img src="2cstrPlant.png" width="600" height="400">
+</p><p>A linear state space of the model is developed for the plant. The model has six states, two inputs (two cooling water flow rates) and two disturbances (cooling water temperatures). The measured outputs are two tank temperatures. Further details of the process can be find in 1. Cao, Y and Yang, ZJ, "Multiobjective process controllability analysis", <i>Computers and Chemical Engineering</i> , 28(2004), 83--90. 2. Al Seyab, RK and Cao, Y, "Differential recurrent neural network based predictive control", <i>Computers and Chemical Engineering</i> , to appear.</p><p>The discrete model with sampling rate 0.1 s is as follows:</p><pre class="codeinput">A=[ 0.1555  -13.7665   -0.0604         0         0         0
+    0.0010    1.0008    0.0068         0         0         0
+         0    0.0374    0.9232         0         0         0
+    0.0015   -0.1024   -0.0003    0.1587  -13.6705   -0.0506
+         0    0.0061         0    0.0006    0.9929    0.0057
+         0    0.0001         0         0    0.0366    0.9398];
+Bu=[0.0001       0
+         0       0
+   -0.0036       0
+         0  0.0001
+         0       0
+         0 -0.0028];
+Bd=[      0         0
+          0         0
+     0.0013         0
+          0         0
+          0         0
+          0    0.0008];
+C=[0 362.995 0 0 0 0
+   0 0 0 0 362.995 0];
+D=zeros(2,2);
+</pre><h2>MPC parameters<a name="4"></a></h2><p>The MPC controller is configured with following parameters. Prediction horizon and moving horizon</p><pre class="codeinput">p=10;
+m=3;
+<span class="comment">% Performance wights</span>
+Q=1.5*eye(2*p);
+R=eye(2*m);
+</pre><h2>MPC set-up<a name="5"></a></h2><p>The MPC controller is set-up by calling SSMPCSETUP:</p><pre class="codeinput">ssmpc=mpcsetup(A,Bu,C,D,p,m,Q,R);
+</pre><h2>Simulation<a name="6"></a></h2><p>150 seconds (1500 sampling intervals) simulation is conducted with several setpoint changes and random cooling water temperature changes within positive and negative 1 degree. Simulation length and variables for results</p><pre class="codeinput">N=1500;
+x0=zeros(6,1);
+Y=zeros(N,2);
+U=zeros(N,2);
+<span class="comment">% Predefined reference</span>
+T=zeros(N,2);
+T(10:N,1)=1;
+T(351:N,1)=3;
+T(600:N,1)=5;
+T(1100:N,1)=3;
+T(100:N,2)=2;
+T(451:N,2)=1;
+T(700:N,2)=3;
+T(1200:N,2)=4;
+<span class="comment">% Simulation</span>
+</pre><pre class="codeinput"><span class="keyword">for</span> k=1:N
+    <span class="comment">% Process disturbances</span>
+    w=Bd*(rand(2,1)-0.5)*2;
+    <span class="comment">% Measurements noise</span>
+    v=0.01*randn(2,1);
+    <span class="comment">% actual measurement</span>
+    y=C*x0+v;
+    <span class="comment">% online controller</span>
+    u=ssmpc(y,T(k:end,:)');
+    <span class="comment">% plant update</span>
+    x0=A*x0+Bu*u+w;
+    <span class="comment">% save results</span>
+    Y(k,:)=y';
+    U(k,:)=u';
+<span class="keyword">end</span>
+</pre><h2>Results<a name="8"></a></h2><p>The simulation results are summarized in two sub-plots.</p><pre class="codeinput">t=(0:N-1)*0.1;
+subplot(211)
+plot(t,Y,t,T,<span class="string">'r--'</span>,<span class="string">'linewidth'</span>,2)
+title(<span class="string">'output and setpoint'</span>)
+ylabel(<span class="string">'temp, C^\circ'</span>)
+legend(<span class="string">'T_1'</span>,<span class="string">'T_2'</span>,<span class="string">'Ref'</span>,<span class="string">'location'</span>,<span class="string">'southeast'</span>)
+subplot(212)
+stairs(t,U,<span class="string">'linewidth'</span>,2)
+legend(<span class="string">'u_1'</span>,<span class="string">'u_2'</span>,<span class="string">'location'</span>,<span class="string">'southeast'</span>)
+title(<span class="string">'input'</span>)
+ylabel(<span class="string">'flow rate, m^3/s'</span>)
+xlabel(<span class="string">'time, s'</span>)
+</pre><img vspace="5" hspace="5" src="ssmpctutorial_01.png" alt=""> <p class="footer"><br>
+      Published with MATLAB&reg; 7.12<br></p></div><!--
+##### SOURCE BEGIN #####
+%% State Space MPC Tutorial
+% This document explains how to use the setup function and online
+% controller returned by ssmpcsetup.
+
+%% State-space MPC set-up
+% The online controller has to be set-up before use. To set-up the state
+% space MPC controller, the user has to supply the state-space model,
+% represented by A, B, C and D matrices (Note: it should be in
+% discrete-time), the predication horizon, P, moving horizon, M and
+% performance weights, Q and R. The default initial state and input are set
+% to zero. 
+%
+% SSMPC=MPCSETUP(A,B,C,D,P,M,Q,R,X0,U0);
+
+%% Online controller
+% The returned function handle from the MPC setup program is an online
+% controller, SSMPC. The controller is called by proving two inputs:
+% current measurement, Y and future reference, Ref. On return, it produces
+% the optimal input, U for next step:
+%
+% U = SSMPC(Y,Ref);
+
+%% A two-CSTR example
+% A two-CSTR (Continuous Stired Reaction Tank) process is shown as follows.
+% 
+% <html>
+% <img src="2cstrPlant.png" width="600" height="400">
+% </html>
+%
+% A linear state space of the model is developed for the plant. The model
+% has six states, two inputs (two cooling water flow rates) and two
+% disturbances (cooling water temperatures). The measured outputs are two
+% tank temperatures. Further details of the process can be find in 
+% 1. Cao, Y and Yang, ZJ, "Multiobjective process controllability
+% analysis", _Computers and Chemical Engineering_ , 28(2004), 83REPLACE_WITH_DASH_DASH90. 
+% 2. Al Seyab, RK and Cao, Y, "Differential recurrent neural network based
+% predictive control", _Computers and Chemical Engineering_ , to appear.
+% 
+% The discrete model with sampling rate 0.1 s is as follows:
+A=[ 0.1555  -13.7665   -0.0604         0         0         0
+    0.0010    1.0008    0.0068         0         0         0
+         0    0.0374    0.9232         0         0         0
+    0.0015   -0.1024   -0.0003    0.1587  -13.6705   -0.0506
+         0    0.0061         0    0.0006    0.9929    0.0057
+         0    0.0001         0         0    0.0366    0.9398];
+Bu=[0.0001       0
+         0       0
+   -0.0036       0
+         0  0.0001
+         0       0
+         0 -0.0028];
+Bd=[      0         0
+          0         0
+     0.0013         0
+          0         0
+          0         0
+          0    0.0008];
+C=[0 362.995 0 0 0 0
+   0 0 0 0 362.995 0];
+D=zeros(2,2);
+
+%% MPC parameters
+% The MPC controller is configured with following parameters.
+% Prediction horizon and moving horizon
+p=10;
+m=3;
+% Performance wights
+Q=1.5*eye(2*p);
+R=eye(2*m);
+
+%% MPC set-up
+% The MPC controller is set-up by calling SSMPCSETUP:
+ssmpc=mpcsetup(A,Bu,C,D,p,m,Q,R);
+
+%% Simulation
+% 150 seconds (1500 sampling intervals) simulation is conducted with
+% several setpoint changes and random cooling water temperature changes
+% within positive and negative 1 degree.
+% Simulation length and variables for results
+N=1500;
+x0=zeros(6,1);
+Y=zeros(N,2);
+U=zeros(N,2);
+% Predefined reference
+T=zeros(N,2);
+T(10:N,1)=1;
+T(351:N,1)=3;
+T(600:N,1)=5;
+T(1100:N,1)=3;
+T(100:N,2)=2;
+T(451:N,2)=1;
+T(700:N,2)=3;
+T(1200:N,2)=4;
+% Simulation
+%%
+for k=1:N
+    % Process disturbances
+    w=Bd*(rand(2,1)-0.5)*2;
+    % Measurements noise
+    v=0.01*randn(2,1);
+    % actual measurement
+    y=C*x0+v;
+    % online controller
+    u=ssmpc(y,T(k:end,:)');
+    % plant update
+    x0=A*x0+Bu*u+w;
+    % save results
+    Y(k,:)=y';
+    U(k,:)=u';
+end
+
+%% Results
+% The simulation results are summarized in two sub-plots.
+t=(0:N-1)*0.1;
+subplot(211)
+plot(t,Y,t,T,'rREPLACE_WITH_DASH_DASH','linewidth',2)
+title('output and setpoint')
+ylabel('temp, C^\circ')
+legend('T_1','T_2','Ref','location','southeast')
+subplot(212)
+stairs(t,U,'linewidth',2)
+legend('u_1','u_2','location','southeast')
+title('input')
+ylabel('flow rate, m^3/s')
+xlabel('time, s')
+##### SOURCE END #####
+--></body></html>
