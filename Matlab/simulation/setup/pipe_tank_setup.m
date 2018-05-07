@@ -4,15 +4,15 @@ if call == 1
     tank_load = 1;
     order = 1;
     
-%     %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
-%     tank.area = 9; %m^2
-%     tank.height = 10; %m
-%     tank.Q_out_max = 0.5; % m^3/s
-%     init_tank(tank_load) = tank;
-%     tank_load = tank_load + 1;
-%     sys_order{order} = ('Tank');
-%     order = order +1;
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
+    tank.area = 9; %m^2
+    tank.height = 10; %m
+    tank.Q_out_max = 0.5; % m^3/s
+    init_tank(tank_load) = tank;
+    tank_load = tank_load + 1;
+    sys_order{order} = ('Tank');
+    order = order +1;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
 %%%%%%%%%%%%%%%%%% pipe1.1 %%%%%%%%%%%%%%
     pipe.length = 303; % length in meter
@@ -83,15 +83,15 @@ if call == 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     
-%     %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
-%     tank.area = 9; %m^2
-%     tank.height = 10; %m
-%     tank.Q_out_max = 0.5; % m^3/s
-%     init_tank(tank_load) = tank;
-%     tank_load = tank_load + 1;
-%     sys_order{order} = ('Tank');
-%     order = order +1;
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
+    tank.area = 9; %m^2
+    tank.height = 10; %m
+    tank.Q_out_max = 0.5; % m^3/s
+    init_tank(tank_load) = tank;
+    tank_load = tank_load + 1;
+    sys_order{order} = ('Tank');
+    order = order +1;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%% pipe2.3 %%%%%%%%%%%%%%
     pipe.length = 318; % length in meter

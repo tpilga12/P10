@@ -24,11 +24,9 @@ for run = 1:length(sys_setup)-1
     if strcmp(sys_setup(run).type,'Tank') == 1
         section = section + 1;
         F(s_c,s_c) = 1;
-        A(s_c,s_c) = 1;
         B_2(s_c,1) = 1;
-        Bd(s_c,s_c) = 1;
-        B(s_c,1) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'a');
-        B(s_c+1,1) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'b');
+        B(s_c,1) = lin_tank(input(tank_counter).u_init, tank_spec(tank_counter), data{section}.fitfunc, 'a');
+        B(s_c+1,1) = lin_tank(input(tank_counter).u_init, tank_spec, data{section}.fitfunc, 'b');
         %%%% need to fix equations to find input (B) to tank and to pipe input
         s_c = s_c + 1;
         new_pipe_section = 1;
@@ -80,9 +78,9 @@ sys2 = ss(AF2,BF2,C,0,Dt);
 function [out] = lin_tank(input, tank_spec, fitfunc,fetch)
 
     if fetch == 'a'
-        out = -(1/tank_spec.area)*tank_spec.Q_out_max*input; %change in height when pump runs 
+        out = (1/tank_spec.area)*tank_spec.Q_out_max*input.h_init*Dt; %change in height when pump runs 
     elseif fetch == 'b'
-        out = fitfunc(tank_spec.Q_out_max*input); %output of tank to input of pipe or wwtp
+        out = fitfunc(tank_spec.Q_out_max*u); %output of tank to input of pipe or wwtp
     else
         printf('Incorrect input (tank inearization), please enter a or b');
     end
