@@ -1,4 +1,4 @@
-function [output]=pipe(piping,input,data,x,m,component)
+function [output]=pipe(piping,input,data,x)
                 %Pipe(bed slope(Ib),        Ruhedsfaktor(k),
                 %Delta t(Dt),               Delta x(Dx), 
                 %Diameter(d),               Pipe sections(sections),
@@ -8,11 +8,9 @@ function [output]=pipe(piping,input,data,x,m,component)
                 %length of pipe is Dx*n
 
 % persistent H Q h A C Ie
-global Dt
+global Dt iterations m
 newt_iter = 50;
 limitvalue = 0.0001; %newton stop iteration value
-
-
 Ib = piping(x).Ib; 
 d = piping(x).d; %[m] Diameter
 k = piping(x).k; %sandruhed angives typisk i mm der skal bruges m i formler
@@ -26,12 +24,12 @@ epsi = input.Q_init/1000;
 g = 9.81; %[m/s^2] gravitational constant
 % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
 if m > 1
-    Q = data{component}.Q;
-    A = data{component}.A;
-    h = data{component}.h;
-    C = data{component}.C;
-    Ie = data{component}.Ie;
-    fitfunc = data{component}.fitfunc;
+    Q = data{x}.Q;
+    A = data{x}.A;
+    h = data{x}.h;
+    C = data{x}.C;
+    Ie = data{x}.Ie;
+    fitfunc = data{x}.fitfunc;
 end
         
 
@@ -43,31 +41,30 @@ for n = 1:sections
         if x == 1
             Q(m,n) = Q_in;
             C(m,n) = C_in;
-            %                         h(m,n) = init_height(epsi,Q_in,Q_mark,0,d);
-%             h(m,n) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
-            h(m,n) = fitfunc(Q_in);
+%                         h(m,n) = init_height(epsi,Q_in,Q_mark,0,d);
+            h(m,n) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
         else
             if piping(x-1).lat_inflow == 1
-                Q(m,n) = data{component-1}.Q(m,end)+input.lat.Q{x-1};
-                C(m,n) = (data{component-1}.C(m,end) * data{component-1}.Q(m,end) + input.lat.C{x-1} * input.lat.Q{x-1}) / (data{component-1}.Q(m,end) + input.lat.Q{x-1});
+                Q(m,n) = data{x-1}.Q(m,end)+input.lat.Q{x-1};
+                C(m,n) = (data{x-1}.C(m,end)*data{x-1}.Q(m,end)+input.lat.C{x-1}*input.lat.Q{x-1})/(data{x-1}.Q(m,end)+input.lat.Q{x-1});
             else
-                Q(m,n) = data{component-1}.Q(m,end);
-                C(m,n) = data{component-1}.C(m,end);
+                Q(m,n) = data{x-1}.Q(m,end);
+                C(m,n) = data{x-1}.C(m,end);
             end
-            %             h(m,n) = data{x-1}.h(m,end);
-            %             h(m,n) = init_height(epsi,Q(1,1),Q_mark,0,d);
-            h(m,n) = fitfunc(Q(m,n));
-            %                 H = (2*(1-Theta)*data{x-1}.Q(m-1,end)-2*(1-Theta)*Q(m-1,n)+ ...
-            %                     2*Theta*data{x-1}.Q(m,end))*Dt/Dx - ...
-            %                     data{x-1}.A(m,end)+ data{x-1}.A(m-1,end)+ A(m-1,n);
-            %                 h(m,n)=NewtonRoot(@V,@V_dot,data{x-1}.h(m-1,end),limitvalue,50,d,Ie,H,Dt,Dx,Theta,m,n);
-            
+%             h(m,n) = data{x-1}.h(m,end);
+%             h(m,n) = init_height(epsi,Q(1,1),Q_mark,0,d);
+                        h(m,n) = fitfunc.p1*Q(m,n).^9 +fitfunc.p2*Q(m,n).^8 + fitfunc.p3*Q(m,n).^7 + fitfunc.p4*Q(m,n).^6 + fitfunc.p5*Q(m,n).^5 + fitfunc.p6*Q(m,n).^4 + fitfunc.p7*Q(m,n).^3 + fitfunc.p8*Q(m,n)^2 + fitfunc.p9*Q(m,n) +fitfunc.p10;
+%                 H = (2*(1-Theta)*data{x-1}.Q(m-1,end)-2*(1-Theta)*Q(m-1,n)+ ...
+%                     2*Theta*data{x-1}.Q(m,end))*Dt/Dx - ...
+%                     data{x-1}.A(m,end)+ data{x-1}.A(m-1,end)+ A(m-1,n);
+%                 h(m,n)=NewtonRoot(@V,@V_dot,data{x-1}.h(m-1,end),limitvalue,50,d,Ie,H,Dt,Dx,Theta,m,n);
+
         end
         %         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
         A(m,n) = d^2/4 * acos(((d/2)-h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Iteration %%%%%%%%%%%%%%%%%%%%%%%%%%%
-    elseif m > 1 && n > 1
+    elseif m > 1 && n > 1 
         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+ ...
             2*Theta*Q(m,n-1))*Dt/Dx - ...
             A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
@@ -87,15 +84,15 @@ end
 if m == 1
     temp = data;
 else
-    temp.Q = Q;
-    temp.A = A;
-    temp.h = h;
-    temp.C = C;
-    temp.Ie = Ie;
-    temp.fitfunc = data{component}.fitfunc;
+    temp{1}.Q = Q;
+    temp{1}.A = A;
+    temp{1}.h = h;
+    temp{1}.C = C;
+    temp{1}.Ie = Ie;
+    temp{1}.fitfunc = data{x}.fitfunc;
 end
-data{1,component} = temp;
-output = data;
+
+output = temp;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

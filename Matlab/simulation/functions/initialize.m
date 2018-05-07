@@ -34,7 +34,7 @@ if error == 0
         for m = 1:length(sys_setup)-1 % minus one because tank at the end point can not be output limited by a pipe which is not there
             if strcmp(sys_setup(m).type,'Tank') == 1
                 tank_spec(n).Q_out_max = pipe_spec(sum([sys_setup(1:m).component])).Qf; % set max tank outflow to max input of next pipe
-                init_tanks{1,n} =  tank(1,n,input.Q_init,input.C_init,input,tank_spec,1); %initialize tanks
+                init_tanks{1,n} =  tank(1,[], n, input.Q_init, input.C_init, input, tank_spec, 1); %initialize tanks
                 n = n + 1;
                 no_tanks = no_tanks + 1;
             end
