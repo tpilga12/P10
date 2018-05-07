@@ -26,7 +26,7 @@ for run = 1:length(sys_setup)-1
         F(s_c,s_c) = 1;
         A(s_c,s_c) = 1;
         B_2(s_c,1) = 1;
-        Bd(s_c,s_c) = 1;
+        Bd(s_c,1) = 1;
         B(s_c,1) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'a');
         B(s_c+1,1) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'b');
         %%%% need to fix equations to find input (B) to tank and to pipe input
@@ -35,20 +35,22 @@ for run = 1:length(sys_setup)-1
         tank_counter = tank_counter +1;
     else
         for n = 1:sys_setup(run).component
+            k = 1;
             for m = s_c:(s_c+pipe_spec(pipe_fetch).sections-1)
                 if  n == 1 && new_pipe_section == 1
                     new_pipe_section = 0;
-                    F(s_c,s_c)   = lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'b');
-                    A(s_c,s_c)   = lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'd');
+                    F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
+                    A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
                     B(s_c,1)=[lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c')-lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a')];
       
                 else
                     
-                    F(s_c,s_c-1) = lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a');
-                    F(s_c,s_c)   = lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'b');
-                    A(s_c,s_c-1) = lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c');
-                    A(s_c,s_c)   = lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'd');
+                    F(s_c,s_c-1) = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'a');
+                    F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
+                    A(s_c,s_c-1) = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'c');
+                    A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
                 end
+               k = k +1;
                s_c = s_c+1;
             end
             pipe_fetch = pipe_fetch + 1;
