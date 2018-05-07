@@ -7,7 +7,7 @@ m = iteration + 1; % start at 2
 
 % insert control here (maybe) to calculate inputs
 
-    init = 0; % tank function is used in initiation where this should be set to 1, here it should be 0+ 
+    init = 0; % tank function is used in initiation where this should be set to 1, here it should be 0 
     tank_nr = 0;
     pipe_length = 1;
      component = 1;
@@ -28,22 +28,6 @@ m = iteration + 1; % start at 2
              end
          end
      end
-%         if m == 1
-%             [data] = pipe(pipe_spec,input,data,x);
-%         else
-%             [data(1,x)] = pipe(pipe_spec,input,data,x);
-%         end
-%     end
-%     else
-%         break
-%     end
-% 
-
-
-
-
-
-
 
 
 

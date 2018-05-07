@@ -40,14 +40,14 @@ for n = 1:sections
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%
     elseif m > 1 && n == 1
         Ie(m,1:sections) = piping(x).Ib;
-        if x == 1
+        if component == 1
             Q(m,n) = Q_in;
             C(m,n) = C_in;
             %                         h(m,n) = init_height(epsi,Q_in,Q_mark,0,d);
 %             h(m,n) = fitfunc.p1*Q_in.^9 +fitfunc.p2*Q_in.^8 + fitfunc.p3*Q_in.^7 + fitfunc.p4*Q_in.^6 + fitfunc.p5*Q_in.^5 + fitfunc.p6*Q_in.^4 + fitfunc.p7*Q_in.^3 + fitfunc.p8*Q_in^2 + fitfunc.p9*Q_in +fitfunc.p10;
             h(m,n) = fitfunc(Q_in);
         else
-            if piping(x-1).lat_inflow == 1
+            if x > 1 && piping(x-1).lat_inflow == 1
                 Q(m,n) = data{component-1}.Q(m,end)+input.lat.Q{x-1};
                 C(m,n) = (data{component-1}.C(m,end) * data{component-1}.Q(m,end) + input.lat.C{x-1} * input.lat.Q{x-1}) / (data{component-1}.Q(m,end) + input.lat.Q{x-1});
             else
