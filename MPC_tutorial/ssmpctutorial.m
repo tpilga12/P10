@@ -37,27 +37,27 @@
 % predictive control", _Computers and Chemical Engineering_ , to appear.
 % 
 % The discrete model with sampling rate 0.1 s is as follows:
-A=[ 0.1555  -13.7665   -0.0604         0         0         0
-    0.0010    1.0008    0.0068         0         0         0
-         0    0.0374    0.9232         0         0         0
-    0.0015   -0.1024   -0.0003    0.1587  -13.6705   -0.0506
-         0    0.0061         0    0.0006    0.9929    0.0057
-         0    0.0001         0         0    0.0366    0.9398];
-Bu=[0.0001       0
-         0       0
-   -0.0036       0
-         0  0.0001
-         0       0
-         0 -0.0028];
-Bd=[      0         0
-          0         0
-     0.0013         0
-          0         0
-          0         0
-          0    0.0008];
-C=[0 362.995 0 0 0 0
-   0 0 0 0 362.995 0];
-D=zeros(2,2);
+% A=[ 0.1555  -13.7665   -0.0604         0         0         0
+%     0.0010    1.0008    0.0068         0         0         0
+%          0    0.0374    0.9232         0         0         0
+%     0.0015   -0.1024   -0.0003    0.1587  -13.6705   -0.0506
+%          0    0.0061         0    0.0006    0.9929    0.0057
+%          0    0.0001         0         0    0.0366    0.9398];
+% Bu=[0.0001       0
+%          0       0
+%    -0.0036       0
+%          0  0.0001
+%          0       0
+%          0 -0.0028];
+% Bd=[      0         0
+%           0         0
+%      0.0013         0
+%           0         0
+%           0         0
+%           0    0.0008];
+% C=[0 362.995 0 0 0 0
+%    0 0 0 0 362.995 0];
+% D=zeros(2,2);
 
 %% MPC parameters
 % The MPC controller is configured with following parameters.
@@ -70,7 +70,7 @@ R=eye(2*m);
 
 %% MPC set-up
 % The MPC controller is set-up by calling SSMPCSETUP:
-ssmpc=mpcsetup(A,Bu,C,D,p,m,Q,R);
+ssmpc=mpcsetup(lin_sys.A,lin_sys.B,lin_sys.C,lin_sys.D,p,m,Q,R);
 
 %% Simulation
 % 150 seconds (1500 sampling intervals) simulation is conducted with
