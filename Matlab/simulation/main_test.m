@@ -28,7 +28,7 @@ error = 0;
 lin_sys = linearize_it(pipe_spec, tank_spec, sys_setup, input, init_data);
 %% run stuff !!!!!
 clc
-iterations = 1000;
+iterations = 100;
 data = init_data;
 % data{1} = 0;
 for m = 1:iterations
