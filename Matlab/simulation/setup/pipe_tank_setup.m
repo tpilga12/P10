@@ -9,6 +9,7 @@ if call == 1
     tank.height = 10; %m
     tank.area = tank.size/tank.height; %m^2
     tank.Q_out_max = 0.5; % m^3/s
+    tank.data_location = order;
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_tank(tank_load) = tank;
     tank_load = tank_load + 1;
@@ -94,6 +95,7 @@ if call == 1
     tank.height = 10; %m
     tank.area = tank.size/tank.height; %m^2
     tank.Q_out_max = 0.5; % m^3/s
+    tank.data_location = order;
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_tank(tank_load) = tank;
     tank_load = tank_load + 1;

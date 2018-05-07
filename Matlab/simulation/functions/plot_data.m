@@ -1,4 +1,4 @@
-function [hej]=plot_data(data,nr_pipes,play_speed,Dt,pipe_spec,sampling)
+function [hej]=plot_data(data, nr_tanks, nr_pipes, sys_setup, play_speed, Dt, pipe_spec, tank_spec, sampling)
 global pipe_sep_line
 fig_nr  = 2000;
 time_font_size = 14; % font size of time and iteration
@@ -16,21 +16,46 @@ hours = 0; % initialize hours in plot
     %%%%% plot!!!%%%%%%%%%%%%
 
     iter_count = 1;
-for m= 1:sampling:length(data{1}.Q(:,1))
     v = 1; %Santas little helper
     for r = 1:length(pipe_spec)
-        flow(1,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.Q(m,1:end);
-        height(1,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.h(m,1:end);
-        concentrate(1,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.C(m,1:end);
+        flow(:,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.Q(:,1:end);
+        height(:,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.h(:,1:end);
+        concentrate(:,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.C(:,1:end);
         v = v+pipe_spec(r).sections;
     end
+    tank_spotted = 1;
+    x_pos = 0;
+    if nr_tanks > 0
+        for r = 1:(length(sys_setup)-1)
+            x_pos = x_pos + sys_setup(r).sections;
+            if strcmp(sys_setup(r).type,'Tank')
+                tank_x(tank_spotted) = x_pos;
+                tank_height(:,tank_spotted) = data{tank_spec(tank_spotted).data_location}.h(1:end,1);
+                tank_concentrate(:,tank_spotted) = data{tank_spec(tank_spotted).data_location}.C(1:end,1);
+                tank_spotted = tank_spotted + 1;
+                x_pos = x_pos - 1;
+            end
+        end
+    end
+    
+    
+    
+for m= 1:sampling:length(data{1}.Q(:,1))
+
     figure(fig_nr)
     clf
     subplot(2,2,1)
-    plot(pipe_sep_line(1:end-1),flow)
+    if nr_tanks > 0
+        yyaxis right
+        plot(pipe_sep_line(tank_x),tank_height(m,1:end),'*')
+        yyaxis left
+        plot(pipe_sep_line(1:end-1),flow(m,:))
+    else
+        plot(pipe_sep_line(1:end-1),flow(m,:))
+    end
     hold on
     for p=1:(length(vertical_line)-1)
-        plot([vertical_line(p) vertical_line(p)], flowylim, 'r','Linewidth',line_thick);
+        plot([vertical_line(p) vertical_line(p)], flowylim, '-r','Linewidth',line_thick);
     end
     ylim(flowylim)
     xlim(distlim)
@@ -39,10 +64,19 @@ for m= 1:sampling:length(data{1}.Q(:,1))
      title(['Flow'])
      
     subplot(2,2,2)
-    plot(pipe_sep_line(1:end-1),height)
+ 
+    if nr_tanks > 0
+        yyaxis right
+        plot(pipe_sep_line(tank_x),tank_height(m,1:end),'*')
+        yyaxis left
+        plot(pipe_sep_line(1:end-1),height(m,:))
+    else
+        plot(pipe_sep_line(1:end-1),height(m,:))
+    end
     hold on
+   
     for p=1:(length(vertical_line)-1)
-        plot([vertical_line(p) vertical_line(p)], heightylim, 'r');
+        plot([vertical_line(p) vertical_line(p)], heightylim, '-r');
     end
     ylim(heightylim)
     xlim(distlim)
@@ -51,10 +85,20 @@ for m= 1:sampling:length(data{1}.Q(:,1))
     title(['Height'])
    
     subplot(2,2,3)
-    plot(pipe_sep_line(1:end-1),concentrate)
+    
+     if nr_tanks > 0
+        yyaxis right
+        plot(pipe_sep_line(tank_x),tank_concentrate(m,1:end),'*')
+        ylim(conflowylim)
+        yyaxis left
+        plot(pipe_sep_line(1:end-1),concentrate(m,:))
+
+    else
+        plot(pipe_sep_line(1:end-1),concentrate(m,:))
+    end
     hold on
     for p=1:(length(vertical_line)-1)
-        plot([vertical_line(p) vertical_line(p)], conflowylim, 'r');
+        plot([vertical_line(p) vertical_line(p)], conflowylim, '-r');
     end
     title(['concentrate'])
     ylabel('g/m^3')
@@ -63,10 +107,10 @@ for m= 1:sampling:length(data{1}.Q(:,1))
     xlim(distlim)
     
     subplot(2,2,4)
-    plot(pipe_sep_line(1:end-1),concentrate.*flow)
+    plot(pipe_sep_line(1:end-1),concentrate(m,:).*flow(m,:))
     hold on
     for p=1:(length(vertical_line)-1)
-        plot([vertical_line(p) vertical_line(p)], conspeedylim, 'r');
+        plot([vertical_line(p) vertical_line(p)], conspeedylim, '-r');
     end
     title(['Concentrate flow'])
     ylim(conspeedylim)

@@ -15,12 +15,12 @@ for n = 1: length(pipe_spec)
     end
     vertical_line(n) = pipe_sep(g-1);
     
-    maxflowlim(n) = max(max(data{n}.Q));
-    minflowlim(n) = min(min(data{n}.Q));
-    maxheightlim(n) = max(max(data{n}.h));
-    minheightlim(n) = min(min(data{n}.h));
-    maxconflowlim(n) = max(max(data{n}.C));
-    minconflowlim(n) = min(min(data{n}.C));
+    maxflowlim(n) = max(max(data{pipe_spec(n).data_location}.Q));
+    minflowlim(n) = min(min(data{pipe_spec(n).data_location}.Q));
+    maxheightlim(n) = max(max(data{pipe_spec(n).data_location}.h));
+    minheightlim(n) = min(min(data{pipe_spec(n).data_location}.h));
+    maxconflowlim(n) = max(max(data{pipe_spec(n).data_location}.C));
+    minconflowlim(n) = min(min(data{pipe_spec(n).data_location}.C));
 end
     plot_limits(1,1) = min(minflowlim)*botplot_adjust;
     plot_limits(1,2) = max(maxflowlim)*topplot_adjust;
@@ -34,6 +34,7 @@ end
     plot_limits(4,1) = min(minconflowlim .* minflowlim)*botplot_adjust;
     plot_limits(4,2) = max(maxconflowlim .* maxflowlim)*topplot_adjust;
     
+    pipe_sep = pipe_sep - pipe_sep(1,1);
     return
     
 end

@@ -30,7 +30,7 @@ lin_sys = linearize_it(pipe_spec, tank_spec, sys_setup, input, init_data);
 toc
 %% run stuff !!!!!
 clc
-iterations = 1000;
+iterations = 100;
 data = init_data;
 % data{1} = 0;
 for m = 1:iterations
@@ -46,8 +46,8 @@ end
 
 %%
 
-sampling = 3; %increase number to skip samples in playback to increase speed
+sampling = 6; %increase number to skip samples in playback to increase speed
 
 playback_speed = 1/10; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
-plot_data(data,nr_pipes,playback_speed,Dt,pipe_spec,sampling)
+plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling)
 
