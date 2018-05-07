@@ -100,7 +100,7 @@ xlabel('time, s')
 %}
 
 % Input and output check
-error(nargchk(8,10,nargin));
+error(nargoutchk(8,10,nargin));
 error(nargoutchk(1,1,nargout));
 
 % dimension of the system

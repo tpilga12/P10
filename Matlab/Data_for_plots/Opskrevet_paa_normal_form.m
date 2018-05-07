@@ -58,7 +58,7 @@ h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
 
 X0(1:10) =0;
 
-u=[h_input; h_input];
+u=[h_input; h_input2];
 [Y_hat t1 x1]=lsim(Sys,u);
 
 
