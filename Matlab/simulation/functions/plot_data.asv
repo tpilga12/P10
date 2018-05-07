@@ -14,14 +14,18 @@ hours = 0; % initialize hours in plot
     distlim = [0 pipe_sep_line(end-1)]; 
     line_thick = 0.8;
     %%%%% plot!!!%%%%%%%%%%%%
-
+%%%% find pipe in data %%%%%
+   for n = 1:length(sys_setup)-1
+       if strcmp(sys_setup(n).type,'Tank')
+       pipe_ 
+   end
     iter_count = 1;
 for m= 1:sampling:length(data{1}.Q(:,1))
     v = 1; %Santas little helper
     for r = 1:length(pipe_spec)
-        flow(1,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.Q(m,1:end);
-        height(1,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.h(m,1:end);
-        concentrate(1,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.C(m,1:end);
+        flow(1,v:(pipe_spec(r).sections+v-1)) = data{r}.Q(m,1:end);
+        height(1,v:(pipe_spec(r).sections+v-1)) = data{r}.h(m,1:end);
+        concentrate(1,v:(pipe_spec(r).sections+v-1)) = data{r}.C(m,1:end);
         v = v+pipe_spec(r).sections;
     end
     figure(fig_nr)

@@ -4,15 +4,17 @@ if call == 1
     tank_load = 1;
     order = 1;
     
-%     %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
-%     tank.area = 9; %m^2
-%     tank.height = 10; %m
-%     tank.Q_out_max = 0.5; % m^3/s
-%     init_tank(tank_load) = tank;
-%     tank_load = tank_load + 1;
-%     sys_order{order} = ('Tank');
-%     order = order +1;
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
+    tank.size = 90; %m^3
+    tank.height = 10; %m
+    tank.area = tank.size/tank.height; %m^2
+    tank.Q_out_max = 0.5; % m^3/s
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    init_tank(tank_load) = tank;
+    tank_load = tank_load + 1;
+    sys_order{order} = ('Tank');
+    order = order +1;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
 %%%%%%%%%%%%%%%%%% pipe1.1 %%%%%%%%%%%%%%
     pipe.length = 303; % length in meter
@@ -24,6 +26,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -41,6 +44,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -58,6 +62,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -75,6 +80,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -83,15 +89,17 @@ if call == 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     
-%     %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
-%     tank.area = 9; %m^2
-%     tank.height = 10; %m
-%     tank.Q_out_max = 0.5; % m^3/s
-%     init_tank(tank_load) = tank;
-%     tank_load = tank_load + 1;
-%     sys_order{order} = ('Tank');
-%     order = order +1;
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
+    tank.size = 90; %m^3
+    tank.height = 10; %m
+    tank.area = tank.size/tank.height; %m^2
+    tank.Q_out_max = 0.5; % m^3/s
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    init_tank(tank_load) = tank;
+    tank_load = tank_load + 1;
+    sys_order{order} = ('Tank');
+    order = order +1;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%% pipe2.3 %%%%%%%%%%%%%%
     pipe.length = 318; % length in meter
@@ -103,6 +111,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -120,6 +129,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -137,6 +147,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -154,6 +165,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -171,6 +183,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -188,6 +201,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -205,6 +219,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -222,6 +237,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -239,6 +255,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -256,6 +273,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -273,6 +291,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -290,6 +309,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -307,6 +327,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;
@@ -324,6 +345,7 @@ if call == 1
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
+    pipe.data_location = order;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     init_pipe(pipe_load) = pipe;
     pipe_load = pipe_load +1;

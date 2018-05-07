@@ -8,8 +8,6 @@ global Dt iterations
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Dt = 20;
-% [pipe_spec nr_pipes] = pipe_setup_test_jacob(1);
-% [pipe_spec nr_pipes] = pipe_setup(1);
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -32,14 +30,14 @@ lin_sys = linearize_it(pipe_spec, tank_spec, sys_setup, input, init_data);
 toc
 %% run stuff !!!!!
 clc
-iterations = 100;
+iterations = 1000;
 data = init_data;
 % data{1} = 0;
 for m = 1:iterations
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 8; % concentrate input [g/m^3]
     input.Q_in = 0.3 + sin(m/100)/15;
-    input.u = [0.4 0.4]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
+    input.u = [0.35 0.35]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
     
     [data] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
     
