@@ -1,4 +1,4 @@
-function [sys] = linearize_it(pipe_spec,tank_spec,sys_setup,input,data)
+function [sys] = linearize_it(pipe_spec,nr_tanks, tank_spec,sys_setup,input,data)
 %LINEARIZE_IT Summary of this function goes here
 %   Linearization of pipe_setup
 %%%% temp stuff so things can be tested
@@ -15,7 +15,7 @@ dimension = sys_setup(end).sections;
 add_states = 2; % additional states needed for change in output
 
 A = zeros(dimension+add_states);  F = eye(dimension+add_states); 
-B(1:dimension+add_states,1) = 0; B_2(1:dimension+add_states,1) = 0; Bd(1:dimension+add_states,1) = 0; C(1:dimension+add_states) = 0;
+B(1+nr_tanks:dimension+add_states,1) = 0; B_2(1:dimension+add_states,1) = 0; Bd(1:dimension+add_states,1) = 0; C(1:dimension+add_states) = 0;
 StateName = cell(dimension+add_states,1);
 s_c = 1; %state counter
 section = 1; %keeps track of which cell data should be fetched in data
@@ -29,9 +29,9 @@ for run = 1:length(sys_setup)-1
         A(s_c,s_c) = 1;
         
         B_2(s_c,1) = 1;
-        Bd(s_c,1) = 1;
-        B(s_c,1) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'a');
-        B(s_c+1,1) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'b');
+        %Bd(s_c,1) = 1;
+        B(s_c,1+tank_counter) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'a');
+        B(s_c+1,1+tank_counter) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'b');
        
         StateName{s_c,1} = ['Tank_',num2str(tank_counter)];
         s_c = s_c + 1;
@@ -94,7 +94,7 @@ StateName{dimension+add_states,1} = 'h_out_old';
 
 
 
-sys = ss(AF,[BF+B_2 Bd],C,0,Dt,'StateName', StateName);
+sys = ss(AF,[BF Bd],C,0,Dt,'StateName', StateName);
 sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName);
 
 
@@ -102,9 +102,9 @@ sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName);
 function [out] = lin_tank(input, tank_spec, fitfunc,fetch)
 
     if fetch == 'a'
-        out = -(1/tank_spec.area)*tank_spec.Q_out_max*input; %change in height when pump runs 
+        out = -(1/tank_spec.area)*tank_spec.Q_out_max*input*Dt; %change in height when pump runs 
     elseif fetch == 'b'
-        out = fitfunc(tank_spec.Q_out_max*input); %output of tank to input of pipe or wwtp
+        out = fitfunc(tank_spec.Q_out_max*input)/Dt; %output of tank to input of pipe or wwtp
     else
         printf('Incorrect input (tank inearization), please enter a or b');
     end

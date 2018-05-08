@@ -26,7 +26,7 @@ tic
 [init_data tank_spec] = initialize(input, sys_setup, pipe_spec, tank_spec);
 toc
 tic
-lin_sys = linearize_it(pipe_spec, tank_spec, sys_setup, input, init_data);
+lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, init_data);
 toc
 %% run stuff !!!!!
 clc
