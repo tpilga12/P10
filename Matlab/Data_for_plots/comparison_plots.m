@@ -12,7 +12,7 @@ close all
 % load output_fra_ss.mat
 % load time.mat
 % load tank_height_for_ss_model.mat
-%% Linearzied model
+% Linearzied model
 sample= lin_sys.Ts;
 h_data_hat=data{1,1}.h(:,1)-data{1,1}.h(1,1);
 
@@ -24,10 +24,10 @@ h2_input(1:length(t))=0.3;
 h3_input(1:length(t))=0.3;
  %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
 
-u=[h_input; h2_input ; h3_input; h_input]';
+u=[h_input; utank1-utank1(1,1) ; h_input]';
 
 [Y_hat t1 x1]=lsim(lin_sys,u);
-
+Y_hat = x1(:,226);
 figure(2)
 plot(t,Y_hat)
 
@@ -48,10 +48,26 @@ grid
 figure(2000)
 plot(t/60,Y_hat+Y_bar)
 hold on
-plot(t/60,data{1,18}.h(:,end))
+plot(t/60,data{1,end}.h(:,end))
 title('Comparison of Non-linear and linear open channel models')
 xlabel('Time [s]')
 ylabel('Output height [m]')
 % xlim([0 900])
 legend('Linear','Non-linear')
 grid
+
+figure(22)
+plot(data{1,2}.h(:,1))
+hold on
+plot(x1(:,2)/5+data{1,2}.h(1,1))
+legend('Non-Linear','linear')
+
+m =1;
+
+height= 0:0.00001:1;
+figure(33)    
+    plot(height,data{1,2}.fitfunc(height))
+
+
+
+

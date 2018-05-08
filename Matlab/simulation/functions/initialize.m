@@ -18,16 +18,6 @@ if error == 0
             
         end
     end
-    
-    m = 1;
-    for n = 1:length(start_pipe_sim) % pipe init
-        endpoint = sum(start_pipe_sim(1:n));
-        pipespec = pipe_spec(m:endpoint);
-        init_pipes{1,n} = init_pipe(pipespec,input,1e-7);
-        m = start_pipe_sim(n) + m;
-    end
-    
-    
     if length(tank_spec) > 0 % tank init
         n = 1;
         no_tanks = 0;
@@ -41,6 +31,20 @@ if error == 0
         end
     end
     
+    
+    
+    
+    m = 1;
+    input.Q_init = init_tanks{1,1}.Q(1,2);
+    for n = 1:length(start_pipe_sim) % pipe init
+        endpoint = sum(start_pipe_sim(1:n));
+        pipespec = pipe_spec(m:endpoint);
+        init_pipes{1,n} = init_pipe(pipespec,input,1e-7);
+        m = start_pipe_sim(n) + m;
+    end
+    
+    
+
     %%%%%%%%%%%%%%%%% Gather pipe and tank initial data
     count1 = 1;
     count2 = 1;

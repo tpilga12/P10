@@ -11,7 +11,7 @@ function [out]=init_pipe(piping,input,accuracy)
 global Dt
 m = 0;
 limit = accuracy;
-limitvalue = 0.00001; %newton stop iteration value
+limitvalue = 0.0000001; %newton stop iteration value
 
 avg = 10;
 desired = 0;
@@ -42,6 +42,7 @@ while abs(avg-desired) > limit
                 end
                 
                 data{x}.fitfunc = fit(Q_initialize',h_init','poly9');
+
                 if x == 1
                     data{x}.Q(1,1:sections) = input.Q_init;
                     data{x}.C(1,1:sections) = input.C_init;

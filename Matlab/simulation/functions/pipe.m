@@ -10,7 +10,7 @@ function [output]=pipe(piping,input,data,x,m,component)
 % persistent H Q h A C Ie
 global Dt
 newt_iter = 50;
-limitvalue = 0.0001; %newton stop iteration value
+limitvalue = 0.000001; %newton stop iteration value
 
 
 Ib = piping(x).Ib; 
