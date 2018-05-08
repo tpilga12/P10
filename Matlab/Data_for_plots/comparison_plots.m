@@ -62,12 +62,6 @@ hold on
 plot(x1(:,2)/5+data{1,2}.h(1,1))
 legend('Non-Linear','linear')
 
-m =1;
-
-height= 0:0.00001:1;
-figure(33)    
-    plot(height,data{1,2}.fitfunc(height))
-
 
 
 

@@ -104,7 +104,9 @@ function [out] = lin_tank(input, tank_spec, fitfunc,fetch)
     if fetch == 'a'
         out = -(1/tank_spec.area)*tank_spec.Q_out_max*input*Dt; %change in height when pump runs 
     elseif fetch == 'b'
-        out = fitfunc(tank_spec.Q_out_max*input); %output of tank to input of pipe or wwtp
+         out = fitfunc(tank_spec.Q_out_max*input) %output of tank to input of pipe or wwtp
+         out =fitfunc(tank_spec.Q_out_max*input+0.1) - fitfunc(tank_spec.Q_out_max*input)
+          out = differentiate(fitfunc,(tank_spec.Q_out_max*input))/2  
     else
         printf('Incorrect input (tank inearization), please enter a or b');
     end
