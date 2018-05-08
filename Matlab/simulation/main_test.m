@@ -4,7 +4,7 @@ clear all
 clear path
 format long
 addpath(['functions'], ['setup'])
-global Dt iterations  
+global Dt iterations error 
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Dt = 20;
@@ -12,9 +12,9 @@ Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.35; % initial input flow
-input.u_init(1) = 0.3; % initial tank actuator input
-input.tank_height_init(1:2) = 3; % initial tank height
+input.Q_init = 0.3; % initial input flow
+input.u_init(:) = [0.3 0.3]; % initial tank actuator input
+input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
     input.lat.Q{k} = 0;
     input.lat.C{k} = 0;
@@ -22,9 +22,9 @@ end
 error = 0;
 
 % init_data = init_pipe(pipe_spec,input,1e-7);
-tic
+
 [init_data tank_spec] = initialize(input, sys_setup, pipe_spec, tank_spec);
-toc
+
 tic
 lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, init_data);
 toc
@@ -34,14 +34,14 @@ iterations = 1000;
 data = init_data;
 % data{1} = 0;
 utank1(1) = input.u_init(1,1);
-% utank1(2) = input.u_init(1,2);
+utank1(2) = input.u_init(1,2);
 for m = 1:iterations
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 8; % concentrate input [g/m^3]
-    input.Q_in = 0.35 ;%+ sin(m/100)/15;
+    input.Q_in = 0.3 ;%+ sin(m/100)/15;
     utank1(m+1) = 0.3 + sin(m/10)/65;
-    utank2(m+1) = 0.3;
-    input.u = [utank1(m+1)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
+    utank2(m+1) = 0.25;
+    input.u = [utank1(m+1) utank2(m+1)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
     
     [data] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
     

@@ -1,14 +1,18 @@
 function [init_data tank_spec] = initialize(input,sys_setup,pipe_spec,tank_spec)
 %INTIALIZE Summary of this function goes here
 %   Detailed explanation goes here
+global error
 
-error = 0;
-if length(input.u_init) ~= length(tank_spec) && length(tank_spec) > 0 && tank_spec ~= 0
+if length(input.u_init) ~= length(tank_spec) && length(tank_spec) > 0 
     fprintf('error, initial input is not found for all actuators')
     error = 1;
 end
-if error == 0
-    
+
+if error == 1
+    init_data = 'Not available';
+    return
+elseif error == 0
+tic    
     start_pipe_sim = 0;
     m = 1;
     for n = 1:(length(sys_setup)-1)
@@ -66,7 +70,7 @@ if error == 0
             end
         end
     end
-    
+init_time = toc    
 end
 end
 
