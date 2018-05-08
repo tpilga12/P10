@@ -36,8 +36,8 @@ data = init_data;
 for m = 1:iterations
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in= 8; % concentrate input [g/m^3]
-    input.Q_in = 0.3 + sin(m/100)/15;
-    input.u = [0.35 0.35]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
+    input.Q_in = 0.29 ;%+ sin(m/100)/15;
+    input.u = [0.3 0.30]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
     
     [data] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
     

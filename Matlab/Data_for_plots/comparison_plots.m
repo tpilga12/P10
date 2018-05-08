@@ -12,6 +12,30 @@ close all
 % load output_fra_ss.mat
 % load time.mat
 % load tank_height_for_ss_model.mat
+%% Linearzied model
+sample= lin_sys.Ts;
+h_data_hat=data{1,1}.h(:,1)-data{1,1}.h(1,1);
+
+
+t = (sample:sample:length(h_data_hat)*sample)-sample;
+
+h_input(1:length(t))=0;%h_data_hat ;%Input height
+h2_input(1:length(t))=0.3;
+h3_input(1:length(t))=0.3;
+ %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
+
+u=[h_input; h2_input ; h3_input; h_input]';
+
+[Y_hat t1 x1]=lsim(lin_sys,u);
+
+figure(2)
+plot(t,Y_hat)
+
+h_bar = data{1,1}.h(1,1); % S?t sm? signaler
+Y_bar =data{1,end}.h(1,end);
+Y_lsim = Y_bar + Y_hat;
+
+
 
 figure(1000)
 plot(t,data{1,1}.h(:,1))
