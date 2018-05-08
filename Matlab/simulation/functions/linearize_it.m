@@ -12,9 +12,11 @@ global Dt
 
 % dimension = sum([pipe_spec(:).sections]); % matrix dimensions for linearized pipes
 dimension = sys_setup(end).sections;
-A = zeros(dimension);  F = A; 
-B(1:dimension,1) = 0; B_2(1:dimension,1) = 0; Bd(1:dimension,1) = 0; C(1:dimension) = 0;
-StateName = cell(dimension,1);
+add_states = 2; % additional states needed for change in output
+
+A = zeros(dimension+add_states);  F = eye(dimension+add_states); 
+B(1:dimension+add_states,1) = 0; B_2(1:dimension+add_states,1) = 0; Bd(1:dimension+add_states,1) = 0; C(1:dimension+add_states) = 0;
+StateName = cell(dimension+add_states,1);
 s_c = 1; %state counter
 section = 1; %keeps track of which cell data should be fetched in data
 pipe_fetch = 1;
@@ -53,7 +55,7 @@ for run = 1:length(sys_setup)-1
                     A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
                 end
                
-               StateName{s_c,1} = ['Q_pipe_',num2str(pipe_fetch),'_',num2str(k)];
+               StateName{s_c,1} = ['h_pipe_',num2str(pipe_fetch),'_',num2str(k)];
                k = k +1;
                s_c = s_c+1;
             end
@@ -67,8 +69,6 @@ for run = 1:length(sys_setup)-1
     end
     
 end
-% B(1,1)=[lin_pipe(init_data{n}.h(1,1), n, pipe_spec, 'c')-lin_pipe(init_data{n}.h(1,1), n, pipe_spec, 'a')];
-C(1,end) = 1;
 
 slim_matrix = 1e-6;
 AF = A/F;
@@ -77,6 +77,22 @@ AF2 = AF;
 BF = inv(F)*B;
 BF2 = BF;
  BF2(abs(BF2) < slim_matrix) = 0;
+
+last_pipe_out = find(strcmp(StateName , ['h_pipe_',num2str(length(pipe_spec)),'_',num2str(pipe_spec(end).sections)]));
+C(last_pipe_out) = 1;
+AF(dimension+add_states-1,dimension+add_states) = -1;
+AF(dimension+add_states-1,last_pipe_out) = 1;
+%F(dimension+add_states-1,dimension+add_states-1) = 1;
+C(dimension+add_states-1) = 1;
+StateName{dimension+add_states-1,1} = 'h_out_dot';
+
+AF(dimension+add_states,last_pipe_out) = 1;
+%F(dimension+add_states,dimension+add_states) = 1;
+StateName{dimension+add_states,1} = 'h_out_old';
+
+
+
+
 
 sys = ss(AF,[BF+B_2 Bd],C,0,Dt,'StateName', StateName);
 sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName);
