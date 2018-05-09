@@ -1,4 +1,4 @@
-function [out]=init_pipe(piping,input,accuracy)
+function [out]=init_pipe(piping,input, sys_component, accuracy)
 %Pipe(bed slope(Ib),        Ruhedsfaktor(k),
 %Delta t(Dt),               Delta x(Dx),
 %Diameter(d),               Pipe sections(sections),
@@ -15,8 +15,6 @@ limitvalue = 0.0000001; %newton stop iteration value
 
 avg = 10;
 desired = 0;
-Q_mark = 10; % initial value that makes sure the while loop runs at least once
-epsi = input.Q_init/10;
 g = 9.81; %[m/s^2] gravitational constant
 
 while abs(avg-desired) > limit
@@ -33,7 +31,6 @@ while abs(avg-desired) > limit
         for n = 1:sections
             %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
             if m == 1 && n==1
-%                 Ie(1:iterations,1:sections) = Ib; % this is gay and cant be right FIGURE IT OUT!!!!!
                 %    Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
                 Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ib^0.5;% Hennings
                 h_init=0:d/1000:d;
@@ -44,9 +41,9 @@ while abs(avg-desired) > limit
                 data{x}.fitfunc = fit(Q_initialize',h_init','poly9');
 
                 if x == 1
-                    data{x}.Q(1,1:sections) = input.Q_init;
-                    data{x}.C(1,1:sections) = input.C_init;
-                    data{x}.h(1:sections) = data{x}.fitfunc(input.Q_init)
+                    data{x}.Q(1,1:sections) = input.Q_init(sys_component);
+                    data{x}.C(1,1:sections) = input.C_init(sys_component);
+                    data{x}.h(1:sections) = data{x}.fitfunc(input.Q_init(sys_component));
                 else
                     if piping(x).lat_inflow == 1
                         data{x}.Q(1,1:sections) = data{x-1}.Q(1,end)+input.lat.Q{x-1};
@@ -62,9 +59,9 @@ while abs(avg-desired) > limit
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%
             elseif m > 1 && n == 1
                 if x == 1
-                    data{x}.Q(m,n) = input.Q_init;
-                    data{x}.C(m,n) = input.C_init;
-                    data{x}.h(m,n) = data{x}.fitfunc(input.Q_init);
+                    data{x}.Q(m,n) = input.Q_init(sys_component);
+                    data{x}.C(m,n) = input.C_init(sys_component);
+                    data{x}.h(m,n) = data{x}.fitfunc(input.Q_init(sys_component));
                 else
                     if piping(x-1).lat_inflow == 1
                         data{x}.Q(m,n) = data{x-1}.Q(m,end)+input.lat.Q{x-1};
@@ -99,27 +96,28 @@ while abs(avg-desired) > limit
         for j = 1:length(piping)
             if piping(j).lat_inflow == 0
                 pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/piping(j).sections;
-                desired_value{j} = input.Q_init;
+                desired_value{j} = input.Q_init(sys_component);
             else
                 pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/piping(j).sections + input.lat.Q{1,j};
-                desired_value{j} = input.Q_init + input.lat.Q{1,j};
+                desired_value{j} = input.Q_init(sys_component) + input.lat.Q{1,j};
             end
         end
         if m > 2
             avg = sum([pipe_avg_value{:}])/j;
             desired = sum([desired_value{:}])/j;
         end
-%         converging_target = [avg desired]
+%        converging_target = [avg desired]
     end
-    for l = 1:length(piping)
-    out_data{l}.Q=data{l}.Q(end,:);
-    out_data{l}.A=data{l}.A(end,:);
-    out_data{l}.h=data{l}.h(end,:);
-    out_data{l}.C=data{l}.C(end,:);
-    out_data{l}.Ie(1,1:piping(l).sections) = piping(l).Ib;
-    out_data{l}.fitfunc = data{l}.fitfunc;
+    for p = 1:length(piping)
+    out_data{p}.Q=data{p}.Q(end,:);
+    out_data{p}.A=data{p}.A(end,:);
+    out_data{p}.h=data{p}.h(end,:);
+    out_data{p}.C=data{p}.C(end,:);
+    out_data{p}.Ie(1,1:piping(p).sections) = piping(p).Ib;
+    out_data{p}.fitfunc = data{p}.fitfunc;
     end
     out = [out_data];
+
 %    init_iterations = m
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%% Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

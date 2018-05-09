@@ -48,7 +48,7 @@ tic
     
     init = 1; % tank function is used in initiation where this should be set to 1, here it should be 0 
     tank_nr = 1;
-    pipe_component = 0;
+    pipe_component = 1;
     sys_component = 1;
      for x = 1:length(sys_setup)-1
 %          for d= 1:sys_setup(x).component
@@ -63,14 +63,12 @@ tic
                  tank_nr = tank_nr + 1;
                  sys_component = sys_component + 1;
              else
-                 temp = init_pipe(pipe_spec((pipe_component+1):(sys_setup(x).component + pipe_component)), input, x, 1e-7);
-                 if x == 1
-                     init_data = temp;
-                 else
-                     init_data = [ init_data temp{:,:}];
-                 end
+                 temp = init_pipe(pipe_spec((pipe_component + 1):(sys_setup(x).component + pipe_component)), input, x, 1e-7);
+                 
+                 init_data = [ init_data temp{:,:}];
+                 
                  sys_component = sys_component + sys_setup(x).component;
-                 pipe_component = pipe_component + sys_setup(x).component;
+                 pipe_component = pipe_component + sys_setup(x).component - 1 ;
                  
                  input.Q_init(x+1)= init_data{1,sys_component-1}.Q(1,end);                 
                  input.C_init(x+1)= init_data{1,sys_component-1}.C(1,end);
@@ -79,30 +77,7 @@ tic
      end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
    
-    %%%%%%%%%%%%%%%%% Gather pipe and tank initial data
-%     count1 = 1;
-%     count2 = 1;
-%     placement = 1;
-%     if no_tanks == 0
-%         init_data = init_pipes{1};
-%     elseif sys_setup(1).type == 'Tank'
-%         for n = (1:length(sys_setup)-1)
-%             if sys_setup(n).type == 'Tank'
-%                 init_data{placement} = init_tanks{count1};
-%                 count1 = count1 + 1;
-%                 placement = placement + 1;
-%             else
-%                 for m = 1:start_pipe_sim(count2)
-%                     init_data{placement+m-1} = init_pipes{count2}{m};
-%                 end
-%                 placement = placement + start_pipe_sim(count2);
-%                 count2 = count2 + 1;
-%             end
-%         end
-%     end
 
- input.Q_init = input.Q_init(1:x);
- input.C_init = input.C_init(1:x);
 init_time = toc    
 end
 end
