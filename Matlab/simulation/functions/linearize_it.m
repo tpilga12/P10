@@ -50,7 +50,7 @@ else
                     end
                     
                     StateName{s_c,1} = ['h_pipe_',num2str(pipe_fetch),'_',num2str(k)];
-%                     k = k +1;
+                     k = k +1;
                     s_c = s_c+1;
                 end
                 pipe_fetch = pipe_fetch + 1;
@@ -64,8 +64,12 @@ else
         
     end
     
+    
+    
+    
     slim_matrix = 1e-6;
-    AF = A/F;
+%     AF = A/F;
+    AF = inv(F)*A;
     AF2 = AF;
     AF2(abs(AF2) < slim_matrix) = 0;
     BF = inv(F)*B(:,1);
@@ -82,6 +86,13 @@ else
     
     AF(dimension+add_states,last_pipe_out) = 1;
     StateName{dimension+add_states,1} = 'h_out_old';
+    
+    lat_in = find([pipe_spec.lat_inflow]);
+    for n = 1:length(lat_in)
+        B(1:end,end+1)= 0;
+        B(find(strcmp(StateName , ['h_pipe_',num2str(lat_in(n)),'_',num2str(1)])),end) = 1;
+    end
+    
     
     
     sys = ss(AF,[BF B(:,2:end) Bd],C,0,Dt,'StateName', StateName);

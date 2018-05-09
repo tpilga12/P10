@@ -70,7 +70,6 @@ while abs(avg-desired) > limit
                         data{x}.Q(m,n) = data{x-1}.Q(m,end);
                         data{x}.C(m,n) = data{x-1}.C(m,end);
                     end
-%                     data{x}.h(m,n) = data{x}.fitfunc(Q(m,n);
                     data{x}.h(m,n) = data{x-1}.h(m,end);
                 end
                 data{x}.A(m,n) = d^2/4 * acos(((d/2)-data{x}.h(m,n))/(d/2))-sqrt(data{x}.h(m,n)*(d-data{x}.h(m,n)))*((d/2)-data{x}.h(m,n));
