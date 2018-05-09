@@ -12,17 +12,17 @@ k=0.0015; %angives typisk i mm der skal bruges m i formler
 m=1;
 Dt = 20; %[s] grid time
 Dx = 8; %[m] grid distance
-d = 0.6; %[m] Diameter.
+d = 0.9; %[m] Diameter.
 g = 9.81; %[m/s^2]
 n=150; % Number of iterations, 
 % Friction part 
-Ie = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
+Ie = 0.003;%0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
 Ib = 0.00214;
 
 
 
-Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s] palles
-Qff = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennings
+Qff = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie))+(k/(3.71*d)))*d^2*sqrt(d*Ie); %[m^3/s] palles
+Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ie^0.5;% Hennings
 
 
 %% Regression to a plot, to find Q from a function 
@@ -32,7 +32,7 @@ for t = 1:100
     Q_test(t)=(0.46 - 0.5 *cos(pi*(h_test(t)/d))+0.04*cos(2*pi*(h_test(t)/d)))*Qf;
    
 end
-fitfunc = fit(Q_test',h_test','poly3');
+fitfunc = fit(Q_test',h_test','poly7');
 Q_initial=0.016; % Flow  <----------------------------------------- start flow
 h_initial = fitfunc.p1*Q_initial^3 + fitfunc.p2*Q_initial^2 + fitfunc.p3*Q_initial + fitfunc.p4; % check hieght
 
