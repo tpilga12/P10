@@ -15,7 +15,7 @@ m = iteration + 1; % start at 2
          for d= 1:sys_setup(x).component
              if strcmp(sys_setup(x).type,'Tank') == 1 && x == 1
                  tank_nr = tank_nr + 1;
-                 data{1,sys_component} = tank(m, data{1,sys_component}, tank_nr, input.Q_in, input.C_in, input,tank_spec,init);
+                 data{1,sys_component} = tank(m, data{1,sys_component}, tank_nr, input.Q_in(m), input.C_in(m), input,tank_spec,init);
                  sys_component = sys_component + 1;
              elseif strcmp(sys_setup(x).type,'Tank') == 1
                  tank_nr = tank_nr + 1;

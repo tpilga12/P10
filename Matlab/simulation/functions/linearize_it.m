@@ -21,12 +21,12 @@ else
     for run = 1:length(sys_setup)-1
         if strcmp(sys_setup(run).type,'Tank') == 1
             section = section + 1;
-            F(s_c,s_c) = 1;
+           % F(s_c,s_c) = 1;
             A(s_c,s_c) = 1;
 
             B(s_c,1+tank_counter) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'a');
             B(s_c+1,1+tank_counter) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'b');
-            
+            InputName{tank_counter+1,1} = ['Pump_tank_',num2str(tank_counter)];
             StateName{s_c,1} = ['Tank_',num2str(tank_counter)];
             s_c = s_c + 1;
             new_pipe_section = 1;
@@ -50,7 +50,7 @@ else
                     end
                     
                     StateName{s_c,1} = ['h_pipe_',num2str(pipe_fetch),'_',num2str(k)];
-                    k = k +1;
+%                     k = k +1;
                     s_c = s_c+1;
                 end
                 pipe_fetch = pipe_fetch + 1;
@@ -73,15 +73,14 @@ else
     BF2(abs(BF2) < slim_matrix) = 0;
     
     last_pipe_out = find(strcmp(StateName , ['h_pipe_',num2str(length(pipe_spec)),'_',num2str(pipe_spec(end).sections)]));
-    C(last_pipe_out) = 1;
+    C(1,last_pipe_out) = 1;
+    C(2,dimension+add_states-1) = 1;
     AF(dimension+add_states-1,dimension+add_states) = -1;
     AF(dimension+add_states-1,last_pipe_out) = 1;
-    %F(dimension+add_states-1,dimension+add_states-1) = 1;
-    C(dimension+add_states-1) = 1;
+   
     StateName{dimension+add_states-1,1} = 'h_out_dot';
     
     AF(dimension+add_states,last_pipe_out) = 1;
-    %F(dimension+add_states,dimension+add_states) = 1;
     StateName{dimension+add_states,1} = 'h_out_old';
     
     
@@ -95,7 +94,7 @@ function [out] = lin_tank(input, tank_spec, fitfunc,fetch)
     if fetch == 'a'
         out = -(1/tank_spec.area)*tank_spec.Q_out_max*input*Dt; %change in height when pump runs 
     elseif fetch == 'b'
-           out = differentiate(fitfunc,(tank_spec.Q_out_max*input))  
+           out = differentiate(fitfunc,(tank_spec.Q_out_max*input));  
     else
         printf('Incorrect input (tank inearization), please enter a or b');
     end

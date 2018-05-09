@@ -25,11 +25,14 @@ h3_input(1:length(t))=0.3;
  %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
 
 u=[h_input; utank1-utank1(1,1) ; h_input]';
-
+%u = [ u(17:end,:) ; u(end-15:end,:)];
+% u = [h_data_hat'; h_input];
 [Y_hat t1 x1]=lsim(lin_sys,u);
-Y_hat = x1(:,226);
+
+
+%  Y_hat = x1(:,226);
 figure(2)
-plot(t,Y_hat)
+% plot(t./60,Y_hat(:,2))
 
 h_bar = data{1,1}.h(1,1); % S?t sm? signaler
 Y_bar =data{1,end}.h(1,end);
@@ -46,7 +49,7 @@ ylabel('Input height [m]')
 grid
 
 figure(2000)
-plot(t/60,Y_hat+Y_bar)
+plot(t/60,x1(:,225)+Y_bar)
 hold on
 plot(t/60,data{1,end}.h(:,end))
 title('Comparison of Non-linear and linear open channel models')
@@ -57,11 +60,34 @@ legend('Linear','Non-linear')
 grid
 
 figure(22)
-plot(data{1,2}.h(:,1))
+plot_piece = 2;
+plot(data{1,2}.h(:,plot_piece-1))
 hold on
-plot(x1(2:end,2)+data{1,2}.h(1,1))
+plot(x1(1:end,plot_piece)+data{1,2}.h(1,plot_piece-1))
 legend('Non-Linear','linear')
 
+figure(23)
+plot_piece = 4;
+plot(data{1,2}.h(:,plot_piece-1))
+hold on
+plot(x1(1:end,plot_piece)+data{1,2}.h(1,plot_piece-1))
+legend('Non-Linear','linear')
+%%
+figure(33)
+prev_data = 17;
+prev_sim = 225-30-15-4-6-1-12-5-15-40-7-30-2-5-15-14-8-1-(10);
+plot(t/60,data{1,end-prev_data}.h(:,5))
+hold on
+plot(t/60,x1(:,prev_sim)+data{1,end-prev_data}.h(1,5))
+grid minor
+legend('non-lin','lin')
+%%
+figure(33)
+prev_data = 12;
+% prev_sim = 225-30-15-4-6-1-12-5-15-40-7-30-2-5-15-14-8-1-(10);
+plot(t/60,data{1,end-prev_data}.h(:,1:end))
+hold on
+plot(t/60,x1(:,39:43)+data{1,end-prev_data}.h(:,1:end))
 
-
+legend('non-lin','lin')
 
