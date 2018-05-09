@@ -3,7 +3,7 @@ function [init_data tank_spec] = initialize(input,sys_setup,pipe_spec,tank_spec)
 %   Detailed explanation goes here
 global error
 
-if length(input.u_init) ~= length(tank_spec) && length(tank_spec) > 0 
+if length(input.u_init) < length(tank_spec) && length(tank_spec) > 0 
     fprintf('error, initial input is not found for all actuators')
     error = 1;
 end

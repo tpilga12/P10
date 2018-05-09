@@ -126,5 +126,9 @@ for m= 1:sampling:length(data{1}.Q(:,1))
     set(h3,'FontSize',time_font_size);
     pause(play_speed) 
     iter_count = iter_count + 1;
+    if m == 1
+        fprintf('Click on figure to start playback')
+        k = waitforbuttonpress;
+    end
 end
 end

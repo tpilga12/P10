@@ -59,7 +59,7 @@ grid
 figure(22)
 plot(data{1,2}.h(:,1))
 hold on
-plot(x1(:,2)/5+data{1,2}.h(1,1))
+plot(x1(2:end,2)+data{1,2}.h(1,1))
 legend('Non-Linear','linear')
 
 

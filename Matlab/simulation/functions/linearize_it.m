@@ -1,23 +1,17 @@
 function [sys] = linearize_it(pipe_spec,nr_tanks, tank_spec,sys_setup,input,data)
 %LINEARIZE_IT Summary of this function goes here
 %   Linearization of pipe_setup
-%%%% temp stuff so things can be tested
-% clear all
-% clc
-% load('lin_it_test_data2.mat')
-% data = init_data;
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 global Dt error
 if error == 1
     sys = 'Not available';
-elseif error == 0
-    % dimension = sum([pipe_spec(:).sections]); % matrix dimensions for linearized pipes
-    dimension = sys_setup(end).sections;
+else
+    dimension = sys_setup(end).sections; % Setup matrix dimension for sections of system
     add_states = 2; % additional states needed for change in output
     
     A = zeros(dimension+add_states);  F = eye(dimension+add_states);
-    B(1+nr_tanks:dimension+add_states,1) = 0; B_2(1:dimension+add_states,1) = 0; Bd(1:dimension+add_states,1) = 0; C(1:dimension+add_states) = 0;
+    B(1+nr_tanks:dimension+add_states,1) = 0; Bd(1:dimension+add_states,1) = 0; C(1:dimension+add_states) = 0;
     StateName = cell(dimension+add_states,1);
     s_c = 1; %state counter
     section = 1; %keeps track of which cell data should be fetched in data
@@ -29,9 +23,7 @@ elseif error == 0
             section = section + 1;
             F(s_c,s_c) = 1;
             A(s_c,s_c) = 1;
-            
-            B_2(s_c,1) = 1;
-            %Bd(s_c,1) = 1;
+
             B(s_c,1+tank_counter) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'a');
             B(s_c+1,1+tank_counter) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), data{section}.fitfunc, 'b');
             
@@ -76,7 +68,7 @@ elseif error == 0
     AF = A/F;
     AF2 = AF;
     AF2(abs(AF2) < slim_matrix) = 0;
-    BF = inv(F)*B;
+    BF = inv(F)*B(:,1);
     BF2 = BF;
     BF2(abs(BF2) < slim_matrix) = 0;
     
@@ -93,10 +85,7 @@ elseif error == 0
     StateName{dimension+add_states,1} = 'h_out_old';
     
     
-    
-    
-    
-    sys = ss(AF,[BF Bd],C,0,Dt,'StateName', StateName);
+    sys = ss(AF,[BF B(:,2:end) Bd],C,0,Dt,'StateName', StateName);
     sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName);
     
 end
@@ -106,20 +95,18 @@ function [out] = lin_tank(input, tank_spec, fitfunc,fetch)
     if fetch == 'a'
         out = -(1/tank_spec.area)*tank_spec.Q_out_max*input*Dt; %change in height when pump runs 
     elseif fetch == 'b'
-         out = fitfunc(tank_spec.Q_out_max*input) %output of tank to input of pipe or wwtp
-         out =fitfunc(tank_spec.Q_out_max*input+0.1) - fitfunc(tank_spec.Q_out_max*input)
-          out = differentiate(fitfunc,(tank_spec.Q_out_max*input))/2  
+           out = differentiate(fitfunc,(tank_spec.Q_out_max*input))  
     else
         printf('Incorrect input (tank inearization), please enter a or b');
     end
 end
 
-function [out] = lin_pipe(h,n,pipe_spec,fetch)
+function [out] = lin_pipe(h,number,pipe_spec,fetch)
 
-    d = pipe_spec(n).d;
-    Dx = pipe_spec(n).Dx;
-    Theta = pipe_spec(n).Theta;
-    Qf = pipe_spec(n).Qf;
+    d = pipe_spec(number).d;
+    Dx = pipe_spec(number).Dx;
+    Theta = pipe_spec(number).Theta;
+    Qf = pipe_spec(number).Qf;
     
     if fetch == 'a'
         out = ((1/(2*Dt))*(2*sqrt(-h^2+(h*d)))) - ((Theta/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
