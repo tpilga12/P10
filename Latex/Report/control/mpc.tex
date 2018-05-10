@@ -1,0 +1,76 @@
+\section{Model predictive control}\label{se:model_predictive_control}
+In this section the design of the controller is elaborated. First the control approach is described then the control problem and lastly the design of the Model predictive controller (MPC). 
+
+The simulation covered in section ??? is to be controlled with respect to the problems elaborated in section \ref{se:problem_statement} and stated here. 
+\begin{enumerate}
+\item Flow variations due to large industries and natural phenomenons
+\item Concentration variations due to large industries and natural phenomenons
+\begin{enumerate}
+	\item Chloride variations
+	\item Phosphor variations
+	\item Nitrogen variations
+	\item Organic matter variations
+\end{enumerate}
+\end{enumerate}
+
+From the problem statement it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this tanks are placed throughout the sewer network to find locations where they are able to minimize the variations into the WWTP. 
+
+
+
+Hvorfor MPC
+	Pros and cons
+
+
+
+
+Noget om de forskellge variable vi gerne vil styre
+
+
+
+\begin{equation}
+\begin{aligned}
+	  \begin{bmatrix}
+	  \hat{x}(k+1|k) \\
+	  \vdots \\
+	  \hat{x}(k+H_u|k) \\
+	  \hat{x}(k+H_u +1|k) \\
+	  \vdots \\
+	  \hat{x}(k+H_p|k) \\
+	   \end{bmatrix}
+	 &=
+	\begin{bmatrix}
+		A \\
+		\vdots \\
+		A^{H_u} \\
+		A^{H_u+1} \\
+		\vdots \\
+		A^{H_p} \\
+	\end{bmatrix}
+	x(k)+
+	\begin{bmatrix}
+		B\\
+		\vdots \\
+		\sum_{i=0}^{H_u-1}A^i B \\
+		\sum_{i=0}^{H_u}A^i B \\
+		\vdots
+		\sum_{i=0}^{H_p-1}A^i B \\
+    \end{bmatrix}
+    u(k-1) \\ &+ 
+    \begin{bmatrix}
+    	B & \hdots & 0 \\
+    	AB+B & \hdots & 0 \\
+    	\vdots & \ddots & \vdots \\
+    	\sum_{i=0}^{H_u-1}A^i B & \hdots & B \\
+    	\sum_{i=0}^{H_u}A^i B & \hdots & AB+B\\
+    	\vdots & \vdots & \vdots \\
+    	\sum_{i=0}^{H_p-1}A^i B & \hdots & \sum_{i=0}^{H_p-H_u}A^i B \\
+	\end{bmatrix}
+	\begin{bmatrix}
+		\Delta \hat{u}(k|k)\\
+		\vdots \\
+		\Delta \hat{u}(k+H_u-1|k)\\
+	\end{bmatrix}
+	\end{aligned}
+\end{equation}
+
+
