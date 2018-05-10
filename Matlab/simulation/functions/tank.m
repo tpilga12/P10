@@ -4,10 +4,10 @@ function [data] = tank(m, data, tank_nr, Q_in, C_in, input, tank_spec, init)
 global Dt
 
 if init == 1
-    data.Q(init,1) = Q_in; % input flow
+    data.Q(init,1) = input.Q_init(m); % input flow
     data.Q(init,2) = input.u_init(tank_nr)*tank_spec(tank_nr).Q_out_max; % output flow
     data.h(init,1) = input.tank_height_init(tank_nr);
-    data.C(init,1) = C_in; % concentrate in tank
+    data.C(init,1) = input.C_init(m); % concentrate in tank
 else
     data.Q(m,1) = Q_in;
     data.Q(m,2) = input.u(tank_nr)*tank_spec(tank_nr).Q_out_max;

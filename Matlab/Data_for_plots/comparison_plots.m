@@ -24,7 +24,7 @@ h2_input(1:length(t))=0.3;
 h3_input(1:length(t))=0.3;
  %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
 
-u=[h_input; utank1-utank1(1,1) ; h_input]';
+u=[h_input; utank1-utank1(1,1) ; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 %u = [ u(17:end,:) ; u(end-15:end,:)];
 % u = [h_data_hat'; h_input];
 [Y_hat t1 x1]=lsim(lin_sys,u);
