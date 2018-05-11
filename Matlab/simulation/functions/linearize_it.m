@@ -123,6 +123,8 @@ function [out] = lin_tank(input, tank_spec, pipe_spec, fitfunc, fetch) % Tank / 
            out = differentiate(fitfunc,(tank_spec.Q_out_max*input)); % height flow into pipe after tank
     elseif fetch == 'c'
            out = (1/tank_spec.area)*(0.46-0.5*cos(pi*(input/pipe_spec))+0.04*cos(2*pi*(input/pipe_spec)))*Dt; %change in height in tank by inflow        
+           % (1.5708 sin((h ?)/d) - 0.251327 sin((2 h ?)/d))/d 
+           out = -(1/tank_spec.area)*((1.5708*sin((input*pi)/pipe_spec) - 0.251327*sin((2*input*pi)/pipe_spec))/pipe_spec)*Dt;
     else
         printf('Incorrect input (tank inearization), please enter a, b or c');
     end
