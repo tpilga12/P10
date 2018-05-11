@@ -24,7 +24,7 @@ h2_input(1:length(t))=0.3;
 h3_input(1:length(t))=0.3;
  %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
 
-u=[(utank1-utank1(1,1)); h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
+u=[utank1-utank(1,1); h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 %u = [ u(17:end,:) ; u(end-15:end,:)];
 % u = [h_data_hat'; h_input];
 [Y_hat t1 x1]=lsim(lin_sys,u);
@@ -67,7 +67,7 @@ plot(x1(1:end,plot_piece-1)+data{1,2}.h(1,plot_piece-1))
 legend('Non-Linear','linear')
 
 figure(23)
-plot_piece = 2;
+plot_piece = 4;
 plot(data{1,2}.h(:,plot_piece-1))
 hold on
 plot(x1(1:end,plot_piece)+data{1,2}.h(1,plot_piece-1))

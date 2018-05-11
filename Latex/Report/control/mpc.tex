@@ -22,6 +22,12 @@ Hvorfor MPC
 
 
 
+Cost function for flow
+
+\begin{equation}
+	 J = \sum_{i=1}^{H_p-1} || z(k+1|k)-z(k+i-1|k)||_{Q(i)}^2
+\end{equation}
+
 
 Noget om de forskellge variable vi gerne vil styre
 
@@ -74,3 +80,103 @@ Noget om de forskellge variable vi gerne vil styre
 \end{equation}
 
 
+
+
+
+
+\begin{equation}
+	\CMcal{Z}(k)= 
+	\begin{bmatrix}
+	z(k+1|k)\\
+	\vdots\\
+	z(k+H_p|k)
+	\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+	\Delta U(k)= 
+	\begin{bmatrix}
+	\Delta U(k+1|k)\\
+	\vdots\\
+	\Delta U(k+H_u -1|k)
+	\end{bmatrix}
+\end{equation}
+
+
+\begin{equation}
+	C = diag(C_z) \hspace{5mm} \psi = CA  \hspace{5mm} \gamma = CB_u \hspace{5mm}  \Theta = CB_{\Delta u}
+\end{equation}
+
+\begin{equation}
+	\CMcal{Z}(k) = \psi x(k|k) + \gamma u(k-1) + \Theta \Delta U(k)
+\end{equation}
+
+
+\begin{equation}
+	 J = \sum_{i=1}^{H_p-1} || z(k+1|k)-z(k+i-1|k)||_{Q(i)}^2
+\end{equation}
+\begin{equation}
+	\begin{aligned}
+	\text{s.t.} \hspace{5mm}  x(k+i+1) &= Ax(k+i|k)+Bu(k+i|k) \\
+						      y(k+i)&= C_yx(k+i|i) \\
+						      z(k+i)&= C_zx(k+i|i)\\
+						      \text{Constrains here}
+	\end{aligned}
+\end{equation}
+
+
+Rewrite cost function to
+
+\begin{equation}
+	J = ||\CMcal{Z}(k)-\CMcal{Z}(k-1)||_{Q(i)}^2
+\end{equation}
+
+By inserting equation ??? into equation ????
+
+\begin{equation}
+	[\CMcal{Z}(k)^T - \CMcal{Z}(k-1)^T]Q[\CMcal{Z}(k) - \CMcal{Z}(k-1)]
+\end{equation}
+
+
+
+\begin{equation}
+	\CMcal{Z}(k)^TQ\CMcal{Z}(k)+ \CMcal{Z}(k-1)^TQ\CMcal{Z}(k-1)-\CMcal{Z}(k)^TQ\CMcal{Z}(k-1)-\CMcal{Z}(k-1)^TQ\CMcal{Z}(k)
+\end{equation}
+
+
+By inserting equation ??? into equation ???? only the first term in equation is shown here, the rest can be seen in appendix ????
+
+\begin{equation}
+	\begin{aligned}
+	&\CMcal{Z}(k)^TQ\CMcal{Z}(k) = \\
+	& x(k|k)^T\psi ^T Q \psi x(k|k) + x(k|k)^T \psi ^T Q \gamma u(k-1) + x(k|k)^T \psi ^T Q \Theta \Delta U(k) \\
+	& u(k-1)^T \gamma ^T Q \psi x(k|k) +  u(k-1)^T \gamma ^T Q \gamma u(k-1) + u(k-1)^T \gamma ^T Q\Theta \Delta U(k)\\ 
+	& \Delta U(k)^T \Theta ^T Q  \psi x(k|k)+\Delta U(k)^T \Theta ^T Q \gamma u(k-1) +\Delta U(k)^T \Theta ^T Q \Theta \Delta U(k)
+	\end{aligned}
+\end{equation}
+
+
+
+\begin{equation}
+	\CMcal{H} = \Theta^T Q\Theta 
+\end{equation}
+
+\begin{equation}
+	\begin{aligned}
+	f &= x(k|k)^T\psi ^T Q\Theta+u(k-1)^T\gamma ^T Q \Theta +x(k|k)^T\psi^T Q \Theta+u(k-1)^T \gamma ^T Q \Theta \\
+	& -(x(k-1|k)^T \psi^T Q \Theta+u(k-2)^T \gamma^T Q \Theta +\Delta U(k-1)^T\Theta Q \Theta)) \\
+	& -(x(k-1|k)^T \psi^T Q \Theta + u(k-2)^T \gamma^T Q \Theta +\Delta U(k-1)^T\Theta Q \Theta))
+	\end{aligned}
+\end{equation}
+
+And a constant term that can be seen in appendix
+
+\begin{equation}
+	J = \Delta U(k)^T\CMcal{H}\Delta U(k)+ f\Delta U(k)+ c
+\end{equation}
+
+The optimization is given by
+
+\begin{equation}
+	\min_{\Delta U(k)} J(\Delta U(k)) =\min_{\Delta U(k)} \Delta U(k)^T\CMcal{H}\Delta U(k)+f\Delta U(k)+c
+\end{equation}
