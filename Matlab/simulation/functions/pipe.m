@@ -86,6 +86,7 @@ else
     temp.C = C;
     temp.Ie = Ie;
     temp.fitfunc = data{sys_component}.fitfunc;
+    temp.fitfunc2 = data{sys_component}.fitfunc2;
 end
 data{1,sys_component} = temp;
 output = data;

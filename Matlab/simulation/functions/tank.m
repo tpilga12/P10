@@ -24,7 +24,7 @@ else
             data.Q(m,2) = input.u(m,tank_nr)*tank_spec(tank_nr).Q_out_max;
         end
     elseif data.h(m,1) > tank_spec(tank_nr).height
-        data.h(m,1) = tank_spec(tank_nr).height;
+       % data.h(m,1) = tank_spec(tank_nr).height;
         fprintf(' Height is above limit in tank at iteration %d\n',m)
     end
 end

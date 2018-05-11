@@ -23,8 +23,8 @@ h_input(1:length(t))=0;%h_data_hat ;%Input height
 h2_input(1:length(t))=0.3;
 h3_input(1:length(t))=0.3;
  %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
-
-u=[(data{1}.h(:,end)-data{1}.h(1,end))'; (input.u(1:end,1)-input.u(1,1))' ; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
+%(input.u(1:end,1)-input.u(1,1))'
+u=[(data{1}.h(:,end)-data{1}.h(1,end))'; (input.u(1:end,1))' ; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 %u = [ u(17:end,:) ; u(end-15:end,:)];
 % u = [h_data_hat'; h_input];
 [Y_hat t1 x1]=lsim(lin_sys,u);
@@ -39,9 +39,9 @@ Y_bar =data{1,end}.h(1,end);
 Y_lsim = Y_bar + Y_hat;
 %%
 figure(10000000)
-plot(t,data{1,1}.h(:,1))
+plot(data{2}.h(1:end,1))
 hold on
-plot(t,x1(:,1)+data{1,1}.h(1,1))
+plot(x1(1:end,36)+data{2}.h(1,1))
 legend('non-linear','linear')
 title('Input height')
 xlabel('Time [s]')
