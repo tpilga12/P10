@@ -56,8 +56,8 @@ else
                         hej = 'i was here'
                     elseif new_pipe_section == 1;
                         new_pipe_section = 0;
-                        F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b')+ lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'a');
-                        A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd') + lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'c');
+                        F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');% + lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'a');
+                        A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');% + lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'c');
                     else
                         
                         F(s_c,s_c-1) = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'a');

@@ -50,33 +50,31 @@ tic
     tank_nr = 1;
     pipe_component = 0;
     sys_component = 1;
-     for x = 1:length(sys_setup)-1
-%          for d= 1:sys_setup(x).component
-             if strcmp(sys_setup(x).type,'Tank') == 1 
-                 
-                 tank_spec(tank_nr).Q_out_max = pipe_spec(sys_component).Qf; % set max tank outflow to max input of next pipe
-                 init_data{1,sys_component} = tank(x, [], tank_nr, input.Q_init(x), input.C_init(x), input,tank_spec,init);
-                 
-                 input.Q_init(x+1)= init_data{1,sys_component}.Q(1,end);                 
-                 input.C_init(x+1)= init_data{1,sys_component}.C(1,end);
-                 
-                 tank_nr = tank_nr + 1;
-                 sys_component = sys_component + 1;
-             else
-                 temp = init_pipe(pipe_spec((pipe_component+1):(sys_setup(x).component + pipe_component)), input, x, 1e-7);
-                 if x == 1
-                     init_data = temp;
-                 else
-                     init_data = [ init_data temp{:,:}];
-                 end
-                 sys_component = sys_component + sys_setup(x).component;
-                 pipe_component = pipe_component + sys_setup(x).component;
-                 
-                 input.Q_init(x+1)= init_data{1,sys_component-1}.Q(1,end);                 
-                 input.C_init(x+1)= init_data{1,sys_component-1}.C(1,end);
-             end
-%          end
-     end
+    for x = 1:length(sys_setup)-1
+        if strcmp(sys_setup(x).type,'Tank') == 1
+            
+            tank_spec(tank_nr).Q_out_max = pipe_spec(sys_component).Qf; % set max tank outflow to max input of next pipe
+            init_data{1,sys_component} = tank(1, [], tank_nr, x, input, tank_spec, init);
+            
+            input.Q_init(x+1)= init_data{1,sys_component}.Q(1,end);
+            input.C_init(x+1)= init_data{1,sys_component}.C(1,end);
+            
+            tank_nr = tank_nr + 1;
+            sys_component = sys_component + 1;
+        else
+            temp = init_pipe(pipe_spec((pipe_component+1):(sys_setup(x).component + pipe_component)), input, x, 1e-9);
+            if x == 1
+                init_data = temp;
+            else
+                init_data = [ init_data temp{:,:}];
+            end
+            sys_component = sys_component + sys_setup(x).component;
+            pipe_component = pipe_component + sys_setup(x).component;
+            
+            input.Q_init(x+1)= init_data{1,sys_component-1}.Q(1,end);
+            input.C_init(x+1)= init_data{1,sys_component-1}.C(1,end);
+        end
+    end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
    
     %%%%%%%%%%%%%%%%% Gather pipe and tank initial data

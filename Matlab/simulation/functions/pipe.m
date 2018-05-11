@@ -1,4 +1,4 @@
-function [output]=pipe(piping,input,data,pipe_component,m,sys_component,pipe_spec)
+function [output]=pipe(pipe_spec, input, data, pipe_component, m, element, sys_component,new_pipe)
                 %Pipe(bed slope(Ib),        Ruhedsfaktor(k),
                 %Delta t(Dt),               Delta x(Dx), 
                 %Diameter(d),               Pipe sections(sections),
@@ -7,23 +7,19 @@ function [output]=pipe(piping,input,data,pipe_component,m,sys_component,pipe_spe
                 %Input concentrate(C_in),   finite scheme konstant(Theta)) 
                 %length of pipe is Dx*n
 
-% persistent H Q h A C Ie
 global Dt
 newt_iter = 50;
 limitvalue = 0.000001; %newton stop iteration value
+%         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
 
-
-Ib = piping(pipe_component).Ib; 
-d = piping(pipe_component).d; %[m] Diameter
-k = piping(pipe_component).k; %sandruhed angives typisk i mm der skal bruges m i formler
-Theta = piping(pipe_component).Theta;
-Dx = piping(pipe_component).Dx; %[m] grid distance
-sections = piping(pipe_component).sections; % Number of sections,
-C_in = input.C_in(m); % concentrate input
-Q_in = input.Q_in(m);
+Ib = pipe_spec(pipe_component).Ib; 
+d = pipe_spec(pipe_component).d; %[m] Diameter
+k = pipe_spec(pipe_component).k; %sandruhed angives typisk i mm der skal bruges m i formler
+Theta = pipe_spec(pipe_component).Theta;
+Dx = pipe_spec(pipe_component).Dx; %[m] grid distance
+sections = pipe_spec(pipe_component).sections; % Number of sections,
 Q_mark = 10; % initial value that makes sure the while loop runs at least once
 epsi = input.Q_init/1000;
-g = 9.81; %[m/s^2] gravitational constant
 % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
 if m > 1
     Q = data{sys_component}.Q;
@@ -34,40 +30,36 @@ if m > 1
     fitfunc = data{sys_component}.fitfunc;
 end
         
+Ie(m,1:sections) = pipe_spec(pipe_component).Ib;
 
 for n = 1:sections
-    if m == 1 && n==1
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%
-    elseif m > 1 && n == 1
-        Ie(m,1:sections) = piping(pipe_component).Ib;
-        if sys_component == 1
-            Q(m,n) = Q_in;
-            C(m,n) = C_in;
-            %                         h(m,n) = init_height(epsi,Q_in,Q_mark,0,d);
-            h(m,n) = fitfunc(Q_in);
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%
+    if n == 1
+        
+        if new_pipe == 1
+            if  pipe_spec(pipe_component).lat_inflow == 1
+                Q(m,n) = input.Q_in(m,element)+input.lat.Q{pipe_component};
+                C(m,n) = (input.C_in(m,element) * input.Q_in(m,element) + input.lat.C{pipe_component} * input.lat.Q{pipe_component}) / (input.Q_in(m,element) + input.lat.Q{pipe_component-1});
+            else
+                Q(m,n) = input.Q_in(m,element);
+                C(m,n) = input.C_in(m,element);
+            end
         else
-            if pipe_component > 1 && piping(pipe_component-1).lat_inflow == 1
+            if pipe_spec(pipe_component).lat_inflow == 1
                 Q(m,n) = data{sys_component-1}.Q(m,end)+input.lat.Q{pipe_component-1};
-                C(m,n) = (data{sys_component-1}.C(m,end) * data{sys_component-1}.Q(m,end) + input.lat.C{pipe_component-1} * input.lat.Q{pipe_component-1}) / (data{sys_component-1}.Q(m,end) + input.lat.Q{pipe_component-1});
+                C(m,n) = (data{sys_component-1}.C(m,end) * data{sys_component-1}.Q(m,end) + input.lat.C{pipe_component} * input.lat.Q{pipe_component}) / (data{sys_component-1}.Q(m,end) + input.lat.Q{pipe_component});
             else
                 Q(m,n) = data{sys_component-1}.Q(m,end);
                 C(m,n) = data{sys_component-1}.C(m,end);
             end
-        if pipe_component > 1  % use output height of last pipe section as guess for the new ones, gives smooth simulation  
-            fetch = pipe_spec(pipe_component-1).data_location;
-            h(m,n) = data{fetch}.h(m,end);
-        else    
-             h(m,n) = fitfunc(Q(m,n));
         end
-            %             h(m,n) = init_height(epsi,Q(1,1),Q_mark,0,d);
-
-        end
-        %         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
+        h(m,n) = fitfunc(Q(m,n));
         A(m,n) = d^2/4 * acos(((d/2)-h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Iteration %%%%%%%%%%%%%%%%%%%%%%%%%%%
-    elseif m > 1 && n > 1
+    elseif n > 1
         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+ ...
             2*Theta*Q(m,n-1))*Dt/Dx - ...
             A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
