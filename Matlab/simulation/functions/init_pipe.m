@@ -36,6 +36,7 @@ while abs(avg-desired) > limit
                 Q_initialize(t)=(0.46 - 0.5 *cos(pi*(h_init(t)/d))+0.04*cos(2*pi*(h_init(t)/d)))*Qf;
             end
             data{x}.fitfunc = fit(Q_initialize',h_init','poly9');
+            data{x}.fitfunc2 = fit(h_init',Q_initialize','poly9');
             if x == length(piping)
                 stop_calc = 1;
             end
@@ -127,6 +128,7 @@ for p = 1:length(piping)
     out_data{p}.C=data{p}.C(end,:);
     out_data{p}.Ie(1,1:piping(p).sections) = piping(p).Ib;
     out_data{p}.fitfunc = data{p}.fitfunc;
+    out_data{p}.fitfunc2 = data{p}.fitfunc2;
 end
 out = [out_data];
 
