@@ -23,14 +23,12 @@ h_input(1:length(t))=0;%h_data_hat ;%Input height
 h2_input(1:length(t))=0.3;
 h3_input(1:length(t))=0.3;
  %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
-<<<<<<< HEAD
 
-u=[(utank1-utank1(1,1)); h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 
-=======
+
 %(input.u(1:end,1)-input.u(1,1))'
 u=[(data{1}.h(:,end)-data{1}.h(1,end))'; (input.u(1:end,1))' ; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
->>>>>>> 4abb58d2b058dc448cbb85002780e4dffa01b110
+
 %u = [ u(17:end,:) ; u(end-15:end,:)];
 % u = [h_data_hat'; h_input];
 [Y_hat t1 x1]=lsim(lin_sys,u);
