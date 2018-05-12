@@ -46,9 +46,9 @@ Y_bar =data{1,end}.h(1,end);
 Y_lsim = Y_bar + Y_hat;
 %%
 figure(1111)
-plot(data{3}.h(1:end,1))
+plot(data{1}.h(1:end,end))
 hold on
-plot(x1(1:end,38)+data{3}.h(1,1))
+plot(x1(2:end,35)+data{1}.h(1,end))
 legend('non-linear','linear')
 title('Input height')
 xlabel('Time [s]')
@@ -88,7 +88,7 @@ plot_piece = 1;
 plot(data{1,1}.h(:,plot_piece))
 
 hold on
-plot(x1(1:end,plot_piece)+data{1,1}.h(1,plot_piece))
+plot(x1(2:end,plot_piece)+data{1,1}.h(1,plot_piece))
 legend('Non-Linear','linear')
 %%
 figure(33)
