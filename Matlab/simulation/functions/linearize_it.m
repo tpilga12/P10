@@ -34,33 +34,35 @@ else
             section = section + 1; % needed here, fetches fitfunc for pipe after tank
 
             
-            B(s_c,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], [], 'a'); % change in tank height due to pump
-            B(s_c+1,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], data{section}.fitfunc, 'b'); % height in to next pipe
+             B(s_c+1,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], [], 'a'); % change in tank height due to pump
+            B(s_c+2,nr_inputs) = -lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], data{section}.fitfunc, 'b'); % height in to next pipe
             
-            A(s_c,s_c) = data{section-2}.h(1,end);
+            A(s_c+1,s_c) = (data{section-2}.fitfunc2(data{section-2}.h(1,end))/tank_spec(tank_counter).area)*Dt; %data{section-2}.h(1,end);
             A(s_c+1,s_c+1) = 1;
 %              A(s_c,s_c-1) = lin_tank(data{section-1}.h(end,end), tank_spec, pipe_spec(section-1).d, [], 'c');   %change in tank height from pipe in flow
-            A(s_c,s_c-1) = lin_tank(data{section-2}.h(1,end), tank_spec(tank_counter), [], data{section-2}.fitfunc2, 'c');   %change in tank height from pipe in flow
+            A(s_c,s_c) = 1;
+            A(s_c+1,s_c-1) = lin_tank(data{section-2}.h(1,end), tank_spec(tank_counter), [], data{section-2}.fitfunc2, 'c');   %change in tank height from pipe in flow
             
 %             (input, tank_spec, pipe_spec, fitfunc, fetch)
             
             InputName{nr_inputs,1} = ['Pump_tank_',num2str(tank_counter)];
             StateName{s_c,1} = ['Tank_',num2str(tank_counter)];
+            
             s_c = s_c + 2;
             nr_inputs = nr_inputs + 1;
             tank_counter = tank_counter +1;
             new_pipe_section = 1;
         else
-            for n = 1:sys_setup(run).component
+              for n = 1:sys_setup(run).component
                 k = 1;
-                for m = s_c:(s_c+pipe_spec(pipe_fetch).sections-1)
+                 for m = s_c:(s_c+pipe_spec(pipe_fetch).sections-1)
                     if  s_c == 1
                         F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
                         A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
-                        B(s_c,1)=[lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c')-lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a')];
+                        B(s_c,s_c)=[lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c')-lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a')];
                         InputName{1,1} = ['Pipe_1_1_inflow'];
                         nr_inputs = nr_inputs + 1;
-                    elseif new_pipe_section == 1;
+                    elseif new_pipe_section == 1
                         new_pipe_section = 0;
                         F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
                         A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
@@ -75,10 +77,10 @@ else
                     StateName{s_c,1} = ['h_pipe_',num2str(pipe_fetch),'_',num2str(k)];
                      k = k +1;
                     s_c = s_c+1;
-                end
+                 end
                 pipe_fetch = pipe_fetch + 1;
                 section = section + 1;
-            end
+             end
             
         end
         
@@ -113,7 +115,8 @@ else
     StateName{dimension+add_states,1} = 'h_out_old';
     
 
-%%% temp fix %%%%%    
+%%% temp fix %%%%% 
+temp = inv(F);
 
     sys = ss(AF,BF ,C,0,Dt);
     sys2 = ss(AF2,BF2,C,0,Dt);
@@ -125,15 +128,15 @@ end
 %%%%%%%%%%%%%%%%%%%%%% Linearizing functions %%%%%%%%%%%%%%
 function [out] = lin_tank(input, tank_spec, pipe_spec, fitfunc, fetch) % Tank / pump
 
-    if fetch == 'a'
-        out = -(1/tank_spec.area)*tank_spec.Q_out_max*Dt; %change in height when pump runs 
-    elseif fetch == 'b'
+    if fetch == 'a' % Q_out_tank
+        out = -(1/tank_spec.area)*tank_spec.Q_out_max*input*Dt; %change in height when pump runs 
+    elseif fetch == 'b' 
            out = differentiate(fitfunc,(tank_spec.Q_out_max*input)); % height flow into pipe after tank
-    elseif fetch == 'c'
+    elseif fetch == 'c'% Q_in_tank
 %            out = (1/tank_spec.area)*(0.46-0.5*cos(pi*(input/pipe_spec))+0.04*cos(2*pi*(input/pipe_spec)))*Dt; %change in height in tank by inflow        
 %            % (1.5708 sin((h ?)/d) - 0.251327 sin((2 h ?)/d))/d 
 %            out = -(1/tank_spec.area)*((1.5708*sin((input*pi)/pipe_spec) - 0.251327*sin((2*input*pi)/pipe_spec))/pipe_spec);
-           out = (1/tank_spec.area)*differentiate(fitfunc,(input))*Dt
+           out = (1/tank_spec.area)*differentiate(fitfunc,(input))*Dt;
            
     else
         printf('Incorrect input (tank inearization), please enter a, b or c');
