@@ -1,10 +1,11 @@
-function [hej]=plot_data(data, nr_tanks, nr_pipes, sys_setup, play_speed, Dt, pipe_spec, tank_spec, sampling)
+function [hej]=plot_data(data, nr_tanks, nr_pipes, sys_setup, play_speed, Dt, pipe_spec, tank_spec, sampling, adjust_start)
 global pipe_sep_line
 fig_nr  = 2000;
 time_font_size = 14; % font size of time and iteration
 topplot_adjust = 1.1; %set how much headroom there should be from graph to top, 1.1 = 110% 
 botplot_adjust = 0.9; %set how much headroom there should be from bot to graph, 0.9 = 10% 
 hours = 0; % initialize hours in plot
+
     [plot_limits vertical_line pipe_sep_line] = find_plot_limits(pipe_spec,data,topplot_adjust,botplot_adjust);
     
     flowylim = [plot_limits(1,1) plot_limits(1,2)];
@@ -40,7 +41,7 @@ hours = 0; % initialize hours in plot
     
     
     
-for m= 1:sampling:length(data{1}.Q(:,1))
+for m= (1+adjust_start):sampling:length(data{1}.Q(:,1))
 
     figure(fig_nr)
     clf
@@ -126,7 +127,7 @@ for m= 1:sampling:length(data{1}.Q(:,1))
     set(h3,'FontSize',time_font_size);
     pause(play_speed) 
     iter_count = iter_count + 1;
-    if m == 1
+    if m == adjust_start+1
         fprintf('Click on figure to start playback')
         k = waitforbuttonpress;
     end

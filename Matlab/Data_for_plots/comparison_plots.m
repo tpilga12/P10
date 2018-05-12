@@ -25,21 +25,31 @@ h3_input(1:length(t))=0.3;
  %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
 
 u=[(utank1-utank1(1,1)); h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
+
 %u = [ u(17:end,:) ; u(end-15:end,:)];
 % u = [h_data_hat'; h_input];
 [Y_hat t1 x1]=lsim(lin_sys,u);
 
 %
 %  Y_hat = x1(:,226);
-figure(2)
+% figure(2)
 % plot(t./60,Y_hat(:,2))
 
 h_bar = data{1,1}.h(1,1); % S?t sm? signaler
 Y_bar =data{1,end}.h(1,end);
 Y_lsim = Y_bar + Y_hat;
-
-
-
+%%
+figure(10000000)
+plot(t,data{1,1}.h(:,1))
+hold on
+plot(t,x1(:,1)+data{1,1}.h(1,1))
+legend('non-linear','linear')
+title('Input height')
+xlabel('Time [s]')
+ylabel('Tank height [m]')
+% xlim([0 900])
+grid
+%%
 figure(1000)
 plot(t,data{1,1}.Q(:,1))
 title('Input height')
@@ -49,7 +59,7 @@ ylabel('Input height [m]')
 grid
 
 figure(2000)
-plot(t/60,x1(:,225)+Y_bar)
+plot(t/60,x1(:,261)+Y_bar)
 hold on
 plot(t/60,data{1,end}.h(:,end))
 title('Comparison of Non-linear and linear open channel models')
@@ -60,10 +70,13 @@ legend('Linear','Non-linear')
 grid
 
 figure(22)
-plot_piece = 2;
-plot(data{1,2}.h(:,plot_piece-1))
+plot(data{1,3}.h(2:end,1))
 hold on
+<<<<<<< HEAD
 plot(x1(1:end,plot_piece-1)+data{1,2}.h(1,plot_piece-1))
+=======
+plot(x1(1:end,37)+data{1,3}.h(2,1))
+>>>>>>> 21ccc2df13f27a041758c233fa1077675021a771
 legend('Non-Linear','linear')
 
 figure(23)

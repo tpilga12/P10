@@ -16,7 +16,7 @@ limitvalue = 0.0000001; %newton stop iteration value
 avg = 10;
 desired = 0;
 g = 9.81; %[m/s^2] gravitational constant
-
+stop_calc = 0;
 while abs(avg-desired) > limit
     m = m + 1;
     for x = 1:length(piping)
@@ -27,19 +27,26 @@ while abs(avg-desired) > limit
         Theta = piping(x).Theta;
         Dx = piping(x).Dx; %[m] grid distance
         sections = piping(x).sections; % Number of sections,
-
+        
+        if stop_calc == 0
+            %    Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
+            Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ib^0.5;% Hennings
+            h_init=0:d/1000:d;
+            for t = 1:1001
+                Q_initialize(t)=(0.46 - 0.5 *cos(pi*(h_init(t)/d))+0.04*cos(2*pi*(h_init(t)/d)))*Qf;
+            end
+            data{x}.fitfunc = fit(Q_initialize',h_init','poly9');
+            if x == length(piping)
+                stop_calc = 1;
+            end
+            
+        end
+        
         for n = 1:sections
             %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
             if m == 1 && n==1
-                %    Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
-                Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ib^0.5;% Hennings
-                h_init=0:d/1000:d;
-                for t = 1:1001
-                    Q_initialize(t)=(0.46 - 0.5 *cos(pi*(h_init(t)/d))+0.04*cos(2*pi*(h_init(t)/d)))*Qf;
-                end
                 
-                data{x}.fitfunc = fit(Q_initialize',h_init','poly9');
-
+                
                 if x == 1
                     data{x}.Q(1,1:sections) = input.Q_init(sys_component);
                     data{x}.C(1,1:sections) = input.C_init(sys_component);
@@ -48,11 +55,15 @@ while abs(avg-desired) > limit
                     if piping(x).lat_inflow == 1
                         data{x}.Q(1,1:sections) = data{x-1}.Q(1,end)+input.lat.Q{x-1};
                         data{x}.C(1,1:sections) = (data{x-1}.C(m,end)*data{x-1}.Q(m,end)+input.lat.C{x-1}*input.lat.Q{x-1})/(data{x-1}.Q(m,end)+input.lat.Q{x-1});
+                        
+                        data{x}.h(1:sections) = data{x}.fitfunc(data{x}.Q(1,end));
                     else
                         data{x}.Q(1,1:sections) = data{x-1}.Q(1,end);
                         data{x}.C(1,1:sections) = data{x-1}.C(1,end);
+                        
+                        data{x}.h(1:sections) = data{x}.fitfunc(data{x}.Q(1,end));
                     end
-                    data{x}.h(1:sections) = data{x}.fitfunc(data{x-1}.Q(1,end));
+                    %                     data{x}.h(1:sections) = data{x}.fitfunc(data{x-1}.Q(1,end));
                 end
                 data{x}.A(1:sections) = d^2/4 * acos(((d/2)-data{x}.h(n))/(d/2))-sqrt(data{x}.h(n)*(d-data{x}.h(n)))*((d/2)-data{x}.h(n));
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,7 +81,8 @@ while abs(avg-desired) > limit
                         data{x}.Q(m,n) = data{x-1}.Q(m,end);
                         data{x}.C(m,n) = data{x-1}.C(m,end);
                     end
-                    data{x}.h(m,n) = data{x-1}.h(m,end);
+
+                    data{x}.h(m,n) = data{x}.fitfunc(data{x}.Q(m,n));
                 end
                 data{x}.A(m,n) = d^2/4 * acos(((d/2)-data{x}.h(m,n))/(d/2))-sqrt(data{x}.h(m,n)*(d-data{x}.h(m,n)))*((d/2)-data{x}.h(m,n));
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,31 +103,32 @@ while abs(avg-desired) > limit
                 
             end
         end
- end       
-        for j = 1:length(piping)
-            if piping(j).lat_inflow == 0
-                pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/piping(j).sections;
-                desired_value{j} = input.Q_init(sys_component);
-            else
-                pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/piping(j).sections + input.lat.Q{1,j};
-                desired_value{j} = input.Q_init(sys_component) + input.lat.Q{1,j};
-            end
-        end
-        if m > 2
-            avg = sum([pipe_avg_value{:}])/j;
-            desired = sum([desired_value{:}])/j;
-        end
-%        converging_target = [avg desired]
     end
-    for p = 1:length(piping)
+    for j = 1:length(piping)
+        if piping(j).lat_inflow == 0
+            pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/piping(j).sections;
+            desired_value{j} = input.Q_init(sys_component);
+        else
+            pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/piping(j).sections + input.lat.Q{1,j};
+            desired_value{j} = input.Q_init(sys_component) + input.lat.Q{1,j};
+        end
+    end
+    if m > 2
+        avg = sum([pipe_avg_value{:}])/j;
+        desired = sum([desired_value{:}])/j;
+    end
+           converging_target = [avg desired]
+end
+
+for p = 1:length(piping)
     out_data{p}.Q=data{p}.Q(end,:);
     out_data{p}.A=data{p}.A(end,:);
     out_data{p}.h=data{p}.h(end,:);
     out_data{p}.C=data{p}.C(end,:);
     out_data{p}.Ie(1,1:piping(p).sections) = piping(p).Ib;
     out_data{p}.fitfunc = data{p}.fitfunc;
-    end
-    out = [out_data];
+end
+out = [out_data];
 
 %    init_iterations = m
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
