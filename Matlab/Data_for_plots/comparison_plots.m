@@ -21,20 +21,22 @@ t = (sample:sample:length(h_data_hat)*sample)-sample;
 h_i(1:length(t))=0;%h_data_hat ;%Input height
 h2_input(1:length(t))=0.3;
 h3_input(1:length(t))=0.3;
- h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
+
+
 tank_in = (input.u(1:end,1)-input.u(1,1))';
 % tank_in = (input.u(1:end,1))';
 %u=[(data{1}.h(:,end)-data{1}.h(1,end))'; (input.u(1:end,1))' ; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 u=[h_data_hat'; tank_in ; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i]';
 
-hej = [ (data{1}.h(:,end)-data{1}.h(1,end)) data{1}.h(:,end)];  
+ %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
+
 %u = [ u(17:end,:) ; u(end-15:end,:)];
 % u = [h_data_hat'; h_input];
 x0(1:length(lin_sys.A)) = 0;
 % x0(36)=1;
 [Y_hat t1 x1]=lsim(lin_sys,u,t,x0);
 
-
+%
 %  Y_hat = x1(:,226);
 % figure(2)
 % plot(t./60,Y_hat(:,2))
@@ -55,7 +57,7 @@ ylabel('Tank height [m]')
 grid
 %%
 figure(1000)
-plot(t,data{1,1}.h(:,1))
+plot(t,data{1,1}.Q(:,1))
 title('Input height')
 xlabel('Time [s]')
 ylabel('Input height [m]')
@@ -76,12 +78,15 @@ grid
 figure(22)
 plot(data{1,3}.h(2:end,1))
 hold on
-plot(x1(1:end,37)+data{1,3}.h(2,1))
+plot(x1(1:end,plot_piece-1)+data{1,2}.h(1,plot_piece-1))
+
 legend('Non-Linear','linear')
 %%
 figure(23)
+
 plot_piece = 1;
 plot(data{1,1}.h(:,plot_piece))
+
 hold on
 plot(x1(1:end,plot_piece)+data{1,1}.h(1,plot_piece))
 legend('Non-Linear','linear')
@@ -103,4 +108,3 @@ hold on
 plot(t/60,x1(:,39:43)+data{1,end-prev_data}.h(:,1:end))
 
 legend('non-lin','lin')
-

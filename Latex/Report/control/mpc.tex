@@ -1,0 +1,182 @@
+\section{Model predictive control}\label{se:model_predictive_control}
+In this section the design of the controller is elaborated. First the control approach is described then the control problem and lastly the design of the Model predictive controller (MPC). 
+
+The simulation covered in section ??? is to be controlled with respect to the problems elaborated in section \ref{se:problem_statement} and stated here. 
+\begin{enumerate}
+\item Flow variations due to large industries and natural phenomenons
+\item Concentration variations due to large industries and natural phenomenons
+\begin{enumerate}
+	\item Chloride variations
+	\item Phosphor variations
+	\item Nitrogen variations
+	\item Organic matter variations
+\end{enumerate}
+\end{enumerate}
+
+From the problem statement it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this tanks are placed throughout the sewer network to find locations where they are able to minimize the variations into the WWTP. 
+
+
+
+Hvorfor MPC
+	Pros and cons
+
+
+
+Cost function for flow
+
+\begin{equation}
+	 J = \sum_{i=1}^{H_p-1} || z(k+1|k)-z(k+i-1|k)||_{Q(i)}^2
+\end{equation}
+
+
+Noget om de forskellge variable vi gerne vil styre
+
+
+
+\begin{equation}
+\begin{aligned}
+	  \begin{bmatrix}
+	  \hat{x}(k+1|k) \\
+	  \vdots \\
+	  \hat{x}(k+H_u|k) \\
+	  \hat{x}(k+H_u +1|k) \\
+	  \vdots \\
+	  \hat{x}(k+H_p|k) \\
+	   \end{bmatrix}
+	 &=
+	\begin{bmatrix}
+		A \\
+		\vdots \\
+		A^{H_u} \\
+		A^{H_u+1} \\
+		\vdots \\
+		A^{H_p} \\
+	\end{bmatrix}
+	x(k)+
+	\begin{bmatrix}
+		B\\
+		\vdots \\
+		\sum_{i=0}^{H_u-1}A^i B \\
+		\sum_{i=0}^{H_u}A^i B \\
+		\vdots
+		\sum_{i=0}^{H_p-1}A^i B \\
+    \end{bmatrix}
+    u(k-1) \\ &+ 
+    \begin{bmatrix}
+    	B & \hdots & 0 \\
+    	AB+B & \hdots & 0 \\
+    	\vdots & \ddots & \vdots \\
+    	\sum_{i=0}^{H_u-1}A^i B & \hdots & B \\
+    	\sum_{i=0}^{H_u}A^i B & \hdots & AB+B\\
+    	\vdots & \vdots & \vdots \\
+    	\sum_{i=0}^{H_p-1}A^i B & \hdots & \sum_{i=0}^{H_p-H_u}A^i B \\
+	\end{bmatrix}
+	\begin{bmatrix}
+		\Delta \hat{u}(k|k)\\
+		\vdots \\
+		\Delta \hat{u}(k+H_u-1|k)\\
+	\end{bmatrix}
+	\end{aligned}
+\end{equation}
+
+
+
+
+
+
+\begin{equation}
+	\CMcal{Z}(k)= 
+	\begin{bmatrix}
+	z(k+1|k)\\
+	\vdots\\
+	z(k+H_p|k)
+	\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+	\Delta U(k)= 
+	\begin{bmatrix}
+	\Delta U(k+1|k)\\
+	\vdots\\
+	\Delta U(k+H_u -1|k)
+	\end{bmatrix}
+\end{equation}
+
+
+\begin{equation}
+	C = diag(C_z) \hspace{5mm} \psi = CA  \hspace{5mm} \gamma = CB_u \hspace{5mm}  \Theta = CB_{\Delta u}
+\end{equation}
+
+\begin{equation}
+	\CMcal{Z}(k) = \psi x(k|k) + \gamma u(k-1) + \Theta \Delta U(k)
+\end{equation}
+
+
+\begin{equation}
+	 J = \sum_{i=1}^{H_p-1} || z(k+1|k)-z(k+i-1|k)||_{Q(i)}^2
+\end{equation}
+\begin{equation}
+	\begin{aligned}
+	\text{s.t.} \hspace{5mm}  x(k+i+1) &= Ax(k+i|k)+Bu(k+i|k) \\
+						      y(k+i)&= C_yx(k+i|i) \\
+						      z(k+i)&= C_zx(k+i|i)\\
+						      \text{Constrains here}
+	\end{aligned}
+\end{equation}
+
+
+Rewrite cost function to
+
+\begin{equation}
+	J = ||\CMcal{Z}(k)-\CMcal{Z}(k-1)||_{Q(i)}^2
+\end{equation}
+
+By inserting equation ??? into equation ????
+
+\begin{equation}
+	[\CMcal{Z}(k)^T - \CMcal{Z}(k-1)^T]Q[\CMcal{Z}(k) - \CMcal{Z}(k-1)]
+\end{equation}
+
+
+
+\begin{equation}
+	\CMcal{Z}(k)^TQ\CMcal{Z}(k)+ \CMcal{Z}(k-1)^TQ\CMcal{Z}(k-1)-\CMcal{Z}(k)^TQ\CMcal{Z}(k-1)-\CMcal{Z}(k-1)^TQ\CMcal{Z}(k)
+\end{equation}
+
+
+By inserting equation ??? into equation ???? only the first term in equation is shown here, the rest can be seen in appendix ????
+
+\begin{equation}
+	\begin{aligned}
+	&\CMcal{Z}(k)^TQ\CMcal{Z}(k) = \\
+	& x(k|k)^T\psi ^T Q \psi x(k|k) + x(k|k)^T \psi ^T Q \gamma u(k-1) + x(k|k)^T \psi ^T Q \Theta \Delta U(k) \\
+	& u(k-1)^T \gamma ^T Q \psi x(k|k) +  u(k-1)^T \gamma ^T Q \gamma u(k-1) + u(k-1)^T \gamma ^T Q\Theta \Delta U(k)\\ 
+	& \Delta U(k)^T \Theta ^T Q  \psi x(k|k)+\Delta U(k)^T \Theta ^T Q \gamma u(k-1) +\Delta U(k)^T \Theta ^T Q \Theta \Delta U(k)
+	\end{aligned}
+\end{equation}
+
+
+
+\begin{equation}
+	\CMcal{H} = \Theta^T Q\Theta 
+\end{equation}
+
+\begin{equation}
+	\begin{aligned}
+	f &= x(k|k)^T\psi ^T Q\Theta+u(k-1)^T\gamma ^T Q \Theta +x(k|k)^T\psi^T Q \Theta+u(k-1)^T \gamma ^T Q \Theta \\
+	& -(x(k-1|k)^T \psi^T Q \Theta+u(k-2)^T \gamma^T Q \Theta +\Delta U(k-1)^T\Theta Q \Theta)) \\
+	& -(x(k-1|k)^T \psi^T Q \Theta + u(k-2)^T \gamma^T Q \Theta +\Delta U(k-1)^T\Theta Q \Theta))
+	\end{aligned}
+\end{equation}
+
+And a constant term that can be seen in appendix
+
+\begin{equation}
+	J = \Delta U(k)^T\CMcal{H}\Delta U(k)+ f\Delta U(k)+ c
+\end{equation}
+
+The optimization is given by
+
+\begin{equation}
+	\min_{\Delta U(k)} J(\Delta U(k)) =\min_{\Delta U(k)} \Delta U(k)^T\CMcal{H}\Delta U(k)+f\Delta U(k)+c
+\end{equation}
