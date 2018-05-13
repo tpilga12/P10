@@ -40,11 +40,11 @@ utank1(2) = input.u_init(1,2);
 for m = 2:iterations
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.35;% + sin(m/10)/35 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.35 + sin(m/10)/35 ;%+ sin(m/100)/15;
 
     utank1(m,1) = 0.35 + sin(m/10)/65;
     utank2(m,2) = 0.25;
-    input.u(m,:) = [utank1(m-1) utank2(m-1)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
+    input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
     
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   

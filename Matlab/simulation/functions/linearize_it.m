@@ -32,23 +32,22 @@ else
 %                 nr_inputs = nr_inputs + 1;
 %             end
             section = section + 1; % needed here, fetches fitfunc for pipe after tank
-
+           
+            B(s_c,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], [], 'a'); % change in tank height due to pump
+            B(s_c+1,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], data{section}.fitfunc, 'b'); % height in to next pipe
             
-             B(s_c+1,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], [], 'a'); % change in tank height due to pump
-            B(s_c+2,nr_inputs) = -lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], data{section}.fitfunc, 'b'); % height in to next pipe
-            
-            A(s_c+1,s_c) = (data{section-2}.fitfunc2(data{section-2}.h(1,end))/tank_spec(tank_counter).area)*Dt; %data{section-2}.h(1,end);
-            A(s_c+1,s_c+1) = 1;
+%             A(s_c,s_c) = (data{section-2}.fitfunc2(data{section-2}.h(1,end))/tank_spec(tank_counter).area)*Dt; %data{section-2}.h(1,end);
+%             A(s_c+1,s_c+1) = 1;
 %              A(s_c,s_c-1) = lin_tank(data{section-1}.h(end,end), tank_spec, pipe_spec(section-1).d, [], 'c');   %change in tank height from pipe in flow
             A(s_c,s_c) = 1;
-            A(s_c+1,s_c-1) = lin_tank(data{section-2}.h(1,end), tank_spec(tank_counter), [], data{section-2}.fitfunc2, 'c');   %change in tank height from pipe inflow
+            A(s_c,s_c-1) = lin_tank(data{section-2}.h(1,end), tank_spec(tank_counter), [], data{section-2}.fitfunc2, 'c');   %change in tank height from pipe inflow
             
 %             (input, tank_spec, pipe_spec, fitfunc, fetch)
             
             InputName{nr_inputs,1} = ['Pump_tank_',num2str(tank_counter)];
             StateName{s_c,1} = ['Tank_',num2str(tank_counter)];
             
-            s_c = s_c + 2;
+            s_c = s_c + 1;
             nr_inputs = nr_inputs + 1;
             tank_counter = tank_counter +1;
             new_pipe_section = 1;
@@ -106,6 +105,8 @@ else
     last_pipe_out = find(strcmp(StateName , ['h_pipe_',num2str(length(pipe_spec)),'_',num2str(pipe_spec(end).sections)]));
     C(1,last_pipe_out) = 1;
     C(2,dimension+add_states-1) = 1;
+    OutputName{1} = 'Output_height';
+    OutputName{2} = 'Output_height_dot';
     AF(dimension+add_states-1,dimension+add_states) = -1;
     AF(dimension+add_states-1,last_pipe_out) = 1;
    
@@ -116,13 +117,13 @@ else
     
 
 %%% temp fix %%%%% 
-temp = inv(F);
-
-    sys = ss(AF,BF ,C,0,Dt);
-    sys2 = ss(AF2,BF2,C,0,Dt);
-    
-%     sys = ss(AF,BF ,C,0,Dt,'StateName', StateName,'InputName',InputName);
-%     sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName,'InputName',InputName);
+% temp = inv(F);
+% 
+%     sys = ss(AF,BF ,C,0,Dt);
+%     sys2 = ss(AF2,BF2,C,0,Dt);
+%     
+    sys = ss(AF,BF ,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
+    sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
     
 end
 %%%%%%%%%%%%%%%%%%%%%% Linearizing functions %%%%%%%%%%%%%%
