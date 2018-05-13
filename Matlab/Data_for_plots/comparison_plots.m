@@ -34,7 +34,7 @@ u=[h_data_hat'; tank_in ; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i]';
 % u = [h_data_hat'; h_input];
 x0(1:length(lin_sys.A)) = 0;
 % x0(36)=1;
-[Y_hat t1 x1]=lsim(lin_sys,u,t,x0);
+[Y_hat t1 x1]=lsim(lin_sys,u);
 
 %
 %  Y_hat = x1(:,226);
@@ -46,9 +46,9 @@ Y_bar =data{1,end}.h(1,end);
 Y_lsim = Y_bar + Y_hat;
 %%
 figure(1111)
-plot(data{1}.h(1:end,end))
+plot(data{3}.h(1:end,1))
 hold on
-plot(x1(2:end,35)+data{1}.h(1,end))
+plot(x1(2:end,38)+data{3}.h(1,1))
 legend('non-linear','linear')
 title('Input height')
 xlabel('Time [s]')
@@ -74,14 +74,14 @@ ylabel('Output height [m]')
 % xlim([0 900])
 legend('Linear','Non-linear')
 grid
-
-figure(22)
-plot(data{1,3}.h(2:end,1))
-hold on
-plot(x1(1:end,plot_piece-1)+data{1,2}.h(1,plot_piece-1))
-
-legend('Non-Linear','linear')
 %%
+% figure(22)
+% plot(data{1,3}.h(2:end,1))
+% hold on
+% plot(x1(1:end,plot_piece-1)+data{1,2}.h(1,plot_piece-1))
+% 
+% legend('Non-Linear','linear')
+
 figure(23)
 
 plot_piece = 1;

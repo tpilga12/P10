@@ -41,7 +41,7 @@ else
             A(s_c+1,s_c+1) = 1;
 %              A(s_c,s_c-1) = lin_tank(data{section-1}.h(end,end), tank_spec, pipe_spec(section-1).d, [], 'c');   %change in tank height from pipe in flow
             A(s_c,s_c) = 1;
-            A(s_c+1,s_c-1) = lin_tank(data{section-2}.h(1,end), tank_spec(tank_counter), [], data{section-2}.fitfunc2, 'c');   %change in tank height from pipe in flow
+            A(s_c+1,s_c-1) = lin_tank(data{section-2}.h(1,end), tank_spec(tank_counter), [], data{section-2}.fitfunc2, 'c');   %change in tank height from pipe inflow
             
 %             (input, tank_spec, pipe_spec, fitfunc, fetch)
             
@@ -128,9 +128,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%% Linearizing functions %%%%%%%%%%%%%%
 function [out] = lin_tank(input, tank_spec, pipe_spec, fitfunc, fetch) % Tank / pump
 
-    if fetch == 'a' % Q_out_tank
-        out = -(1/tank_spec.area)*tank_spec.Q_out_max*input*Dt; %change in height when pump runs 
-    elseif fetch == 'b' 
+    if fetch == 'a' 
+        out = (1/tank_spec.area)*tank_spec.Q_out_max*input*Dt; %change in height when pump runs 
+    elseif fetch == 'b' % Q_out_tank 
            out = differentiate(fitfunc,(tank_spec.Q_out_max*input)); % height flow into pipe after tank
     elseif fetch == 'c'% Q_in_tank
 %            out = (1/tank_spec.area)*(0.46-0.5*cos(pi*(input/pipe_spec))+0.04*cos(2*pi*(input/pipe_spec)))*Dt; %change in height in tank by inflow        

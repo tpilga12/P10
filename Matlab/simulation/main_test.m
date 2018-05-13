@@ -23,14 +23,14 @@ error = 0;
 
 % init_data = init_pipe(pipe_spec,input,1e-7);
 
-[init_data tank_spec, input] = initialize(input, sys_setup, pipe_spec, tank_spec);
+[data tank_spec, input] = initialize(input, sys_setup, pipe_spec, tank_spec);
 tic
-lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, init_data);
+lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
 %% run stuff !!!!!
 clc
 iterations = 500;
-data = init_data;
+% data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
 input.u = input.u_init;
@@ -40,7 +40,7 @@ utank1(2) = input.u_init(1,2);
 for m = 2:iterations
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.35 + sin(m/10)/35 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.35;% + sin(m/10)/35 ;%+ sin(m/100)/15;
 
     utank1(m,1) = 0.35 + sin(m/10)/65;
     utank2(m,2) = 0.25;
