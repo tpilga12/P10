@@ -45,20 +45,12 @@ h_bar = data{1,1}.h(1,1); % S?t sm? signaler
 Y_bar =data{1,end}.h(1,end);
 Y_lsim = Y_bar + Y_hat;
 %%
- plot_lin = [ 51 52 60 74 89 94 96 126 133 173 188 193 205 206 212 216 231 261];
- for n = 1:length(plot_lin)
-     figure(n)
-     plot(data{n+2}.h(:,end))
-     hold on
-     plot(x1(:,plot_lin(n))+data{n+2}.h(1,end))
-     legend('non-linear','linear')
- end
-     
+ plot_lin = [ 51 52 60 74 89 94 96 126 133 173 188 193 205 206 212 216 231 261
 %%
 figure(1111)
-plot(data{2}.h(1:end,end))
+plot(data{20}.h(1:end,end))
 hold on
-plot(x1(2:end,36)+data{2}.h(1,end))
+plot(x1(2:end,261)+data{20}.h(1,end))
 legend('non-linear','linear')
 title('Input height')
 xlabel('Time [s]')
