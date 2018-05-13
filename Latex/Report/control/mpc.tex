@@ -13,7 +13,15 @@ The simulation covered in section ??? is to be controlled with respect to the pr
 \end{enumerate}
 \end{enumerate}
 
-From the problem statement it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this tanks are placed throughout the sewer network to find locations where they are able to minimize the variations into the WWTP. 
+From the problem statement it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this a few tanks are placed in the sewer network to find locations where they are able to hold back disturbance that will otherwise cause flow and concentration variations into the WWTP. However the output of these tanks must be controlled in a way where overflow in the tank is prohibited. Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and stilled controlled according to some constraints.
+
+To obtain such an optimal behavior MPC is considered. MPC utilize knowledge about, the dynamics of the model, the cost of variation in to the plant and disturbances to predicted the behavior of the system according to the constraints that is setup. By having this knowledge the MPC will calculate the must optimal control output at the given timeslot and hereafter optimize for the next timeslot.        
+
+The cost function J must penalize variations of the flow output $Q(k+i|k)$ and the concentration output $C(k+i|k)$. Where k defines the time step and i is a value going from $1\leq H_p$, where $H_p$ is the prediction horizon. 
+
+\begin{equation}
+	 J = \sum_{i=1}^{H_p-1} || Q(k+i|k)C(k+i|k)-Q(k+i-1|k)C(k+i-1|k)||_{Q(i)}^2
+\end{equation}
 
 
 
@@ -25,7 +33,7 @@ Hvorfor MPC
 Cost function for flow
 
 \begin{equation}
-	 J = \sum_{i=1}^{H_p-1} || z(k+1|k)-z(k+i-1|k)||_{Q(i)}^2
+	 J = \sum_{i=1}^{H_p-1} || y(k+i|k)-y(k+i-1|k)||_{Q(i)}^2
 \end{equation}
 
 
@@ -35,47 +43,45 @@ Noget om de forskellge variable vi gerne vil styre
 
 \begin{equation}
 \begin{aligned}
-	  \begin{bmatrix}
+	  \underbrace{\begin{bmatrix}
 	  \hat{x}(k+1|k) \\
 	  \vdots \\
 	  \hat{x}(k+H_u|k) \\
 	  \hat{x}(k+H_u +1|k) \\
 	  \vdots \\
 	  \hat{x}(k+H_p|k) \\
-	   \end{bmatrix}
+	   \end{bmatrix}}_{\CMcal{X}}
 	 &=
-	\begin{bmatrix}
+	\underbrace{\begin{bmatrix}
 		A \\
 		\vdots \\
 		A^{H_u} \\
 		A^{H_u+1} \\
 		\vdots \\
 		A^{H_p} \\
-	\end{bmatrix}
+	\end{bmatrix}}_{\CMcal{A}}
 	x(k)+
-	\begin{bmatrix}
-		B\\
-		\vdots \\
-		\sum_{i=0}^{H_u-1}A^i B \\
-		\sum_{i=0}^{H_u}A^i B \\
-		\vdots
-		\sum_{i=0}^{H_p-1}A^i B \\
-    \end{bmatrix}
-    u(k-1) \\ &+ 
-    \begin{bmatrix}
-    	B & \hdots & 0 \\
-    	AB+B & \hdots & 0 \\
-    	\vdots & \ddots & \vdots \\
-    	\sum_{i=0}^{H_u-1}A^i B & \hdots & B \\
-    	\sum_{i=0}^{H_u}A^i B & \hdots & AB+B\\
-    	\vdots & \vdots & \vdots \\
-    	\sum_{i=0}^{H_p-1}A^i B & \hdots & \sum_{i=0}^{H_p-H_u}A^i B \\
-	\end{bmatrix}
-	\begin{bmatrix}
-		\Delta \hat{u}(k|k)\\
-		\vdots \\
-		\Delta \hat{u}(k+H_u-1|k)\\
-	\end{bmatrix}
+	\underbrace{\begin{bmatrix}
+		B 		 &0			&\hdots	& 0		\\
+		AB  	 &B  		& \hdots& 0		\\
+		\vdots 	 &\vdots	& \ddots&\vdots	\\
+		A^{H_p-1}B&A^{H_p-2}B&\hdots &B 
+    \end{bmatrix}}_{\CMcal{B}}
+    u(k) \\ &+ 
+    \underbrace{\begin{bmatrix}
+    	B 		 &0			&\hdots	& 0		\\
+		AB  	 &B  		& \hdots& 0		\\
+		\vdots 	 &\vdots	& \ddots&\vdots	\\
+		A^{H_p-1}B&A^{H_p-2}B&\hdots &B 
+ %   	B & \hdots & 0 \\
+ %    	AB+B & \hdots & 0 \\
+ %    	\vdots & \ddots & \vdots \\
+ %    	\sum_{i=0}^{H_u-1}A^i B & \hdots & B \\
+ %    	\sum_{i=0}^{H_u}A^i B & \hdots & AB+B\\
+ %    	\vdots & \vdots & \vdots \\
+ %    	\sum_{i=0}^{H_p-1}A^i B & \hdots & \sum_{i=0}^{H_p-H_u}A^i B \\
+	  \end{bmatrix}}_{\CMcal{B}_d}
+	\hat{u}_d(k)
 	\end{aligned}
 \end{equation}
 
@@ -85,30 +91,30 @@ Noget om de forskellge variable vi gerne vil styre
 
 
 \begin{equation}
-	\CMcal{Z}(k)= 
+	\CMcal{Y}(k)= 
 	\begin{bmatrix}
-	z(k+1|k)\\
+	y(k+1|k)\\
 	\vdots\\
-	z(k+H_p|k)
+	y(k+H_p|k)
 	\end{bmatrix}
 \end{equation}
 
+% \begin{equation}
+% 	\Delta U(k)= 
+% 	\begin{bmatrix}
+% 	\Delta U(k+1|k)\\
+% 	\vdots\\
+% 	\Delta U(k+H_u -1|k)
+% 	\end{bmatrix}
+% \end{equation}
+
+
 \begin{equation}
-	\Delta U(k)= 
-	\begin{bmatrix}
-	\Delta U(k+1|k)\\
-	\vdots\\
-	\Delta U(k+H_u -1|k)
-	\end{bmatrix}
+	\CMcal{C} = diag(C) \hspace{5mm} \psi = \CMcal{C}\CMcal{A}  \hspace{5mm} \gamma = \CMcal{C}\CMcal{B}_u \hspace{5mm}  \Theta = \CMcal{C}\CMcal{B}_{\Delta u}
 \end{equation}
 
-
 \begin{equation}
-	C = diag(C_z) \hspace{5mm} \psi = CA  \hspace{5mm} \gamma = CB_u \hspace{5mm}  \Theta = CB_{\Delta u}
-\end{equation}
-
-\begin{equation}
-	\CMcal{Z}(k) = \psi x(k|k) + \gamma u(k-1) + \Theta \Delta U(k)
+	\CMcal{Y}(k) = \psi x(k|k) + \gamma u(k-1) + \Theta \Delta U(k)
 \end{equation}
 
 
@@ -119,7 +125,6 @@ Noget om de forskellge variable vi gerne vil styre
 	\begin{aligned}
 	\text{s.t.} \hspace{5mm}  x(k+i+1) &= Ax(k+i|k)+Bu(k+i|k) \\
 						      y(k+i)&= C_yx(k+i|i) \\
-						      z(k+i)&= C_zx(k+i|i)\\
 						      \text{Constrains here}
 	\end{aligned}
 \end{equation}
@@ -128,19 +133,19 @@ Noget om de forskellge variable vi gerne vil styre
 Rewrite cost function to
 
 \begin{equation}
-	J = ||\CMcal{Z}(k)-\CMcal{Z}(k-1)||_{Q(i)}^2
+	J = ||\CMcal{Y}(k)-\CMcal{Y}(k-1)||_{Q(i)}^2
 \end{equation}
 
 By inserting equation ??? into equation ????
 
 \begin{equation}
-	[\CMcal{Z}(k)^T - \CMcal{Z}(k-1)^T]Q[\CMcal{Z}(k) - \CMcal{Z}(k-1)]
+	[\CMcal{Y}(k)^T - \CMcal{Y}(k-1)^T]Q[\CMcal{Y}(k) - \CMcal{Y}(k-1)]
 \end{equation}
 
 
 
 \begin{equation}
-	\CMcal{Z}(k)^TQ\CMcal{Z}(k)+ \CMcal{Z}(k-1)^TQ\CMcal{Z}(k-1)-\CMcal{Z}(k)^TQ\CMcal{Z}(k-1)-\CMcal{Z}(k-1)^TQ\CMcal{Z}(k)
+	\CMcal{Y}(k)^TQ\CMcal{Y}(k)+ \CMcal{Y}(k-1)^TQ\CMcal{Y}(k-1)-\CMcal{Y}(k)^TQ\CMcal{Y}(k-1)-\CMcal{Y}(k-1)^TQ\CMcal{Y}(k)
 \end{equation}
 
 
@@ -148,35 +153,35 @@ By inserting equation ??? into equation ???? only the first term in equation is 
 
 \begin{equation}
 	\begin{aligned}
-	&\CMcal{Z}(k)^TQ\CMcal{Z}(k) = \\
-	& x(k|k)^T\psi ^T Q \psi x(k|k) + x(k|k)^T \psi ^T Q \gamma u(k-1) + x(k|k)^T \psi ^T Q \Theta \Delta U(k) \\
-	& u(k-1)^T \gamma ^T Q \psi x(k|k) +  u(k-1)^T \gamma ^T Q \gamma u(k-1) + u(k-1)^T \gamma ^T Q\Theta \Delta U(k)\\ 
-	& \Delta U(k)^T \Theta ^T Q  \psi x(k|k)+\Delta U(k)^T \Theta ^T Q \gamma u(k-1) +\Delta U(k)^T \Theta ^T Q \Theta \Delta U(k)
+	&\CMcal{Y}(k)^TQ\CMcal{Y}(k) = \\
+	& x(k|k)^T\psi ^T Q \psi x(k|k) + x(k|k)^T \psi ^T Q \gamma u(k) + x(k|k)^T \psi ^T Q \Theta u_d(k) \\
+	& u(k)^T \gamma ^T Q \psi x(k|k) +  u(k)^T \gamma ^T Q \gamma u(k) + u(k)^T \gamma ^T Q\Theta  u_d(k)\\ 
+	&  u_d(k)^T \Theta ^T Q  \psi x(k|k)+u_d(k)^T \Theta ^T Q \gamma u(k) +u_d(k)^T \Theta ^T Q u_d(k)
 	\end{aligned}
 \end{equation}
 
 
 
 \begin{equation}
-	\CMcal{H} = \Theta^T Q\Theta 
+	\CMcal{H} = \gamma^T Q\gamma 
 \end{equation}
 
 \begin{equation}
 	\begin{aligned}
-	f &= x(k|k)^T\psi ^T Q\Theta+u(k-1)^T\gamma ^T Q \Theta +x(k|k)^T\psi^T Q \Theta+u(k-1)^T \gamma ^T Q \Theta \\
-	& -(x(k-1|k)^T \psi^T Q \Theta+u(k-2)^T \gamma^T Q \Theta +\Delta U(k-1)^T\Theta Q \Theta)) \\
-	& -(x(k-1|k)^T \psi^T Q \Theta + u(k-2)^T \gamma^T Q \Theta +\Delta U(k-1)^T\Theta Q \Theta))
+	f &= 2\cdot(x(k|k)^T\psi^T Q \gamma u(k))+2\cdot(u_d(k)^T\Theta^TQ\gamma u(k)) \\
+	  &-(2\cdot(x(k-1k)^T\psi^T Q \gamma u(k)))-(2\cdot(u(k-1)^T\gamma^TQ\gamma u(k))) \\
+	  &-(2\cdot(u_d(k)^T\Theta^TQ\gamma u(k)))
 	\end{aligned}
 \end{equation}
 
 And a constant term that can be seen in appendix
 
 \begin{equation}
-	J = \Delta U(k)^T\CMcal{H}\Delta U(k)+ f\Delta U(k)+ c
+	J =  u(k)^T\CMcal{H} u(k)+ f u(k)+ c
 \end{equation}
 
 The optimization is given by
 
 \begin{equation}
-	\min_{\Delta U(k)} J(\Delta U(k)) =\min_{\Delta U(k)} \Delta U(k)^T\CMcal{H}\Delta U(k)+f\Delta U(k)+c
+	\min_{u(k)} J(u(k)) =\min_{u(k)} u(k)^T\CMcal{H}u(k)+fu(k)+c
 \end{equation}

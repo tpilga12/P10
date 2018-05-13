@@ -20,10 +20,10 @@
     for n = 1:Hp %%% Lifted B matrix
         for n_2 = 1:Hpp
             if n_2 == 1
-                Bulifted(n_2-length(lin_sys.B)+n*length(lin_sys.B):length(lin_sys.B)*n_2-length(lin_sys.B)+n*length(lin_sys.B),1-size(lin_sys.B,2)+size(lin_sys.B,2)*n:size(lin_sys.B,2)*n) = lin_sys.B;
+                Bulifted(n_2:length(lin_sys.B)*n_2,n:size(lin_sys.B,2)*n) = lin_sys.B;
             else
-                Bulifted(1+length(lin_sys.B)*n_2-length(lin_sys.B)-length(lin_sys.B)+n*length(lin_sys.B):length(lin_sys.B)*n_2-length(lin_sys.B)+n*length(lin_sys.B),1+size(lin_sys.B,2)*n-size(lin_sys.B,2):size(lin_sys.B,2)*n)  = lin_sys.A^(n_2-1)*lin_sys.B;
-%               Bulifted(1+length(lin_sys.B)*n-length(lin_sys.B):length(lin_sys.B)*n,1+size(lin_sys.B,2)*n-size(lin_sys.B,2):size(lin_sys.B,2)*n)  = lin_sys.A^(n_2-1)*lin_sys.B;
+                Bulifted(1+length(lin_sys.B)*n_2-length(lin_sys.B):length(lin_sys.B)*n_2,1+size(lin_sys.B,2)*n-size(lin_sys.B,2):size(lin_sys.B,2)*n)  = lin_sys.A^(n_2-1)*lin_sys.B;
+%                 Bulifted(1+length(lin_sys.B)*n-length(lin_sys.B):length(lin_sys.B)*n,1+size(lin_sys.B,2)*n-size(lin_sys.B,2):size(lin_sys.B,2)*n)  = lin_sys.A^(n_2-1)*lin_sys.B;
             end
         end
     end
@@ -54,8 +54,8 @@
     theta = Clifted*B_Deltalifted;
 % end
 %%
-t = 1:1:100;%(sample:sample:length(h_data_hat)*sample)-sample;
- h_input(1:length(t))=0.3;%h_data_hat ;%Input height
+% t = 1:1:999;%(sample:sample:length(h_data_hat)*sample)-sample;
+% h_input(1:length(t))=0.3;%h_data_hat ;%Input height
 % h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
 % X0(1:10) =0;
 Sys = ss(lin_sys.A,lin_sys.B,lin_sys.C,0,20);
