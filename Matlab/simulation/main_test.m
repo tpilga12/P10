@@ -12,7 +12,7 @@ Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.035; % initial input flow
+input.Q_init = 0.15; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
 input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
@@ -29,7 +29,7 @@ lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
 %% run stuff !!!!!
 clc
-iterations = 500;
+iterations = 100;
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
@@ -40,10 +40,10 @@ utank1(2) = input.u_init(1,2);
 for m = 2:iterations
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.35 + sin(m/10)/35 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.15;% + sin(m/10)/35 ;%+ sin(m/100)/15;
     
-    utank1(m,1) = 0.35 + sin(m/10)/65;
-    utank2(m,2) = 0.25;
+    utank1(m,1) = input.u_init(1,1) + sin(m/10)/65;
+    utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 
     

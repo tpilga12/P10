@@ -1,10 +1,11 @@
-function [data] = tank(m, data, tank_nr, x, input, tank_spec, init)
+function [data input] = tank(m, data, tank_nr, x, input, tank_spec, init)
 %TANK Summary of this function goes here
 %   Detailed explanation goes here
 global Dt
  
 if init == 1
     data.Q(init,1) = input.Q_init(x); % input flow
+    input.u_init(init,tank_nr) = data.Q(init,1)/tank_spec(tank_nr).Q_out_max;
     data.Q(init,2) = input.u_init(tank_nr)*tank_spec(tank_nr).Q_out_max; % output flow
     data.h(init,1) = input.tank_height_init(tank_nr);
     data.C(init,1) = input.C_init(x); % concentrate in tank
