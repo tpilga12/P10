@@ -15,48 +15,48 @@ The simulation covered in section ??? is to be controlled with respect to the pr
 
 From the problem statement it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this a few tanks are placed in the sewer network to find locations where they are able to hold back disturbance that will otherwise cause flow and concentration variations into the WWTP. However the output of these tanks must be controlled in a way where overflow in the tank is prohibited. Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and stilled controlled according to some constraints.
 
-To obtain such an optimal behavior MPC is considered. MPC utilize knowledge about, the dynamics of the model, the cost of variation in to the plant and disturbances to predicted the behavior of the system according to the constraints that is setup. By having this knowledge the MPC will calculate the must optimal control output at the given timeslot and hereafter optimize for the next timeslot.        
+To obtain such an optimal behavior MPC is considered. MPC is an advanced control method which depends on a dynamic model of the system. MPC uses the model to generate predictions on future system behavior. MPC can be used with constraints to calculate the most optimal control output at the given timeslot and taking disturbance into the account. 
+\fxnote{billede af mpc control}
 
-The cost function J must penalize variations of the flow output $Q(k+i|k)$ and the concentration output $C(k+i|k)$. Where k defines the time step and i is a value going from $1\leq H_p$, where $H_p$ is the prediction horizon. 
+\begin{enumerate}
+       	\item Measurement is taken on the output if possible or it is taken direclty from the states. If a state measurement is not available the state is estimated.
+       	\item Calculates a optimal set of predicted values over the prediction horizon according to a cost function and the constraints.
+       	\item The first element of the calculated control sequence is used as the control input.
+       	\item Repeat from 1.
+\end{enumerate}       
 
-\begin{equation}
-	 J = \sum_{i=1}^{H_p-1} || Q(k+i|k)C(k+i|k)-Q(k+i-1|k)C(k+i-1|k)||_{Q(i)}^2
-\end{equation}
-
-
-
-Hvorfor MPC
-	Pros and cons
-
-
-
-Cost function for flow
+The cost function J must penalize variations of the flow output $Q(k+i|k)$ and the concentration output $C(k+i|k)$. Where k defines the time step and i is a value going from $1\leq H_p$, where $H_p$ is the prediction horizon. The cost function for flow and concentration is:
 
 \begin{equation}
-	 J = \sum_{i=1}^{H_p-1} || y(k+i|k)-y(k+i-1|k)||_{Q(i)}^2
+	 J = \sum_{i=1}^{H_p-1} || Q(k+i|k)C(k+i|k)-Q(k+i-1|k)C(k+i-1|k)||_{\CMcal{Q}(i)}^2
 \end{equation}
+Where J is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. It has been desired to only look at flow variation in the simulation and thereby excluding concentration from the cost function. This has been done to limit the control problem and ease the computation to begin with. Thereby the cost function has been rewritten to: 
+
+\begin{equation}
+	 J = \sum_{i=1}^{H_p-1} || y(k+1|k)-y(k+i-1|k)||_{\CMcal{Q}(i)}^2
+\end{equation}
+\begin{equation}
+	\begin{aligned}
+	\text{s.t.} \hspace{5mm}  x(k+i+1) &= Ax(k+i|k)+Bu(k+i|k)+Bu_d(k+i|k) \\
+						      y(k+i)&= Cx(k+i|k) \\
+						      \text{Constrains here}
+	\end{aligned}
+\end{equation}
+Where Q has been replaced with the output y as it can be measure directly from the state space system. y correspond to the height in the channel, however it is the same to minimize height difference as the flow because both describes the variation in the output of the sewer. 
 
 
-Noget om de forskellge variable vi gerne vil styre
-
-
+By using the state equation recursively the variables are collected in extended prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{U}_d$:
 
 \begin{equation}
 \begin{aligned}
 	  \underbrace{\begin{bmatrix}
-	  \hat{x}(k+1|k) \\
+	  x(k+1|k) \\
 	  \vdots \\
-	  \hat{x}(k+H_u|k) \\
-	  \hat{x}(k+H_u +1|k) \\
-	  \vdots \\
-	  \hat{x}(k+H_p|k) \\
+	  x(k+H_p|k) \\
 	   \end{bmatrix}}_{\CMcal{X}}
 	 &=
 	\underbrace{\begin{bmatrix}
 		A \\
-		\vdots \\
-		A^{H_u} \\
-		A^{H_u+1} \\
 		\vdots \\
 		A^{H_p} \\
 	\end{bmatrix}}_{\CMcal{A}}
@@ -67,7 +67,12 @@ Noget om de forskellge variable vi gerne vil styre
 		\vdots 	 &\vdots	& \ddots&\vdots	\\
 		A^{H_p-1}B&A^{H_p-2}B&\hdots &B 
     \end{bmatrix}}_{\CMcal{B}}
-    u(k) \\ &+ 
+    	  \underbrace{\begin{bmatrix}
+	  u(k+1|k) \\
+	  u(k+2|k) \\
+	  \vdots \\
+	  u(k+H_p-1|k) \\
+	   \end{bmatrix}}_{\CMcal{U}} \\ &+ 
     \underbrace{\begin{bmatrix}
     	B 		 &0			&\hdots	& 0		\\
 		AB  	 &B  		& \hdots& 0		\\
@@ -81,21 +86,22 @@ Noget om de forskellge variable vi gerne vil styre
  %    	\vdots & \vdots & \vdots \\
  %    	\sum_{i=0}^{H_p-1}A^i B & \hdots & \sum_{i=0}^{H_p-H_u}A^i B \\
 	  \end{bmatrix}}_{\CMcal{B}_d}
-	\hat{u}_d(k)
+	    	  \underbrace{\begin{bmatrix}
+	  u_d(k+1|k) \\
+	  u_d(k+2|k) \\
+	  \vdots \\
+	  u_d(k+H_p-1|k) \\
+	   \end{bmatrix}}_{\CMcal{U}_d} \\
 	\end{aligned}
 \end{equation}
 
-
-
-
-
-
+The same can be written for the output $y(k+1|k)$:
 \begin{equation}
 	\CMcal{Y}(k)= 
 	\begin{bmatrix}
 	y(k+1|k)\\
 	\vdots\\
-	y(k+H_p|k)
+	y(k+H_p-1|k)
 	\end{bmatrix}
 \end{equation}
 
@@ -110,24 +116,15 @@ Noget om de forskellge variable vi gerne vil styre
 
 
 \begin{equation}
-	\CMcal{C} = diag(C) \hspace{5mm} \psi = \CMcal{C}\CMcal{A}  \hspace{5mm} \gamma = \CMcal{C}\CMcal{B}_u \hspace{5mm}  \Theta = \CMcal{C}\CMcal{B}_{\Delta u}
+	\CMcal{C} = diag(C) \hspace{5mm} \psi = \CMcal{C}\CMcal{A}  \hspace{5mm} \gamma = \CMcal{C}\CMcal{B}_u \hspace{5mm}  \Theta = \CMcal{C}\CMcal{B}_{d}
 \end{equation}
 
 \begin{equation}
-	\CMcal{Y}(k) = \psi x(k|k) + \gamma u(k-1) + \Theta \Delta U(k)
+	\CMcal{Y}(k) = \psi x(k|k) + \gamma u(k) + \Theta  u_d(k)
 \end{equation}
 
 
-\begin{equation}
-	 J = \sum_{i=1}^{H_p-1} || z(k+1|k)-z(k+i-1|k)||_{Q(i)}^2
-\end{equation}
-\begin{equation}
-	\begin{aligned}
-	\text{s.t.} \hspace{5mm}  x(k+i+1) &= Ax(k+i|k)+Bu(k+i|k) \\
-						      y(k+i)&= C_yx(k+i|i) \\
-						      \text{Constrains here}
-	\end{aligned}
-\end{equation}
+
 
 
 Rewrite cost function to
@@ -168,9 +165,9 @@ By inserting equation ??? into equation ???? only the first term in equation is 
 
 \begin{equation}
 	\begin{aligned}
-	f &= 2\cdot(x(k|k)^T\psi^T Q \gamma u(k))+2\cdot(u_d(k)^T\Theta^TQ\gamma u(k)) \\
-	  &-(2\cdot(x(k-1k)^T\psi^T Q \gamma u(k)))-(2\cdot(u(k-1)^T\gamma^TQ\gamma u(k))) \\
-	  &-(2\cdot(u_d(k)^T\Theta^TQ\gamma u(k)))
+	f &= 2\cdot(x(k|k)^T\psi^T Q \gamma )+2\cdot(u_d(k)^T\Theta^TQ\gamma ) \\
+	  &-(2\cdot(x(k-1k)^T\psi^T Q \gamma ))-(2\cdot(u(k-1)^T\gamma^TQ\gamma )) \\
+	  &-(2\cdot(u_d(k)^T\Theta^TQ\gamma ))
 	\end{aligned}
 \end{equation}
 
