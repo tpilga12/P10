@@ -5,7 +5,7 @@ persistent stamp n
 
 time = tid*Dt;
 lengths = [14 9 21 13 18.5 10 22.5 11 20 9 100000];
-if tid == 1
+if tid == 2
     n = 1;
     stamp(n) = mm(14);
 end
