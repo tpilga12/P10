@@ -1,5 +1,5 @@
 \section{Model predictive control}\label{se:model_predictive_control}
-In this section the design of the controller is elaborated. First the control approach is described then the control problem and lastly the design of the Model predictive controller (MPC). 
+In this section, the design of the controller is elaborated. First the control approach is described then the control problem and lastly the design of the Model predictive controller (MPC). 
 
 The simulation covered in section ??? is to be controlled with respect to the problems elaborated in section \ref{se:problem_statement} and stated here. 
 \begin{enumerate}
@@ -47,36 +47,39 @@ Where Q has been replaced with the output y as it can be measure directly from t
 
 By using the state equation recursively the variables are collected in extended prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{U}_d$:
 
+
 \begin{equation}
 \begin{aligned}
 	  \underbrace{\begin{bmatrix}
-	  x(k+1|k) \\
-	  \vdots \\
-	  x(k+H_p|k) \\
+	  \hat{x}(k+1|k) 	\\
+	  \hat{x}(k+2|k) 	\\
+	  \vdots 			\\
+	  \hat{x}(k+H_p|k) 	\\
 	   \end{bmatrix}}_{\CMcal{X}}
 	 &=
 	\underbrace{\begin{bmatrix}
 		A \\
+		A^2 \\
 		\vdots \\
 		A^{H_p} \\
 	\end{bmatrix}}_{\CMcal{A}}
-	x(k)+
+	x(k) \\&+
 	\underbrace{\begin{bmatrix}
-		B 		 &0			&\hdots	& 0		\\
-		AB  	 &B  		& \hdots& 0		\\
-		\vdots 	 &\vdots	& \ddots&\vdots	\\
+		B 		 &0			 &\hdots	& 0		\\
+		AB  	 &B  		 & \hdots& 0		\\
+		\vdots 	 &\vdots	 & \ddots&\vdots	\\
 		A^{H_p-1}B&A^{H_p-2}B&\hdots &B 
     \end{bmatrix}}_{\CMcal{B}}
-    	  \underbrace{\begin{bmatrix}
-	  u(k+1|k) \\
-	  u(k+2|k) \\
-	  \vdots \\
-	  u(k+H_p-1|k) \\
-	   \end{bmatrix}}_{\CMcal{U}} \\ &+ 
+    	\underbrace{\begin{bmatrix}
+	u(k+1|k)\\
+	u(k+2|k)\\
+	\vdots\\
+	u(k+H_p-1|k)
+	\end{bmatrix}}_{\CMcal{U}(k)} \\ &+ 
     \underbrace{\begin{bmatrix}
-    	B 		 &0			&\hdots	& 0		\\
-		AB  	 &B  		& \hdots& 0		\\
-		\vdots 	 &\vdots	& \ddots&\vdots	\\
+    	B 		  &0	     &\hdots	& 0		\\
+		AB  	  &B  		 & \hdots& 0		\\
+		\vdots 	  &\vdots	 & \ddots&\vdots	\\
 		A^{H_p-1}B&A^{H_p-2}B&\hdots &B 
  %   	B & \hdots & 0 \\
  %    	AB+B & \hdots & 0 \\
@@ -85,17 +88,21 @@ By using the state equation recursively the variables are collected in extended 
  %    	\sum_{i=0}^{H_u}A^i B & \hdots & AB+B\\
  %    	\vdots & \vdots & \vdots \\
  %    	\sum_{i=0}^{H_p-1}A^i B & \hdots & \sum_{i=0}^{H_p-H_u}A^i B \\
-	  \end{bmatrix}}_{\CMcal{B}_d}
-	    	  \underbrace{\begin{bmatrix}
-	  u_d(k+1|k) \\
-	  u_d(k+2|k) \\
-	  \vdots \\
-	  u_d(k+H_p-1|k) \\
-	   \end{bmatrix}}_{\CMcal{U}_d} \\
+	  \end{bmatrix}}_{\CMcal{B}_d} 
+	\underbrace{\begin{bmatrix}
+	u_d(k+1|k)\\
+	u_d(k+2|k)\\
+	\vdots\\
+	u_d(k+H_p-1|k)
+	\end{bmatrix}}_{\CMcal{U}_d(k)}
 	\end{aligned}
 \end{equation}
 
-The same can be written for the output $y(k+1|k)$:
+
+
+
+
+
 \begin{equation}
 	\CMcal{Y}(k)= 
 	\begin{bmatrix}
@@ -116,11 +123,11 @@ The same can be written for the output $y(k+1|k)$:
 
 
 \begin{equation}
-	\CMcal{C} = diag(C) \hspace{5mm} \psi = \CMcal{C}\CMcal{A}  \hspace{5mm} \gamma = \CMcal{C}\CMcal{B}_u \hspace{5mm}  \Theta = \CMcal{C}\CMcal{B}_{d}
+	\CMcal{C} = diag(C) \hspace{5mm} \psi = \CMcal{C}\CMcal{A}  \hspace{5mm} \gamma = \CMcal{C}\CMcal{B}_u \hspace{5mm}  \Theta = \CMcal{C}\CMcal{B}_{\Delta u}
 \end{equation}
 
-\begin{equation}
-	\CMcal{Y}(k) = \psi x(k|k) + \gamma u(k) + \Theta  u_d(k)
+\begin{equation}\label{eq:lifted_output_with_states_inserted}
+	\CMcal{Y}(k) = \psi x(k) + \gamma \CMcal{U}(k) + \Theta \CMcal{U}_d(k)
 \end{equation}
 
 
@@ -133,17 +140,28 @@ Rewrite cost function to
 	J = ||\CMcal{Y}(k)-\CMcal{Y}(k-1)||_{Q(i)}^2
 \end{equation}
 
-By inserting equation ??? into equation ????
-
 \begin{equation}
-	[\CMcal{Y}(k)^T - \CMcal{Y}(k-1)^T]Q[\CMcal{Y}(k) - \CMcal{Y}(k-1)]
+	\Delta \CMcal{Y}(k) =\CMcal{Y}(k)-\CMcal{Y}(k-1) 
 \end{equation}
 
+Thereby the cost function can be rewritten as:
 
+\begin{equation}\label{eq:delta_cost_function}
+	J = \Delta\CMcal{Y}(k)^T \cdot Q \cdot \Delta\CMcal{Y}(k)
+\end{equation}
+
+Inserting equation \ref{eq:lifted_output_with_states_inserted} in to equation \ref{eq:delta_cost_function} the follwoing is optained:
 
 \begin{equation}
-	\CMcal{Y}(k)^TQ\CMcal{Y}(k)+ \CMcal{Y}(k-1)^TQ\CMcal{Y}(k-1)-\CMcal{Y}(k)^TQ\CMcal{Y}(k-1)-\CMcal{Y}(k-1)^TQ\CMcal{Y}(k)
+	J = (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{U}_d(k))^T\cdot Q \cdot (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{U}_d(k))
 \end{equation}
+
+% \begin{equation}
+% 	[\CMcal{Y}(k)^T - \CMcal{Y}(k-1)^T]Q[\CMcal{Y}(k) - \CMcal{Y}(k-1)]
+% \end{equation}
+% \begin{equation}
+% 	\CMcal{Y}(k)^TQ\CMcal{Y}(k)+ \CMcal{Y}(k-1)^TQ\CMcal{Y}(k-1)-\CMcal{Y}(k)^TQ\CMcal{Y}(k-1)-\CMcal{Y}(k-1)^TQ\CMcal{Y}(k)
+% \end{equation}
 
 
 By inserting equation ??? into equation ???? only the first term in equation is shown here, the rest can be seen in appendix ????
@@ -151,34 +169,34 @@ By inserting equation ??? into equation ???? only the first term in equation is 
 \begin{equation}
 	\begin{aligned}
 	&\CMcal{Y}(k)^TQ\CMcal{Y}(k) = \\
-	& x(k|k)^T\psi ^T Q \psi x(k|k) + x(k|k)^T \psi ^T Q \gamma u(k) + x(k|k)^T \psi ^T Q \Theta u_d(k) \\
-	& u(k)^T \gamma ^T Q \psi x(k|k) +  u(k)^T \gamma ^T Q \gamma u(k) + u(k)^T \gamma ^T Q\Theta  u_d(k)\\ 
-	&  u_d(k)^T \Theta ^T Q  \psi x(k|k)+u_d(k)^T \Theta ^T Q \gamma u(k) +u_d(k)^T \Theta ^T Q u_d(k)
+	& x(k|k)^T\psi ^T Q \psi x(k|k) + x(k|k)^T \psi ^T Q \gamma u(k-1) + x(k|k)^T \psi ^T Q \Theta \Delta U(k) \\
+	& u(k-1)^T \gamma ^T Q \psi x(k|k) +  u(k-1)^T \gamma ^T Q \gamma u(k-1) + u(k-1)^T \gamma ^T Q\Theta \Delta U(k)\\ 
+	& \Delta U(k)^T \Theta ^T Q  \psi x(k|k)+\Delta U(k)^T \Theta ^T Q \gamma u(k-1) +\Delta U(k)^T \Theta ^T Q \Theta \Delta U(k)
 	\end{aligned}
 \end{equation}
 
 
 
 \begin{equation}
-	\CMcal{H} = \gamma^T Q\gamma 
+	\CMcal{H} = \Theta^T Q\Theta 
 \end{equation}
 
 \begin{equation}
 	\begin{aligned}
-	f &= 2\cdot(x(k|k)^T\psi^T Q \gamma )+2\cdot(u_d(k)^T\Theta^TQ\gamma ) \\
-	  &-(2\cdot(x(k-1k)^T\psi^T Q \gamma ))-(2\cdot(u(k-1)^T\gamma^TQ\gamma )) \\
-	  &-(2\cdot(u_d(k)^T\Theta^TQ\gamma ))
+	f &= x(k|k)^T\psi ^T Q\Theta+u(k-1)^T\gamma ^T Q \Theta +x(k|k)^T\psi^T Q \Theta+u(k-1)^T \gamma ^T Q \Theta \\
+	& -(x(k-1|k)^T \psi^T Q \Theta+u(k-2)^T \gamma^T Q \Theta +\Delta U(k-1)^T\Theta Q \Theta)) \\
+	& -(x(k-1|k)^T \psi^T Q \Theta + u(k-2)^T \gamma^T Q \Theta +\Delta U(k-1)^T\Theta Q \Theta))
 	\end{aligned}
 \end{equation}
 
 And a constant term that can be seen in appendix
 
 \begin{equation}
-	J =  u(k)^T\CMcal{H} u(k)+ f u(k)+ c
+	J = \Delta U(k)^T\CMcal{H}\Delta U(k)+ f\Delta U(k)+ c
 \end{equation}
 
 The optimization is given by
 
 \begin{equation}
-	\min_{u(k)} J(u(k)) =\min_{u(k)} u(k)^T\CMcal{H}u(k)+fu(k)+c
+	\min_{\Delta U(k)} J(\Delta U(k)) =\min_{\Delta U(k)} \Delta U(k)^T\CMcal{H}\Delta U(k)+f\Delta U(k)+c
 \end{equation}

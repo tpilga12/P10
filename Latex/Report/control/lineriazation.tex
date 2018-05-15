@@ -56,41 +56,55 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 \begin{equation}
 \begin{aligned}
 	   \underbrace{\begin{bmatrix}
-	    	b_1 &        	&           &   \\
-	    	a_{2} & b_2  		&     		&   \\
-	    	  &	\ddots  & \ddots   \\
-	          &  		&  		   a_{m}&  b_m\\
+	    	1 & 0    & 0    &\hdots &0\\
+	    	0 & b_1  & 0    &\hdots &0\\
+	    	0 &a_{1} & b_2  &\hdots &\vdots	  \\
+	    \vdots&\vdots&\ddots&\ddots & 0  \\
+	        0 & 0    &0  	&a_{m-1}&  b_m\\
 	   \end{bmatrix}}_{\xi}
 	    \underbrace{\begin{bmatrix}
+		h_{0}^{i+1}\\
 		h_{1}^{i+1} \\
-		h_{2}^{i+1}\\
+		h_{2}^{i+1} \\			
 		\vdots		\\
 		h_{m}^{i+1}\\
 	\end{bmatrix}}_{\dot{x}}
-	= 
+	=& 
 	\underbrace{\begin{bmatrix}
-	    	d_1 &  \\
-	    	c_{1} & d_2 & \\
-	    	  &	\ddots  & \ddots   \\
-	    	  &   &  c_{m} &  d_m\\
+	    	0 &  0   &   0    & \hdots   &0\\
+	    c_{0} & d_1  &   0    &  \hdots  &0\\
+	    0	  &c_{0} & d_1    & \hdots   &0 \\
+	    \vdots&\vdots&\ddots  & \ddots   & \vdots\\
+	    0	  & 0    &  0     &  c_{m-1} &  d_m\\
 	    \end{bmatrix}}_{A}
 	    	\underbrace{\begin{bmatrix}
+		h_{0}^{i} \\
 		h_{1}^{i} \\
 		h_{2}^{i}\\
 		\vdots		\\
 		h_{m}^{i}\\
 		\end{bmatrix}}_{x}
-	+ \underbrace{\begin{bmatrix}
-		c_0 & -a_0\\
-		0 & 0 \\
-		\vdots  & \vdots \\
-		0 & 0\\
+	+ \\ & \underbrace{\begin{bmatrix}
+		 1\\
+		 -a_0 \\
+		 0\\
+		 \vdots \\
+		 0\\
 		\end{bmatrix}}_{B}
+		h_m^{i+1}
+		% \underbrace{\begin{bmatrix}
+		% h_{0}^{i} \\
+		% h_{0}^{i+1} \\
+		% \end{bmatrix}}_{u}
+		+ 
 		\underbrace{\begin{bmatrix}
-		h_{0}^{i} \\
-		h_{0}^{i+1} \\
-		\end{bmatrix}}_{u}
-		+ Bd
+		 \frac{dh}{dQ}\\
+		 0 \\
+		 0\\
+		 \vdots \\
+		 0\\
+		\end{bmatrix}}_{B_d}
+		Qd_{m+1}
 	\end{aligned}
 \end{equation}
 Where m denotes the channel pieces.  
@@ -115,3 +129,4 @@ To obtain a state space for the matrix to the left needs to inversed, thereby ob
 \caption{Output height for the linear and Preissmann scheme simulation.}
 \label{fig:height_output_nonlinear_and_linear_model}
 \end{figure}
+ 

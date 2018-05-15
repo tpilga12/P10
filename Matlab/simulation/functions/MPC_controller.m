@@ -9,7 +9,7 @@
     XHp = int8(2:Hp);
     XHu = int8(2:Hu);
     
-%% A lifted
+% A lifted
     for n = 1:Hp %%% Lifted A matrix
         if n == 1
             Alifted = [lin_sys.A^n];
@@ -18,7 +18,7 @@
         end
     end
     
-%% B lifted
+% B lifted
 p = 0;
 
 A = lin_sys.A;
@@ -40,29 +40,7 @@ for n = 1:Hp
     p = p +1;
 end
           
-
-%     Bulifted = zeros(length(lin_sys.B)*Hp,Hp*size(lin_sys.B,2));
-%     Hpp = Hp;
-%     for n = 1:Hp %%% Lifted B matrix
-%         for n_2 = 1:Hpp
-%             if n_2 == 1
-%                 Bulifted(n_2-length(lin_sys.B)+n*length(lin_sys.B):length(lin_sys.B)*n_2-length(lin_sys.B)+n*length(lin_sys.B),1-size(lin_sys.B,2)+size(lin_sys.B,2)*n:size(lin_sys.B,2)*n) = lin_sys.B;
-%             else
-%                 Bulifted(1+length(lin_sys.B)*n_2-length(lin_sys.B)-length(lin_sys.B)+n*length(lin_sys.B):length(lin_sys.B)*n_2-length(lin_sys.B)+n*length(lin_sys.B),1+size(lin_sys.B,2)*n-size(lin_sys.B,2):size(lin_sys.B,2)*n)  = lin_sys.A^(n_2-1)*lin_sys.B;
-% %               Bulifted(1+length(lin_sys.B)*n-length(lin_sys.B):length(lin_sys.B)*n,1+size(lin_sys.B,2)*n-size(lin_sys.B,2):size(lin_sys.B,2)*n)  = lin_sys.A^(n_2-1)*lin_sys.B;
-%             end
-%         end
-%     end
-%     
-%     for n = 1:Hp %%% Lifted B Delta matrix
-%         
-%         if n == 1
-%             B_Deltalifted = [lin_sys.B];
-%         else
-%             B_Deltalifted(end+1:end+length(lin_sys.B),:) = [lin_sys.A^n*lin_sys.B+lin_sys.B];
-%         end
-%     end
-%     
+% Clifted   
     Clifted = zeros(length(lin_sys.C)*Hp,Hp*2)';
     for n = 1:Hp
 %            Clifted(n,1+length(lin_sys.C)*n-length(lin_sys.C):length(lin_sys.C)*n) =lin_sys.C(2,:);   
@@ -88,12 +66,12 @@ t = 1:1:500;%(sample:sample:length(h_data_hat)*sample)-sample;
 % X0(1:10) =0;
 Sys = ss(lin_sys.A,lin_sys.B,lin_sys.C,0,20);
 
-u=[(utank1(:,1)-utank1(1,1))'; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
+u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 [Y_hat t1 x1]=lsim(Sys,u);
-
-
 %%
-k = 20;
+x1 = x1(1,:)-x1(2,:);
+%%
+
 H = gamma'*Q*gamma;
 % f = 2*(x1*psi'*Q*theta)+2*(u(k-1)'*gamma'*Q*theta) - (2*(x1(k-1)'*psi' ...
 %     *Q*theta))-(2*(u(k-2)'*gamma'*Q*theta))-(2*(delta_u(k-1)'*theta'*Q ...
@@ -105,7 +83,7 @@ f = 2*(x1*psi'*Q*gamma);%+2*(u'*gamma'*Q*theta) - (2*(x1*psi' ...
 
 
 % options = optimoptions(@fmincon,'Algorithm','interior-point','Display','final');
-options = optimoptions('quadprog','Display','final-detailed','Algorithm','interior-point-convex');
+options = optimoptions('quadprog','Display','off','Algorithm','interior-point-convex');
 
  [X] = quadprog(H,f,[],[],[],[],[],[],[],options);%quadprog(H,f,A,b,Aeq,beq,LB,UB,X0)
 

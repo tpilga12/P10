@@ -9,7 +9,7 @@
     XHp = int8(2:Hp);
     XHu = int8(2:Hu);
     
-%% A lifted
+% A lifted
     for n = 1:Hp %%% Lifted A matrix
         if n == 1
             Alifted = [lin_sys.A^n];
@@ -18,7 +18,7 @@
         end
     end
     
-%% B lifted
+% B lifted
 p = 0;
 
 A = lin_sys.A;
@@ -40,40 +40,17 @@ for n = 1:Hp
     p = p +1;
 end
           
-
-%     Bulifted = zeros(length(lin_sys.B)*Hp,Hp*size(lin_sys.B,2));
-%     Hpp = Hp;
-%     for n = 1:Hp %%% Lifted B matrix
-%         for n_2 = 1:Hpp
-%             if n_2 == 1
-%                 Bulifted(n_2-length(lin_sys.B)+n*length(lin_sys.B):length(lin_sys.B)*n_2-length(lin_sys.B)+n*length(lin_sys.B),1-size(lin_sys.B,2)+size(lin_sys.B,2)*n:size(lin_sys.B,2)*n) = lin_sys.B;
-%             else
-%                 Bulifted(1+length(lin_sys.B)*n_2-length(lin_sys.B)-length(lin_sys.B)+n*length(lin_sys.B):length(lin_sys.B)*n_2-length(lin_sys.B)+n*length(lin_sys.B),1+size(lin_sys.B,2)*n-size(lin_sys.B,2):size(lin_sys.B,2)*n)  = lin_sys.A^(n_2-1)*lin_sys.B;
-% %               Bulifted(1+length(lin_sys.B)*n-length(lin_sys.B):length(lin_sys.B)*n,1+size(lin_sys.B,2)*n-size(lin_sys.B,2):size(lin_sys.B,2)*n)  = lin_sys.A^(n_2-1)*lin_sys.B;
-%             end
-%         end
-%     end
-%     
-%     for n = 1:Hp %%% Lifted B Delta matrix
-%         
-%         if n == 1
-%             B_Deltalifted = [lin_sys.B];
-%         else
-%             B_Deltalifted(end+1:end+length(lin_sys.B),:) = [lin_sys.A^n*lin_sys.B+lin_sys.B];
-%         end
-%     end
-%     
-    Clifted = zeros(length(lin_sys.C)*Hp,2*Hp)';
-  
+% Clifted   
+    Clifted = zeros(length(lin_sys.C)*Hp,Hp*2)';
     for n = 1:Hp
-           Clifted(1+n-1:n*2,1+length(lin_sys.C)*n-length(lin_sys.C):length(lin_sys.C)*n) =lin_sys.C;   
-          
+%            Clifted(n,1+length(lin_sys.C)*n-length(lin_sys.C):length(lin_sys.C)*n) =lin_sys.C(2,:);   
+           Clifted(1+size(lin_sys.C,1)*n-size(lin_sys.C,1):n*2,1+length(lin_sys.C)*n-length(lin_sys.C):length(lin_sys.C)*n) =lin_sys.C; 
     end
     
     
     %%
    B_Deltalifted =Bulifted;
-    Q= eye(Hp);
+    Q= eye(Hp*2);
     
     
 %     Clifted = eye(Hp);
@@ -91,7 +68,7 @@ Sys = ss(lin_sys.A,lin_sys.B,lin_sys.C,0,20);
 
 u=[(utank1(:,1)-utank1(1,1))'; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 [Y_hat t1 x1]=lsim(Sys,u);
-disp('hep hep bums')
+
 
 %%
 k = 20;
