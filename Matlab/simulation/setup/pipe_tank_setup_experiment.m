@@ -2,6 +2,7 @@ function [init_pipe,pipes,init_tank,tanks,state_spec]=pipe_tank_setup(call)
 if call == 1
     pipe_load = 1;
     tank_load = 1;
+    main_theta = 0.65;
     order = 1;
     %%%%%%%%%% IMPORTANT READ THIS %%%%%%%%%%
     % linearisation needs pipes at start and end.
@@ -18,7 +19,7 @@ if call == 1
     pipe.Ib = 0.003; %bed slope
     pipe.d = 0.9; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -50,7 +51,7 @@ if call == 1
     pipe.Ib = 0.003; %bed slope
     pipe.d = 0.9; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -68,7 +69,7 @@ if call == 1
     pipe.Ib = 0.003; %bed slope
     pipe.d = 1; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -86,7 +87,7 @@ if call == 1
     pipe.Ib = 0.0041; %bed slope
     pipe.d = 1; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -104,7 +105,7 @@ if call == 1
     pipe.Ib = 0.0122; %bed slope
     pipe.d = 0.8; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -136,7 +137,7 @@ if call == 1
     pipe.Ib = 0.0053; %bed slope
     pipe.d = 0.9; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -154,7 +155,7 @@ if call == 1
     pipe.Ib = 0.0036; %bed slope
     pipe.d = 0.9; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -172,7 +173,7 @@ if call == 1
     pipe.Ib = 0.0024; %bed slope
     pipe.d = 1; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -190,7 +191,7 @@ if call == 1
     pipe.Ib = 0.003; %bed slope
     pipe.d = 1; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -208,7 +209,7 @@ if call == 1
     pipe.Ib = 0.0008; %bed slope
     pipe.d = 1; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -226,7 +227,7 @@ if call == 1
     pipe.Ib = 0.0029; %bed slope
     pipe.d = 1.2; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -244,7 +245,7 @@ if call == 1
     pipe.Ib = 0.003; %bed slope
     pipe.d = 1.2; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -262,7 +263,7 @@ if call == 1
     pipe.Ib = 0.0021; %bed slope
     pipe.d = 1.2; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -280,7 +281,7 @@ if call == 1
     pipe.Ib = 0.0017; %bed slope
     pipe.d = 1.4; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -298,7 +299,7 @@ if call == 1
     pipe.Ib = 0.0019; %bed slope
     pipe.d = 1.4; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -316,7 +317,7 @@ if call == 1
     pipe.Ib = 0.0021; %bed slope
     pipe.d = 1.6; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -334,7 +335,7 @@ if call == 1
     pipe.Ib = 0.0013; %bed slope
     pipe.d = 1.5; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -352,7 +353,7 @@ if call == 1
     pipe.Ib = 0.0046; %bed slope
     pipe.d = 1.6; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 1; %side inflow last pipe should not have any.
     pipe.data_location = order;
@@ -370,7 +371,7 @@ if call == 1
     pipe.Ib = 0.0012; %bed slope
     pipe.d = 1.6; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
-    pipe.Theta = 0.65; %
+    pipe.Theta = main_theta; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
     pipe.lat_inflow = 0; %side inflow last pipe should not have any.
     pipe.data_location = order;
