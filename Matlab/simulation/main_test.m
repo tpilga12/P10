@@ -40,8 +40,11 @@ utank1(2) = input.u_init(1,2);
 for m = 2:iterations
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.15 + sin(m/10)/35 ;%+ sin(m/100)/15;
-    
+    if m >= 100
+        input.Q_in(m,1) = 0.25;
+    else
+    input.Q_in(m,1) = 0.15;% + sin(m/10)/35 ;%+ sin(m/100)/15;
+    end
     utank1(m,1) = input.u_init(1,1) + sin(m/10)/35;
     utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)

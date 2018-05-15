@@ -107,25 +107,25 @@ else
     
     last_pipe_out = find(strcmp(StateName , ['h_pipe_',num2str(length(pipe_spec)),'_',num2str(pipe_spec(end).sections)]));
     C(1,last_pipe_out) = 1;
-    C(2,dimension-1) = 1;
+    C(2,dimension+add_states-1) = 1;
     OutputName{1} = 'Output_height';
     OutputName{2} = 'Output_height_dot';
-    AF(dimension-1,dimension) = -1;
-    AF(dimension-1,last_pipe_out) = 1;
+    AF(s_c+1,s_c+add_states) = -1;
+    AF(s_c+1,last_pipe_out) = 1;
    
-    StateName{dimension-1,1} = 'h_out_dot';
+    StateName{dimension+add_states-1,1} = 'h_out_dot';
     
-    AF(dimension,last_pipe_out) = 1;
-    StateName{dimension,1} = 'h_out_old';
+    AF(dimension+add_states,last_pipe_out) = 1;
+    StateName{dimension+add_states,1} = 'h_out_old';
     
 
 %%% temp fix %%%%% 
 % temp = inv(F);
 % 
-    sys = ss(AF,BF ,C,0,Dt);
+%     sys = ss(AF,BF ,C,0,Dt);
 %     sys2 = ss(AF2,BF2,C,0,Dt);% hed sys 2 sammen med linje 126
 %     
-%     sys = ss(AF,BF ,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
+    sys = ss(AF,BF ,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
   %  sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
     
 end

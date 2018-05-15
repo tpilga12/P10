@@ -58,9 +58,10 @@ Y_lsim = Y_bar + Y_hat;
 %%
 close all
 figure(1111)
-plot(data{1}.h(1:end,end))
+hej = 35;
+plot(data{1}.h(1:end,hej))
 hold on
-plot(x1(1:end,36)+data{1}.h(1,end))
+plot(x1(1:end,hej)+data{1}.h(1,hej))
 legend('non-linear','linear')
 title('Input height')
 xlabel('Time [s]')
@@ -69,7 +70,7 @@ ylabel('Tank height [m]')
 grid
 %%
 figure(1000)
-plot(t,data{1,1}.Q(:,1))
+plot(data{1,1}.Q(:,1))
 title('Input height')
 xlabel('Time [s]')
 ylabel('Input height [m]')
@@ -77,9 +78,9 @@ ylabel('Input height [m]')
 grid
 
 figure(2000)
-plot(t/60,x1(:,261)+Y_bar)
+plot(x1(:,261)+Y_bar)
 hold on
-plot(t/60,data{1,end}.h(:,end))
+plot(data{1,end}.h(:,end))
 title('Comparison of Non-linear and linear open channel models')
 xlabel('Time [s]')
 ylabel('Output height [m]')

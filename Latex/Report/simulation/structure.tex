@@ -1,1 +1,20 @@
 \section{Structure}\label{sec:Structure}
+For the simulation environment to be useful some basic functionality is needed. The simulation should be easy to setup and to do adjustments if needed. 
+Furthermore an easy way to view the result of the simulation is needed such that adjustments can easily be made based on the result.
+Based on this the design phase can be split in to three parts:
+
+\begin{enumerate}
+	\item Initialization
+	\item Simulation
+	\item Result
+\end{enumerate}
+
+As mentioned in section \fxnote{henvis til afsnit hvor tankene er foreslået som løsning, hvis der ikke er lavet den afgrænsning endnu} a solution to minimize flow and concentrate variations could be insertion of one or more tanks in the sewer network.
+
+The following will go into details of the design off and the considerations made during the design phase of the three above points.
+
+\subsection*{Initialization} 
+
+The first thing to consider is the composition of components desired to simulate. Making the simulation able to simulate systems different than the one shown in figure \ref{fig:kloakgrid_simplified} a universal setup where different sizes of pipes with different slopes with selective side input is needed. Furthermore tanks should be able to be inserted at choice between pipes.
+The second thing to consider is that the environment should be brought to a steady state before the simulation starts, such that if a linearized approach to the MPC scheme is chosen a linear model can be obtained. 
+
