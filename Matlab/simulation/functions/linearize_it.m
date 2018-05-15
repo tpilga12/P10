@@ -119,11 +119,11 @@ else
 %%% temp fix %%%%% 
 % temp = inv(F);
 % 
-%     sys = ss(AF,BF ,C,0,Dt);
-%     sys2 = ss(AF2,BF2,C,0,Dt);
+    sys = ss(AF,BF ,C,0,Dt);
+%     sys = ss(AF2,BF2,C,0,Dt);% hed sys 2 sammen med linje 126
 %     
     sys = ss(AF,BF ,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
-    sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
+  %  sys = ss(AF2,BF2,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
     
 end
 %%%%%%%%%%%%%%%%%%%%%% Linearizing functions %%%%%%%%%%%%%%
