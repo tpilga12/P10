@@ -14,19 +14,19 @@ close all
 % load tank_height_for_ss_model.mat
 % Linearzied model
 sample= lin_sys.Ts;
-h_data_hat=data{1,1}.h(:,1)-data{1,1}.h(1,1);
+h_data_hat=data{1,1}.h(2:end,1)-data{1,1}.h(1,1);
 
 t = (sample:sample:length(h_data_hat)*sample)-sample;
 
-h_i(1:length(t))=0;%h_data_hat ;%Input height
+h_i(1:length(h_data_hat))=0;%h_data_hat ;%Input height
 h2_input(1:length(t))=0.3;
 h3_input(1:length(t))=0.3;
 
 
-tank_in = (input.u(1:end,:)-input.u(1,:))';
+tank_in = (input.u(2:end,:)-input.u(1,:))';
 % tank_in = (input.u(1:end,1))';
 %u=[(data{1}.h(:,end)-data{1}.h(1,end))'; (input.u(1:end,1))' ; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
-u=[h_data_hat'; tank_in ; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i]';
+u=[h_data_hat'; tank_in ; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i]';
 
  %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
 
@@ -46,19 +46,21 @@ Y_bar =data{1,end}.h(1,end);
 Y_lsim = Y_bar + Y_hat;
 %%
  plot_lin = [ 51 52 60 74 89 94 96 126 133 173 188 193 205 206 212 216 231 261];
+ close all
  for n = 1:length(plot_lin)
      figure(n)
      plot(data{n+2}.h(:,end))
      hold on
-     plot(x1(:,plot_lin(n))+data{n+2}.h(1,end))
+     plot(x1(1:end,plot_lin(n))+data{n+2}.h(1,end))
      legend('non-linear','linear')
  end
      
 %%
+close all
 figure(1111)
-plot(data{2}.h(1:end,1))
+plot(data{1}.h(1:end,end))
 hold on
-plot(x1(2:end,36)+data{2}.h(1,1))
+plot(x1(1:end,36)+data{1}.h(1,end))
 legend('non-linear','linear')
 title('Input height')
 xlabel('Time [s]')

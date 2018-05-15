@@ -7,8 +7,8 @@ addpath(['functions'], ['setup'])
 global Dt iterations error 
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Dt = 20;
-[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup(1);
+Dt = 15;
+[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup_experiment(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
@@ -29,7 +29,7 @@ lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
 %% run stuff !!!!!
 clc
-iterations = 100;
+iterations = 600;
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
@@ -40,9 +40,9 @@ utank1(2) = input.u_init(1,2);
 for m = 2:iterations
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.15;% + sin(m/10)/35 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.15 + sin(m/10)/35 ;%+ sin(m/100)/15;
     
-    utank1(m,1) = input.u_init(1,1) + sin(m/10)/65;
+    utank1(m,1) = input.u_init(1,1) + sin(m/10)/35;
     utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 
@@ -55,7 +55,7 @@ end
 %%
 
 sampling = 1; %increase number to skip samples to increase playback speed
-starting_point = 1; % change starting point (START IS 1)
+starting_point = 0; % change starting point (START IS 0)
 playback_speed = 1/10; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 

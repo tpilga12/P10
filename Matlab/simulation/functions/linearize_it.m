@@ -13,7 +13,7 @@ if error == 1
     sys = 'Not available';
 else
     dimension = sys_setup(end).sections; % Setup matrix dimension for sections of system
-    add_states = 2; % additional states needed for change in output
+    add_states = 2; % additional states needed to show change in output
     
     A = zeros(dimension+add_states);  F = eye(dimension+add_states);
     B(1+nr_tanks:dimension+add_states,1) = 0; C(1:dimension+add_states) = 0;
@@ -34,7 +34,7 @@ else
             section = section + 1; % needed here, fetches fitfunc for pipe after tank
            
             B(s_c,nr_inputs) = -lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], [], 'a'); % change in tank height due to pump
-            B(s_c+1,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], data{section}.fitfunc, 'b'); % height in to next pipe
+            B(s_c+1,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], data{section}.fitfunc, 'b'); % height into next pipe
             
             A(s_c,s_c) = 1;
             A(s_c,s_c-1) = lin_tank(data{section-2}.h(1,end), tank_spec(tank_counter), [], data{section-2}.fitfunc2, 'c');   %change in tank height from pipe inflow
@@ -51,11 +51,17 @@ else
                 k = 1;
                  for m = s_c:(s_c+pipe_spec(pipe_fetch).sections-1)
                     if  s_c == 1
-                        F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
-                        A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
-                        B(s_c,s_c)=[lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c')-lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a')];
+                        F(s_c,s_c) = 1;
+                        F(s_c+1,s_c+1)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
+                        A(s_c+1,s_c+1)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
+                        A(s_c+1,s_c)     = lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c');
+                        B(s_c,s_c) = 1;
+                        %B(s_c+1,s_c)=[lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c')-lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a')];
+                        B(s_c+1,s_c) = -lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a');
                         InputName{1,1} = ['Pipe_1_1_inflow'];
+                        StateName{s_c,1} = ['h_pipe_in_',num2str(pipe_fetch),'_',num2str(k)];
                         nr_inputs = nr_inputs + 1;
+                        s_c = s_c + 1;
                     elseif new_pipe_section == 1
                         new_pipe_section = 0;
                         F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
