@@ -3,7 +3,7 @@ clc
 clear all
 clear path
 format long
-addpath(['functions'], ['setup'])
+addpath(['functions'], ['setup'], ['input'])
 global Dt iterations error 
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -27,7 +27,7 @@ lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
 %% run stuff !!!!!
 clc
-iterations = 500;
+iterations = 200;
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;

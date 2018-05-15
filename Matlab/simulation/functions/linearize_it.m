@@ -33,17 +33,12 @@ else
 %             end
             section = section + 1; % needed here, fetches fitfunc for pipe after tank
            
-            B(s_c,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], [], 'a'); % change in tank height due to pump
+            B(s_c,nr_inputs) = -lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], [], 'a'); % change in tank height due to pump
             B(s_c+1,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], data{section}.fitfunc, 'b'); % height in to next pipe
             
-%             A(s_c,s_c) = (data{section-2}.fitfunc2(data{section-2}.h(1,end))/tank_spec(tank_counter).area)*Dt; %data{section-2}.h(1,end);
-%             A(s_c+1,s_c+1) = 1;
-%              A(s_c,s_c-1) = lin_tank(data{section-1}.h(end,end), tank_spec, pipe_spec(section-1).d, [], 'c');   %change in tank height from pipe in flow
             A(s_c,s_c) = 1;
             A(s_c,s_c-1) = lin_tank(data{section-2}.h(1,end), tank_spec(tank_counter), [], data{section-2}.fitfunc2, 'c');   %change in tank height from pipe inflow
-            
-%             (input, tank_spec, pipe_spec, fitfunc, fetch)
-            
+
             InputName{nr_inputs,1} = ['Pump_tank_',num2str(tank_counter)];
             StateName{s_c,1} = ['Tank_',num2str(tank_counter)];
             
@@ -130,7 +125,8 @@ end
 function [out] = lin_tank(input, tank_spec, pipe_spec, fitfunc, fetch) % Tank / pump
 
     if fetch == 'a' 
-        out = (1/tank_spec.area)*tank_spec.Q_out_max*input*Dt; %change in height when pump runs 
+        out = (1/tank_spec.area)*tank_spec.Q_out_max*Dt; %change in height when pump runs 
+
     elseif fetch == 'b' % Q_out_tank 
            out = differentiate(fitfunc,(tank_spec.Q_out_max*input)); % height flow into pipe after tank
     elseif fetch == 'c'% Q_in_tank

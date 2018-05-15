@@ -54,7 +54,7 @@ tic
         if strcmp(sys_setup(x).type,'Tank') == 1
             
             tank_spec(tank_nr).Q_out_max = pipe_spec(sys_component).Qf; % set max tank outflow to max input of next pipe
-            init_data{1,sys_component} = tank(1, [], tank_nr, x, input, tank_spec, init);
+            [init_data{1,sys_component} input] = tank(1, [], tank_nr, x, input, tank_spec, init);
             
             input.Q_init(x+1)= init_data{1,sys_component}.Q(1,end);
             input.C_init(x+1)= init_data{1,sys_component}.C(1,end);

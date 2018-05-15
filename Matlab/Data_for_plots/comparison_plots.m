@@ -23,7 +23,7 @@ h2_input(1:length(t))=0.3;
 h3_input(1:length(t))=0.3;
 
 
-tank_in = (input.u(1:end,1)-input.u(1,1))';
+tank_in = (input.u(1:end,:)-input.u(1,:))';
 % tank_in = (input.u(1:end,1))';
 %u=[(data{1}.h(:,end)-data{1}.h(1,end))'; (input.u(1:end,1))' ; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 u=[h_data_hat'; tank_in ; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i]';
@@ -56,9 +56,9 @@ Y_lsim = Y_bar + Y_hat;
      
 %%
 figure(1111)
-plot(data{2}.h(1:end,end))
+plot(data{2}.h(1:end,1))
 hold on
-plot(x1(2:end,36)+data{2}.h(1,end))
+plot(x1(2:end,36)+data{2}.h(1,1))
 legend('non-linear','linear')
 title('Input height')
 xlabel('Time [s]')

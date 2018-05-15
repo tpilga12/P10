@@ -9,7 +9,7 @@ function [output]=pipe(pipe_spec, input, data, pipe_component, m, element, sys_c
 
 global Dt
 newt_iter = 50;
-limitvalue = 0.000001; %newton stop iteration value
+limitvalue = 1e-3; %newton stop iteration value
 %         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
 
 Ib = pipe_spec(pipe_component).Ib; 
@@ -33,7 +33,7 @@ end
 Ie(m,1:sections) = pipe_spec(pipe_component).Ib;
 
 for n = 1:sections
-
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%
     if n == 1
         
@@ -63,14 +63,15 @@ for n = 1:sections
         H = (2*(1-Theta)*Q(m-1,n-1)-2*(1-Theta)*Q(m-1,n)+ ...
             2*Theta*Q(m,n-1))*Dt/Dx - ...
             A(m,n-1)+ A(m-1,n-1)+ A(m-1,n);
-        h(m,n)=NewtonRoot(@V,@V_dot,h(m-1,n-1),limitvalue,newt_iter,d,Ie,H,Dt,Dx,Theta,m,n);
+%         h(m,n) = NewtonRoot(@V,@V_dot,h(m-1,n-1),limitvalue,newt_iter,d,Ie,H,Dt,Dx,Theta,m,n);
+%         h(m,n) = BisectionRoot(@V,0,pipe_spec(pipe_component).d,limitvalue);
+%         h(m,n) = init_height(epsi,data{sys_component}.Q(m,n-1),Q_mark,0,pipe_spec(pipe_component).d)
+        h(m,n) = secant(@V,0,pipe_spec(pipe_component).d,limitvalue);
         A(m,n) = d^2/4 * acos(((d/2)- h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
         Q(m,n) = (-1/(Theta*2))*(A(m,n)-H)*Dx/Dt;
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        %%%% euler baglaens %%%%
-        %         C(m,n)= (C(m,n-1)*A(m,n))/(A(m,n)+Q(m,n)*(Dt/Dx))+(Q(m,n)*C(m-1,n))/(A(m,n)*(Dx/Dt)+Q(m,n));
         C(m,n)= (( C(m-1,n)*A(m,n) ) / ( A(m,n)+Q(m,n)*(Dt/Dx) )) + (( Q(m,n)*C(m,n-1) ) / ( A(m,n)*(Dx/Dt)+Q(m,n) ));
         %%%%%%%%%%%%%%%%%%%%%%%
         
