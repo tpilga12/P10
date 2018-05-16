@@ -46,8 +46,7 @@ while abs(avg-desired) > limit
         for n = 1:(sections)
             %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
             if m == 1 && n==1
-                
-                
+ 
                 if x == 1
                     data{x}.Q(1,1:sections) = input.Q_init(sys_component);
                     data{x}.C(1,1:sections) = input.C_init(sys_component);
@@ -97,7 +96,6 @@ while abs(avg-desired) > limit
                 data{x}.Q(m,n) = (-1/(Theta*2))*(data{x}.A(m,n)-H)*Dx/Dt;
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 % CONCENTRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                %%%% euler baglaens %%%%
                 %         C(m,n)= (C(m,n-1)*A(m,n))/(A(m,n)+Q(m,n)*(Dt/Dx))+(Q(m,n)*C(m-1,n))/(A(m,n)*(Dx/Dt)+Q(m,n));
                 data{x}.C(m,n)= (data{x}.C(m-1,n)*data{x}.A(m,n))/(data{x}.A(m,n)+data{x}.Q(m,n)*(Dt/Dx))+(data{x}.Q(m,n)*data{x}.C(m,n-1))/(data{x}.A(m,n)*(Dx/Dt)+data{x}.Q(m,n));
                 %%%%%%%%%%%%%%%%%%%%%%%
