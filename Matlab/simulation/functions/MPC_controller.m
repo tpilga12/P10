@@ -17,7 +17,13 @@
             Alifted = [Alifted ;lin_sys.A^n];
         end
     end
-    
+            for n = 1:Hp %%% Lifted A matrix
+        if n == 1
+            Ulifted = [u.^n];
+        else
+            Ulifted = [Ulifted u.^n];
+        end
+    end
 % B lifted
 p = 0;
 

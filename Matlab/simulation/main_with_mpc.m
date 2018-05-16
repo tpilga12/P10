@@ -27,7 +27,7 @@ error = 0;
 tic
 lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
-%% MPC 
+%% MPC HUSK AT LAVE FORSTYRELSE MATRICEN RIGTIG OG IKKE BARE KOPIR B
 
 iterations = 100;
 Hp = 10;% Prediciton horizon
@@ -37,23 +37,24 @@ lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 
 % t = 1:1:100;%(sample:sample:length(h_data_hat)*sample)-sample;
 h_input=[0.3 0];%h_data_hat ;%Input height
-Sys = ss(lin_sys.A,lin_sys.B,lin_sys.C,0,20);
+Sys = ss(lin_sys.A,lin_sys.B,lin_sys.C,0,20);%% 
 
 u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
-[Y_hat t1 x1]=lsim(Sys,u);
-x_old = x1(1,:); 
-[psi gamma theta Q] = lifted_system(lin_sys,Hp); 
+
+
+[psi gamma theta Q Alifted Bulifted Ulifted] = lifted_system(lin_sys,Hp,u); 
+
+x0(1:size(Alifted,2))= 0
+
+calX = Alifted*x0'+Bulifted*Ulifted';
+x_old = x0;
 %%
 for m= 2:iterations
-%     input.Q_in(m,1) = 0.15;% + sin(m/10)/35;% input into pipe 1
-%     input.u_init(:) = [0.35 0.35]; % tank inputs
-h_input2= [0.15+sin(m/10)/35 0.15+sin(m/10)/35];
-u = [h_input2;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
-%     u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
-    [Y_hat t1 x1]=lsim(Sys,u);
-    x2 = x1(2,:);
-    delta_x = x2 - x_old;
-    x_old = x2;
+
+%     delta_x = calX - x_old;
+%     x_old = calX;
+%     calX = Alifted*x_old'+Bulifted*Ulifted';
+    
     [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_x);
     u_output_tank = X(1);
     
