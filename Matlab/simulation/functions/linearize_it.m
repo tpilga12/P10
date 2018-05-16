@@ -24,6 +24,7 @@ else
     pipe_fetch = 1;
     tank_counter = 1;
     new_pipe = 0;
+    tank_inserted = 0;
     nr_inputs = 1;
     for run = 1:length(sys_setup)-1
         if strcmp(sys_setup(run).type,'Tank') == 1
@@ -45,7 +46,8 @@ else
             s_c = s_c + 1;
             nr_inputs = nr_inputs + 1;
             tank_counter = tank_counter +1;
-            new_pipe = 1;
+            tank_inserted = 1;
+%             new_pipe = 1;
         else
               for n = 1:sys_setup(run).component
                 k = 1;
@@ -64,12 +66,12 @@ else
                         StateName{s_c,1} = ['h_pipe_in_',num2str(pipe_fetch),'_',num2str(k)];
                         nr_inputs = nr_inputs + 1;
                         s_c = s_c + 1;
-                    elseif new_pipe == 1
-                        new_pipe = 0;
+                    elseif tank_inserted == 1
+                        tank_inserted = 0;
                         F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
                         A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
-                    
-                    
+                    elseif new_pipe == 1
+                        hej = 1;
                     else
                         
                         F(s_c,s_c-1) = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'a');
