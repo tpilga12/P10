@@ -61,7 +61,7 @@ for m= 2:iterations
 end    
 %% run stuff !!!!!
 clc
-iterations = 100;
+iterations = 6;
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
@@ -70,6 +70,7 @@ input.u = input.u_init;
 utank1(1) = input.u_init(1,1);
 utank1(2) = input.u_init(1,2);
 for m = 2:iterations
+    
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
     input.Q_in(m,1) = 0.15;% + sin(m/10)/35 ;%+ sin(m/100)/15;
@@ -81,7 +82,9 @@ for m = 2:iterations
     
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   
-
+    if m>2  
+    [xstates delta_xstates_old]=collect_heights(data,m)
+    end
 end
 
 %%
