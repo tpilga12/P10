@@ -1,4 +1,4 @@
-function [out]=init_pipe(piping,input, sys_component, pipe_nr, accuracy)
+function [out]=init_pipe(piping,input, sys_component,, accuracy)
 %Pipe(bed slope(Ib),        Ruhedsfaktor(k),
 %Delta t(Dt),               Delta x(Dx),
 %Diameter(d),               Pipe sections(sections),
@@ -53,7 +53,7 @@ while abs(avg-desired) > limit
                     data{x}.h(1:sections) = data{x}.fitfunc(input.Q_init(sys_component));
                 else
                     if piping(x).lat_inflow == 1
-                        data{x}.Q(1,1:sections) = data{x-1}.Q(1,end)+input.lat.Q{x+pipe_nr};
+                        data{x}.Q(1,1:sections) = data{x-1}.Q(1,end)+input.lat.Q{x};
                         data{x}.C(1,1:sections) = (data{x-1}.C(m,end)*data{x-1}.Q(m,end)+input.lat.C{x-1}*input.lat.Q{x-1})/(data{x-1}.Q(m,end)+input.lat.Q{x-1});
                         
                         data{x}.h(1:sections) = data{x}.fitfunc(data{x}.Q(1,end));
@@ -74,8 +74,8 @@ while abs(avg-desired) > limit
                     data{x}.C(m,n) = input.C_init(sys_component);
                     data{x}.h(m,n) = data{x}.fitfunc(input.Q_init(sys_component));
                 else
-                    if piping(x).lat_inflow == 1
-                        data{x}.Q(m,n) = data{x-1}.Q(m,end)+input.lat.Q{x+pipe_nr};
+                    if piping(x-1).lat_inflow == 1
+                        data{x}.Q(m,n) = data{x-1}.Q(m,end)+input.lat.Q{x};
                         data{x}.C(m,n) = (data{x-1}.C(m,end)*data{x-1}.Q(m,end)+input.lat.C{x-1}*input.lat.Q{x-1})/(data{x-1}.Q(m,end)+input.lat.Q{x-1});
                     else
                         data{x}.Q(m,n) = data{x-1}.Q(m,end);
@@ -109,7 +109,7 @@ while abs(avg-desired) > limit
             pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/(piping(j).sections+1);%+lat_add;
             desired_value{j} = input.Q_init(sys_component) + lat_add;
         else
-            lat_add = lat_add + input.lat.Q{1,j+pipe_nr}; 
+            lat_add = lat_add + input.lat.Q{1,j}; 
             pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/(piping(j).sections+1);% + lat_add;
             desired_value{j} = input.Q_init(sys_component) + lat_add;
         end

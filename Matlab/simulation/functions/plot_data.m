@@ -19,9 +19,9 @@ hours = 0; % initialize hours in plot
     iter_count = 1;
     v = 1; %Santas little helper
     for r = 1:length(pipe_spec)
-        flow(:,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.Q(:,1:end);
-        height(:,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.h(:,1:end);
-        concentrate(:,v:(pipe_spec(r).sections+v-1)) = data{pipe_spec(r).data_location}.C(:,1:end);
+        flow(:,v:(pipe_spec(r).sections+v)) = data{pipe_spec(r).data_location}.Q(:,1:end);
+        height(:,v:(pipe_spec(r).sections+v)) = data{pipe_spec(r).data_location}.h(:,1:end);
+        concentrate(:,v:(pipe_spec(r).sections+v)) = data{pipe_spec(r).data_location}.C(:,1:end);
         v = v+pipe_spec(r).sections;
     end
     tank_spotted = 1;
@@ -50,9 +50,9 @@ for m= (1+adjust_start):sampling:length(data{1}.Q(:,1))
         yyaxis right
         plot(pipe_sep_line(tank_x),tank_height(m,1:end),'*')
         yyaxis left
-        plot(pipe_sep_line(1:end-1),flow(m,:))
+        plot(pipe_sep_line(1:end),flow(m,:))
     else
-        plot(pipe_sep_line(1:end-1),flow(m,:))
+        plot(pipe_sep_line(1:end),flow(m,:))
     end
     hold on
     for p=1:(length(vertical_line)-1)
@@ -70,9 +70,9 @@ for m= (1+adjust_start):sampling:length(data{1}.Q(:,1))
         yyaxis right
         plot(pipe_sep_line(tank_x),tank_height(m,1:end),'*')
         yyaxis left
-        plot(pipe_sep_line(1:end-1),height(m,:))
+        plot(pipe_sep_line(1:end),height(m,:))
     else
-        plot(pipe_sep_line(1:end-1),height(m,:))
+        plot(pipe_sep_line(1:end),height(m,:))
     end
     hold on
    
@@ -92,10 +92,10 @@ for m= (1+adjust_start):sampling:length(data{1}.Q(:,1))
         plot(pipe_sep_line(tank_x),tank_concentrate(m,1:end),'*')
         ylim(conflowylim)
         yyaxis left
-        plot(pipe_sep_line(1:end-1),concentrate(m,:))
+        plot(pipe_sep_line(1:end),concentrate(m,:))
 
     else
-        plot(pipe_sep_line(1:end-1),concentrate(m,:))
+        plot(pipe_sep_line(1:end),concentrate(m,:))
     end
     hold on
     for p=1:(length(vertical_line)-1)
@@ -108,9 +108,9 @@ for m= (1+adjust_start):sampling:length(data{1}.Q(:,1))
     xlim(distlim)
     
     subplot(2,2,4)
-    plot(pipe_sep_line(1:end-1),concentrate(m,:).*flow(m,:))
+    plot(pipe_sep_line(1:end),concentrate(m,:).*flow(m,:))
     hold on
-    for p=1:(length(vertical_line)-1)
+    for p=1:(length(vertical_line))
         plot([vertical_line(p) vertical_line(p)], conspeedylim, '-r');
     end
     title(['Concentrate flow'])

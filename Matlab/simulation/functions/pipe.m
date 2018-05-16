@@ -1,4 +1,4 @@
-function [output]=pipe(pipe_spec, input, data, pipe_component, m, element, sys_component,new_pipe)
+function [output]=pipe(pipe_spec, input, data, pipe_component, m, element, sys_component, new_pipe)
                 %Pipe(bed slope(Ib),        Ruhedsfaktor(k),
                 %Delta t(Dt),               Delta x(Dx), 
                 %Diameter(d),               Pipe sections(sections),
@@ -47,7 +47,7 @@ for n = 1:sections
             end
         else
             if pipe_spec(pipe_component).lat_inflow == 1
-                Q(m,n) = data{sys_component-1}.Q(m,end)+input.lat.Q{pipe_component-1};
+                Q(m,n) = data{sys_component-1}.Q(m,end)+input.lat.Q{pipe_component};
                 C(m,n) = (data{sys_component-1}.C(m,end) * data{sys_component-1}.Q(m,end) + input.lat.C{pipe_component} * input.lat.Q{pipe_component}) / (data{sys_component-1}.Q(m,end) + input.lat.Q{pipe_component});
             else
                 Q(m,n) = data{sys_component-1}.Q(m,end);
