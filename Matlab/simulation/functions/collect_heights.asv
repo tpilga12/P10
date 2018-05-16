@@ -1,0 +1,9 @@
+
+
+for m = 1:sys_setup(4).component
+    if m == 1
+        xstates = [data{1,1}.h(1,:)]
+    else
+        xstates = [xstates ; data{1,1}.h(1,:)]
+    end
+end

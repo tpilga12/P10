@@ -17,7 +17,13 @@
             Alifted = [Alifted ;lin_sys.A^n];
         end
     end
-    
+            for n = 1:Hp %%% Lifted A matrix
+        if n == 1
+            Ulifted = [u.^n];
+        else
+            Ulifted = [Ulifted u.^n];
+        end
+    end
 % B lifted
 p = 0;
 
@@ -66,10 +72,10 @@ t = 1:1:500;%(sample:sample:length(h_data_hat)*sample)-sample;
 % X0(1:10) =0;
 Sys = ss(lin_sys.A,lin_sys.B,lin_sys.C,0,20);
 
-u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
+u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 [Y_hat t1 x1]=lsim(Sys,u);
 %%
-x1 = x1(1,:)-x1(2,:);
+x1 = x1(1,:)'-x1(2,:)';
 %%
 
 H = gamma'*Q*gamma;
@@ -77,7 +83,7 @@ H = gamma'*Q*gamma;
 %     *Q*theta))-(2*(u(k-2)'*gamma'*Q*theta))-(2*(delta_u(k-1)'*theta'*Q ...
 %     *theta))
 
-f = 2*(x1*psi'*Q*gamma);%+2*(u'*gamma'*Q*theta) - (2*(x1*psi' ...
+f = 2*(x1'*psi'*Q*gamma);%+2*(u'*gamma'*Q*theta) - (2*(x1*psi' ...
     %*Q*theta))-(2*(u'*gamma'*Q*theta))-(2*(delta_u'*theta'*Q ...
    % *theta))
 
