@@ -17,7 +17,7 @@ d = pipe_spec(pipe_component).d; %[m] Diameter
 k = pipe_spec(pipe_component).k; %sandruhed angives typisk i mm der skal bruges m i formler
 Theta = pipe_spec(pipe_component).Theta;
 Dx = pipe_spec(pipe_component).Dx; %[m] grid distance
-sections = pipe_spec(pipe_component).sections; % Number of sections,
+sections = pipe_spec(pipe_component).sections+1; % Number of sections,
 Q_mark = 10; % initial value that makes sure the while loop runs at least once
 epsi = input.Q_init/1000;
 % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R

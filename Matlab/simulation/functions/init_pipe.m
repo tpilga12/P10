@@ -26,7 +26,7 @@ while abs(avg-desired) > limit
         k = piping(x).k; %sandruhed angives typisk i mm der skal bruges m i formler
         Theta = piping(x).Theta;
         Dx = piping(x).Dx; %[m] grid distance
-        sections = piping(x).sections; % Number of sections,
+        sections = piping(x).sections+1; % Number of sections,
         
         if stop_calc == 0
             %    Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
@@ -43,7 +43,7 @@ while abs(avg-desired) > limit
             
         end
         
-        for n = 1:sections
+        for n = 1:(sections)
             %%%%%%%%%%%%%%%%%%%%%%%% Initialization %%%%%%%%%%%%%%%%%%%%%%%%%%
             if m == 1 && n==1
                 
@@ -107,10 +107,10 @@ while abs(avg-desired) > limit
     end
     for j = 1:length(piping)
         if piping(j).lat_inflow == 0
-            pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/piping(j).sections;
+            pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/(piping(j).sections+1);
             desired_value{j} = input.Q_init(sys_component);
         else
-            pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/piping(j).sections + input.lat.Q{1,j};
+            pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/(piping(j).sections+1) + input.lat.Q{1,j};
             desired_value{j} = input.Q_init(sys_component) + input.lat.Q{1,j};
         end
     end
@@ -126,7 +126,7 @@ for p = 1:length(piping)
     out_data{p}.A=data{p}.A(end,:);
     out_data{p}.h=data{p}.h(end,:);
     out_data{p}.C=data{p}.C(end,:);
-    out_data{p}.Ie(1,1:piping(p).sections) = piping(p).Ib;
+    out_data{p}.Ie(1,1:piping(p).sections+1) = piping(p).Ib;
     out_data{p}.fitfunc = data{p}.fitfunc;
     out_data{p}.fitfunc2 = data{p}.fitfunc2;
 end

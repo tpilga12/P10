@@ -23,7 +23,7 @@ else
     section = 1; %keeps track of which cell data should be fetched in data
     pipe_fetch = 1;
     tank_counter = 1;
-    new_pipe_section = 0;
+    new_pipe = 0;
     nr_inputs = 1;
     for run = 1:length(sys_setup)-1
         if strcmp(sys_setup(run).type,'Tank') == 1
@@ -45,7 +45,7 @@ else
             s_c = s_c + 1;
             nr_inputs = nr_inputs + 1;
             tank_counter = tank_counter +1;
-            new_pipe_section = 1;
+            new_pipe = 1;
         else
               for n = 1:sys_setup(run).component
                 k = 1;
@@ -56,14 +56,16 @@ else
                         A(s_c+1,s_c+1)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
                         A(s_c+1,s_c)     = lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c'); %h^(i+1)
                         B(s_c,s_c) = 1; % h^(i)
-                        %B(s_c+1,s_c)=[lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c')-lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a')];
                         B(s_c+1,s_c) = -lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a');
+                        %B(s_c+1,s_c)=[lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c')-lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a')];
+                        
+                        
                         InputName{1,1} = ['Pipe_1_1_inflow'];
                         StateName{s_c,1} = ['h_pipe_in_',num2str(pipe_fetch),'_',num2str(k)];
                         nr_inputs = nr_inputs + 1;
                         s_c = s_c + 1;
-                    elseif new_pipe_section == 1
-                        new_pipe_section = 0;
+                    elseif new_pipe == 1
+                        new_pipe = 0;
                         F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
                         A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
                     
@@ -80,6 +82,7 @@ else
                      k = k +1;
                     s_c = s_c+1;
                  end
+                new_pipe = 1;
                 pipe_fetch = pipe_fetch + 1;
                 section = section + 1;
              end
