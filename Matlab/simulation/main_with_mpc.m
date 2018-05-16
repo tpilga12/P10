@@ -31,6 +31,7 @@ toc
 
 iterations = 100;
 Hp = 10;% Prediciton horizon
+
    
 lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data); 
 
@@ -38,19 +39,22 @@ lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 h_input=[0.3 0];%h_data_hat ;%Input height
 Sys = ss(lin_sys.A,lin_sys.B,lin_sys.C,0,20);
 
-u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
+u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 [Y_hat t1 x1]=lsim(Sys,u);
-x_old = x1; 
-[psi gamma theta] = lifted_system(lin_sys,Hp); 
+x_old = x1(1,:); 
+[psi gamma theta Q] = lifted_system(lin_sys,Hp); 
 %%
 for m= 2:iterations
-    input.Q_in(m,1) = 0.15;% + sin(m/10)/35;% input into pipe 1
-    input.u_init(:) = [0.35 0.35]; % tank inputs
-    u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
+%     input.Q_in(m,1) = 0.15;% + sin(m/10)/35;% input into pipe 1
+%     input.u_init(:) = [0.35 0.35]; % tank inputs
+h_input2= [0.15+sin(m/10)/35 0.15+sin(m/10)/35];
+u = [h_input2;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
+%     u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
     [Y_hat t1 x1]=lsim(Sys,u);
-    delta_x = x1 - x_old;
-    x_old = x1;
-    [X,FVAL,EXITFLAG]=quadprog(gamma,psi,Q,delta_x)
+    x2 = x1(2,:);
+    delta_x = x2 - x_old;
+    x_old = x2;
+    [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_x);
     u_output_tank = X(1);
     
 end    
