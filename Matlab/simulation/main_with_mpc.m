@@ -61,7 +61,7 @@ for m= 2:iterations
 end    
 %% run stuff !!!!!
 clc
-iterations = 6;
+iterations = 2000;
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
@@ -69,6 +69,7 @@ input.u = input.u_init;
 % data{1} = 0;
 utank1(1) = input.u_init(1,1);
 utank1(2) = input.u_init(1,2);
+[psi gamma theta Q Alifted Bulifted Ulifted] = lifted_system(lin_sys,Hp,u); 
 for m = 2:iterations
     
         %%%%%% inputs %%%%%%%%%%%%
@@ -83,7 +84,9 @@ for m = 2:iterations
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   
     if m>2  
-    [xstates delta_xstates_old]=collect_heights(data,m)
+        [xstates delta_xstates]=collect_heights(data,m);
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates);
+        u_output_tank = X(1);
     end
 end
 
