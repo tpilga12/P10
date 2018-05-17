@@ -49,7 +49,7 @@ for m = 2:iterations
 %     if m >= 100
 %         input.Q_in(m,1) = 0.25;
 %     else
-    input.Q_in(m,1) = 0.35;% + sin(m/10)/35 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.35 + sin(m/10)/35 ;%+ sin(m/100)/15;
 %     end
     utank1(m,1) = input.u_init(1,1) + sin(m/10)/35;
     utank2(m,1) = input.u_init(1,2);
