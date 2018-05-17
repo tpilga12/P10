@@ -14,3 +14,4 @@ f = 2*(delta_x*psi'*Q*gamma);%2*delta_Ud'Q*gamma
 options = optimoptions('quadprog','Display','off','Algorithm','interior-point-convex');
 
  [X,FVAL,EXITFLAG] = quadprog(H,f,[],[],[],[],[],[],[],options);%quadprog(H,f,A,b,Aeq,beq,LB,UB,X0)
+%  [X,FVAL,EXITFLAG] = linprog(f,[],[]);%quadprog(H,f,A,b,Aeq,beq,LB,UB,X0)
