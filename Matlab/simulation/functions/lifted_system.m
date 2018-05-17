@@ -1,4 +1,4 @@
-function[psi gamma theta Q Alifted Bulifted Ulifted] =  lifted_system(lin_sys,Hp, u) 
+function[psi gamma theta Q Alifted Bulifted Ulifted] =  lifted_system(lin_sys,Hp) 
 
 % Lifted system 
 % [psi gamma theta] =  lifted_system(lin_sys,Hp) 
@@ -14,13 +14,13 @@ function[psi gamma theta Q Alifted Bulifted Ulifted] =  lifted_system(lin_sys,Hp
         end
     end
     
-        for n = 1:Hp %%% Lifted A matrix
-        if n == 1
-            Ulifted = [u.^n];
-        else
-            Ulifted = [Ulifted u.^n];
-        end
-    end
+%         for n = 1:Hp %%% Lifted A matrix
+%         if n == 1
+%             Ulifted = [u.^n];
+%         else
+%             Ulifted = [Ulifted u.^n];
+%         end
+%     end
     
 % B lifted
 p = 0;
@@ -62,3 +62,4 @@ end
     
     gamma = Clifted*Bulifted; %R(10x120)
     theta = Clifted*B_Deltalifted; %R(10x120)
+end
