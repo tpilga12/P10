@@ -45,9 +45,9 @@ for n = 1:Hp
 end
           
 % Clifted   
-    Clifted = zeros(length(lin_sys.C)*Hp,Hp*2)';
+    Clifted = zeros(length(lin_sys.C)*Hp,Hp)';
     for n = 1:Hp
-%            Clifted(n,1+length(lin_sys.C)*n-length(lin_sys.C):length(lin_sys.C)*n) =lin_sys.C(2,:);   
+  
            Clifted(1+size(lin_sys.C,1)*n-size(lin_sys.C,1):n*2,1+length(lin_sys.C)*n-length(lin_sys.C):length(lin_sys.C)*n) =lin_sys.C; 
     end
     
