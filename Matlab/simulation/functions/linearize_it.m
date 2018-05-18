@@ -17,7 +17,7 @@ else
     dimension = sys_setup(end).sections+add_states+nr_tanks+1; % Setup matrix dimension for sections of system
     
     A = zeros(dimension);  F = eye(dimension);
-    B(1+nr_tanks:dimension,1) = 0; C(1:dimension) = 0;
+    B(1+nr_tanks:dimension,1) = 0; C(1:dimension) = 1; C = diag(C);
     scale_states = eye(dimension);
     StateName = cell(dimension,1);
     s_c = 1; %state counter
@@ -84,10 +84,14 @@ else
                         s_c = s_c + 1;
                     else
                         if new_pipe == 1
-                            scale_states(s_c:(pipe_spec(pipe_fetch).sections-1+s_c),s_c:(pipe_spec(pipe_fetch).sections-1+s_c)) = differentiate(data{pipe_spec(pipe_fetch).data_location-1}.fitfunc2,data{pipe_spec(pipe_fetch).data_location - 1}.h(1,end)) * ...
-                                                differentiate(data{pipe_spec(pipe_fetch).data_location}.fitfunc,data{pipe_spec(pipe_fetch).data_location}.Q(1,end));
+%                             scale_states([s_c:(pipe_spec(pipe_fetch).sections-1+s_c)],[s_c:(pipe_spec(pipe_fetch).sections-1+s_c)]) = differentiate(data{pipe_spec(pipe_fetch).data_location-1}.fitfunc2,data{pipe_spec(pipe_fetch).data_location - 1}.h(1,end)) * ...
+%                                                 differentiate(data{pipe_spec(pipe_fetch).data_location}.fitfunc,data{pipe_spec(pipe_fetch).data_location}.Q(1,end));
+                            index = [s_c:(pipe_spec(pipe_fetch).sections-1+s_c)];
+                            scale_states(index,index) = eye(pipe_spec(pipe_fetch).sections)*(differentiate(data{pipe_spec(pipe_fetch).data_location-1}.fitfunc2,data{pipe_spec(pipe_fetch).data_location - 1}.h(1,end)) * ...
+                                                    differentiate(data{pipe_spec(pipe_fetch).data_location}.fitfunc,data{pipe_spec(pipe_fetch).data_location}.Q(1,end)));
+                                                
                             new_pipe = 0;
-                            fprintf('hej\n')
+
                         end
                         F(s_c,s_c-1) = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'a');
                         F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
@@ -118,8 +122,8 @@ else
     
     slim_matrix = 1e-6;
 %     AF = A/F;
-    A = scale_states*A;
-    F = scale_states*F;
+%     A = scale_states*A*inv(scale_states);
+%     F = scale_states*F*inv(scale_states);
     AF = inv(F)*A;
     AF2 = AF;
     AF2(abs(AF2) < slim_matrix) = 0;
@@ -140,14 +144,14 @@ else
     AF(dimension,last_pipe_out) = 1;
     StateName{dimension,1} = 'h_out_old';
     
-
+    T = scale_states;
 %%% temp fix %%%%% 
 % temp = inv(F);
 % 
-    sys = ss(AF,BF ,C,0,Dt);
+%     sys = ss(AF,BF ,C,0,Dt);
 %     sys2 = ss(AF2,BF2,C,0,Dt);% hed sys 2 sammen med linje 126
 %     
-%     sys = ss(AF,BF ,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
+    sys = ss(T*AF*inv(T), T*BF ,C*inv(T) ,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);
   %  sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
     
 end

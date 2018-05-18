@@ -366,7 +366,7 @@ if call == 1
 
 %%%%%%%%%%%%%%%%%% pipe11.1 %%%%%%%%%%%%%%
     pipe.length = 736; % length in meter
-    pipe.sections = 30; % Number of sections,
+    pipe.sections = 32; % Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.0012; %bed slope
     pipe.d = 1.6; %[m] Diameter
