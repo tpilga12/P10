@@ -1,4 +1,4 @@
-function [init_val sys sysT] = linearize_it(pipe_spec,nr_tanks, tank_spec,sys_setup,input,data)
+function [sys sysT] = linearize_it(pipe_spec,nr_tanks, tank_spec,sys_setup,input,data)
 %LINEARIZE_IT Summary of this function goes here
 %   Linearization of pipe_setup
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -100,7 +100,6 @@ else
                         F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
                         A(s_c,s_c-1) = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'c');
                         A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
-                        x0(s_c,1) = data{section}.h(1,k);
                     end
                     
                     StateName{s_c,1} = ['h_pipe_',num2str(pipe_fetch),'_',num2str(k-1)];
@@ -136,8 +135,8 @@ else
     BF2(abs(BF2) < slim_matrix) = 0;
     
     last_pipe_out = find(strcmp(StateName , ['h_pipe_',num2str(length(pipe_spec)),'_',num2str(pipe_spec(end).sections)]));
-%     C(1,last_pipe_out) = 1;
-%     C(2,dimension-1) = 1;
+    C(1,last_pipe_out) = 1;
+    C(2,dimension-1) = 1;
     OutputName{1} = 'Output_height';
     OutputName{2} = 'Output_height_dot';
     AF(dimension-1,dimension) = -1;
@@ -150,18 +149,16 @@ else
     
     T = scale_states;
     diag_scale = diag(scale_states);
-    
-%     sys.A = AF; sys.B = BF; sys.C = C; sys.D=zeros(size(B));
-%     sys.StateName = StateName; sys.InputName = InputName; sys.OutputName = StateName;
-%     sys.Ts = Dt;
+%%% temp fix %%%%% 
+% temp = inv(F);
+% 
 %     sys = ss(AF,BF ,C,0,Dt);
 %     sys2 = ss(AF2,BF2,C,0,Dt);% hed sys 2 sammen med linje 126
 %     
     sys = ss(AF, BF ,C ,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);
-    %    sys = ss(AF2,BF2,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);
+%    sys = ss(AF2,BF2,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);
     sysT = ss(T*AF*inv(T), T*BF ,C*inv(T) ,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);  
-    init_val.x0 = x0;
-    init_val.u0 = u0;
+
 end
 %%%%%%%%%%%%%%%%%%%%%% Linearizing functions %%%%%%%%%%%%%%
 function [out] = lin_tank(input, tank_spec, pipe_spec, fitfunc, fetch) % Tank / pump

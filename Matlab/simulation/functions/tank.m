@@ -14,8 +14,8 @@ else
     data.Q(m,1) = input.Q_in(m,x);
     data.Q(m,2) = input.u(m,tank_nr)*tank_spec(tank_nr).Q_out_max;
     data.h(m,1) = (1/tank_spec(tank_nr).area)*(data.Q(m,1)-data.Q(m,2))*Dt + data.h(m-1,1);
-%     data.C(m,1) = input.C_in(m,x);
-    data.C(m,1) = ( (data.Q(m,1)/tank_spec(tank_nr).area) * input.C_in(m,x) - (data.Q(m,2)/tank_spec(tank_nr).area) * data.C(m-1,1) )/data.h(m,1) + data.C(m-1,1); 
+    data.C(m,1) = input.C_in(m,x);
+%     data.C(m,1) = ( (data.Q(m,1)/tank_spec(tank_nr).area) * input.C_in(m,x) - (data.Q(m,2)/tank_spec(tank_nr).area) * data.C(m-1,1) )/data.h(m,1) + data.C(m-1,1); 
     if data.h(m,1) <= 0
         data.h(m,1) = 0;
         if data.Q(m,1) <= 0

@@ -35,6 +35,7 @@ u=[h_data_hat'; tank_in ; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i]';
 x0(1:length(lin_sys.A)) = 0;
 % x0(36)=1;
 [Y_hat t1 x1]=lsim(lin_sys,u);
+[Y_hat2 t2 x2] = lsim(sysT,u);
 
 %
 %  Y_hat = x1(:,226);
@@ -47,16 +48,22 @@ Y_lsim = Y_bar + Y_hat;
 %%
 %  plot_lin = [ 53 55 64 79 95 101 104 135 143 184 200 206 219 221 228 233 249 280];
 %  plot_lin = [ 51 52 60 74 89 94 96 126 133 173 188 193 205 206 212 216 231 261];
- plot_lin = [ 53 54 62 76 91 96 98 128 135 175 190 195 207 208 214 218 233 263];
+ plot_lin = [ 53 54 62 76 91 96 98 128 135 175 190 195 207 208 214 218 233 265];
  close all
  for n = 1:length(plot_lin)
      figure(n)
+%      figure('units','normalized','outerposition',[0 0 1 1])
      plot(data{n+2}.h(:,end))
      hold on
      plot(Y_hat(1:end,plot_lin(n))+data{n+2}.h(1,end))
      hold on
      plot(x1(1:end,plot_lin(n))+data{n+2}.h(1,end))
-     legend('non-linear','linear out','linear states')
+     hold on
+     plot(Y_hat2(1:end,plot_lin(n))+data{n+2}.h(1,end))
+     hold on
+     plot(x2(1:end,plot_lin(n))+data{n+2}.h(1,end))     
+     legend('non-linear','linear out','linear states','T out','T states')
+%           legend('non-linear','linear out','linear states')
  end
      
 %%
