@@ -125,7 +125,6 @@ else
 %     A = scale_states*A*inv(scale_states);
 %     F = scale_states*F*inv(scale_states);
     AF = inv(F)*A;
-    AF3 = scale_states*AF*inv(scale_states);
     AF2 = AF;
     AF2(abs(AF2) < slim_matrix) = 0;
     BF = [inv(F)*B(:,1) inv(F)*B(:,2) B(:,3:end)];
