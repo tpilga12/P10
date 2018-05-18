@@ -72,7 +72,8 @@ input.u = input.u_init;
 % data{1} = 0;
 utank1(1) = input.u_init(1,1);
 utank1(2) = input.u_init(1,2);
-[psi gamma theta Q Alifted Bulifted ] = lifted_system(lin_sys,Hp); 
+[psi gamma theta Q Alifted Bulifted ] = lifted_system(lin_sys,Hp);
+[A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec)
 for m = 2:iterations
     
         %%%%%% inputs %%%%%%%%%%%%
@@ -92,7 +93,7 @@ for m = 2:iterations
   
     if m>2  
         [xstates delta_xstates]=collect_heights(data,m);
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates);
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints);
         u_output_tank = X(1);
     end
  end

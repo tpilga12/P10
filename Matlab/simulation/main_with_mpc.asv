@@ -72,7 +72,8 @@ input.u = input.u_init;
 % data{1} = 0;
 utank1(1) = input.u_init(1,1);
 utank1(2) = input.u_init(1,2);
-[psi gamma theta Q Alifted Bulifted ] = lifted_system(lin_sys,Hp); 
+[psi gamma theta Q Alifted Bulifted ] = lifted_system(lin_sys,Hp);
+[A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec)
 for m = 2:iterations
     
         %%%%%% inputs %%%%%%%%%%%%
