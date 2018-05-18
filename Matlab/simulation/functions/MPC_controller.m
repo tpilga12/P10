@@ -83,7 +83,7 @@ H = gamma'*Q*gamma;
 %     *Q*theta))-(2*(u(k-2)'*gamma'*Q*theta))-(2*(delta_u(k-1)'*theta'*Q ...
 %     *theta))
 
-f = 2*(x1'*psi'*Q*gamma);%+2*(u'*gamma'*Q*theta) - (2*(x1*psi' ...
+f = 2*(delta_xstates(1,1:265)*psi'*Q*gamma);%+2*(u'*gamma'*Q*theta) - (2*(x1*psi' ...
     %*Q*theta))-(2*(u'*gamma'*Q*theta))-(2*(delta_u'*theta'*Q ...
    % *theta))
 
@@ -91,7 +91,7 @@ f = 2*(x1'*psi'*Q*gamma);%+2*(u'*gamma'*Q*theta) - (2*(x1*psi' ...
 % options = optimoptions(@fmincon,'Algorithm','interior-point','Display','final');
 options = optimoptions('quadprog','Display','off','Algorithm','interior-point-convex');
 
- [X] = quadprog(H,f,[],[],[],[],[],[],[],options);%quadprog(H,f,A,b,Aeq,beq,LB,UB,X0)
+ [X,FVAL,EXITFLAG] = quadprog(H,f,A_constraints(1:120)',b_constraints(1,120),[],[],b_constraints(1:120),[],[],options);
 
  
 % end

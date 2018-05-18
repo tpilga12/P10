@@ -1,6 +1,7 @@
- function [xstates delta_xstates]=collect_heights(data,iteration)
+%  function [xstates delta_xstates]=collect_heights(data,iteration)
 %% Mangler at sætte flag for at sætte de sidste to states i det første stykke til nul
 %%
+for iteration = 1:20
 if iteration > 2
     for m = 1:length(data)
         if m == 1

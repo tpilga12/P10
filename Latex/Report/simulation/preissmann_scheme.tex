@@ -151,15 +151,17 @@ Where k is the number of iterations, V$'$ is the differentiated of V with respec
 
 Where $\epsilon$ is a small tolerance number, e.g. 5-centimeter variation in water height. Thereby the water height can be found and the area of the water can be calculated with equation \ref{eq:calc_area_open_channel} \fxnote{afsnit om de forskellige ligninger til beregning af Areal, Ie,Ib,Qf,Q} and thereafter equation \ref{eq:continuity_solve_flow} can be used to calculate the flow of the node.
 
-This calculation is performed for each node in the Preissmann scheme, therefore it is an iterative method of solving the flow for an open channel and in figure ??? an illustration of how these equations are iterated is shown.
+This calculation is performed for each node in the Preissmann scheme, therefore it is an iterative method of solving the flow for an open channel and in figure \ref{fig:flow_chart_iteration} a flow chart of how these equations are iterated is shown.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\textwidth]{report/simulation/pictures/flow_chart_iteration.pdf}
-	\caption{caption}
+	\caption{Flow chart of the iteration process to calculate the flow in each point.}
 	\label{fig:flow_chart_iteration}
 \end{figure}
 
-In the following figures the flow \ref{fig:simulation_output_flow_height_a} and the water height \ref{fig:simulation_output_flow_height_b} for the output of the channel is plotted
+The iteration scheme starts with setting the boundary conditions for the flow and height as seen in figure \ref{fig:preissmann_grid_scheme_exampel}, thereafter i and j are countered one up before starting the iteration process. Hereafter the calculation for H, h, A and Q are conducted in iteratively throughout the channel. Finally, a check is made to investigate if the iteration scheme has been through the whole channel before it steps one up in time. This iteration process will go on until the t > 150, which means that all the inputs to the channel has been calculated throughout the pipe.   
+
+In the following figures the flow \ref{fig:simulation_output_flow_height_a} and the water height \ref{fig:simulation_output_flow_height_b} for the output of the channel is shown.
 
 
 \begin{figure}[H]
