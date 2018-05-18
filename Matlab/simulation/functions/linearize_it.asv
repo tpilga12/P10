@@ -17,7 +17,7 @@ else
     dimension = sys_setup(end).sections+add_states+nr_tanks+1; % Setup matrix dimension for sections of system
     
     A = zeros(dimension);  F = eye(dimension);
-    B(1+nr_tanks:dimension,1) = 0; C(1:dimension) = 1; C = diag(C);
+    B(1+nr_tanks:dimension,1) = 0; C(1:dimension) = 0;
     scale_states = eye(dimension);
     StateName = cell(dimension,1);
     s_c = 1; %state counter
@@ -122,13 +122,14 @@ else
     
     slim_matrix = 1e-6;
 %     AF = A/F;
-%     A = scale_states*A*inv(scale_states);
-%     F = scale_states*F*inv(scale_states);
+    A = scale_states*A;
+    F = scale_states*F;
     AF = inv(F)*A;
-    AF3 = scale_states*AF*inv(scale_states);
+%     AF3 = scale_states*AF*inv(scale_states);
     AF2 = AF;
     AF2(abs(AF2) < slim_matrix) = 0;
     BF = [inv(F)*B(:,1) inv(F)*B(:,2) B(:,3:end)];
+    %BF = scale_states*BF;
     BF2 = BF;
     BF2(abs(BF2) < slim_matrix) = 0;
     
@@ -145,14 +146,14 @@ else
     AF(dimension,last_pipe_out) = 1;
     StateName{dimension,1} = 'h_out_old';
     
-    T = scale_states;
+
 %%% temp fix %%%%% 
 % temp = inv(F);
 % 
 %     sys = ss(AF,BF ,C,0,Dt);
 %     sys2 = ss(AF2,BF2,C,0,Dt);% hed sys 2 sammen med linje 126
 %     
-    sys = ss(T*AF*inv(T), T*BF ,C*inv(T) ,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);
+    sys = ss(AF,BF ,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
   %  sys2 = ss(AF2,BF2,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',OutputName);
     
 end
