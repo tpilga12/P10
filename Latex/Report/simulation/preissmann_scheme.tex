@@ -1,4 +1,4 @@
-﻿\section{Preissmann scheme}\label{subse:preissmann_scheme}
+﻿\section{Preissmann scheme}\label{se:preissmann_scheme}
 In this section, the Saint Venant equations are solved using a numerical method.
 
 %Argument for at bruge numeriske metode til at løse saint venant eq.
@@ -74,7 +74,7 @@ In the following section, the calculating of the flow and height in each node wi
 \subsubsection*{Iteration scheme}
 In this section, it will be elaborated how the calculation of the flow and height in each iteration is done \cite{ikke_stationear}.
 
-The discretized continuity equation \ref{eq:continuity_eq_preissmann} from section \ref{subse:preissmann_scheme}, stated below, is solved for the desired flow in equation \ref{eq:continuity_solve_flow},
+The discretized continuity equation \ref{eq:continuity_eq_preissmann} from section \ref{se:preissmann_scheme}, stated below, is solved for the desired flow in equation \ref{eq:continuity_solve_flow},
 \begin{equation}
 	\theta \frac{Q_{j+1}^{i+1}-Q_j^{i+1}}{\Delta x}+(1-\theta)\frac{Q_{j+1}^i - Q_j^i}{\Delta x}+
 	\frac{1}{2}\frac{A_{j+1}^{i+1}-A_{j+1}^i}{\Delta t} + \frac{1}{2} \frac{A_{j}^{i+1} - A_j^i}{\Delta t} = 0
