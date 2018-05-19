@@ -159,7 +159,8 @@ else
 %     
     sys = ss(AF, BF ,C ,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);
     %    sys = ss(AF2,BF2,C,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);
-    sysT = ss(T*AF*inv(T), T*BF ,C*inv(T) ,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);  
+%     sysT = ss(T*AF*inv(T), T*BF ,C*inv(T) ,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);
+    sysT = ss(inv(T*F*inv(T))*(T*A*inv(T)), inv(T*F*inv(T))*(T*B) ,C*inv(T) ,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);    
     init_val.x0 = x0;
     init_val.u0 = u0;
 end
