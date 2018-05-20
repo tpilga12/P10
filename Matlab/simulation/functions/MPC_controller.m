@@ -91,7 +91,7 @@ f = 2*(delta_xstates(1,1:265)*psi'*Q*gamma);%+2*(u'*gamma'*Q*theta) - (2*(x1*psi
 % options = optimoptions(@fmincon,'Algorithm','interior-point','Display','final');
 options = optimoptions('quadprog','Display','off','Algorithm','interior-point-convex');
 
- [X,FVAL,EXITFLAG] = quadprog(H,f,A_constraints(1:120)',b_constraints(1,120),[],[],b_constraints(1:120),[],[],options);
+ [X,FVAL,EXITFLAG] = quadprog(H,f,A_constraints(1:120)',b_constraints(1,120),[],[],b_constraints(2:120),[],[],options);
 
  
 % end

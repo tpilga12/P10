@@ -44,15 +44,14 @@ for n = 1:Hp
     p = p +1;
 end
           
-%% Clifted 
-length_C = 0;
-Clifted = zeros(length(lin_sys.C)*Hp);
-%%
+% Clifted 
+row_C = 0;
+column_C= 0;
 for n=1:Hp
-   Clifted(1+length_C:length(lin_sys.C)*n,1+length_C:length(lin_sys.C)*n) =  lin_sys.C;
-    length_C = length(lin_sys.C)*n;
+   Clifted(1+row_C,1+column_C) =  lin_sys.C
+    
 end
-%%
+
 %     Clifted = zeros(length(lin_sys.C)*Hp,Hp)';
 %     for n = 1:Hp
 %   
@@ -66,7 +65,7 @@ end
 
    B_Deltalifted =Bulifted;
    
-    Q= eye(length(Clifted));
+    Q= eye(Hp*2);
     
     
 %     Clifted = eye(Hp);

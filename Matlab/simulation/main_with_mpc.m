@@ -92,7 +92,7 @@ for m = 2:iterations
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   
     if iterations > 2  
-        [xstates delta_xstates]=collect_states(data,m);
+        [xstates delta_xstates]=collect_states(data,m,lin_sys);
         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints);
         u_output_tank = X(1);
     end
