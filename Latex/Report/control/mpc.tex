@@ -50,10 +50,21 @@ Where J is the cost function that needs to be minimized, Q is the flow, C is the
 						     \underline{\hat{x}} \leq \hat{x} \leq \overline{\hat{x}}
 	\end{aligned}
 \end{equation}
-Where Q has been replaced with the output y as it can be measure directly from the state space system. y correspond to the height in the channel, however it is the same to minimize height difference as the flow because both describes the variation in the output of the sewer. 
+Where Q has been replaced with the output y as it can be measure directly from the state space system. y correspond to the height in the channel, however it is the same to minimize height difference as the flow because both describes the variation in the output of the sewer. In order for the controller to minimize the variations in the output it must be able to predicted future events from knowing the current state. Therefore, by iterating the linear model up to the prediction horizon the controller is able to predict future states. Thus by using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
 
-
-By using the state equation recursively the variables are collected in extended prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{U}_d$:
+\begin{equation}\label{eq:iterating_state_equation}
+\begin{aligned}
+	\hat{x}(k+1|k) &= A\hat{x}(k|k)+B\hat{u}(k|k) + B_d\hat{u}_d(k|k)\\
+	\hat{x}(k+2|k) &= A\hat{x}(k+1|k)+B\hat{u}(k+1|k)+ B_d\hat{u}_d(k+1|k) \\
+				   &= A^2\hat{x}(k|k)+AB\hat{u}(k|k)+AB_d\hat{u}_d(k|k) + B\hat{u}(k+1|k) \\
+				   &+ B_d\hat{u}_d(k+1|k) \\
+				   &\hspace{2mm}\vdots\\
+   \hat{x}(k+H_p|k)&= A\hat{x}(k+H_p-1|k)+B\hat{u}(k+H_p-1|k)+B_d\hat{u}_d(k+H_p-1|k)\\
+   				   &= A^{H_p}\hat{x}(k|k)+A^{H_p-1}B\hat{u}(k|k)+A^{H_p-1}B_d\hat{u}_d(k|k)+\hdots+\\
+   				   &+B\hat{u}(k+H_p-1|k)+B_d\hat{u}_d(k+H_p-1|k)
+\end{aligned}
+\end{equation}
+Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is iterated up to the prediction horizon. This can be setup as prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{U}_d$:
 
 
 \begin{equation}
@@ -71,7 +82,7 @@ By using the state equation recursively the variables are collected in extended 
 		\vdots \\
 		A^{H_p} \\
 	\end{bmatrix}}_{\CMcal{A}}
-	x(k) \\&+
+	\hat{x}(k|k) \\&+
 	\underbrace{\begin{bmatrix}
 		B 		 &0			 &\hdots	& 0		\\
 		AB  	 &B  		 & \hdots& 0		\\
@@ -79,10 +90,10 @@ By using the state equation recursively the variables are collected in extended 
 		A^{H_p-1}B&A^{H_p-2}B&\hdots &B 
     \end{bmatrix}}_{\CMcal{B}}
     	\underbrace{\begin{bmatrix}
-	u(k+1|k)\\
-	u(k+2|k)\\
+	\hat{u}(k|k)\\
+	\hat{u}(k+1|k)\\
 	\vdots\\
-	u(k+H_p-1|k)
+	\hat{u}(k+H_p-1|k)
 	\end{bmatrix}}_{\CMcal{U}(k)} \\ &+ 
     \underbrace{\begin{bmatrix}
     	B_d 	    &0	         &\hdots & 0		\\
@@ -98,18 +109,17 @@ By using the state equation recursively the variables are collected in extended 
  %    	\sum_{i=0}^{H_p-1}A^i B & \hdots & \sum_{i=0}^{H_p-H_u}A^i B \\
 	  \end{bmatrix}}_{\CMcal{B}_d} 
 	\underbrace{\begin{bmatrix}
-	u_d(k+1|k)\\
-	u_d(k+2|k)\\
+	\hat{u}_d(k|k)\\
+	\hat{u}_d(k+1|k)\\
 	\vdots\\
-	u_d(k+H_p-1|k)
+	\hat{u}_d(k+H_p-1|k)
 	\end{bmatrix}}_{\CMcal{U}_d(k)}
 	\end{aligned}
 \end{equation}
 
+Where $\CMcal{X}$ is the predicted state vector for the entire prediction horizon. $\CMcal{A}$ is the state matrix up to the prediction horizon. $x(k|k)$ is the initial state and is used to predict the hole prediction horizon, $\CMcal{B}$ is the input matrix for the prediction horizon, $\CMcal{U}$ is the predicted input vector, which consist of all the predicted inputs from the current timestep until $(k+H_p-1)$. $\CMcal{B_d}$ is the disturbance matrix for the prediction horizon and $\CMcal{U}_d$ is the disturbance vector. 
 
-
-
-
+This iteration process is also done for the output equation:
 
 \begin{equation}
 	\CMcal{Y}(k)= 
@@ -177,9 +187,9 @@ By inserting equation ??? into equation ???? only the first term in equation is 
 \begin{equation}
 	\begin{aligned}
 	&(\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{U}_d(k))^T\cdot Q \cdot (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{U}_d(k)) = \\
-	& \Delta x(k)^T\psi ^T Q \psi \Delta x(k) 								+ \underbrace{\Delta x(k)^T \psi ^T Q \gamma}_{Linear} \Delta  \CMcal{U}(k) 				+\Delta x(k)^T \psi ^T Q \Theta \Delta \CMcal{U}_d(k) \\
-	& \Delta \CMcal{U}(k)^T \underbrace{\gamma ^T Q \psi\Delta x(k)}_{Linear} + \Delta \CMcal{U}(k)^T\underbrace{\gamma ^T Q \gamma}_{Quadric} \Delta \CMcal{U}(k)+\Delta \CMcal{U}(k)^T \underbrace{\gamma ^T Q\Theta \Delta \CMcal{U}_d(k)}_{Linear} \\ 
-	& \Delta \CMcal{U}_d(k)^T \Theta ^T Q  \psi \Delta x(k)					+ \underbrace{\Delta \CMcal{U}_d(k)^T \Theta ^T Q \gamma }_{Linear} \Delta \CMcal{U}(k) 	+\Delta \CMcal{U}_d(k)^T \Theta ^T Q \Theta \Delta \CMcal{U}_d(k)
+	& \Delta x(k)^T\psi ^T Q \psi \Delta x(k) 								+ \underbrace{\Delta x(k)^T \psi ^T Q \gamma \Delta  \CMcal{U}(k) }_{Linear}				+\Delta x(k)^T \psi ^T Q \Theta \Delta \CMcal{U}_d(k) \\
+	& \underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q \psi\Delta x(k)}_{Linear} + \underbrace{\Delta \CMcal{U}(k)^T\gamma ^T Q \gamma\Delta \CMcal{U}(k)}_{Quadric} +\underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q\Theta \Delta \CMcal{U}_d(k)}_{Linear} \\ 
+	& \Delta \CMcal{U}_d(k)^T \Theta ^T Q  \psi \Delta x(k)					+ \underbrace{\Delta \CMcal{U}_d(k)^T \Theta ^T Q \gamma  \Delta \CMcal{U}(k) }_{Linear}	+\Delta \CMcal{U}_d(k)^T \Theta ^T Q \Theta \Delta \CMcal{U}_d(k)
 	\end{aligned}
 \end{equation}
 

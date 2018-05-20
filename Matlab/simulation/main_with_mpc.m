@@ -87,8 +87,11 @@ for m = 2:iterations
     utank1(m,1) = input.u_init(1,1) + sin(m/10)/65;
     utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
-
-    
+if m > 4 
+    utank1(m,1) = u_output_tank+data{1,1}.h(1,1);
+    utank2(m,1) = input.u_init(1,2);
+    input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
+end
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   
     if iterations > 2  
