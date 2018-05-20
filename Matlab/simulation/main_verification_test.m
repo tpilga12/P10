@@ -26,7 +26,7 @@ tic
 toc
 %% run stuff !!!!!
 clc
-iterations = 150;
+iterations = 10;
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
@@ -38,7 +38,7 @@ for m = 2:iterations
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
 %     input.Q_in(m,1) = 0.035 + sin(m/10)/35 ;%+ sin(m/100)/15;
-    input.Q_in(m,1) = test_verification_input(m);
+    input.Q_in(m,1) = 0.25;%test_verification_input(m);
     utank1(m,1) = 0.35 + sin(m/10)/65;
     utank2(m,2) = 0.25;
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
@@ -52,6 +52,6 @@ end
 %%
 sampling = 1; %increase number to skip samples to increase playback speed
 starting_point = 0; % change starting point in iterations (START IS 1)
-playback_speed = 1/10; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
+playback_speed = 1/2; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 

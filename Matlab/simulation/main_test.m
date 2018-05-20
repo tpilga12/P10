@@ -17,7 +17,7 @@ input.u_init(:) = [0.35 0.35]; % initial tank actuator input
 input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
     if pipe_spec(k).lat_inflow == 1
-    input.lat.Q{k} = 0.01;
+    input.lat.Q{k} = 0.0;
     else
     input.lat.Q{k} = 0;
     end
@@ -34,7 +34,7 @@ tic
 toc
 %% run stuff !!!!!
 clc
-iterations = 500;
+iterations = 10;
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
 
 utank1(1) = input.u_init(1,1);
@@ -48,7 +48,7 @@ for m = 2:iterations
 %     else
     input.Q_in(m,1) = 0.35;% + sin(m/10)/35 ;%+ sin(m/100)/15;
 %     end
-    utank1(m,1) = input.u_init(1,1) + sin(m/10)/35;
+    utank1(m,1) = input.u_init(1,1);% + sin(m/10)/35;
     utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 
@@ -60,8 +60,8 @@ end
 toc
 %%
 
-sampling = 5; %increase number to skip samples to increase playback speed
+sampling = 1; %increase number to skip samples to increase playback speed
 starting_point = 0; % change starting point (START IS 0)
-playback_speed = 1/10; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
+playback_speed = 1/1; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 
