@@ -181,12 +181,13 @@ Thereby the following cost function is achieved:
 
 To be able to write the cost function as quadric and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:lifted_output_with_states_inserted} is therefore inserted into equation \ref{eq:delta_cost_function} and thereby the following is obtained:
 
-\begin{equation}
+\begin{equation}\label{eq:cost_function_with_all_the_crap}
 	J = (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))
 \end{equation}
 
+The term on the right hand side of equation \ref{eq:cost_function_with_all_the_crap} is equal to:
 
-\begin{equation}
+\begin{equation}\ref{eq:cost_function_big_eq}
 	\begin{aligned}
 	&(\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k)) = \\
 	& \Delta x(k)^T\psi ^T Q \psi \Delta x(k) 								+ \underbrace{\Delta x(k)^T \psi ^T Q \gamma \Delta  \CMcal{U}(k) }_{Linear}				+\Delta x(k)^T \psi ^T Q \Theta \Delta \CMcal{D}(k) \\
@@ -195,26 +196,23 @@ To be able to write the cost function as quadric and linear terms of the predict
 	\end{aligned}
 \end{equation}
 
-
+Here the quadric and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however they will be referred to in the following equations as, c. The quadric variables are collected in: 
 
 \begin{equation}
 	\CMcal{H} = \gamma^T Q\gamma 
 \end{equation}
 
+And the linear variables are collected in:
 \begin{equation}
 	\begin{aligned}
 	\CMcal{G} &= 2 \Delta x(k)^T\psi^T Q \gamma+2 \Delta \CMcal{D}(k)^T\Theta^T Q \gamma 
 	\end{aligned}
 \end{equation}
 
-And a constant term that can be seen in appendix
-
-\begin{equation}
-	J = \Delta U(k)^T\CMcal{H}\Delta U(k)+ \CMcal{G}\Delta U(k)+ c
-\end{equation}
-
-The optimization is given by
+Thereby inserting these expression in equation \ref{eq:cost_function_big_eq} the cost function is obtained:
 
 \begin{equation}
 	\min_{\Delta U(k)} J(\Delta U(k)) =\min_{\Delta U(k)} \Delta U(k)^T\CMcal{H}\Delta U(k)+\CMcal{G}\Delta U(k)+c
 \end{equation}
+
+\textbf{Constraints}  
