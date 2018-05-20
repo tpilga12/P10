@@ -12,7 +12,7 @@ Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.015; % initial input flow
+input.Q_init = 0.25; % initial input flow
 input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
     input.lat.Q{k} = 0;
@@ -20,9 +20,9 @@ for k = 1:length(pipe_spec)
 end
 error = 0;
 
-[data tank_spec, input] = initialize(input, sys_setup, pipe_spec, tank_spec);
+[data tank_spec input] = initialize(input, sys_setup, pipe_spec, tank_spec);
 tic
-lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
+[initial_values lin_sys sysT] = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
 %% run stuff !!!!!
 clc

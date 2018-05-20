@@ -17,6 +17,7 @@ avg = 10;
 desired = 0;
 g = 9.81; %[m/s^2] gravitational constant
 stop_calc = 0;
+% while m < 1
 while abs(avg-desired) > limit
     m = m + 1;
     for x = 1:length(piping)
@@ -106,11 +107,11 @@ while abs(avg-desired) > limit
     lat_add = 0;
     for j = 1:length(piping)
         if piping(j).lat_inflow == 0
-            pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/(piping(j).sections+1);%+lat_add;
+            pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/(piping(j).sections+1);
             desired_value{j} = input.Q_init(sys_component) + lat_add;
         else
             lat_add = lat_add + input.lat.Q{1,j+pipe_nr}; 
-            pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/(piping(j).sections+1);% + lat_add;
+            pipe_avg_value{j} =  sum([data{j}.Q(m,:)])/(piping(j).sections+1);
             desired_value{j} = input.Q_init(sys_component) + lat_add;
         end
     end
@@ -132,7 +133,7 @@ for p = 1:length(piping)
 end
 out = [out_data];
 
-%    init_iterations = m
+    init_iterations = m
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%% Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

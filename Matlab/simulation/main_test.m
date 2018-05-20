@@ -17,7 +17,7 @@ input.u_init(:) = [0.35 0.35]; % initial tank actuator input
 input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
     if pipe_spec(k).lat_inflow == 1
-    input.lat.Q{k} = 0.0;
+    input.lat.Q{k} = 0.01;
     else
     input.lat.Q{k} = 0;
     end
@@ -35,11 +35,8 @@ toc
 %% run stuff !!!!!
 clc
 iterations = 500;
-% data = init_data;
-input.C_in = input.C_init;
-input.Q_in = input.Q_init;
-input.u = input.u_init;
-% data{1} = 0;
+input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
+
 utank1(1) = input.u_init(1,1);
 utank1(2) = input.u_init(1,2);
 tic

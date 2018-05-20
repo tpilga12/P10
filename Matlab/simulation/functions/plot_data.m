@@ -2,7 +2,7 @@ function [hej]=plot_data(data, nr_tanks, nr_pipes, sys_setup, play_speed, Dt, pi
 global pipe_sep_line
 fig_nr  = 2000;
 time_font_size = 14; % font size of time and iteration
-topplot_adjust = 1.1; %set how much headroom there should be from graph to top, 1.1 = 110% 
+topplot_adjust = 1.1; %set how much headroom there should be from graph to top, 1.1 = 10% 
 botplot_adjust = 0.9; %set how much headroom there should be from bot to graph, 0.9 = 10% 
 hours = 0; % initialize hours in plot
 
