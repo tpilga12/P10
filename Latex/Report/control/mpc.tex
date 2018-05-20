@@ -15,7 +15,19 @@ The simulation covered in section ??? is to be controlled with respect to the pr
 
 From the problem statement it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this tanks are used, these are placed in the sewer network to find locations where they are able to hold back disturbance that will otherwise cause flow and concentration variations into the WWTP. However, the output of these tanks must be controlled in a way where overflow in the tank is prohibited. Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and still be controlled according to some constraints.
 
-To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC is an advanced control method which depends on a dynamic model of the system. Where the model, constraints and a cost function is used to generate the most optimal sequence of control inputs to the system, thus obtaining a desired process behavior. However, only the first control input is used in the current timeslot. Hereafter, in the next timeslot, the MPC algorithm is recalculated to find the must optimal input signal for this timeslot and so on. In addition, MPC also take future disturbance into account thereby predicting an output sequence that is optimal including the disturbance.  %The main advantage of MPC  Furthermore, MPC can be used with constraints to calculate the most optimal control output at the given timeslot and taking disturbance into the account. 
+To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC solves a optimizations problem at each time instant, k, where the main point is to compute a control vector, u that is feed to the system. Furthermore, at the same time MPC takes constraints into the optimization. 
+
+%is an advanced control method which depends on a dynamic model of the system. Where the model, constraints and a cost function is used to generate the most optimal sequence of control inputs to the system, thus obtaining a desired process behavior. However, only the first control input is used in the current timeslot. Hereafter, in the next timeslot, the MPC algorithm is recalculated to find the must optimal input signal for this timeslot and so on. In addition, MPC also take future disturbance into account thereby predicting an output sequence that is optimal including the disturbance. 
+An MPC algorithm consists of:
+\\ 
+\textbf{Cost function}:\\
+Or control objective, J, is an algorithm measuring e.g. the difference between future outputs and a reference while at the same time instant recognizing that any control action is costly for the system. Therefore the price is measured in the cost function over the prediction horizon, $H_p$. This function is therefore minimized with the respect to the future control vector to keep the cost minimized. Furthermore, only the first control input from the vector is used in each time instant thus this optimization is process is calculated at each time step where a new control input is calculated.\\
+\textbf{Constraints}:\\
+One of the unique advantages of MPC is constraints. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax(k)\leq b$ where the constraint a subject to the optimization problem.   
+\\
+\textbf{Prediction model}:\\
+For the MPC to be able to predict future system behavior it needs a model to predict from. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon and thereby calculate an optimal control input.  
+%The main advantage of MPC  Furthermore, MPC can be used with constraints to calculate the most optimal control output at the given timeslot and taking disturbance into the account. 
 % In figure \ref{fig:control_of_sewer} it is shown that the MPC controller is setting the input to the pump.
 
 % \begin{figure}[H]
@@ -33,7 +45,7 @@ To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:p
 %        	\item Repeat from 1.
 % \end{enumerate}       
 
-For MPC to optimize the system a cost function must be written to penalize variations of the flow output $Q(k+i|k)$ and the concentration output $C(k+i|k)$. Where k defines the time step and i is a value going from $1\leq H_p$, where $H_p$ is the prediction horizon. The cost function for flow and concentration is:
+For MPC to optimize the system a cost function must be written to penalize variations of the flow output $Q(k+i|k)$ and the concentration output $C(k+i|k)$. Where k defines the time step and i is a value going from $1\leq H_p$. The cost function for flow and concentration is:
 
 \begin{equation}
 	 J = \sum_{i=1}^{H_p-1} || Q(k+i|k)C(k+i|k)-Q(k+i-1|k)C(k+i-1|k)||_{\CMcal{Q}(i)}^2
@@ -187,7 +199,7 @@ To be able to write the cost function as quadric and linear terms of the predict
 
 The term on the right hand side of equation \ref{eq:cost_function_with_all_the_crap} is equal to:
 
-\begin{equation}\ref{eq:cost_function_big_eq}
+\begin{equation}\label{eq:cost_function_big_eq}
 	\begin{aligned}
 	&(\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k)) = \\
 	& \Delta x(k)^T\psi ^T Q \psi \Delta x(k) 								+ \underbrace{\Delta x(k)^T \psi ^T Q \gamma \Delta  \CMcal{U}(k) }_{Linear}				+\Delta x(k)^T \psi ^T Q \Theta \Delta \CMcal{D}(k) \\
@@ -209,7 +221,7 @@ And the linear variables are collected in:
 	\end{aligned}
 \end{equation}
 
-Thereby inserting these expression in equation \ref{eq:cost_function_big_eq} the cost function is obtained:
+Thereby inserting these expressions in equation \ref{eq:cost_function_big_eq} the final cost function is obtained:
 
 \begin{equation}
 	\min_{\Delta U(k)} J(\Delta U(k)) =\min_{\Delta U(k)} \Delta U(k)^T\CMcal{H}\Delta U(k)+\CMcal{G}\Delta U(k)+c
