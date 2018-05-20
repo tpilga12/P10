@@ -29,7 +29,7 @@ The following will go into details of the design off, and the considerations mad
 The initialization process is as shown in figure \ref{fig:struct_overview} comprised of several parts. The first part is to setup the desired system of pipes and tanks such that the system is simulated with the chosen components in the right order.
 %As mentioned in section \ref{ch:simulation_solution_and_limitation} a solution to minimize flow and concentrate variations could be insertion of one or more tanks in the sewer network. 
 Secondly the system should be brought in to a steady state from which the simulation can start.
-The reason for this is that the Saint-Venant equations utilized to simulate the flow in the sewer pipes is non-linear. Because of this it can be difficult to find a steady state by hand which do not produce a unintended result when starting simulating. Though it might be possible to find fitting initial values for small setup the assumptions is that a larger setup will increase the chance of unintended results when starting simulating.
+The reason for this is that the Saint-Venant equations utilized to simulate the flow in the sewer pipes is non-linear. Because of this it can be difficult to find a steady state by hand which do not produce a unintended result when starting simulating. Though it might be possible to find fitting initial values for small setup the it is assumed that larger setup will increase the chance of unintended results when starting simulating.
 
 For the first part a simple system setup, consisting of a MATLAB function is decided upon. The order of the components in the function decides the place to be in the system when simulating. An example of this the setup procedure is shown in figure \ref{fig:sys_setup}  
 
@@ -54,16 +54,19 @@ The iteration continues until a satisfactory error between the fixed input and t
 \end{figure}
 
 To make the steady state iteration scheme work on a dynamic level, the components can be separated in to parts where adjoint pipes is seen as a single part. The system is then brought in to steady state one part at a time. As the pipes is the only non-linear part of the system they are the only parts needed to be iterated upon. Taking the first part in figure \ref{fig:simple_sewer} as an example, there are two pipes and the second one has a side input.
-From this an initial average can be found by the following calculation:
+From this an initial average can be found by the following equation:
 
 \begin{equation}
- \text{Part-m}_{\text{avg}}	=  \frac{ \sum\limits_{i=1}^n \text{Pipe-in}_i + \text{side inflow}_i }{ n_{\text{pipes}} } 
+ \text{Part-m}_{\text{avg}}	=  \frac{ \sum\limits_{i=1}^n \text{Pipe-input}_i + \text{side inflow}_i }{ n_{\text{pipes}} } 
  \end{equation} \label{avg_init_flow}
 
-the above calculation can then be used to obtain a desired flow and a current one by utilizing values obtained by solving the Saint-Venant equations. The iteration can then be set to stop when the error between the desired and the measured average is sufficiently low. The next part is, in this case a tank, is then set to have the in- and outflow of the first pipe plus the side input. The iteration process then starts over with the third part.
+Equation \ref{avg_init_flow} can then be used to obtain the desired steady state flow and a current one by utilizing values obtained by solving the Saint-Venant equations. The iteration can then be set to stop when the error between the desired and the measured average is sufficiently low. The next part is, in this case a tank, set to have an in- and outflow equal to the output of the second pipe, which is the combined flow of the first pipe plus the side input. For the third part the iteration process then starts over with the outflow of the tank as input. 
+
+\subsection*{Simulation}
 
 
-  
+
+
 
 
 
