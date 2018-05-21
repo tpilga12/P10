@@ -248,14 +248,14 @@ To reformulated the constraint the predicted state equation \ref{eq:lifted_state
      \underline{x}- \bar{x} \leq \CMcal{A}\hat{x}+\CMcal{B}\CMcal{U}+\CMcal{BD} \leq \overline{x}-\bar{x}
  \end{equation} 
 
-
+However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current timestep and the previous timestep, $\Delta$, is inserted on the state, input and disturbance: 
 
 \begin{equation}
      \underline{x}- \bar{x} \leq \CMcal{A}\Delta\hat{x}+\CMcal{B}\Delta\CMcal{U}+\CMcal{B}\Delta\CMcal{D} \leq \overline{x}-\bar{x}
  \end{equation} 
 
 
- Now the constraint is set up as a constraint on the input signal. In addition, this constraint has to be as equality constraints, therefore, it is divided into two constraints. 
+ Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be setup as equality constraints, therefore, it is divided into two constraints: 
 
  \begin{equation}
        \underbrace{\underline{x}- \bar{x}-\CMcal{A}\Delta\hat{x}-\CMcal{B}\Delta\CMcal{D}}_{x_1}\  \leq \CMcal{B}\Delta\CMcal{U}
@@ -265,6 +265,7 @@ To reformulated the constraint the predicted state equation \ref{eq:lifted_state
      \underbrace{\overline{x}-\bar{x}-\CMcal{A}\Delta\hat{x}-\CMcal{B}\Delta\CMcal{D}}_{x_2}\geq \CMcal{B}\Delta\CMcal{U}
  \end{equation}
 
+The constraints can be setup on the standard inequality constraint form and thereby be included in the algorithm for the MPC implementation.
 
  \begin{equation}
         \begin{bmatrix}
@@ -279,3 +280,9 @@ To reformulated the constraint the predicted state equation \ref{eq:lifted_state
            \end{bmatrix}
  \end{equation}
 
+ In the following section the implementation of the cost function and constraints, shown in this section, in MATLAB will be elaborated
+
+\subsection{Implementation of MPC}\label{subse:implementation_mpc}
+In this section the implementation of MPC in MATLAB will be elaborated. 
+
+The cost function in equation \ref{eq:the_cost_function} is setup as a quadratic. In order to solve this minimization problem and find a global minimum quadratic programming (QP) is used. In MATLAB there well develop solvers for QP problems, in this project the quadprog function has been chosen. Quadprog solves the minimization problem subject to constraints to the specified convex objective function. 
