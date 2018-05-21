@@ -12,7 +12,7 @@ global Dt
     new_pipe = 1;
     sys_component = 1;
      for x = 1:length(sys_setup)-1
-         for d= 1:sys_setup(x).component
+         for d = 1:sys_setup(x).component
              if strcmp(sys_setup(x).type,'Tank') == 1 
                  tank_nr = tank_nr + 1;
                  [data{1,sys_component} input] = tank(m, data{1,sys_component}, tank_nr, x, input, tank_spec, init);

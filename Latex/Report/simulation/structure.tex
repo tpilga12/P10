@@ -35,7 +35,7 @@ For the first part a simple system setup, consisting of a MATLAB function is dec
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.55 \textwidth]{report/simulation/pictures/sys_setup.pdf}
+\includegraphics[width=0.5 \textwidth]{report/simulation/pictures/sys_setup.pdf}
 \caption{Setup scheme of system order initiation}
 \label{fig:sys_setup}
 \end{figure}
@@ -53,20 +53,33 @@ The iteration continues until a satisfactory error between the fixed input and t
 \label{fig:simple_sewer}
 \end{figure}
 
-To make the steady state iteration scheme work on a dynamic level, the components can be separated in to parts where adjoint pipes is seen as a single part. The system is then brought in to steady state one part at a time. As the pipes is the only non-linear part of the system they are the only parts needed to be iterated upon. Taking the first part in figure \ref{fig:simple_sewer} as an example, there are two pipes and the second one has a side input.
-From this an initial average can be found by the following equation:
+To make the steady state iteration scheme work on a dynamic level, the components can be separated in to parts where adjoint pipes is seen as a single part. The system can then be brought in to steady state one part at a time. As the pipes is the only non-linear part of the system they are the only parts needed to be iterated upon. Taking the first part in figure \ref{fig:simple_sewer} as an example, there are two pipes and the second one has a side input.
+A general expression of the average flow in the parts containing pipes is given by the following equation:
 
 \begin{equation}
  \text{Part-m}_{\text{avg}}	=  \frac{ \sum\limits_{i=1}^n \text{Pipe-input}_i + \text{side inflow}_i }{ n_{\text{pipes}} } 
  \end{equation} \label{avg_init_flow}
 
-Equation \ref{avg_init_flow} can then be used to obtain the desired steady state flow and a current one by utilizing values obtained by solving the Saint-Venant equations. The iteration can then be set to stop when the error between the desired and the measured average is sufficiently low. The next part is, in this case a tank, set to have an in- and outflow equal to the output of the second pipe, which is the combined flow of the first pipe plus the side input. For the third part the iteration process then starts over with the outflow of the tank as input. 
+Equation \ref{avg_init_flow} can then be used to obtain the desired steady state flow and a current one by utilizing values obtained by solving the Saint-Venant equations. The iteration can then be set to stop when the error between the desired and the measured average is sufficiently low. The next part in figure \ref {fig:simple_sewer} is, in this case a tank, set to have an in- and outflow equal to the output of the second pipe, which is the combined flow of the first pipe plus the side input. For the third part the iteration process then starts over with the outflow of the tank as input.
+As the concentrate flow is depending on the solution of the Saint-Venant equations it is assumed that when the flow is in a steady state the concentrate will have reached steady state as well.
 
 \subsection*{Simulation}
 
+Having obtained a setup in steady state the next part is to simulate it for the predefined amount of iterations. An important part of the simulation is to store data in a way such that it is easily and intuitively obtainable for purposes such as debugging or customized plots. For this reason it is decided to store the data, from simulating, into separate blocks. This means that data from individual pipes and tanks should be stored separately in the order given by the initial component setup shown in figure \ref{fig:sys_setup}. In figure \ref{fig:simple_simulation} a simple overview of the simulation procedure is given.   
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1 \textwidth]{report/simulation/pictures/simple_simulation.pdf}
+\caption{Basic overview of the simulation scheme.}
+\label{fig:simple_simulation}
+\end{figure}
+
+
+\subsection*{Result}
+
+Having obtained data from simulating the user defined system an overview of the results is needed. Considerable time can be spent in designing a function which can display the data in various forms. As the data can consists of a large amount of components as well as a considerable time span it can get quite time consuming to pinpoint parts of interest in time and place. For this reason it is decided that a simple solution which can give an overview, of the obtained data, is needed. The chosen solution is a function which can playback the simulated data at a user defined speed and intervals in the data. Furthermore it should be possible to pause the playback and start it at a user defined iteration.    
 
 
 
 
-
-
+Having outlined the basic details of the construction of the simulation environment the scheme needed to solve the non-linear Saint-Venant equations is explained in detail in the next section.   
