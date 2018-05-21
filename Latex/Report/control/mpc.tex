@@ -13,9 +13,9 @@ The simulation covered in chapter \ref{ch:simulation} is to be controlled with r
 \end{enumerate}
 \end{enumerate}
 
-From the problem statement it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this tanks are used, these are placed in the sewer network to find locations where they are able to hold back disturbance that will otherwise cause flow and concentration variations into the WWTP. However, the output of these tanks must be controlled in a way where overflow in the tank is prohibited. Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and still be controlled according to some constraints.
+From the problem statement, it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this, tanks are used, these are placed in the sewer network to find locations where they are able to hold back disturbance that will otherwise cause flow and concentration variations into the WWTP. However, the output of these tanks must be controlled in a way where overflow in the tank is prohibited. Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and still be controlled according to some constraints.
 
-To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC solves a optimizations problem at each time instant, k, where the main point is to compute a control vector, u that is feed to the system. Furthermore, at the same time MPC takes constraints into the optimization. 
+To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC solves a optimizations problem at each time instant, k, where the main point is to compute a control vector, u that is feed to the system. Furthermore, at the same time, MPC takes constraints into the optimization. 
 
 %is an advanced control method which depends on a dynamic model of the system. Where the model, constraints and a cost function is used to generate the most optimal sequence of control inputs to the system, thus obtaining a desired process behavior. However, only the first control input is used in the current timeslot. Hereafter, in the next timeslot, the MPC algorithm is recalculated to find the must optimal input signal for this timeslot and so on. In addition, MPC also take future disturbance into account thereby predicting an output sequence that is optimal including the disturbance. 
 An MPC algorithm consists of:
@@ -62,7 +62,7 @@ Where J is the cost function that needs to be minimized, Q is the flow, C is the
 						     \underline{\hat{x}} \leq \hat{x} \leq \overline{\hat{x}}
 	\end{aligned}
 \end{equation}
-Where Q has been replaced with the output y as it can be measure directly from the state space system. y correspond to the height in the channel, however it is the same to minimize height difference as the flow because both describes the variation in the output of the sewer. In order for the controller to minimize the variations in the output it must be able to predicted future events from knowing the current state. Therefore, by iterating the linear model up to the prediction horizon the controller is able to predict future states. Thus by using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
+Where Q has been replaced with the output y as it can be measured directly from the state space system. The $\hat{}$ denotes a small signal value, and not an estimate for y. y corresponds to the height of the wastewater in the channel, however, it is the same to minimize height difference as the flow because both describe the variation in the output of the sewer. In order for the controller to minimize the variations in the output, it must be able to predict future events from knowing the current state. Therefore, by iterating the linear model up to the prediction horizon the controller is able to predict future states. Thus by using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
 
 \begin{equation}\label{eq:iterating_state_equation}
 \begin{aligned}
@@ -72,7 +72,7 @@ Where Q has been replaced with the output y as it can be measure directly from t
 				   &+ B_dd(k+1|k) \\
 				   &\hspace{2mm}\vdots\\
    \hat{x}(k+H_p|k)&= A\hat{x}(k+H_p-1|k)+B\hat{u}(k+H_p-1|k)+B_dd(k+H_p-1|k)\\
-   				   &= A^{H_p}\hat{x}(k|k)+A^{H_p-1}B\hat{u}(k|k)+A^{H_p-1}B_dd(k|k)+\hdots+\\
+   				   &= A^{H_p}\hat{x}(k|k)+A^{H_p-1}B\hat{u}(k|k)+A^{H_p-1}B_dd(k|k)+\cdots+\\
    				   &+B\hat{u}(k+H_p-1|k)+B_dd(k+H_p-1|k)
 \end{aligned}
 \end{equation}
@@ -96,10 +96,10 @@ Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is
 	\end{bmatrix}}_{\CMcal{A}}
 	\hat{x}(k|k) \\&+
 	\underbrace{\begin{bmatrix}
-		B 		 &0			 &\hdots	& 0		\\
-		AB  	 &B  		 & \hdots& 0		\\
+		B 		 &0			 &\cdots	& 0		\\
+		AB  	 &B  		 & \cdots& 0		\\
 		\vdots 	 &\vdots	 & \ddots&\vdots	\\
-		A^{H_p-1}B&A^{H_p-2}B&\hdots &B 
+		A^{H_p-1}B&A^{H_p-2}B&\cdots &B 
     \end{bmatrix}}_{\CMcal{B}}
     	\underbrace{\begin{bmatrix}
 	\hat{u}(k|k)\\
@@ -108,17 +108,17 @@ Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is
 	\hat{u}(k+H_p-1|k)
 	\end{bmatrix}}_{\CMcal{U}(k)} \\ &+ 
     \underbrace{\begin{bmatrix}
-    	B_d 	    &0	         &\hdots & 0		\\
-		AB_d  	    &B_d  	     & \hdots& 0		\\
+    	B_d 	    &0	         &\cdots & 0		\\
+		AB_d  	    &B_d  	     & \cdots& 0		\\
 		\vdots 	    &\vdots	     & \ddots&\vdots	\\
-		A^{H_p-1}B_d&A^{H_p-2}B_d&\hdots &B_d 
- %   	B & \hdots & 0 \\
- %    	AB+B & \hdots & 0 \\
+		A^{H_p-1}B_d&A^{H_p-2}B_d&\cdots &B_d 
+ %   	B & \cdots & 0 \\
+ %    	AB+B & \cdots & 0 \\
  %    	\vdots & \ddots & \vdots \\
- %    	\sum_{i=0}^{H_u-1}A^i B & \hdots & B \\
- %    	\sum_{i=0}^{H_u}A^i B & \hdots & AB+B\\
+ %    	\sum_{i=0}^{H_u-1}A^i B & \cdots & B \\
+ %    	\sum_{i=0}^{H_u}A^i B & \cdots & AB+B\\
  %    	\vdots & \vdots & \vdots \\
- %    	\sum_{i=0}^{H_p-1}A^i B & \hdots & \sum_{i=0}^{H_p-H_u}A^i B \\
+ %    	\sum_{i=0}^{H_p-1}A^i B & \cdots & \sum_{i=0}^{H_p-H_u}A^i B \\
 	  \end{bmatrix}}_{\CMcal{B}_d} 
 	\underbrace{\begin{bmatrix}
 	d(k|k)\\
@@ -129,7 +129,7 @@ Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is
 	\end{aligned}
 \end{equation}
 
-Where $\CMcal{X}$ is the predicted state vector for the entire prediction horizon. $\CMcal{A}$ is the state matrix up to the prediction horizon. $x(k|k)$ is the initial state and is used to predict the hole prediction horizon, $\CMcal{B}$ is the input matrix for the prediction horizon, $\CMcal{U}$ is the predicted input vector, which consist of all the predicted inputs from the current timestep until $(k+H_p-1)$. $\CMcal{B}_d$ is the disturbance matrix for the prediction horizon and $\CMcal{D}$ is the disturbance vector. 
+Where $\CMcal{X}$ is the predicted state vector for the entire prediction horizon. $\CMcal{A}$ is the state matrix up to the prediction horizon. $x(k|k)$ is the initial state and is used to predict the hole prediction horizon, $\CMcal{B}$ is the input matrix for the prediction horizon, $\CMcal{U}$ is the predicted input vector, which consists of all the predicted inputs from the current timestep until $(k+H_p-1)$. $\CMcal{B}_d$ is the disturbance matrix for the prediction horizon and $\CMcal{D}$ is the disturbance vector. 
 
 This iteration process is also done for the output equation:
 
@@ -143,8 +143,8 @@ This iteration process is also done for the output equation:
 	\end{bmatrix}
 	= 
 	\underbrace{\begin{bmatrix}
-	C 		& 0 	&\hdots	& 0\\
-	0 		& C 	&\hdots & 0 \\
+	C 		& 0 	&\cdots	& 0\\
+	0 		& C 	&\cdots & 0 \\
 	\vdots	& \vdots&\ddots & 0\\
 	0 		& 0		&0 		& C
 	\end{bmatrix}}_{\CMcal{C}}
@@ -208,7 +208,7 @@ The term on the right hand side of equation \ref{eq:cost_function_with_all_the_c
 	\end{aligned}
 \end{equation}
 
-Here the quadric and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however they will be referred to in the following equations as, c. The quadric variables are collected in: 
+Here the quadric and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however, they will be referred to in the following equations as, c. The quadric variables are collected in: 
 
 \begin{equation}
 	\CMcal{H} = \gamma^T Q\gamma 

@@ -17,7 +17,7 @@ Equation \ref{eq:linearization_Continuity} is expanded to the following:
 	\frac{\partial A(h)}{\partial h}\frac{\partial h(x,t)}{\partial t} + \frac{\partial Q(h)}{\partial h}\frac{\partial h(x,t)}{\partial x}=0
 \end{equation}
 
-By applying the Preissmann scheme from section \ref{subse:preissmann_scheme} equation \ref{eq:preissmann_time_derivatie} and \ref{eq:preissmann_space_derivatie} on the partial derivate of h in terms of time and position, the following is obtained: 
+By applying the Preissmann scheme from section \ref{se:preissmann_scheme} equation \ref{eq:preissmann_time_derivatie} and \ref{eq:preissmann_space_derivatie} on the partial derivate of h in terms of time and position, the following is obtained: 
 
 \begin{equation}
 \begin{aligned}
@@ -56,9 +56,9 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 \begin{equation}
 \begin{aligned}
 	   \underbrace{\begin{bmatrix}
-	    	1 & 0    & 0    &\hdots &0\\
-	    	0 & b_1  & 0    &\hdots &0\\
-	    	0 &a_{1} & b_2  &\hdots &\vdots	  \\
+	    	1 & 0    & 0    &\cdots &0\\
+	    	0 & b_1  & 0    &\cdots &0\\
+	    	0 &a_{1} & b_2  &\cdots &\vdots	  \\
 	    \vdots&\vdots&\ddots&\ddots & 0  \\
 	        0 & 0    &0  	&a_{m-1}&  b_m\\
 	   \end{bmatrix}}_{\xi}
@@ -71,9 +71,9 @@ Where A is the system matrix, x is the state of the system, B is the input matri
 	\end{bmatrix}}_{\dot{x}}
 	=& 
 	\underbrace{\begin{bmatrix}
-	    	0 &  0   &   0    & \hdots   &0\\
-	    c_{0} & d_1  &   0    &  \hdots  &0\\
-	    0	  &c_{1} & d_2    & \hdots   &0 \\
+	    	0 &  0   &   0    & \cdots   &0\\
+	    c_{0} & d_1  &   0    &  \cdots  &0\\
+	    0	  &c_{1} & d_2    & \cdots   &0 \\
 	    \vdots&\vdots&\ddots  & \ddots   & \vdots\\
 	    0	  & 0    &  0     &  c_{m-1} &  d_m\\
 	    \end{bmatrix}}_{A}
