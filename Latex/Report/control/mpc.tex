@@ -22,7 +22,7 @@ An MPC algorithm consists of:
 \\ 
 \textbf{Cost function} or control objective,$\CMcal{J}$, is an algorithm measuring e.g. the difference between future outputs and a reference while at the same time instant recognizing that any control action is costly for the system. Therefore the price is measured in the cost function over the prediction horizon, $H_p$. This function is therefore minimized with the respect to the future control vector to keep the cost minimized. Furthermore, only the first control input from the vector is used in each time instant thus this optimization is process is calculated at each time step where a new control input is calculated \cite{mpc_control_lecture_notes}.
 
-\textbf{Constraints} is unique advantages of MPC. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax(k)\leq b$ where the constraint a subject to the optimization problem \cite{mpc_control_lecture_notes}.   
+\textbf{Constraints} is unique advantages of MPC. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax\leq b$ where the constraint a subject to the optimization problem \cite{mpc_control_lecture_notes}.   
 
 \textbf{Prediction model} for the MPC to be able to predict future system behavior it needs a model to predict from. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon \cite{mpc_control_lecture_notes}.  
 %The main advantage of MPC  Furthermore, MPC can be used with constraints to calculate the most optimal control output at the given timeslot and taking disturbance into the account. 
@@ -48,7 +48,7 @@ For MPC to optimize the system a cost function must be written to penalize varia
 \begin{equation}
 	 \CMcal{J} = \sum_{i=1}^{H_p-1} || Q(k+i|k)C(k+i|k)-Q(k+i-1|k)C(k+i-1|k)||_{\CMcal{Q}(i)}^2
 \end{equation}
-Where J is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. It has been desired to only look at flow variation in the simulation and thereby excluding concentration from the cost function. This has been done to limit the control problem and ease the computation to begin with. Thereby the cost function has been rewritten to: 
+Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. It has been desired to only look at flow variation in the simulation and thereby excluding concentration from the cost function. This has been done to limit the control problem and ease the computation, to begin with. Thereby the cost function has been rewritten to: 
 
 \begin{equation}\label{eq:cost_function_height}
 	 \CMcal{J} = \sum_{i=1}^{H_p-1} || \hat{y}(k+i|k)-\hat{y}(k+i-1|k)||_{\CMcal{Q}(i)}^2
@@ -60,7 +60,7 @@ Where J is the cost function that needs to be minimized, Q is the flow, C is the
 						     \underline{x} \leq \hat{x} \leq \overline{x}
 	\end{aligned}
 \end{equation}
-Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value, and not an estimate for y. y corresponds to the height of the wastewater in the channel, however, it is the same to minimize height difference as the flow because both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states. The states have a lower and upper constraint corresponding respectively to the bottom of the channel and the top of the channel, denoted respectively with $\underline{x}$ and $\overline{x}$. In order for the controller to minimize the variations in the output, it must be able to predict future events from knowing the current state. Therefore, by iterating the linear model up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}. Thus by using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
+Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value and not an estimate for y. y corresponds to the height of the wastewater in the channel, however, it is the same to minimize height difference as the flow because both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states. The states have a lower and upper constraint corresponding respectively to the bottom of the channel and the top of the channel, denoted respectively with $\underline{x}$ and $\overline{x}$. In order for the controller to minimize the variations in the output, it must be able to predict future events from knowing the current state. Therefore, by iterating the linear model up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}. Thus by using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
 
 \begin{equation}\label{eq:iterating_state_equation}
 \begin{aligned}
@@ -189,7 +189,7 @@ Thereby the following cost function is achieved:
 	J = \Delta\CMcal{Y}(k)^T \cdot Q \cdot \Delta\CMcal{Y}(k)
 \end{equation}
 
-To be able to write the cost function as quadric and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:lifted_output_with_states_inserted} is therefore inserted into equation \ref{eq:delta_cost_function} and thereby the following is obtained:
+To be able to write the cost function as quadratic and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:lifted_output_with_states_inserted} is therefore inserted into equation \ref{eq:delta_cost_function} and thereby the following is obtained:
 
 \begin{equation}\label{eq:cost_function_with_all_the_crap}
 	\CMcal{J} = (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))
@@ -201,12 +201,12 @@ The term on the right hand side of equation \ref{eq:cost_function_with_all_the_c
 	\begin{aligned}
 	&(\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k)) = \\
 	& \Delta x(k)^T\psi ^T Q \psi \Delta x(k) 								+ \underbrace{\Delta x(k)^T \psi ^T Q \gamma \Delta  \CMcal{U}(k) }_{Linear}				+\Delta x(k)^T \psi ^T Q \Theta \Delta \CMcal{D}(k) \\
-	& \underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q \psi\Delta x(k)}_{Linear} + \underbrace{\Delta \CMcal{U}(k)^T\gamma ^T Q \gamma\Delta \CMcal{U}(k)}_{Quadric} +\underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q\Theta \Delta \CMcal{D}(k)}_{Linear} \\ 
+	& \underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q \psi\Delta x(k)}_{Linear} + \underbrace{\Delta \CMcal{U}(k)^T\gamma ^T Q \gamma\Delta \CMcal{U}(k)}_{Quadratic} +\underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q\Theta \Delta \CMcal{D}(k)}_{Linear} \\ 
 	& \Delta \CMcal{D}(k)^T \Theta ^T Q  \psi \Delta x(k)					+ \underbrace{\Delta \CMcal{D}(k)^T \Theta ^T Q \gamma  \Delta \CMcal{U}(k) }_{Linear}	+\Delta \CMcal{D}(k)^T \Theta ^T Q \Theta \Delta \CMcal{D}(k)
 	\end{aligned}
 \end{equation}
 
-Here the quadric and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however, they will be referred to in the following equations as, c. The quadric variables are collected in: 
+Here the quadratic and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however, they will be referred to in the following equations as, c. The quadratic variables are collected in: 
 
 \begin{equation}
 	\CMcal{H} = \gamma^T Q\gamma 
@@ -229,53 +229,60 @@ Thereby inserting these expressions in equation \ref{eq:cost_function_big_eq} th
 
 In order to apply the constraints, shown in equation \ref{eq:cost_function_height} for the states, to the optimization problem in equation \ref{eq:the_cost_function} the constraints must be reformulated so they are a constraint of the controller input $\Delta\CMcal{U}$, therefore it is required to reformulate the inequalities constraints. 
 
-The constraints applied to the states are upper and lower bound to the channel and the tank, thereby not allowing the simulation to overfill the channel or the tank, or, to have negative height in either of the two. In the following equation the constraint for the states is shown:  
+The constraints applied to the states are upper and lower bound to the channel and the tank, thereby not allowing the simulation to overfill the channel or the tank, or, to have a negative height in either of the two. In the following equation the constraint for the states is shown:  
 
 
 \begin{equation}
-	\underline{x} \leq \hat{x} \leq \overline{x}
+    \underline{x} \leq \hat{x} \leq \overline{x}
 \end{equation}
 
 As the $\hat{x}$ is a small signal value and as the constraint is for full signal values the operating point needs to be subtracted from the lower and upper bounds thereby transforming the lower and upper bound to small signals:
 
 \begin{equation}
-	\underline{x}- \bar{x} \leq \hat{x} \leq \overline{x}-\bar{x}
+    \underline{x}- \bar{x} \leq \hat{x} \leq \overline{x}-\bar{x}
 \end{equation}
 
 To reformulated the constraint the predicted state equation \ref{eq:lifted_state_equation} is inserted instead of the state vector.
 
 \begin{equation}
- 	\underline{x}- \bar{x} \leq \CMcal{A}\hat{x}+\CMcal{B}\CMcal{U}+\CMcal{BD} \leq \overline{x}-\bar{x}
+     \underline{x}- \bar{x} \leq \CMcal{A}\hat{x}+\CMcal{B}\CMcal{U}+\CMcal{BD} \leq \overline{x}-\bar{x}
  \end{equation} 
 
-
+However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current timestep and the previous timestep, $\Delta$, is inserted on the state, input and disturbance: 
 
 \begin{equation}
- 	\underline{x}- \bar{x} \leq \CMcal{A}\Delta\hat{x}+\CMcal{B}\Delta\CMcal{U}+\CMcal{B}\Delta\CMcal{D} \leq \overline{x}-\bar{x}
+     \underline{x}- \bar{x} \leq \CMcal{A}\Delta\hat{x}+\CMcal{B}\Delta\CMcal{U}+\CMcal{B}\Delta\CMcal{D} \leq \overline{x}-\bar{x}
  \end{equation} 
 
 
- Now the constraint are setup as constraint on the input signal. In addition, this constraint has to be as equality constraints therefore it is divided into two constraints. 
+ Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be setup as equality constraints, therefore, it is divided into two constraints: 
 
  \begin{equation}
-   	\underbrace{\underline{x}- \bar{x}-\CMcal{A}\Delta\hat{x}-\CMcal{B}\Delta\CMcal{D}}_{x_1}\  \leq \CMcal{B}\Delta\CMcal{U}
+       \underbrace{\underline{x}- \bar{x}-\CMcal{A}\Delta\hat{x}-\CMcal{B}\Delta\CMcal{D}}_{x_1}\  \leq \CMcal{B}\Delta\CMcal{U}
  \end{equation}  
 
  \begin{equation}
- 	\underbrace{\overline{x}-\bar{x}-\CMcal{A}\Delta\hat{x}-\CMcal{B}\Delta\CMcal{D}}_{x_2}\geq \CMcal{B}\Delta\CMcal{U}
+     \underbrace{\overline{x}-\bar{x}-\CMcal{A}\Delta\hat{x}-\CMcal{B}\Delta\CMcal{D}}_{x_2}\geq \CMcal{B}\Delta\CMcal{U}
  \end{equation}
 
+The constraints can be setup on the standard inequality constraint form and thereby be included in the algorithm for the MPC implementation.
 
  \begin{equation}
-    	\begin{bmatrix}
-	   	\CMcal{B}\\
-	   	-\CMcal{B}
-	   	\end{bmatrix}
-	   	\Delta\CMcal{U}
-	   	\leq 
-	   	\begin{bmatrix}
- 		x_1\\
- 		x_2
-	   	\end{bmatrix}
+        \begin{bmatrix}
+           \CMcal{B}\\
+           -\CMcal{B}
+           \end{bmatrix}
+           \Delta\CMcal{U}
+           \leq 
+           \begin{bmatrix}
+         x_1\\
+         x_2
+           \end{bmatrix}
  \end{equation}
 
+ In the following section the implementation of the cost function and constraints, shown in this section, in MATLAB will be elaborated
+
+\subsection{Implementation of MPC}\label{subse:implementation_mpc}
+In this section the implementation of MPC in MATLAB will be elaborated. 
+
+The cost function in equation \ref{eq:the_cost_function} is setup as a quadratic. In order to solve this minimization problem and find a global minimum quadratic programming (QP) is used. In MATLAB there well develop solvers for QP problems, in this project the quadprog function has been chosen. Quadprog solves the minimization problem subject to constraints to the specified convex objective function. 
