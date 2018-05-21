@@ -1,12 +1,12 @@
 \section{Structure}\label{sec:Structure}
-For the simulation environment to be useful some basic functionality is needed. The simulation should be easy to setup and adjust if needed. 
-Furthermore an easy way to view the result of the simulation is needed such that necessary adjustments can easily be made based on the result.
+For the simulation environment to be useful, some basic functionality is needed. The simulation should be easy to setup and adjust if needed. 
+Furthermore, an easy way to view the result of the simulation is needed such that necessary adjustments can easily be made based on the result.
 
 The first overall thing to consider is the composition of components desired to simulate. 
-To make the simulation environment useful it should be able to handle different compositions of pipes and tanks. Meaning that the simulation environment can simulate different setups than the one shown in figure \ref{fig:kloakgrid_simplified}. For this a simple setup procedure, where different sizes of pipes with different parameters can be chosen, is needed. 
+To make the simulation environment useful it should be able to handle different compositions of pipes and tanks. Meaning that the simulation environment can simulate different setups than the one shown in figure \ref{fig:kloakgrid_simplified}. For this, a simple setup procedure, where different sizes of pipes with different parameters can be chosen, is needed. 
 The second thing to consider is that the environment should be brought to a steady state before the simulation starts. The reason for this is that unintended results can arise when working with non-linear systems. Also if a linearized approach to the MPC scheme is chosen a linearized model is necessary, which requires a system in steady state to obtain. 
 The simulation should be able to run for a predefined amount of iterations. 
-Based on this the basic structure of the simulation environment can be split in to three parts as shown in figure \ref{fig:struct_overview}.
+Based on this the basic structure of the simulation environment can be split into three parts as shown in figure \ref{fig:struct_overview}.
 
 \begin{figure}[H]
 \centering
@@ -23,15 +23,16 @@ Based on this the basic structure of the simulation environment can be split in 
 % \end{enumerate}
 
 %To solve the non-linear equations obtained for the free flow channel model in subsection \ref{subse:open_channel} the Preissman scheme is utilized. This scheme is explained in detail in section 
-The following will go into details of the design off, and the considerations made during the design phase, of the three part shown in the figure.
+%The following will go into details of the design and the considerations made during the design phase, of the three parts shown in the figure.
+The following will go into details, on the thoughts and the considerations made during the design phase, of the three parts shown in the figure.
 
 \subsection*{Initialization} 
-The initialization process is as shown in figure \ref{fig:struct_overview} comprised of several parts. The first part is to setup the desired system of pipes and tanks such that the system is simulated with the chosen components in the right order.
+The initialization process is, as shown in figure \ref{fig:struct_overview}, comprised of several parts. The first part is to set up the desired system of pipes and tanks such that the system is simulated with the chosen components in the right order.
 %As mentioned in section \ref{ch:simulation_solution_and_limitation} a solution to minimize flow and concentrate variations could be insertion of one or more tanks in the sewer network. 
-Secondly the system should be brought in to a steady state from which the simulation can start.
-The reason for this is that the Saint-Venant equations utilized to simulate the flow in the sewer pipes is non-linear. Because of this it can be difficult to find a steady state by hand which do not produce a unintended result when starting simulating. Though it might be possible to find fitting initial values for small setup the it is assumed that larger setup will increase the chance of unintended results when starting simulating.
+Secondly, the system should be brought in to a steady state from which the simulation can start.
+The reason for this is that the Saint-Venant equations utilized to simulate the flow in the sewer pipes is non-linear. Because of this, it can be difficult to find a steady state by hand, which do not produce an unintended result when starting simulating. Though it might be possible to find fitting initial values for small setup it is assumed that larger setup will increase the chance of unintended results when starting simulating.
 
-For the first part a simple system setup is decided upon, where the desired components is added in a list. The order of the components in the list then decides the place to be in the system when simulating. An example of this  setup procedure is shown in figure \ref{fig:sys_setup}  
+For the first part, a simple system setup is decided upon, where the desired components are added to a list. The order of the components in the list then decides the place to be in the system when simulating. An example of this  setup procedure is shown in figure \ref{fig:sys_setup}. \fxnote{} 
 
 \begin{figure}[H]
 \centering
