@@ -1,7 +1,7 @@
 \section{Model predictive control}\label{se:model_predictive_control}
 In this section, the design of the controller is elaborated. First the control problem the design of the Model predictive controller (MPC). 
 
-The simulation covered in section ??? is to be controlled with respect to the problems elaborated in section \ref{sec:problem_statement} and stated here. 
+The simulation covered in chapter \ref{ch:simulation} is to be controlled with respect to the problems elaborated in section \ref{sec:problem_statement} and stated here. 
 \begin{enumerate}
 \item Flow variations due to large industries and natural phenomenons
 \item Concentration variations due to large industries and natural phenomenons
@@ -26,7 +26,7 @@ Or control objective, J, is an algorithm measuring e.g. the difference between f
 One of the unique advantages of MPC is constraints. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax(k)\leq b$ where the constraint a subject to the optimization problem.   
 \\
 \textbf{Prediction model}:\\
-For the MPC to be able to predict future system behavior it needs a model to predict from. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon and thereby calculate an optimal control input.  
+For the MPC to be able to predict future system behavior it needs a model to predict from. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon.  
 %The main advantage of MPC  Furthermore, MPC can be used with constraints to calculate the most optimal control output at the given timeslot and taking disturbance into the account. 
 % In figure \ref{fig:control_of_sewer} it is shown that the MPC controller is setting the input to the pump.
 
