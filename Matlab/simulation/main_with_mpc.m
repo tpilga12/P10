@@ -25,7 +25,7 @@ error = 0;
 
 [data tank_spec, input] = initialize(input, sys_setup, pipe_spec, tank_spec);
 tic
-lin_sys = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
+[lin_point lin_sys sysT] = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
 %% MPC HUSK AT LAVE FORSTYRELSE MATRICEN RIGTIG OG IKKE BARE KOPIR B
 
@@ -73,7 +73,7 @@ input.u = input.u_init;
 utank1(1) = input.u_init(1,1);
 utank1(2) = input.u_init(1,2);
 [psi gamma theta Q Alifted Bulifted ] = lifted_system(lin_sys,Hp);
-[A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec)
+
 for m = 2:iterations
     
         %%%%%% inputs %%%%%%%%%%%%
@@ -95,8 +95,10 @@ end
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   
     if iterations > 2  
+      
         [xstates delta_xstates]=collect_states(data,m,lin_sys);
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints);
+        [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec);
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,delta_xstates);
         u_output_tank = X(1);
     end
  end

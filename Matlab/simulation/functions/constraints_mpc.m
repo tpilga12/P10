@@ -4,8 +4,8 @@ function [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,
 
 %% Hent tank_spec og rør_spec ind, samt antal, data
 % Bulifted = zeros(length(B)*Hp,Hp)
-A_constraints = ones(1,length(lin_sys.StateName)-2)';
-b_constraints = ones(2,length(lin_sys.StateName)-2);
+A_constraints = ones(1,length(lin_sys.StateName))';
+b_constraints = zeros(2,length(lin_sys.StateName));
 counter = 1;
 n =1;
 for m = 1:20
@@ -51,5 +51,14 @@ for m = 1:20
     counter= counter+pipe_states;
     
 end
+b_constraints = b_constraints';
+b_constraints2 = b_constraints;
+    for n = 1:10 %%% Lifted A matrix
+        if n == 1
+            b_constraints= [b_constraints];
+        else
+            b_constraints = [b_constraints;b_constraints2];
+        end
+    end
 end
 

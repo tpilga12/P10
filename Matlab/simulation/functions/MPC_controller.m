@@ -5,9 +5,7 @@
 % initialise
 % for k = 1:1
     Hp = 10; % Prediction horizon
-    Hu = 2;  % Control horizon
-    XHp = int8(2:Hp);
-    XHu = int8(2:Hu);
+
     
 % A lifted
     for n = 1:Hp %%% Lifted A matrix
@@ -17,7 +15,7 @@
             Alifted = [Alifted ;lin_sys.A^n];
         end
     end
-            for n = 1:Hp %%% Lifted A matrix
+            for n = 1:Hp %%% Lifted U Vector
         if n == 1
             Ulifted = [u.^n];
         else
