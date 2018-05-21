@@ -15,18 +15,18 @@ The simulation covered in chapter \ref{ch:simulation} is to be controlled with r
 
 From the problem statement, it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this, tanks are used, these are placed in the sewer network to find locations where they are able to hold back disturbance that will otherwise cause flow and concentration variations into the WWTP. However, the output of these tanks must be controlled in a way where overflow in the tank is prohibited. Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and still be controlled according to some constraints.
 
-To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC solves a optimizations problem at each time instant, k, where the main point is to compute a control vector, u that is feed to the system. Furthermore, at the same time, MPC takes constraints into the optimization. 
+To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC solves a optimizations problem at each time instant, k, where the main point is to compute a control vector, u that is feed to the system. 
 
 %is an advanced control method which depends on a dynamic model of the system. Where the model, constraints and a cost function is used to generate the most optimal sequence of control inputs to the system, thus obtaining a desired process behavior. However, only the first control input is used in the current timeslot. Hereafter, in the next timeslot, the MPC algorithm is recalculated to find the must optimal input signal for this timeslot and so on. In addition, MPC also take future disturbance into account thereby predicting an output sequence that is optimal including the disturbance. 
 An MPC algorithm consists of:
 \\ 
 \textbf{Cost function}:\\
-Or control objective, J, is an algorithm measuring e.g. the difference between future outputs and a reference while at the same time instant recognizing that any control action is costly for the system. Therefore the price is measured in the cost function over the prediction horizon, $H_p$. This function is therefore minimized with the respect to the future control vector to keep the cost minimized. Furthermore, only the first control input from the vector is used in each time instant thus this optimization is process is calculated at each time step where a new control input is calculated.\\
+Or control objective, J, is an algorithm measuring e.g. the difference between future outputs and a reference while at the same time instant recognizing that any control action is costly for the system. Therefore the price is measured in the cost function over the prediction horizon, $H_p$. This function is therefore minimized with the respect to the future control vector to keep the cost minimized. Furthermore, only the first control input from the vector is used in each time instant thus this optimization is process is calculated at each time step where a new control input is calculated \cite{mpc_control_lecture_notes}.\\
 \textbf{Constraints}:\\
-One of the unique advantages of MPC is constraints. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax(k)\leq b$ where the constraint a subject to the optimization problem.   
+One of the unique advantages of MPC is constraints. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax(k)\leq b$ where the constraint a subject to the optimization problem \cite{mpc_control_lecture_notes}.   
 \\
 \textbf{Prediction model}:\\
-For the MPC to be able to predict future system behavior it needs a model to predict from. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon.  
+For the MPC to be able to predict future system behavior it needs a model to predict from. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon \cite{mpc_control_lecture_notes}.  
 %The main advantage of MPC  Furthermore, MPC can be used with constraints to calculate the most optimal control output at the given timeslot and taking disturbance into the account. 
 % In figure \ref{fig:control_of_sewer} it is shown that the MPC controller is setting the input to the pump.
 
@@ -59,10 +59,10 @@ Where J is the cost function that needs to be minimized, Q is the flow, C is the
 	\begin{aligned}
 	\text{s.t.} \hspace{5mm}  \hat{x}(k+i+1) &= A\hat{x}(k+i|k)+B\hat{u}(k+i|k)+B_dd(k+i|k) \\
 						      \hat{y}(k+i)&= C\hat{x}(k+i|k) \\
-						     \underline{\hat{x}} \leq \hat{x} \leq \overline{\hat{x}}
+						     \underline{x} \leq \hat{x} \leq \overline{x}
 	\end{aligned}
 \end{equation}
-Where Q has been replaced with the output y as it can be measured directly from the state space system. The $\hat{}$ denotes a small signal value, and not an estimate for y. y corresponds to the height of the wastewater in the channel, however, it is the same to minimize height difference as the flow because both describe the variation in the output of the sewer. In order for the controller to minimize the variations in the output, it must be able to predict future events from knowing the current state. Therefore, by iterating the linear model up to the prediction horizon the controller is able to predict future states. Thus by using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
+Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value, and not an estimate for y. y corresponds to the height of the wastewater in the channel, however, it is the same to minimize height difference as the flow because both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states. The states have a lower and upper constraint corresponding respectively to the bottom of the channel and the top of the channel, denoted respectively with $\underline{x}$ and $\overline{x}$. In order for the controller to minimize the variations in the output, it must be able to predict future events from knowing the current state. Therefore, by iterating the linear model up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}. Thus by using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
 
 \begin{equation}\label{eq:iterating_state_equation}
 \begin{aligned}
@@ -148,12 +148,12 @@ This iteration process is also done for the output equation:
 	\vdots	& \vdots&\ddots & 0\\
 	0 		& 0		&0 		& C
 	\end{bmatrix}}_{\CMcal{C}}
-	  \underbrace{\begin{bmatrix}
+	  \begin{bmatrix}
 	  \hat{x}(k+1|k) 	\\
 	  \hat{x}(k+2|k) 	\\
 	  \vdots 			\\
 	  \hat{x}(k+H_p|k) 	\\
-	   \end{bmatrix}}_{\CMcal{X}}
+	   \end{bmatrix}
 \end{equation}
 Where $\CMcal{C}$ is a diagonal matrix with the output matrix C and $\CMcal{X}$ the predicted state vector. By inserting the predicted state equation \ref{eq:lifted_state_equation}, into the predicted output equation \ref{eq:lifted_output_equation} the following is achieved:
 
@@ -223,8 +223,18 @@ And the linear variables are collected in:
 
 Thereby inserting these expressions in equation \ref{eq:cost_function_big_eq} the final cost function is obtained:
 
-\begin{equation}
-	\min_{\Delta U(k)} J(\Delta U(k)) =\min_{\Delta U(k)} \Delta U(k)^T\CMcal{H}\Delta U(k)+\CMcal{G}\Delta U(k)+c
+\begin{equation}\label{eq:the_cost_function}
+	\min_{\Delta \CMcal{U}(k)} J(\Delta \CMcal{U}(k)) =\min_{\Delta \CMcal{U}(k)} \Delta \CMcal{U}(k)^T\CMcal{H}\Delta \CMcal{U}(k)+\CMcal{G}\Delta \CMcal{U}(k)+c
 \end{equation}
 
-\textbf{Constraints}  
+\textbf{Constraints}
+
+In order to apply the constraints, shown in equation \ref{eq:cost_function_height} for the states, to the optimization problem in equation \ref{eq:the_cost_function} the constraints must be reformulated so they are a constraint of the controller input $\Delta\CMcal{U}$, therefore it is required to reformulate the inequalities constraints. 
+
+The constraints applied to the states are upper and lower bound to the channel and the tank, thereby not allowing the simulation to overfill the channel or the tank, or, to have negative height in either of the two. In the following equation the constraint for the state is shown:  
+
+
+\begin{equation}
+	\underline{x} \leq \hat{x} \leq \overline{x}
+\end{equation}
+
