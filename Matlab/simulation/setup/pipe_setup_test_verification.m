@@ -9,7 +9,7 @@ if call == 1
     
     % Non-linear simulation needs pipe at the end meaning that
     % it can run with a tank at the starting point but another control
-    % method than MPC is needed unless a predefined control signal is used.
+    % method than MPC is needed.
     
     %%%%%%%%%%%%%%%%%% pipe1.1 %%%%%%%%%%%%%%
     pipe.length = 561; % length in meter
