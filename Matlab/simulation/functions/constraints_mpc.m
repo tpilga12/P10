@@ -21,7 +21,7 @@ for m = 1:20
         b_constraints(1,counter:counter-1+pipe_states)= [upper_bound];
         b_constraints(2,counter:counter-1+pipe_states)= [lower_bound];
         
-        disp(n)
+      
     n = n+1;
     elseif contains(lin_sys.StateName(counter),'Tank') ==1
         pipe_states = length(data{1,m}.h(1,:));
@@ -34,7 +34,7 @@ for m = 1:20
         
         b_constraints(1,counter:counter-1+pipe_states)= [upper_bound];
         b_constraints(2,counter:counter-1+pipe_states)= [lower_bound];
-        disp(n)    
+        
     else
         pipe_states = length(data{1,m}.h(1,2:end));
         

@@ -79,27 +79,26 @@ for m = 2:iterations
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
     input.Q_in(m,1) = 0.15;% + sin(m/10)/35 ;%+ sin(m/100)/15;
-%     if iterations < 3 
-%         utank1(m,1) = input.u_init(1,1);
-%     else
-%         utank1(m,1) =X(1)*0.973 ;
-%     end
+    
     utank1(m,1) = input.u_init(1,1) + sin(m/10)/65;
     utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
-if m > 4 
-    utank1(m,1) = u_output_tank+data{1,1}.h(1,1);
-    utank2(m,1) = input.u_init(1,2);
-    input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
-end
+% if m > 4 
+%     utank1(m,1) = u_output_tank+data{1,1}.h(1,1);
+%     utank2(m,1) = input.u_init(1,2);
+%     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
+% end
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   
     if iterations > 2  
-      
-        [xstates delta_xstates]=collect_states(data,m,lin_sys);
+     
+        [xstates delta_xstates xstates_old]=collect_states(data,m,lin_sys);
+        
         [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec);
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,delta_xstates);
+    
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,xstates_old);
         u_output_tank = X(1);
+         
     end
  end
 

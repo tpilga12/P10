@@ -13,11 +13,10 @@ f = 2*(delta_xstates*psi'*Q*gamma);%2*delta_Ud'Q*gamma
 
 
 % options = optimoptions(@fmincon,'Algorithm','interior-point','Display','final');
-options = optimoptions('quadprog','Display','off','Algorithm','interior-point-convex');
+options = optimoptions('quadprog','Display','final','Algorithm','interior-point-convex');
 LowerBound = zeros(120,1);
 UpperBound = ones(120,1);
 %  [X,FVAL,EXITFLAG] = quadprog(H,f,[],[],[],[],[],[],[],options);
- [X,FVAL,EXITFLAG] = quadprog(H,f,[],[],[],[],LowerBound,UpperBound,[],options);%quadprog(H,f,A,b,Aeq,beq,LB,UB,X0)
+ [X,FVAL,EXITFLAG] = quadprog(H,f,Bulifted,b_constraints1',[],[],0,1,[],options);%quadprog(H,f,A,b,Aeq,beq,LB,UB,X0)
 %  [X,FVAL,EXITFLAG] = linprog(f,[],[]);%quadprog(H,f,A,b,Aeq,beq,LB,UB,X0)
-% disp(size(X))
-end
+disp(size(X))

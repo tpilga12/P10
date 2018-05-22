@@ -1,4 +1,4 @@
-  function [xstates delta_xstates]= collect_states(data,iteration,lin_sys)
+  function [xstates delta_xstates xstates_old]= collect_states(data,iteration,lin_sys)
 
 %% Constraints 
 
