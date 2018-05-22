@@ -17,6 +17,7 @@ avg = 10;
 desired = 0;
 g = 9.81; %[m/s^2] gravitational constant
 stop_calc = 0;
+fit_size = 10000;
 % while m < 10
 while abs(avg-desired) > limit
     m = m + 1;
@@ -32,10 +33,16 @@ while abs(avg-desired) > limit
         if stop_calc == 0
             %    Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
             Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ib^0.5;% Hennings
-            h_init=0:d/1000:d;
-            for t = 1:1001
+            
+            h_init=0:d/fit_size:d;
+            for t = 1:fit_size+1
                 Q_initialize(t)=(0.46 - 0.5 *cos(pi*(h_init(t)/d))+0.04*cos(2*pi*(h_init(t)/d)))*Qf;
             end
+            %%%%% TEST AREA :DDD %%%%%
+            data{x}.lut.Q = Q_initialize;
+            data{x}.lut.h = h_init;
+            %%%%%%%%%%%%%%%%%%%%%%%%%%
+            
             data{x}.fitfunc = fit(Q_initialize',h_init','poly9');
             data{x}.fitfunc2 = fit(h_init',Q_initialize','poly9');
             if x == length(piping)
@@ -130,6 +137,7 @@ for p = 1:length(piping)
     out_data{p}.Ie(1,1:piping(p).sections+1) = piping(p).Ib;
     out_data{p}.fitfunc = data{p}.fitfunc;
     out_data{p}.fitfunc2 = data{p}.fitfunc2;
+    out_data{p}.lut=data{p}.lut(end,:);
 end
 out = [out_data];
 
