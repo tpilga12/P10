@@ -73,7 +73,7 @@ input.u = input.u_init;
 utank1(1) = input.u_init(1,1);
 utank1(2) = input.u_init(1,2);
 [psi gamma theta Q Alifted Bulifted ] = lifted_system(lin_sys,Hp);
-
+u_output_tank_old = zeros(120,1);
 for m = 2:iterations
     
         %%%%%% inputs %%%%%%%%%%%%
@@ -96,9 +96,9 @@ for m = 2:iterations
         
         [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec);
     
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,xstates_old);
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,xstates_old,u_output_tank_old);
         u_output_tank = X(1);
-         
+        u_output_tank_old =X; 
     end
  end
 

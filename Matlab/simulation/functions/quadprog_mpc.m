@@ -1,6 +1,6 @@
-function [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates,A_constraints, b_constraints,Alifted,Bulifted,xstates_old)
+function [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates,A_constraints, b_constraints,Alifted,Bulifted,xstates_old,u_output_tank_old)
 
-b_constraints1(:,1) = b_constraints(:,1)-(Alifted*(delta_xstates'-xstates_old'));
+b_constraints1(:,1) = b_constraints(:,1)-(Alifted*(delta_xstates'-xstates_old')-Bulifted*u_output_tank_old);
 % b_constraints2 = b_constraints(2,:)-Alifted*delta_xstates';
 H = gamma'*Q*gamma;
 
@@ -13,11 +13,11 @@ f = 2*(delta_xstates*psi'*Q*gamma);%2*delta_Ud'Q*gamma
 
 
 % options = optimoptions(@fmincon,'Algorithm','interior-point','Display','final');
-options = optimoptions('quadprog','Display','off','Algorithm','interior-point-convex');
+options = optimoptions('quadprog','Display','final','Algorithm','interior-point-convex');
 LowerBound = zeros(120,1);
 UpperBound = ones(120,1);
 %  [X,FVAL,EXITFLAG] = quadprog(H,f,[],[],[],[],[],[],[],options);
- [X,FVAL,EXITFLAG] = quadprog(H,f,[],[],[],[],LowerBound,UpperBound,[],options);%quadprog(H,f,A,b,Aeq,beq,LB,UB,X0)
+ [X,FVAL,EXITFLAG] = quadprog(H,f,Bulifted,b_constraints1',[],[],[],[],[],options);%quadprog(H,f,A,b,Aeq,beq,LB,UB,X0)
 %  [X,FVAL,EXITFLAG] = linprog(f,[],[]);%quadprog(H,f,A,b,Aeq,beq,LB,UB,X0)
 % disp(size(X))
 end
