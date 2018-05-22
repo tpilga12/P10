@@ -34,7 +34,7 @@ tic
 toc
 %% run stuff !!!!!
 clc
-iterations = 10;
+iterations = 500;
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
 
 utank1(1) = input.u_init(1,1);

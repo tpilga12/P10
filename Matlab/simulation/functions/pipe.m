@@ -28,6 +28,7 @@ if m > 1
     C = data{sys_component}.C;
     Ie = data{sys_component}.Ie;
     fitfunc = data{sys_component}.fitfunc;
+    lut = data{sys_component}.lut;
 end
         
 Ie(m,1:sections) = pipe_spec(pipe_component).Ib;
@@ -54,7 +55,8 @@ for n = 1:sections
                 C(m,n) = data{sys_component-1}.C(m,end);
             end
         end
-        h(m,n) = fitfunc(Q(m,n));
+        h(m,n) = lut_func(Q(m,n), lut);
+%         h(m,n) = fitfunc(Q(m,n));
         A(m,n) = d^2/4 * acos(((d/2)-h(m,n))/(d/2))-sqrt(h(m,n)*(d-h(m,n)))*((d/2)-h(m,n));
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
@@ -88,6 +90,7 @@ else
     temp.Ie = Ie;
     temp.fitfunc = data{sys_component}.fitfunc;
     temp.fitfunc2 = data{sys_component}.fitfunc2;
+    temp.lut = lut; 
 end
 data{1,sys_component} = temp;
 output = data;
