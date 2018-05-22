@@ -17,8 +17,8 @@ avg = 10;
 desired = 0;
 g = 9.81; %[m/s^2] gravitational constant
 stop_calc = 0;
-while m < 10
-% while abs(avg-desired) > limit
+% while m < 10
+while abs(avg-desired) > limit
     m = m + 1;
     for x = 1:length(piping)
         

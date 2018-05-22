@@ -5,6 +5,7 @@ close all
 data1 = load('init_setup_verification_boundary.mat');
 data2 = load('init_setup_verification_1_iteration.mat');
 data3 = load('init_setup_verification_10_iteration.mat');
+data4 = load('init_setup_verification_22_iteration.mat');
 
 %%%% height plot %%%
 lngth = 0;
@@ -20,24 +21,26 @@ end
 hlim = [0.34 0.36]
 figure(1)
 plot(x_axis,[data1.data{1}.h data1.data{2}.h])
-xlim(hlim)
 hold on
 plot(x_axis,[data2.data{1}.h data2.data{2}.h])
-xlim(hlim)
 hold on
 plot(x_axis,[data3.data{1}.h data3.data{2}.h])
-xlim(hlim)
-legend('Boundary','Iterration 1','Itteration 10')
+hold on
+plot(x_axis,[data4.data{1}.h data4.data{2}.h])
+ylim(hlim)
+legend('Boundary','Iterration 1','Iteration 10','Iteration 22')
 
-qlim = [0.2 0.4];
+qlim = [0.2 0.3];
 figure(2)
 plot(x_axis,[data1.data{1}.Q data1.data{2}.Q])
 hold on
 plot(x_axis,[data2.data{1}.Q data2.data{2}.Q])
 hold on
 plot(x_axis,[data3.data{1}.Q data3.data{2}.Q])
-%xlim(qlim)
-legend('Boundary','Iterration 1','Itteration 10')
+hold on
+plot(x_axis,[data4.data{1}.Q data4.data{2}.Q])
+ylim(qlim)
+legend('Boundary','Iterration 1','Iteration 10','Iteration 22')
 
 
 
