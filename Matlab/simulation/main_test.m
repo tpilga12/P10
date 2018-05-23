@@ -62,6 +62,6 @@ toc
 
 sampling = 1; %increase number to skip samples to increase playback speed
 starting_point = 0; % change starting point (START IS 0)
-playback_speed = 1/1; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
+playback_speed = 1/10; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 
