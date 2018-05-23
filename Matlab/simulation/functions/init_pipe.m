@@ -11,15 +11,15 @@ function [out]=init_pipe(piping,input, sys_component, pipe_nr, accuracy)
 global Dt
 m = 0;
 limit = accuracy;
-limitvalue = 0.0000001; %newton stop iteration value
+limitvalue = 1e-7; %newton stop iteration value
 
 avg = 10;
 desired = 0;
 g = 9.81; %[m/s^2] gravitational constant
 stop_calc = 0;
 fit_steps = 10000;
-while m < 11
-% while abs(avg-desired) > limit
+% while m < 2
+while abs(avg-desired) > limit
     m = m + 1;
     for x = 1:length(piping)
         
@@ -42,6 +42,8 @@ while m < 11
             data{x}.lut.limit = Qf;
            
             data{x}.fitfunc = fit(Q_initialize',h_init','poly9');
+%             data{x}.fitfunc = fit(Q_initialize',h_init','smoothingspline');
+            
             data{x}.fitfunc2 = fit(h_init',Q_initialize','poly9');
             if x == length(piping)
                 stop_calc = 1;
