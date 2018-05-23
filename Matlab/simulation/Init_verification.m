@@ -12,7 +12,7 @@ Dt = 20;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% Steady state iteration %%%%%%%%%%%%%%%%%%%%%%
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.25; % initial input flow
+input.Q_init = 0.97; % initial input flow
 input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
     input.lat.Q{k} = 0;
