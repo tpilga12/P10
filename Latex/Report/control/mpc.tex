@@ -43,7 +43,7 @@ An MPC algorithm consists of:
 %        	\item Repeat from 1.
 % \end{enumerate}       
 
-For MPC to optimize the system a cost function must be written to penalize variations of the flow output $Q(k+i|k)$ and the concentration output $C(k+i|k)$. Where k defines the time step and i is a value going from $1\leq H_p$. The cost function for flow and concentration is:
+For MPC to optimize the system a cost function must be written to penalize variations of the flow output $Q(k+i|k)$ and the concentration output $C(k+i|k)$. Where k defines the prediction time and i is a value going from 1 to $H_p$. The cost function for flow and concentration is:
 
 \begin{equation}
 	 \CMcal{J} = \sum_{i=1}^{H_p-1} || Q(k+i|k)C(k+i|k)-Q(k+i-1|k)C(k+i-1|k)||_{\CMcal{Q}(i)}^2
@@ -233,10 +233,10 @@ The constraints applied to the states are upper and lower bound to the channel a
 
 
 \begin{equation}
-    \underline{x} \leq \hat{x} \leq \overline{x}
+    \underline{x} \leq x \leq \overline{x}
 \end{equation}
 
-As the $\hat{x}$ is a small signal value and as the constraint is for full signal values the operating point needs to be subtracted from the lower and upper bounds thereby transforming the lower and upper bound to small signals:
+As the $x$ is a small signal value and as the constraint is for full signal values the operating point needs to be subtracted from the lower and upper bounds thereby transforming the constraint into small signals:
 
 \begin{equation}
     \underline{x}- \bar{x} \leq \hat{x} \leq \overline{x}-\bar{x}
@@ -248,10 +248,10 @@ To reformulated the constraint the predicted state equation \ref{eq:lifted_state
      \underline{x}- \bar{x} \leq \CMcal{A}\hat{x}+\CMcal{B}\CMcal{U}+\CMcal{BD} \leq \overline{x}-\bar{x}
  \end{equation} 
 
-However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current timestep and the previous timestep, $\Delta \CMcal{U}(k) =  \CMcal{U}(k)- \CMcal{U}(k-1)$, is inserted on the state, input and disturbance: 
+However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k+n) = \CMcal{U}(k-1) \sum_{i=1}^n\Delta \CMcal{U}(i) $, is inserted on the : 
 
 \begin{equation}
-     \underline{x}- \bar{x} \leq \CMcal{A}(\Delta\hat{x}(k)+ x(k-1))+\CMcal{B}(\Delta\CMcal{U}(k)+\CMcal{U}(k-1))+\CMcal{B}(\Delta\CMcal{D}(k)+\CMcal{D}(k-1)) \leq \overline{x}-\bar{x}
+     \underline{x}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}(\CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(i))+\CMcal{B}\CMcal{D}(k) \leq \overline{x}-\bar{x}
  \end{equation} 
 
 
@@ -269,8 +269,8 @@ The constraints can be setup on the standard inequality constraint form and ther
 
  \begin{equation}
         \begin{bmatrix}
-           \CMcal{B}\\
-           -\CMcal{B}
+           -\CMcal{B}\\
+           \CMcal{B}
            \end{bmatrix}
            \Delta\CMcal{U}
            \leq 

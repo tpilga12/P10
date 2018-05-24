@@ -55,7 +55,6 @@ utank1(2) = input.u_init(1,2);
 u_output_tank_old(1:1200,1) =  input.u_init(1,1);
 counter = 1;
 p=1;
-n=1;
 for m = 2:iterations
     
         %%%%%% inputs %%%%%%%%%%%%
@@ -66,11 +65,10 @@ for m = 2:iterations
     utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 if m > 4
-    utank1(m,1) =  u_output_tank(n);
+    utank1(m,1) =  u_output_tank(m-4);
     input.lat.Q{4} = sin(m/10)/65;
     utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
-    n=n+1;
 end
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   
@@ -88,9 +86,10 @@ end
         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,xstates_old,u_output_tank_old,Test_matrix,xstates);
         u_output_tank = X+u_output_tank_old;
         u_output_tank_old =X+u_output_tank_old; 
+        disp(X(1)+u_output_tank_old')
         counter =1;
         p =0;
-        n=1;
+        dbstop if error
      end
  end
 
