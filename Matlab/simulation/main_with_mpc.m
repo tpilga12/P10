@@ -28,7 +28,7 @@ tic
 [lin_point lin_sys sysT] = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
 %% MPC HUSK AT LAVE FORSTYRELSE MATRICEN RIGTIG OG IKKE BARE KOPIR B
-k = 1200;
+k = 120;
 Test_matrix = zeros(k,k);
 p = 0;
 for m =1:k
@@ -37,11 +37,21 @@ for m =1:k
     end
   p=p+1;
 end
+%%
+length_C = 0;
+C_matrix_mpc = zeros(10,length(lin_sys.C)*Hp);
+C_matrix_mpc_constraint=zeros(1,length(lin_sys.A)); 
+C_matrix_mpc_constraint(1,37)=1;
+%%
+for n=1:4
+   C_matrix_mpc(n,1+length_C:length(C_matrix_mpc_constraint)*n) = C_matrix_mpc_constraint;
+    length_C = length(lin_sys.A)*n;
+end
 
 %% run stuff !!!!!
 clc
-iterations = 2000;
-Hp = 100;% Prediciton horizon
+iterations = 500;
+Hp = 10;% Prediciton horizon
 h_input=[0.3 0];
 u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 % data = init_data;
@@ -52,15 +62,17 @@ input.u = input.u_init;
 utank1(1) = input.u_init(1,1);
 utank1(2) = input.u_init(1,2);
 [psi gamma theta Q Alifted Bulifted ] = lifted_system(lin_sys,Hp);
-u_output_tank_old(1:1200,1) =  input.u_init(1,1);
+u_output_tank_old(1:120,1) =  input.u_init(1,1);
 counter = 1;
 p=1;
 n=1;
+
+%%
 for m = 2:iterations
     
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.15;% + sin(m/10)/35 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.15 + sin(m/100)/35 ;%+ sin(m/100)/15;
     
     utank1(m,1) = input.u_init(1,1);% + sin(m/10)/65;
     utank2(m,1) = input.u_init(1,2);
@@ -83,9 +95,9 @@ end
      if p==1
         [xstates delta_xstates xstates_old]=collect_states(data,m,lin_sys);
         
-        [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec);
+        [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp);
     
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,xstates_old,u_output_tank_old,Test_matrix,xstates);
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,xstates_old,u_output_tank_old,Test_matrix,xstates,C_matrix_mpc);
         u_output_tank = X+u_output_tank_old;
         u_output_tank_old =X+u_output_tank_old; 
         counter =1;

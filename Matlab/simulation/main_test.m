@@ -12,7 +12,7 @@ Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.35; % initial input flow
+input.Q_init = 0.25; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
 input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
@@ -64,6 +64,6 @@ toc
 
 sampling = 1; %increase number to skip samples to increase playback speed
 starting_point = 0; % change starting point (START IS 0)
-playback_speed = 1/1; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
+playback_speed = 1/10; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 

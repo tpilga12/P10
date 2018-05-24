@@ -1,4 +1,4 @@
-function [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp)
+% function [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec)
 
 %% Constraints 
 
@@ -20,10 +20,8 @@ for m = 1:20
         
 %         b_constraints(1,counter:counter-1+pipe_states)= [upper_bound];
 %         b_constraints(2,counter:counter-1+pipe_states)= [lower_bound];
-%           b_constraints(1,counter:counter)= [upper_bound];
-%           b_constraints(2,counter:counter)= [lower_bound];
-          b_constraints(1,counter:counter)= 0;
-          b_constraints(2,counter:counter)= 0;
+          b_constraints(1,counter:counter)= [upper_bound];
+          b_constraints(2,counter:counter)= [lower_bound];
 
           
       
@@ -39,10 +37,8 @@ for m = 1:20
         
 %         b_constraints(1,counter:counter-1+pipe_states)= [upper_bound];
 %         b_constraints(2,counter:counter-1+pipe_states)= [lower_bound];
-%           b_constraints(1,counter:counter-1+pipe_states)= [upper_bound];
-%           b_constraints(2,counter:counter-1+pipe_states)= [lower_bound];
           b_constraints(1,counter:counter-1+pipe_states)= [upper_bound];
-          b_constraints(2,counter:counter-1+pipe_states)= [lower_bound];
+        b_constraints(2,counter:counter-1+pipe_states)= [lower_bound];
         
     else
         pipe_states = length(data{1,m}.h(1,2:end));
@@ -53,13 +49,8 @@ for m = 1:20
         upper_bound = pipe_diameter-data{1,1}.h(1,1);
         
         
-%         b_constraints(1,counter:counter-1+pipe_states)= [upper_bound];
-%         b_constraints(2,counter:counter-1+pipe_states)= [lower_bound];
-%           b_constraints(1,counter:counter)= [upper_bound];
-%           b_constraints(2,counter:counter)= [lower_bound];
-          b_constraints(1,counter:counter)= 0;
-          b_constraints(2,counter:counter)= 0;
-          
+        b_constraints(1,counter:counter-1+pipe_states)= [upper_bound];
+        b_constraints(2,counter:counter-1+pipe_states)= [lower_bound];
         n = n+1;
     end
     counter= counter+pipe_states;
@@ -67,7 +58,7 @@ for m = 1:20
 end
 b_constraints = b_constraints';
 b_constraints2 = b_constraints;
-    for n = 1:Hp %%% Lifted A matrix
+    for n = 1:10 %%% Lifted A matrix
         if n == 1
             b_constraints= [b_constraints];
         else
@@ -76,5 +67,5 @@ b_constraints2 = b_constraints;
     end
     
     
-end
+% end
 
