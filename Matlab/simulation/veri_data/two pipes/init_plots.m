@@ -30,7 +30,7 @@ start = lngth+1;
 pipe_sep(n,1) = x_axis(start-1);
 end
 
-qlim = [0.23 0.3];
+qlim = [0.24 0.28];
 hlim = [0.345 0.36];
 
 figure(1)
@@ -110,7 +110,7 @@ hold on
   xlabel('Distance [m]')
   ylabel('Flow [m^3/s]')
 legend('Boundary','Iterration 1','Iteration 10','Iteration 18')
-
+%%
 figure(3)
 plot(data8.data{1}.fitfunc)
 hold on
@@ -120,3 +120,33 @@ ylim([-0.05 0.95])
 grid
 legend('Curve fit','Raw data','Location','northwest')
 
+
+figure(31)
+subplot(1,3,1)
+plot(data8.data{1}.fitfunc)
+hold on
+plot(data8.data{1}.lut.Q,data8.data{1}.lut.h)
+xlim([-0.05 0.255])
+ylim([-0.05 0.4])
+grid
+legend('Curve fit','Raw data','Location','northwest')
+
+% figure(32)
+subplot(1,3,2)
+plot(data8.data{1}.fitfunc)
+hold on
+plot(data8.data{1}.lut.Q,data8.data{1}.lut.h)
+xlim([0.25 0.75])
+ylim([0.3 0.7])
+grid
+legend('Curve fit','Raw data','Location','northwest')
+
+% figure(33)
+subplot(1,3,3)
+plot(data8.data{1}.fitfunc)
+hold on
+plot(data8.data{1}.lut.Q,data8.data{1}.lut.h)
+xlim([0.75 1])
+ylim([0.6 1])
+grid
+legend('Curve fit','Raw data','Location','northwest')
