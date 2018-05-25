@@ -29,8 +29,8 @@ start = lngth+1;
 pipe_sep(n,1) = x_axis(start-1);
 end
 
-qlim = [0.24 0.27];
-hlim = [0.24 0.5];
+qlim = [0.24 0.275];
+hlim = [0.23 0.5];
 lut_legend = {'Boundary','Iterration 1','Iteration 10','Iteration 189'};
 curve_legend = {'Boundary','Iterration 1','Iteration 10','Iteration 206'};
 

@@ -73,15 +73,35 @@ In figure \ref{fig:curvefit_comparision} a comparison is shown of the generated 
 \label{fig:curvefit_comparision}
 \end{figure}
 
-The two plots in the figure is seemingly identical, but if observed closer the curve fit has what could be described as a low frequency oscillation compared to the data plot. Furthermore the curve fit does not reach the same end points. This will result in the height at the end points never to be zero or the diameter of the pipe when no inflow or maximum inflow is present, respectively. 
+The two plots in the figure is seemingly identical, but if observed closer the curve fit has what could be described as a low frequency oscillation compared to the plotted data. Furthermore the curve fit does not reach the same end points. This will result in the height at the end points never to be zero or the diameter of the pipe, when no inflow or maximum inflow is present. In figure \ref{fig:curvefit_comparision_split} the plot is separated in to three.
+
+
+\begin{figure}[H]
+ \centering
+ \input{report/simulation/tikz/curvefit_comparison_split}
+\caption{Comparison between data obtained by equation \ref{eq:calc_for_flowv2} and the same data curve fitted to a ninth order polynomial.}
+\label{fig:curvefit_comparision_split}
+\end{figure}
+
+
+
 
  As discussed in section \ref{sec:Structure}, a scheme which brings the system to an initial steady state could be necessary due to the nonlinear nature of the Saint-Venant equations. A test is performed where two adjoint pipes, with the specifications given in table \ref{tab:pipe_figure_parameters}, is simulated for different amount of iterations. The result of this test is seen in figure \ref{fig:two_pipes_init_steady_state}. 
 
 \begin{figure}[H]
  \centering
  \input{report/simulation/tikz/two_pipes_init_steady_state}
-\caption{Height and flow in two adjoint pipes, with identical specifications given in table \ref{tab:pipe_figure_parameters}, given boundary conditions, found by fitted polynomial, and simulated various amount of iterations with constant flow input of 0,25 $\text{m}^\text{3}$/s.}
+\caption{Height and flow in two adjoint pipes, with identical specifications given in table \ref{tab:pipe_figure_parameters}, given boundary conditions found by fitted polynomial, and calculated at various amount of iterations with constant flow input of 0,25 $\text{m}^\text{3}$/s. Dotted line indicate intersection between pipes.}
 \label{fig:two_pipes_init_steady_state}
 \end{figure}
 
-In figure \ref{fig:two_pipes_init_steady_state} the simulation is stopped after 22 iterations, as the error between the input flow of 0.25 $\text{m}^\text{3}$/s desired to be in all sections and the calculated flow in all the sections of the two pipes is less than $1^{-7}$ which is a preset condition. Some discrepancy in heights can be seen at the start of both pipes. These two points are the ones that are found by the fitted polynomial 
+In figure \ref{fig:two_pipes_init_steady_state} the simulation is stopped after 22 iterations, as the error between the input flow of 0.25 $\text{m}^\text{3}$/s desired to be in all sections and the calculated flow in all the sections of the two pipes is less than $1\cdot10^{-7}$ which is a preset condition. Some discrepancy in heights can be seen at the start of both pipes. These two points are the boundary conditions that are found by the fitted polynomial. Even though the anomalies are small they could pose a problem when expanding the simulation with more pipes. In figure \ref{fig:fredericia_init_steady_state} the pipe setup in table \ref{tab:kloak_diameter} with corrections from table \ref{tab:new_slope_values}, of part of Fredericia from section \ref{se:system_description} is seen. 
+
+\begin{figure}[H]
+ \centering
+ \input{report/simulation/tikz/fredericia_init_steady_state}
+\caption{Height and flow in pipe setup, given by table \ref{tab:kloak_diameter} with corrections from table \ref{tab:new_slope_values}, of part of Fredericia where boundary conditions is found by fitted polynomial. Various amount of iterations, with constant flow input of 0,25 $\text{m}^\text{3}$/s, is performed. Dotted line indicates pipe intersections.}
+\label{fig:fredericia_init_steady_state}
+\end{figure}
+
+It is clear that more pipes with different specifications causes disturbances. This need the system to be brought in to a steady state to avoid unintended results when starting simulating.

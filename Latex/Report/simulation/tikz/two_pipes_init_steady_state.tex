@@ -12,7 +12,7 @@
 \begin{tikzpicture}
 
 \begin{axis}[%
-width=4.4in,
+width=5.1in,
 height=1.661in,
 at={(2.08in,3.154in)},
 scale only axis,
@@ -20,11 +20,17 @@ xmin=0,
 xmax=400,
 xlabel style={font=\color{white!15!black}},
 %xlabel={Distance [m]},
-ymin=0.34,
+ymin=0.345,
 ymax=0.36,
 ylabel style={font=\color{white!15!black}},
 ylabel={Height [m]},
 axis background/.style={fill=white},
+y tick label style={
+        /pgf/number format/.cd,
+            fixed,
+            fixed zerofill,
+            precision=3,
+        /tikz/.cd  },
 title style={font=\bfseries},
 %title={Curvefit},
 legend style={legend cell align=left, align=left, draw=white!15!black}
@@ -98,7 +104,7 @@ legend style={legend cell align=left, align=left, draw=white!15!black}
 \end{axis}
 
 \begin{axis}[%
-width=4.4in,
+width=5.1in,
 height=1.661in,
 at={(2.08in,0.858in)},
 scale only axis,
@@ -110,6 +116,12 @@ ymin=0.24,
 ymax=0.28,
 ylabel style={font=\color{white!15!black}},
 ylabel={$\text{Flow [m}^\text{3}\text{/s]}$},
+y tick label style={
+        /pgf/number format/.cd,
+            fixed,
+            fixed zerofill,
+            precision=3,
+        /tikz/.cd  },
 axis background/.style={fill=white},
 legend style={legend cell align=left, align=left, draw=white!15!black}
 ]

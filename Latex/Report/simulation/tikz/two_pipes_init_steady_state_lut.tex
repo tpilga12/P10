@@ -1,0 +1,136 @@
+% This file was created by matlab2tikz.
+%
+%The latest updates can be retrieved from
+%  http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz-matlab2tikz
+%where you can also make suggestions and rate matlab2tikz.
+%
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
+\definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
+\definecolor{mycolor4}{rgb}{0.49400,0.18400,0.55600}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=4.521in,
+height=1.476in,
+at={(0.758in,2.571in)},
+scale only axis,
+xmin=0,
+xmax=400,
+xlabel style={font=\color{white!15!black}},
+xlabel={Distance [m]},
+ymin=0.345,
+ymax=0.36,
+ylabel style={font=\color{white!15!black}},
+ylabel={Height [m]},
+axis background/.style={fill=white},
+title style={font=\bfseries},
+title={Lookup table},
+legend style={legend cell align=left, align=left, draw=white!15!black}
+]
+\addplot [color=mycolor1]
+  table[row sep=crcr]{%
+0	0.349019999999996\\
+200	0.349019999999996\\
+400	0.349019999999996\\
+};
+\addlegendentry{Boundary}
+
+\addplot [color=mycolor2]
+  table[row sep=crcr]{%
+0	0.349019999999996\\
+20	0.349031193163512\\
+60	0.349021414571951\\
+200	0.349019999999996\\
+400	0.349019999999996\\
+};
+\addlegendentry{Iterration 1}
+
+\addplot [color=mycolor3]
+  table[row sep=crcr]{%
+0	0.349019999999996\\
+20	0.349036518406024\\
+200	0.349036600479735\\
+200	0.349019999999996\\
+220	0.349036542734041\\
+300	0.349031182055\\
+400	0.34902204571631\\
+};
+\addlegendentry{Iteration 10}
+
+\addplot [color=mycolor4]
+  table[row sep=crcr]{%
+0	0.349019999999996\\
+20	0.349036518406024\\
+200	0.349036522122901\\
+200	0.349019999999996\\
+220	0.34903651840483\\
+400	0.349036521130984\\
+};
+\addlegendentry{Iteration 18}
+
+\addplot [color=red, dotted, forget plot]
+  table[row sep=crcr]{%
+200	0.344999999999999\\
+200	0.360000000000014\\
+};
+\end{axis}
+
+\begin{axis}[%
+width=4.521in,
+height=1.476in,
+at={(0.758in,0.498in)},
+scale only axis,
+xmin=0,
+xmax=400,
+xlabel style={font=\color{white!15!black}},
+xlabel={Distance [m]},
+ymin=0.24,
+ymax=0.28,
+ylabel style={font=\color{white!15!black}},
+ylabel={$\text{Flow [m}^\text{3}\text{/s]}$},
+axis background/.style={fill=white},
+legend style={legend cell align=left, align=left, draw=white!15!black}
+]
+\addplot [color=mycolor1]
+  table[row sep=crcr]{%
+0	0.25\\
+200	0.25\\
+400	0.25\\
+};
+\addlegendentry{Boundary}
+
+\addplot [color=mycolor2]
+  table[row sep=crcr]{%
+0	0.25\\
+100	0.249976829024547\\
+200	0.249976576955419\\
+400	0.24997657624067\\
+};
+\addlegendentry{Iterration 1}
+
+\addplot [color=mycolor3]
+  table[row sep=crcr]{%
+0	0.25\\
+200	0.250000116176523\\
+340	0.249985872308912\\
+400	0.249979474600764\\
+};
+\addlegendentry{Iteration 10}
+
+\addplot [color=mycolor4]
+  table[row sep=crcr]{%
+0	0.25\\
+200	0.250000000000114\\
+400	0.249999992563403\\
+};
+\addlegendentry{Iteration 18}
+
+\addplot [color=red, dotted, forget plot]
+  table[row sep=crcr]{%
+200	0.240000000000009\\
+200	0.280000000000001\\
+};
+\end{axis}
+\end{tikzpicture}%
