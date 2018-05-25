@@ -58,11 +58,11 @@ Y_lsim = Y_bar + Y_hat;
      plot(Y_hat(1:end,plot_lin(n))+data{n+2}.h(1,end))
      hold on
      plot(x1(1:end,plot_lin(n))+data{n+2}.h(1,end))
-     hold on
-     plot(Y_hat2(1:end,plot_lin(n))+data{n+2}.h(1,end))
-     hold on
-     plot(x2(1:end,plot_lin(n))+data{n+2}.h(1,end))     
-     legend('non-linear','linear out','linear states','T out','T states')
+%      hold on
+%      plot(Y_hat2(1:end,plot_lin(n))+data{n+2}.h(1,end))
+%      hold on
+%      plot(x2(1:end,plot_lin(n))+data{n+2}.h(1,end))     
+     legend('non-linear','linear out','linear states')%,'T out','T states')
 %           legend('non-linear','linear out','linear states')
  end
      
