@@ -84,7 +84,7 @@ The two plots in the figure is seemingly identical, but if observed closer the c
 \end{figure}
 
 
- As discussed in section \ref{sec:Structure}, a scheme which brings the system to an initial steady state could be necessary due to the nonlinear nature of the Saint-Venant equations. A test is performed where two adjoint pipes, with the specifications given in table \ref{tab:pipe_figure_parameters}, is simulated for different amount of iterations. The boundary condition is found by the  The result of this test is seen in figure \ref{fig:two_pipes_init_steady_state}. 
+ As discussed in section \ref{sec:Structure}, a scheme which brings the system to an initial steady state could be necessary due to the nonlinear nature of the Saint-Venant equations. A test is performed where two adjoint pipes, with the specifications given in table \ref{tab:pipe_figure_parameters}, is calculated for different amount of iterations. The boundary condition is found by the fitted polynomial for each pipe respectively. The result of this test is seen in figure \ref{fig:two_pipes_init_steady_state}. 
 
 \begin{figure}[H]
  \centering
@@ -121,12 +121,20 @@ It is clear that the larger setup increases the undesired behavior seen in figur
 \begin{figure}[H]
  \centering
  \input{report/simulation/tikz/fredericia_init_steady_state_zoom}
-\caption{Segment of the height plot shown in figure \ref{fig:fredericia_init_steady_state}.}
+\caption{Segment of the height plot shown in figure \ref{fig:fredericia_init_steady_state}. Pipe 10 and 16 is seen in part at the left and right side and 11 to 15 in between with a red stippled line separating pipes.}
 \label{fig:fredericia_init_steady_state_zoom}
 \end{figure}
 
+In the above figure, the obtained height from the fitted polynomial is at it worst off by almost a centimeter. But when simulating this offset will only occur in the first section of the pipe. This means that it will be a greater disturbance on short pipes with few sections than larger ones with more sections. An alternative method is attempted to conclude if the deviations of the polynomial fit seen in figure \ref{fig:curvefit_comparision_split} is the cause or if there is an unforeseen error in the Preissmann scheme. A lookup table, where the same data used to create the polynomial fit, is utilized. A simple implementation of it is made where the index in the flow vector is found by subtracting the input flow from the flow vector. The desired index is then found by the index with the lowest absolute value. Finally the resulting height is given as the desired index of the height vector. The chosen scheme for creating the lookup table means that the height will in worst case be less than what it should be. But indexing the flow and height into the chosen 10.000 steps, it is assumed to be an insignificant error, and in worst case the amount of steps can be increased. In figure \ref{fig:fredericia_init_steady_state_lut} an identical test of the pipe setup of Fredericia is performed at various iterations.      
+
+\begin{figure}[H]
+ \centering
+ \input{report/simulation/tikz/fredericia_init_steady_state_lut}
+\caption{Height and flow in pipe setup, given by table \ref{tab:kloak_diameter} with corrections from table \ref{tab:new_slope_values}, of part of Fredericia where boundary conditions is found by lookup table. Various amount of iterations, with constant flow input of 0,25 $\text{m}^\text{3}$/s, is performed. Dotted line indicates pipe intersections.}
+\label{fig:fredericia_init_steady_state_lut}
+\end{figure}
+
+It is clearly shown that the deviation between the boundary conditions found by the lookup table and the values found iterating the Preissmann scheme is significantly decreased.
+Something else to note is that even though the difference seem to be non existent it still required 189 iterations before the flow error were minimized to the same 1$\cdot \text{10}^{\text{-7}}$ as before. For this reason it is decided to implement the scheme which brings the adjoint pipe parts into steady state before simulation starts. A decisive choice is not made at this point whether the curve fitted polynomial or the lookup table should be implemented. The reason for this is that some imprecision can be accepted if considerable simulation time can be reduced. A test will therefore be performed, in the simulation part of the implementation, to decided which scheme should be utilized.
 
 
-
-
-Implementing a lookup table 
