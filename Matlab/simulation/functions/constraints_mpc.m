@@ -33,8 +33,8 @@ for m = 1:20
         
         
         pipe_diameter = pipe_spec(m).d;
-        lower_bound =-data{1,1}.h(1,1);;%-data{1,1}.h(1,1); %% Find lower bound og upper bound på tank
-        upper_bound = tank_spec(1).height-data{1,1}.h(1,1);%pipe_diameter-data{1,1}.h(1,1);
+        lower_bound =-data{1,2}.h(1,1);;%-data{1,1}.h(1,1); %% Find lower bound og upper bound på tank
+        upper_bound = tank_spec(1).height-data{1,2}.h(1,1);%pipe_diameter-data{1,1}.h(1,1);
         
         
 %         b_constraints(1,counter:counter-1+pipe_states)= [upper_bound];

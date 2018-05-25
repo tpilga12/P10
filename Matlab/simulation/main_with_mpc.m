@@ -10,7 +10,7 @@ global Dt iterations error
 Dt = 20;
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+Hp = 10;% Prediciton horizon
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.15; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
@@ -51,7 +51,7 @@ end
 %% run stuff !!!!!
 clc
 iterations = 500;
-Hp = 10;% Prediciton horizon
+
 h_input=[0.3 0];
 u=[h_input;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
 % data = init_data;
@@ -62,7 +62,7 @@ input.u = input.u_init;
 utank1(1) = input.u_init(1,1);
 utank1(2) = input.u_init(1,2);
 [psi gamma theta Q Alifted Bulifted ] = lifted_system(lin_sys,Hp);
-u_output_tank_old(1:120,1) =  input.u_init(1,1);
+u_output_tank_old(120,1) =  input.u_init(1,1);
 counter = 1;
 p=1;
 n=1;
@@ -72,7 +72,7 @@ for m = 2:iterations
     
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.15 + sin(m/100)/35 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.15;% + sin(m/100)/35 ;%+ sin(m/100)/15;
     
     utank1(m,1) = input.u_init(1,1);% + sin(m/10)/65;
     utank2(m,1) = input.u_init(1,2);
@@ -86,22 +86,22 @@ if m > 4
 end
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   
-    if counter < 100
-        counter = counter +1;
-    else
-        p = 1 ;
-    end
+%     if counter < 100
+%         counter = counter +1;
+%     else
+%         p = 1 ;
+%     end
     
      if p==1
         [xstates delta_xstates xstates_old]=collect_states(data,m,lin_sys);
         
         [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp);
     
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,xstates_old,u_output_tank_old,Test_matrix,xstates,C_matrix_mpc);
-        u_output_tank = X+u_output_tank_old;
-        u_output_tank_old =X+u_output_tank_old; 
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,xstates_old,u_output_tank_old,Test_matrix,xstates,C_matrix_mpc,input);
+        u_output_tank = X(1)+u_output_tank_old;
+        u_output_tank_old =X(1)+u_output_tank_old; 
         counter =1;
-        p =0;
+%         p =0;
         n=1;
      end
  end
