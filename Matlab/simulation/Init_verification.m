@@ -7,8 +7,8 @@ global Dt iterations error
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% Structure setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Dt = 20;
-[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = init_setup_verification(1);
-% [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_setup_init_fredericia(1);
+% [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = init_setup_verification(1);
+[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_setup_init_fredericia(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% Steady state iteration %%%%%%%%%%%%%%%%%%%%%%

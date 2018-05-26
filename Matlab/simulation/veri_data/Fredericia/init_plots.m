@@ -115,3 +115,23 @@ hold on
 legend(lut_legend)
 
 
+%% figure 1 zoom height
+
+figure(111)
+plot(x_axis,fetch_data(data1,'h'))
+% hold on
+% plot(x_axis,fetch_data(data2,'h'))
+% hold on
+% plot(x_axis,fetch_data(data3,'h'))
+hold on
+plot(x_axis,fetch_data(data4,'h'))
+hold on
+    for p = 1:(length(pipe_sep)-1)
+        plot([pipe_sep(p,1) pipe_sep(p,1)], hlim, ':r');
+    end  
+ ylim([0.3 0.38])
+ xlim([2950 3950])
+ title('Curvefit')
+  xlabel('Distance [m]')
+  ylabel('Height [m]')
+ legend(curve_legend{1,1}, curve_legend{1,end})

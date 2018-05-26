@@ -1,0 +1,104 @@
+% This file was created by matlab2tikz.
+%
+%The latest updates can be retrieved from
+%  http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz-matlab2tikz
+%where you can also make suggestions and rate matlab2tikz.
+%
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=4.521in,
+height=3.066in,
+at={(0.758in,0.481in)},
+scale only axis,
+xmin=2950,
+xmax=3950,
+xlabel style={font=\color{white!15!black}},
+xlabel={Distance [m]},
+ymin=0.3,
+ymax=0.38,
+ylabel style={font=\color{white!15!black}},
+ylabel={Height [m]},
+axis background/.style={fill=white},
+title style={font=\bfseries},
+%title={Curvefit},
+legend style={legend cell align=left, align=left, draw=white!15!black}
+]
+\addplot [color=mycolor1]
+  table[row sep=crcr]{%
+2949.375	0.31921912278267\\
+3021	0.31921912278267\\
+3021	0.316751000824752\\
+3325	0.316751000824752\\
+3325	0.344573805214623\\
+3441	0.344573805214623\\
+3441	0.34981251558429\\
+3724	0.34981251558429\\
+3724	0.341336368817338\\
+3755	0.341336368817338\\
+3755	0.326099272523606\\
+3880	0.326099272523606\\
+3880	0.366998098881595\\
+3950.5	0.366998098881595\\
+};
+\addlegendentry{Boundary}
+
+\addplot [color=mycolor2]
+  table[row sep=crcr]{%
+2949.375	0.321570503379462\\
+3021	0.321570503379462\\
+3021	0.316751000824752\\
+3041.26666666667	0.318880063902725\\
+3325	0.318880065802659\\
+3325	0.344573805214623\\
+3348.2	0.348367030399004\\
+3441	0.348367034072908\\
+3441	0.34981251558429\\
+3464.58333333333	0.350168554431093\\
+3724	0.350168562385988\\
+3724	0.341336368817338\\
+3755	0.340652282182418\\
+3755	0.326099272523606\\
+3775.83333333333	0.319013731799259\\
+3880	0.319013719205032\\
+3880	0.366998098881595\\
+3903.5	0.366424696740069\\
+3950.5	0.366424682920751\\
+};
+\addlegendentry{Iteration 206}
+
+\addplot [color=red, dotted, forget plot]
+  table[row sep=crcr]{%
+3021	0.291999999999916\\
+3021	0.38799999999992\\
+};
+\addplot [color=red, dotted, forget plot]
+  table[row sep=crcr]{%
+3325	0.291999999999916\\
+3325	0.38799999999992\\
+};
+\addplot [color=red, dotted, forget plot]
+  table[row sep=crcr]{%
+3441	0.291999999999916\\
+3441	0.38799999999992\\
+};
+\addplot [color=red, dotted, forget plot]
+  table[row sep=crcr]{%
+3724	0.291999999999916\\
+3724	0.38799999999992\\
+};
+\addplot [color=red, dotted, forget plot]
+  table[row sep=crcr]{%
+3755	0.291999999999916\\
+3755	0.38799999999992\\
+};
+\addplot [color=red, dotted, forget plot]
+  table[row sep=crcr]{%
+3880	0.291999999999916\\
+3880	0.38799999999992\\
+};
+\end{axis}
+\end{tikzpicture}%

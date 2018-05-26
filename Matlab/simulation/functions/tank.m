@@ -5,9 +5,9 @@ global Dt
  
 if init == 1
     data.Q(init,1) = input.Q_init(x); % input flow
-    input.u_init(init,tank_nr) = data.Q(init,1)/tank_spec(tank_nr).Q_out_max;
+    input.u_init(init,tank_nr) = data.Q(init,1)/tank_spec(tank_nr).Q_out_max; % 
     data.Q(init,2) = input.u_init(tank_nr)*tank_spec(tank_nr).Q_out_max; % output flow
-    data.h(init,1) = input.tank_height_init(tank_nr);
+    data.h(init,1) = input.tank_height_init(tank_nr); 
     data.C(init,1) = input.C_init(x); % concentrate in tank
 
 else
@@ -25,7 +25,7 @@ else
         else
             data.Q(m,2) = input.u(m,tank_nr)*tank_spec(tank_nr).Q_out_max;
         end
-    elseif data.h(m,1) > tank_spec(tank_nr).height
+    elseif data.h(m,1) > tank_spec(tank_nr).height % warn about overflow at iteration m
        % data.h(m,1) = tank_spec(tank_nr).height;
         fprintf(' Height is above limit in tank %d at iteration %d\n',tank_nr,m)
     end
