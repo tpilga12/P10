@@ -233,13 +233,13 @@ The constraints applied to the states are upper and lower bound to the channel a
 
 
 \begin{equation}
-    \underline{x} \leq x \leq \overline{x}
+    x_{min} \leq \CMcal{X} \leq x_{max}
 \end{equation}
 
 As the $x$ is a small signal value and as the constraint is for full signal values the operating point needs to be subtracted from the lower and upper bounds thereby transforming the constraint into small signals:
 
 \begin{equation}
-    \underline{x}- \bar{x} \leq \hat{x} \leq \overline{x}-\bar{x}
+    x_{min}- \bar{x} \leq \hat{\CMcal{X}} \leq x_{max}-\bar{x}
 \end{equation}
 
 To reformulated the constraint the predicted state equation \ref{eq:lifted_state_equation} is inserted instead of the state vector.
@@ -248,7 +248,7 @@ To reformulated the constraint the predicted state equation \ref{eq:lifted_state
      \underline{x}- \bar{x} \leq \CMcal{A}\hat{x}+\CMcal{B}\CMcal{U}+\CMcal{BD} \leq \overline{x}-\bar{x}
  \end{equation} 
 
-However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k+n) = \CMcal{U}(k-1) \sum_{i=1}^n\Delta \CMcal{U}(i) $, is inserted on the : 
+However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k+n) = \CMcal{U}(k-1) \sum_{i=1}^n\Delta \CMcal{U}(k+i) $, is inserted on the : 
 
 \begin{equation}
      \underline{x}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}(\CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(i))+\CMcal{B}\CMcal{D}(k) \leq \overline{x}-\bar{x}
@@ -258,25 +258,52 @@ However, to make the constraint depend on $\Delta \CMcal{U}$ the difference betw
  Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be setup as equality constraints, therefore, it is divided into two constraints: 
 
  \begin{equation}
-       \underbrace{\underline{x}- \bar{x}-\CMcal{A}(\Delta\hat{x}(k)+ x(k-1))-\CMcal{B}(\Delta\CMcal{D}(k)+\CMcal{D}(k-1))-\CMcal{B}\CMcal{U}(k-1)}_{x_1}\  \leq \CMcal{B}\Delta\CMcal{U}
+       \underbrace{\underline{x}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}\CMcal{U}(k-1)-\CMcal{B}\CMcal{D}(k)}_{x_1}  \leq \CMcal{B}\sum_{i=1}^n \Delta\CMcal{U}(k+i)
  \end{equation}  
 
+ % \begin{equation}
+ %     \underbrace{\overline{x}-\bar{x}-\CMcal{A}(\Delta\hat{x}(k)+ x(k-1))-\CMcal{B}(\Delta\CMcal{D}(k)+\CMcal{D}(k-1))-\CMcal{B}\CMcal{U}(k-1)}_{x_2}\geq \CMcal{B}\Delta\CMcal{U}
+ % \end{equation}
+ Constraints on controller input
+
  \begin{equation}
-     \underbrace{\overline{x}-\bar{x}-\CMcal{A}(\Delta\hat{x}(k)+ x(k-1))-\CMcal{B}(\Delta\CMcal{D}(k)+\CMcal{D}(k-1))-\CMcal{B}\CMcal{U}(k-1)}_{x_2}\geq \CMcal{B}\Delta\CMcal{U}
+ 	\underline{u} \leq \CMcal{U}(k) \leq \overline{u}
+ \end{equation}
+
+
+ \begin{equation}
+ 	u_{min} -  \bar{u} \leq \CMcal{U}(k) \leq  u_{max} -  \bar{u}
+ \end{equation}
+
+ \begin{equation}
+ 		u_{min} -  \bar{u} \leq \CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(k+i)  \leq  u_{max} -  \bar{u}
+ \end{equation}
+
+ \begin{equation}
+ \begin{aligned}
+			 	u_{min} -  \bar{u} &\leq \CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(k+i) \\
+-\sum_{i=1}^n \Delta\CMcal{U}(k+i) &\leq \CMcal{U}(k-1)-u_{min}+\bar{u}
+ \end{aligned}
+ \end{equation}
+
+
+ \begin{equation}
+ \begin{aligned}
+			 	\CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(k+i)  &\leq  u_{max} -  \bar{u} \\
+				\sum_{i=1}^n \Delta\CMcal{U}(k+i)  &\leq  u_{max} -  \bar{u} - \CMcal{U}(k-1) \\
+ \end{aligned}
  \end{equation}
 
 The constraints can be setup on the standard inequality constraint form and thereby be included in the algorithm for the MPC implementation.
 
  \begin{equation}
         \begin{bmatrix}
-           -\CMcal{B}\\
-           \CMcal{B}
+           -\CMcal{B}
            \end{bmatrix}
            \Delta\CMcal{U}
            \leq 
            \begin{bmatrix}
-         x_1\\
-         x_2
+         x_1
            \end{bmatrix}
  \end{equation}
 

@@ -41,6 +41,14 @@ Simplifying equation \ref{eq:balance_reservior} by dividing with $\rho A$:
 	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-Q_{out}(t)\right)
 \end{equation}
 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.60\textwidth]{report/modeling/pictures/reservior_with_pump}
+	\caption{Illustration of a tank with a pump inserted to control the output flow.}
+	\label{fig:reservior_with_pump}
+\end{figure}
+
 Because the output flow is depending on the OD of the valve, a model is needed to described the output flow of it. The model for the valve is derived by \cite{boysen} and is given as:
 \begin{equation}\label{eq:valve_model}
 	Q_{out} = kv(OD) \sqrt{\Delta p}

@@ -20,10 +20,10 @@ for m = 1:20
         
 %         b_constraints(1,counter:counter-1+pipe_states)= [upper_bound];
 %         b_constraints(2,counter:counter-1+pipe_states)= [lower_bound];
-%           b_constraints(1,counter:counter)= [upper_bound];
-%           b_constraints(2,counter:counter)= [lower_bound];
-          b_constraints(1,counter:counter)= 0;
-          b_constraints(2,counter:counter)= 0;
+          b_constraints(1,counter:counter)= [upper_bound];
+          b_constraints(2,counter:counter)= [lower_bound];
+%           b_constraints(1,counter:counter)= 0;
+%           b_constraints(2,counter:counter)= 0;
 
           
       
