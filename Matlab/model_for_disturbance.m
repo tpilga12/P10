@@ -216,6 +216,34 @@ title('Daily flow')
 xlabel('Time [hh:mm]')
 ylabel('Flow [m^3/hr]')
 
+%% Zone 10
+close all
+zone_10 = zeros(1,90000)
+counter = 1;
+i=1;
+p=1;
+for n= 1:90000/2700
+    
+    for i= 1:1800 
+       zone_10(1,counter) = 0; 
+       counter = counter +1;
+    end    
+    for p= 1:900 
+        zone_10(1,counter) = 350;
+       counter = counter +1;
+    end   
+end
+reduce_plot(zone_10)
+legend('Zone 10')
+
+xticklabels({'01:00','05:00','09:00','13:00','17:00','21:00','01:00'})
+set(gca,'xtick',[3600:14350:90000])
+xlim([3600 90000])
+grid
+% legend('1T','1N','2','3','4','5','6','7','8-9','11')
+title('Daily flow')
+xlabel('Time [hh:mm]')
+ylabel('Flow [m^3/hr]')
 %% Zone 11
 close all
 

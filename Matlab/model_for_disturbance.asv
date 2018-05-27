@@ -109,9 +109,9 @@ ylabel('Flow [m^3/hr]')
 close all
 
 
-reduce_plot(xtime,f1_2)
+reduce_plot(xtime,f3)
 
-legend('Zone 2')
+legend('Zone 3')
 
 xticklabels({'01:00','05:00','09:00','13:00','17:00','21:00','01:00'})
 set(gca,'xtick',[3600:14350:90000])
@@ -122,6 +122,137 @@ title('Daily flow')
 xlabel('Time [hh:mm]')
 ylabel('Flow [m^3/hr]')
 
+%% Zone 4
+close all
+
+
+reduce_plot(xtime,f4_1)
+hold on
+reduce_plot(xtime,f4_2)
+hold on
+reduce_plot(xtime,f4_3)
+hold on
+reduce_plot(xtime,f4_1_indu)
+hold on
+legend('Zone 4,1', 'Zone 4,2','Zone 4,3','Zone 4,1 industry')
+
+xticklabels({'01:00','05:00','09:00','13:00','17:00','21:00','01:00'})
+set(gca,'xtick',[3600:14350:90000])
+xlim([3600 90000])
+grid
+% legend('1T','1N','2','3','4','5','6','7','8-9','11')
+title('Daily flow')
+xlabel('Time [hh:mm]')
+ylabel('Flow [m^3/hr]')
+
+%% Zone 5
+close all
+
+
+reduce_plot(xtime,f5)
+
+legend('Zone 5')
+
+xticklabels({'01:00','05:00','09:00','13:00','17:00','21:00','01:00'})
+set(gca,'xtick',[3600:14350:90000])
+xlim([3600 90000])
+grid
+% legend('1T','1N','2','3','4','5','6','7','8-9','11')
+title('Daily flow')
+xlabel('Time [hh:mm]')
+ylabel('Flow [m^3/hr]')
+
+
+%% Zone 6
+close all
+
+
+reduce_plot(xtime,f6)
+
+legend('Zone 6')
+
+xticklabels({'01:00','05:00','09:00','13:00','17:00','21:00','01:00'})
+set(gca,'xtick',[3600:14350:90000])
+xlim([3600 90000])
+grid
+% legend('1T','1N','2','3','4','5','6','7','8-9','11')
+title('Daily flow')
+xlabel('Time [hh:mm]')
+ylabel('Flow [m^3/hr]')
+
+%% Zone 7
+close all
+
+
+reduce_plot(xtime,f7)
+hold on
+reduce_plot(xtime,f7_indu)
+legend('Zone 7','Zone 7 industry')
+
+xticklabels({'01:00','05:00','09:00','13:00','17:00','21:00','01:00'})
+set(gca,'xtick',[3600:14350:90000])
+xlim([3600 90000])
+grid
+% legend('1T','1N','2','3','4','5','6','7','8-9','11')
+title('Daily flow')
+xlabel('Time [hh:mm]')
+ylabel('Flow [m^3/hr]')
+
+%% Zone 8-9
+close all
+
+
+reduce_plot(xtime,f89)
+hold on
+reduce_plot(xtime,f8_9_indu)
+legend('Zone 8 & 9','Zone 8 & 9 industry')
+
+xticklabels({'01:00','05:00','09:00','13:00','17:00','21:00','01:00'})
+set(gca,'xtick',[3600:14350:90000])
+xlim([3600 90000])
+grid
+% legend('1T','1N','2','3','4','5','6','7','8-9','11')
+title('Daily flow')
+xlabel('Time [hh:mm]')
+ylabel('Flow [m^3/hr]')
+
+%% Zone 10
+close all
+zone = zeros(3600,90000)
+for n= 3600:90000
+    
+    for i= 1:1800 
+       zone(1,counter) = 0; 
+       counter = counter +1;
+    end    
+    for p= 1:20 
+       if p < 11  
+            disturbance_input(1,counter) =index+ramp; 
+            ramp = ramp +index;
+       else
+            disturbance_input(1,counter) = ramp-index; 
+            ramp = ramp -index;
+       end
+       counter = counter +1;
+    end   
+end
+
+%% Zone 11
+close all
+
+
+reduce_plot(xtime,f11)
+
+legend('Zone 11 ')
+
+xticklabels({'01:00','05:00','09:00','13:00','17:00','21:00','01:00'})
+set(gca,'xtick',[3600:14350:90000])
+xlim([3600 90000])
+grid
+% legend('1T','1N','2','3','4','5','6','7','8-9','11')
+title('Daily flow')
+xlabel('Time [hh:mm]')
+ylabel('Flow [m^3/hr]')
 
 %% From height to flow
 % From Nørregade to main
