@@ -8,7 +8,7 @@ xstates_old = ones(1,length(lin_sys.StateName)); % Setup the matrices for states
 xstates     = ones(1,length(lin_sys.StateName));
 counter = 1;
     if iteration > 2
-        for m = 1:20 % Loop to find the states and then take the values from the nonlinear model and insert into the state
+        for m = 1:length(data) % Loop to find the states and then take the values from the nonlinear model and insert into the state
             if contains(lin_sys.StateName(counter),'in') ==1
                 pipe_states = length(data{1,m}.h(iteration-1,:));
                 xstates_old(1,counter:counter-1+pipe_states) = data{1,m}.h(iteration-1,:);
@@ -31,7 +31,7 @@ counter = 1;
         xstates_old(1,counter:counter-1+pipe_states) = x_old_output; % last output
 
         counter=1;
-        for m = 1:20 % Loop to find the states and then take the values from the nonlinear model and insert into the state
+        for m = 1:length(data) % Loop to find the states and then take the values from the nonlinear model and insert into the state
             if contains(lin_sys.StateName(counter),'in') ==1
                 pipe_states = length(data{1,m}.h(iteration-1,:));
                 xstates(1,counter:counter-1+pipe_states) = data{1,m}.h(iteration,:);

@@ -10,7 +10,7 @@ global Dt iterations error
 Dt = 20;
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Hp = 30;% Prediciton horizon
+Hp = 60;% Prediciton horizon
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.15; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
@@ -27,40 +27,6 @@ error = 0;
 tic
 [lin_point lin_sys sysT] = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
-%% MPC HUSK AT LAVE FORSTYRELSE MATRICEN RIGTIG OG IKKE BARE KOPIR B
-k = 360;
-Test_matrix = zeros(k,k);
-p = 0;
-for m =1:k
-    for n =1:k-p  
-      Test_matrix(n+p,m) = 1; 
-    end
-  p=p+1;
-end
-
-
-%%% C matrix to multiply onto the Constraints to pick the correct one
-length_C = 0;
-C_matrix_mpc = zeros(10,length(lin_sys.C)*Hp);
-C_matrix_mpc_constraint=zeros(1,length(lin_sys.A)); 
-C_matrix_mpc_constraint(1,37:38)=1;
-
-for n=1:Hp
-   C_matrix_mpc(n,1+length_C:length(C_matrix_mpc_constraint)*n) = C_matrix_mpc_constraint;
-    length_C = length(lin_sys.A)*n;
-end
-
-Qf = pipe_spec(1).Qf;
-d = pipe_spec(1).d;
-h_test=0.0001:d/100:d;
-for t = 1:100
-    
-    Q_test(t)=(0.46 - 0.5 *cos(pi*(h_test(t)/d))+0.04*cos(2*pi*(h_test(t)/d)))*Qf;
-   
-end
-fitfunc = fit(h_test',Q_test','poly9');
-
-
 %% run stuff !!!!!
 clc
 iterations = 500;
@@ -75,16 +41,20 @@ input.u = input.u_init;
 utank1(1) = input.u_init(1,1);
 utank1(2) = input.u_init(1,2);
 
+
+
 [psi gamma theta Q Alifted Bulifted] = lifted_system(lin_sys,Hp);
+
+[SUM_matrix_mpc C_matrix_mpc fitfuncv2]= mpc_init_sewer(size(Bulifted,2),Hp,lin_sys,pipe_spec); 
 u_output_tank_old(1,1) =  0;
 counter = 1;
 p=1;
 n=1;
 
-  h_input1=fitfunc(input.Q_in(1,1)); 
+  h_input1=fitfuncv2(input.Q_in(1,1)); 
  
   h_input=[0];
-  u=[h_input1;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
+  u=[h_input1;h_input];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
 D_old = u;
     for n = 1:Hp %%% Lifted D matrix
         if n == 1
@@ -93,12 +63,43 @@ D_old = u;
             D_old = [D_old; u.^(n-1)];
         end
     end
+
+%% Disturbance
+disturbance_input = zeros(1,iterations);
+i =1;
+p=1;
+counter =1;
+ramp= 0;
+index = 0.05;
+for n= 1:iterations/40
+    
+    for i= 1:20 
+       disturbance_input(1,counter) = 0; 
+       counter = counter +1;
+    end    
+    for p= 1:20 
+       if p < 11  
+            disturbance_input(1,counter) =index+ramp; 
+            ramp = ramp +index;
+       else
+            disturbance_input(1,counter) = ramp-index; 
+            ramp = ramp -index;
+       end
+       counter = counter +1;
+    end   
+end
+
+counter = 1;
+p=1;
+n=1;
 %%
+tic
 for m = 2:iterations
-   tic 
+   
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.15 + sin(m/8)/35 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.15 +disturbance_input(1,m)';%+ sin(m/100)/15;
+%     input.Q_in(m,1) = 0.15 + sin(m/100)/10;
     
     utank1(m,1) = input.u_init(1,1);% + sin(m/10)/65;
     utank2(m,1) = input.u_init(1,2);
@@ -109,8 +110,8 @@ if m > 4
     n=n+1;
 end
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
-  h_input1=[fitfunc(input.Q_in(m,1))];    
-  u=[h_input1;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];    
+  h_input1=[fitfuncv2(input.Q_in(m,1))];    
+    u=[h_input1;h_input];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];    
     for n = 1:Hp %%% Lifted D matrix
         if n == 1
             Dlifted = [u.^n];
@@ -129,17 +130,25 @@ end
      if p==1
         [xstates delta_xstates xstates_old]=collect_states(data,m,lin_sys);
         
-        [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp);
+        [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp,sys_setup);
     
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, A_constraints, b_constraints,Alifted,Bulifted,xstates_old,u_output_tank_old,Test_matrix,xstates,C_matrix_mpc,input,Dlifted,D_delta);
-        u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta);
+%         if data{1,2}.h(m-1,1) == 0
+%             u_output_tank =0.01;
+%             u_output_tank_old =0.01;
+%         else
+%         u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
+%         u_output_tank_old =X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
+%         end
+                u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
         u_output_tank_old =X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
         counter =1;
 %         p =0;
         n=1;
      end
-     toc
+     
  end
+toc
 
 %%
 

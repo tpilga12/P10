@@ -1,4 +1,4 @@
-function [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp)
+function [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp,sys_setup)
 
 %% Constraints 
 
@@ -8,7 +8,7 @@ A_constraints = ones(1,length(lin_sys.StateName))';
 b_constraints = zeros(2,length(lin_sys.StateName));
 counter = 1;
 n =1;
-for m = 1:20
+for m = 1:sys_setup(4).component
     if contains(lin_sys.StateName(counter),'in') ==1
         pipe_states = length(data{1,m}.h(1,:));
         
