@@ -177,4 +177,14 @@ Lastly in the yellow stippled box the desired and average flow values in the pip
  \input{report/simulation/tikz/error_value_test}
 \caption{Various values of error value is tested with lookup table and curve fitted polynomial tested on pipe setup shown in figure \ref{fig:Fredericia_pipe_setup} of Fredericia.}
 \label{fig:error_value_test}
-\end{figure}  
+\end{figure} 
+
+If the curve fitted polynomial is utilized to obtain boundary conditions then an error value below $1\cdot10^{-6}$ is preferable. But for setup's with more pipes it can be necessary to lower this value even further. The lookup table on the other hand is due to its better precision not considerably affected in the first place, though some precision is obtained by lowering the error value. As the tested error value is performed on a simple test, and final decision has not been made on which scheme to utilize an error value of $1\cdot10^{-9}$ has been decided upon. The reason being the results shown in figure \ref{fig:Fredericia_pipe_setup}, and that various setups where more pipes with different initial flows might yield a worse result.
+
+
+\subsection*{Simulation}
+
+Having obtained initial data, for which iteration with the Presissmann scheme can be performed, the next part to be implemented is the simulation of the initialized setup.
+
+
+

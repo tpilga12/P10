@@ -30,7 +30,7 @@ tic
             tank_nr = tank_nr + 1;
             sys_component = sys_component + 1;
         else
-            temp = init_pipe(pipe_spec((pipe_component+1):(sys_setup(x).component + pipe_component)), input, x, pipe_component, 1e-7);
+            temp = init_pipe(pipe_spec((pipe_component+1):(sys_setup(x).component + pipe_component)), input, x, pipe_component, 1e-9);
             if x == 1
                 init_data = temp;
             else

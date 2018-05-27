@@ -57,8 +57,8 @@ while abs(avg-desired) > limit
                 if x == 1
                     data{x}.Q(1,1:sections) = input.Q_init(sys_component);
                     data{x}.C(1,1:sections) = input.C_init(sys_component);
-                    data{x}.h(1:sections) = data{x}.fitfunc(input.Q_init(sys_component));
-%                     data{x}.h(1:sections) = lut_func(input.Q_init(sys_component),data{x}.lut);
+%                     data{x}.h(1:sections) = data{x}.fitfunc(input.Q_init(sys_component));
+                    data{x}.h(1:sections) = lut_func(input.Q_init(sys_component),data{x}.lut);
                 else
                     if piping(x).lat_inflow == 1
                         data{x}.Q(1,1:sections) = data{x-1}.Q(1,end)+input.lat.Q{x+pipe_nr};
@@ -67,8 +67,8 @@ while abs(avg-desired) > limit
                         data{x}.Q(1,1:sections) = data{x-1}.Q(1,end);
                         data{x}.C(1,1:sections) = data{x-1}.C(1,end);
                     end
-                     data{x}.h(1:sections) = data{x}.fitfunc(data{x-1}.Q(1,end));
-%                      data{x}.h(1:sections) = lut_func(data{x}.Q(1,end),data{x}.lut);
+%                      data{x}.h(1:sections) = data{x}.fitfunc(data{x-1}.Q(1,end));
+                     data{x}.h(1:sections) = lut_func(data{x}.Q(1,end),data{x}.lut);
                 end
                
                 data{x}.A(1:sections) = d^2/4 * acos(((d/2)-data{x}.h(n))/(d/2))-sqrt(data{x}.h(n)*(d-data{x}.h(n)))*((d/2)-data{x}.h(n));
@@ -78,8 +78,8 @@ while abs(avg-desired) > limit
                 if x == 1
                     data{x}.Q(m,n) = input.Q_init(sys_component);
                     data{x}.C(m,n) = input.C_init(sys_component);
-                    data{x}.h(m,n) = data{x}.fitfunc(input.Q_init(sys_component));
-%                     data{x}.h(m,n) = lut_func(input.Q_init(sys_component), data{x}.lut);
+%                     data{x}.h(m,n) = data{x}.fitfunc(input.Q_init(sys_component));
+                    data{x}.h(m,n) = lut_func(input.Q_init(sys_component), data{x}.lut);
                 else
                     if piping(x).lat_inflow == 1
                         data{x}.Q(m,n) = data{x-1}.Q(m,end)+input.lat.Q{x+pipe_nr};
@@ -89,8 +89,8 @@ while abs(avg-desired) > limit
                         data{x}.C(m,n) = data{x-1}.C(m,end);
                     end
 
-                    data{x}.h(m,n) = data{x}.fitfunc(data{x}.Q(m,n));
-%                     data{x}.h(m,n) = lut_func(data{x}.Q(m,n), data{x}.lut);
+%                     data{x}.h(m,n) = data{x}.fitfunc(data{x}.Q(m,n));
+                    data{x}.h(m,n) = lut_func(data{x}.Q(m,n), data{x}.lut);
                 end
                 data{x}.A(m,n) = d^2/4 * acos(((d/2)-data{x}.h(m,n))/(d/2))-sqrt(data{x}.h(m,n)*(d-data{x}.h(m,n)))*((d/2)-data{x}.h(m,n));
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
