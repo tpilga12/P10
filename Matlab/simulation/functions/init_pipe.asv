@@ -16,7 +16,7 @@ limitvalue = 1e-7; %newton stop iteration value
 avg = 10;
 desired = 0;
 g = 9.81; %[m/s^2] gravitational constant
-stop_init_calc = 0;
+stop_calc = 0;
 fit_steps = 10000;
 % while m < 2
 while abs(avg-desired) > limit
@@ -30,7 +30,7 @@ while abs(avg-desired) > limit
         Dx = piping(x).Dx; %[m] grid distance
         sections = piping(x).sections+1; % Number of sections,
         
-        if stop_init_calc == 0
+        if stop_calc == 0
             %    Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n)); %[m^3/s] palles
             Qf = 72*(d/4)^0.635*pi*(d/2)^2*Ib^0.5;% Hennings
             h_init=0:d/fit_steps:d;
@@ -46,7 +46,7 @@ while abs(avg-desired) > limit
             
             data{x}.fitfunc2 = fit(h_init',Q_initialize','poly9');
             if x == length(piping)
-                stop_init_calc = 1;
+                stop_calc = 1;
             end
         end
         

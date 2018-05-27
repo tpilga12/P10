@@ -137,8 +137,8 @@ In the above figure, the obtained height from the fitted polynomial is at it wor
 \label{fig:fredericia_init_steady_state_lut}
 \end{figure}
 
-It is clearly shown that the deviation between the boundary conditions found by the lookup table and the values found iterating the Preissmann scheme is significantly decreased.
-Something else to note is that even though the difference seem to be non existent it still required 189 iterations before the flow error were minimized to the same 1$\cdot \text{10}^{\text{-7}}$ as before. For this reason it is decided to implement the scheme which brings the adjoint pipe parts into steady state before simulation starts. A decisive choice is not made at this point whether the curve fitted polynomial or the lookup table should be implemented. The reason for this is that some imprecision can be accepted if considerable simulation time can be reduced. A test will therefore be performed, in the simulation part of the implementation, to decided which scheme should be utilized. A flow chart of the initialization scheme, where initial values for the entire setup is found, can be seen in figure \ref{fig:init_sys_dia}.
+It is clearly shown that the deviation between the boundary conditions found by the lookup table and the values found by the following iterations of the Preissmann scheme is significantly decreased.
+Something else to note is that even though the difference seem to be non existent it still required 189 iterations before the flow error were minimized to the same 1$\cdot \text{10}^{\text{-7}}$ as before. For this reason it is decided to implement the scheme which brings the adjoint pipe parts into steady state before simulation starts. A decisive choice is not made at this point whether the curve fitted polynomial or the lookup table should be implemented. The reason for this is that some imprecision can be accepted if reduction in simulation time can be obtained. A test will therefore be performed, in the simulation part of the implementation, to decided which scheme should be utilized. A flow chart of the initialization scheme, where initial values for the entire setup is found, can be seen in figure \ref{fig:init_sys_dia}.
 
 \begin{figure}[H]
 \centering
@@ -147,6 +147,21 @@ Something else to note is that even though the difference seem to be non existen
 \label{fig:init_sys_dia}
 \end{figure}
 
-Two functions, namely ``Tank'' and ``Init\_pipe'', is used to obtain the initial value for tanks and the boundary conditions needed to start simulating with the Preissmann scheme. The tank function returns the initial flow and height together with the input needed for the pump, such that inflow is equal to outflow in the tank. The pipe function takes initial flow and something else, and yes this sentence is going to change.
+Two functions, namely ``Tank'' and ``Init\_pipe'', is used to obtain the initial values for tanks and the boundary conditions, for the pipes, needed to start iterating with the Preissmann scheme. The tank function returns the initial flow, height and the input needed for the pump, such that inflow is equal to outflow in the tank. Due to MPC requiring constraints for the input to the pump in the tank and due to time constraint of the project, a limitation in the simulation is made. The limitation refers to tanks not being able to be the end point of the entire system setup. The reason for this is that a  uniform control input of null to one for all pumps, to ease constraint setup when utilizing MPC, is obtained. The following parameters is set in the tank function:
+\begin{itemize}
+	\item $Q_{in} = Q_{initial}$ $[m^3/s]$
+	\item $Q_{out} = Q_{in}$ $[m^3/s]$
+	\item $u_{initial} = Q_{in}/Q_{max-outflow}$ $[\cdot]$
+	\item $h = h_{initial}$ $[m]$
+	\item $C = C_{initial}$ $[g/m^3]$
+\end{itemize}
 
+Where Q is flow, u is pump input, h is height and C is concentrate.
+The pipe function is given initial flow, component number from the system setup list in figure \ref{fig:sys_setup_matlab}, the corresponding pipe specifications to the amount of pipes indicated by the system setup list and an error value. The error value is the accepted error between desired flow and the flow obtained by iterating with the Preissmann scheme, which means that when the error is less than the error value the system is in the desired steady state. A flowchart of the pipe function can be seen in figure \ref{fig:init_pipe_chart} 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.05 \textwidth]{report/simulation/pictures/init_pipe_chart.pdf}
+\caption{}
+\label{fig:init_pipe_chart}
+\end{figure}
