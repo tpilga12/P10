@@ -75,7 +75,6 @@ In figure \ref{fig:curvefit_comparision} a comparison is shown of the generated 
 \caption{Comparison between data obtained by equation \ref{eq:calc_for_flowv2} and the same data curve fitted to a ninth order polynomial.}
 \label{fig:curvefit_comparision}
 \end{figure}
-
 The two plots in the figure is seemingly identical, but if observed closer the curve fit has what could be described as a low frequency oscillation compared to the plotted data. Furthermore the curve fit does not reach the same end points. This will result in the height at the end points never to be zero or the diameter of the pipe, when no inflow or maximum inflow is present. In figure \ref{fig:curvefit_comparision_split} the plot is separated into three for an easier overview.
 
 
@@ -162,6 +161,10 @@ The pipe function is given initial flow, component number from the system setup 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1.05 \textwidth]{report/simulation/pictures/init_pipe_chart.pdf}
-\caption{}
+\caption{Flow chart of pipe initializing function where the blue box is setup of curve fitted polynomial for each pipe, red box is computation of data in pipes and the yellow box calculates desired and average flow for error stop condition. Furthermore ``x'' indicates a specific pipe, ``m'' is time step and ``n'' indicates section in pipe.}
 \label{fig:init_pipe_chart}
 \end{figure}
+
+The pipe initialization is separated into three parts as indicated by the blue, red and yellow stippled boxes. In the blue stippled box the data, which can be used for the lookup table, that are used to create the curve fitted polynomial is found for each pipe. When data are generated for all the pipes given to the function, a flag is set such that unnecessary calculations is not performed further on. In the red stippled box the calculations of the height and concentrate is performed. In the first time iteration ``m = 1'' the initial boundary condition is set for all sections of pipe number ``x''. This corresponds to the i-th row of circles shown in figure \ref{fig:preissmann_grid_scheme_exampel}. Furthermore the pipe specifications is checked for pipe ``x'' for existing side inflow. If side inflow is present then the inflow into the pipe is a simple addition of input flow plus side inflow. From the inflow height and initial concentrate the height and concentrate throughout the pipe is calculated. 
+For the next pipe the input is then set to be the output of the previous pipe plus eventual side inflow, the same calculation of height and concentrate is then performed again.
+At the next time iteration the input boundary condition is first found at section ``n = 1''. The Preissmann scheme is then utilized to find the height, and the concentrate is calculated, for the remaining pipe sections. 
