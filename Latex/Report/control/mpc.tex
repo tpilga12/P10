@@ -245,24 +245,24 @@ Where $x_{min}$ and $x_{max}$ are respectively lower and upper bound. As the $\C
 To reformulated the constraint the predicted state equation \ref{eq:lifted_state_equation} is inserted instead of the state vector.
 
 \begin{equation}
-     \underline{x}- \bar{x} \leq \CMcal{A}\hat{x}+\CMcal{B}\CMcal{U}+\CMcal{BD} \leq \overline{x}-\bar{x}
+     x_{min}- \bar{x} \leq \CMcal{A}\hat{x}+\CMcal{B}\CMcal{U}+\CMcal{BD} \leq x_{max}-\bar{x}
  \end{equation} 
 
 However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k+n) = \CMcal{U}(k-1) \sum_{i=1}^n\Delta \CMcal{U}(k+i) $, is inserted on the : 
 
 \begin{equation}
-     \underline{x}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}(\CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(i))+\CMcal{B}\CMcal{D}(k) \leq \overline{x}-\bar{x}
+     x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}(\CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(i))+\CMcal{B}\CMcal{D}(k) \leq x_{max}-\bar{x}
  \end{equation} 
 
 
  Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be setup as equality constraints, therefore, it is divided into two constraints: 
 
  \begin{equation}
-       \underbrace{\underline{x}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}\CMcal{U}(k-1)-\CMcal{B}\CMcal{D}(k)}_{\Gamma_1}  \leq \CMcal{B}\sum_{i=1}^n \Delta\CMcal{U}(k+i)
+         \underbrace{\CMcal{B}\sum_{i=1}^n}_{\Lambda} \Delta\CMcal{U}(k+i)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}\CMcal{U}(k-1)-\CMcal{B}\CMcal{D}(k)}_{\Gamma_1}
  \end{equation}  
 
  \begin{equation}
-     \underbrace{\overline{x}-\bar{x}-\CMcal{A}(\Delta\hat{x}(k)+ x(k-1))-\CMcal{B}(\Delta\CMcal{D}(k)+\CMcal{D}(k-1))-\CMcal{B}\CMcal{U}(k-1)}_{x_2}\geq \CMcal{B}\Delta\CMcal{U}
+    -\underbrace{\CMcal{B}\sum_{i=1}^n}_{\Lambda} \Delta\CMcal{U}(k+i) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}x(k)+\CMcal{B}\CMcal{U}(k-1)+\CMcal{B}\CMcal{D}(k)}_{\Gamma_2}
  \end{equation}
 
 
@@ -282,7 +282,7 @@ The constraint is split up into lower and upper bound for the signal, the lower 
  \begin{equation}
  \begin{aligned}
 			 	u_{min} -  \bar{u} &\leq \CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(k+i) \\
--\sum_{i=1}^n \Delta\CMcal{U}(k+i) &\leq \underbrace{\CMcal{U}(k-1)-u_{min}+\bar{u}}_{\Gamma_2}
+-\sum_{i=1}^n \Delta\CMcal{U}(k+i) &\leq \underbrace{\CMcal{U}(k-1)-u_{min}+\bar{u}}_{\Gamma_3}
  \end{aligned}
  \end{equation}
 
@@ -291,7 +291,7 @@ And the upper bound:
  \begin{equation}
  \begin{aligned}
 			 	\CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(k+i)  &\leq  u_{max} -  \bar{u} \\
-				\sum_{i=1}^n \Delta\CMcal{U}(k+i)  &\leq  \underbrace{u_{max} -  \bar{u} - \CMcal{U}(k-1)}_{\Gamma_3} \\
+				\sum_{i=1}^n \Delta\CMcal{U}(k+i)  &\leq  \underbrace{u_{max} -  \bar{u} - \CMcal{U}(k-1)}_{\Gamma_4} \\
  \end{aligned}
  \end{equation}
 
@@ -299,16 +299,18 @@ The constraints can be setup on the standard inequality constraint form and ther
 
  \begin{equation}
         \begin{bmatrix}
-           -\CMcal{B}\\
-           -\sum \\
-           \sum
+           \Lambda\\
+           -\Lambda\\
+           -\sum_{i=1}^n \\
+           \sum_{i=1}^n
            \end{bmatrix}
            \Delta\CMcal{U}
            \leq 
            \begin{bmatrix}
          \Gamma_1\\
          \Gamma_2\\
-         \Gamma_3
+         \Gamma_3\\
+         \Gamma_4
 
            \end{bmatrix}
  \end{equation}
