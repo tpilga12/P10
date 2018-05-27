@@ -70,15 +70,15 @@ close all
 
 % Zone 1
 reduce_plot(xtime,f1_1)
-hold on
-reduce_plot(xtime,f1_2)
-hold on
-reduce_plot(xtime,f1_3)
-hold on
-reduce_plot(xtime,f1_1_indu)
-hold on
-reduce_plot(xtime,f1_3_indu)
-legend('Zone 1,1','Zone 1,2','Zone 1,3','Zone 1,1 Industry','Zone 1,3 Industry')
+% hold on
+% reduce_plot(xtime,f1_2)
+% hold on
+% reduce_plot(xtime,f1_3)
+% hold on
+% reduce_plot(xtime,f1_1_indu)
+% hold on
+% reduce_plot(xtime,f1_3_indu)
+legend('Zone 1,1')
 
 xticklabels({'01:00','05:00','09:00','13:00','17:00','21:00','01:00'})
 set(gca,'xtick',[3600:14350:90000])
