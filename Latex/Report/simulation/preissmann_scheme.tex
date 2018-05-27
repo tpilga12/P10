@@ -26,7 +26,7 @@ In figure \ref{fig:preissmann_grid_scheme} a single mesh for the Preissmann sche
 \caption{Preissmann non-staggered grid scheme.}
 \label{fig:preissmann_grid_scheme}
 \end{figure}
-\fxnote{Tekst skal stå på den rigtige side af tuborg klammerne og så skal klammerne tilpasses  stregnerne, derudover skal teksten være større og hvorfor er den sorte prik ikke rund?}
+\fxnote{Bedre? -Tekst skal stå på den rigtige side af tuborg klammerne og så skal klammerne tilpasses  stregnerne, derudover skal teksten være større og hvorfor er den sorte prik ikke rund?}
 Where $\theta$ is a weighting parameter ranging between zero and one, j is an index of cross section and i is an index of time. The mesh contains four nodes, (j,i), (j+1,i), (j,i+1) and (j+1,i+1), however in the implementation the dimension of the grid is $\Delta t \times \Delta x$ for $0 \leq x \leq L$ and $0\leq t$. Where L defines the length of the open channel section. The derivatives in equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} are calculated as an approximation at the point P, which is in the middle of the interval of $\Delta x$.% and is also the reason why the Preissmann scheme is corresponding to a box scheme.
 The difference between the box scheme and the Preissmann scheme is that the point P is always found at the middle of $\Delta x$ and the point can only move along the time axis within this mesh by adjusting the weighting parameter $\theta$. This weighting parameter will be elaborated on later. An arbitrary function $f_p(x,t)$ calculated at point P is approximated by \cite{numerical_modeling}.
 

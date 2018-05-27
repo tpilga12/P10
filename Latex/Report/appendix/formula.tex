@@ -1,4 +1,35 @@
 \newpage
 \section{Formulas}\label{app:formulas}
-
+In this section the equations for calculation the area, water width and flow in a pipe will be shown.
 %\input{/report/appendix/tikz/circle}
+
+
+In figure \ref{fig:calc_water_pipe_width} a illustration a cross view of a circular pipe is shown
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.20\textheight]{report/appendix/figures/calc_water_pipe_width.pdf}
+	\caption{Cross section view of a circular pipe. Where d is the diameter, b is the width of the water in a given height, h is the height and the crossed section in the bottom illustrates the area of the water in the pipe.}
+	\label{fig:calc_water_pipe_width}
+\end{figure}
+
+The area of a circular pipe is calculated with the following \cite{ikke_stationear}: 
+\begin{equation}\label{eq:calc_area_open_channel}
+	A = \frac {d^2}{4} \cdot acos \left(\frac{\frac{d}{2}-h}{\frac{d}{2}}\right)-\sqrt{h\cdot (d-h)}\cdot  \left(\frac{d}{2}-h\right)
+\end{equation}
+
+The water width in a pipe to a given height is calculated with the following equation \cite{ikke_stationear}:
+\begin{equation}
+	b = 2 \cdot \sqrt{-h+h\cdot d}
+\end{equation}
+
+The flow in a filled pipe can be calculated as \cite{ikke_stationear}:
+\begin{equation}\label{eq:qf_for_flow}
+	Q_f =-72\cdot \left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2\cdot I_e^{0,5}% -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
+\end{equation}
+Where $I_e$ is a friction term. 
+
+The flow in a pipe given a height can be calculated with the following equation \cite{ikke_stationear}:
+\begin{equation}\label{eq:calc_for_flowv2}
+ 	Q = \left(0.46-0.5 \cdot cos\left(\pi \frac{h}{d}\right)+0.04\cdot cos\left(2\pi\frac{h}{d}\right)\right)\cdot Q_f
+\end{equation}
+
