@@ -59,7 +59,16 @@ length_C = 0;
 % Clifted = zeros(length(lin_sys.C)*Hp,length(lin_sys.C)*Hp);
  Clifted = zeros(Hp,length(lin_sys.C)*Hp);
 C_insert=zeros(1,length(lin_sys.A)); 
-C_insert(1,262:263)=1;
+% C_insert(1,262:263)=1;
+counter =1;
+for n = 1:length(lin_sys.StateName) % find the output
+    if  contains(lin_sys.StateName(counter),'h_out_dot') ==1
+    
+        C_insert(1,counter)=1;
+    end
+    
+    counter = counter +1;
+end    
 %%
 for n=1:Hp
 %    Clifted(1+length_C:length(C_insert)*n,1+length_C:length(C_insert)*n) =C_insert;
