@@ -156,7 +156,7 @@ Two functions, namely ``Tank'' and ``Init\_pipe'', is used to obtain the initial
 \end{itemize}
 
 Where Q is flow, u is pump input, h is height and C is concentrate.
-The pipe function is given initial flow, component number from the system setup list in figure \ref{fig:sys_setup_matlab}, the corresponding pipe specifications to the amount of pipes indicated by the system setup list and an error value. The error value is the accepted error between desired flow and the flow obtained by iterating with the Preissmann scheme, which means that when the error is less than the error value the system is in the desired steady state. A flowchart of the pipe function can be seen in figure \ref{fig:init_pipe_chart} 
+The pipe function is given initial flow, component number from the system setup list in figure \ref{fig:sys_setup_matlab}, the corresponding pipe specifications to the amount of pipes indicated by the system setup list and an error value. The error value is the accepted error between desired flow and the flow obtained by iterating with the Preissmann scheme, which means that when the error is less than the error value the system is in the desired steady state. A flowchart of the pipe function can be seen in figure \ref{fig:init_pipe_chart}. 
 
 \begin{figure}[H]
 \centering
@@ -170,4 +170,11 @@ When data are generated for all the pipes given to the function, a flag is set s
 %From the inflow and concentrate throughout the pipe is calculated. 
 For the next pipe the input is then set to be the output of the previous pipe plus eventual side inflow.%, the same calculation of height and concentrate is then performed again.
 At the following time iterations the input boundary condition is found at section ``n = 1''. The Preissmann scheme is then utilized to find the height, and the concentrate is calculated, for the remaining pipe sections. This is done for all the pipes given to the function.
-Lastly in the yellow stippled box the desired and average flow values in the pipe or pipes is calculated. At the first time iteration ``m = 1'' the values of ``Flow\_avg'' and ``Flow\_desired'' are not updated. The reason is that the initial flow is inserted as the flow in all sections of all the pipes, which would give an error which are zero and stop the initialization loop. In the following iterations, disregarding the boundary condition which are still calculated, the flow is found from height which can vary for some iterations as seen in figure \ref{fig:fredericia_init_steady_state}.   
+Lastly in the yellow stippled box the desired and average flow values in the pipe or pipes is calculated. At the first time iteration ``m = 1'' the values of ``Flow\_avg'' and ``Flow\_desired'' are not updated. The reason is that the initial flow is inserted as the flow in all sections of all the pipes, which would give an error which are zero and stop the initialization loop. In the following iterations, disregarding the boundary condition which are still calculated, the flow is found from height which can vary for some iterations as seen in figure \ref{fig:fredericia_init_steady_state}. When the flow in all sections of all the pipes has an error which is sufficiently small from the desired flow the iterations is stopped. The flow, height and concentrate data from the latest iteration is returned and the simulation has a steady state point from where it can start. The amount of iterations and the accuracy of the steady state of course depends on the chosen error value. In figure \ref{fig:error_value_test}, the result of various tested error values can be seen.
+
+\begin{figure}[H]
+ \centering
+ \input{report/simulation/tikz/error_value_test}
+\caption{Various values of error value is tested with lookup table and curve fitted polynomial tested on pipe setup shown in figure \ref{fig:Fredericia_pipe_setup} of Fredericia.}
+\label{fig:error_value_test}
+\end{figure}  
