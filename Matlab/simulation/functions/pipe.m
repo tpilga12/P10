@@ -92,7 +92,7 @@ else
     temp.fitfunc2 = data{sys_component}.fitfunc2;
     temp.lut = lut; 
 end
-data{1,sys_component} = temp;
+data = temp;
 output = data;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
