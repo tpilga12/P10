@@ -195,12 +195,16 @@ function [out] = lin_pipe(h,number,pipe_spec,fetch) % pipe
     
     if fetch == 'a'
         out = ((1/(2*Dt))*(2*sqrt(-h^2+(h*d)))) - ((Theta/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
+%          out = ((1/(2*Dt))*(sqrt(h*(h*d))*(h-d/2))) - ((Theta/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
     elseif fetch == 'b'
         out = ((1/(2*Dt))*(2*sqrt(-h^2+(h*d)))) + ((Theta/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
+%         out = ((1/(2*Dt))*(sqrt(h*(h*d))*(h-d/2))) + ((Theta/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
     elseif fetch == 'c'
         out = ((1/(2*Dt))*(2*sqrt(-h^2+(h*d)))) + (((1-Theta)/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
+%          out = ((1/(2*Dt))*(sqrt(h*(h*d))*(h-d/2))) + (((1-Theta)/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
     elseif fetch == 'd'
         out = ((1/(2*Dt))*(2*sqrt(-h^2+(h*d)))) - (((1-Theta)/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
+%         out = ((1/(2*Dt))*(sqrt(h*(h*d))*(h-d/2))) - (((1-Theta)/Dx)*(((1/2)*pi/d*sin(pi*h/d)-0.04*2*pi/d*sin(2*pi*h/d))*Qf));
     else
         printf('Incorrect input (pipe linearization), please enter a, b, c or d');
     end

@@ -25,6 +25,17 @@ An MPC algorithm consists of:
 \textbf{Constraints} is unique advantages of MPC. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax\leq b$ where the constraint a subject to the optimization problem \cite{mpc_control_lecture_notes}.   
 
 \textbf{Prediction model} for the MPC to be able to predict future system behavior it needs a model to predict from. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon \cite{mpc_control_lecture_notes}.  
+
+% In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[width=0.60\textwidth]{report/control/pictures/mpc_diagram}
+% 	\caption{Diagram of an MPC controller}
+% 	\label{fig:mpc_diagram}
+% \end{figure}
+
+
+
 %The main advantage of MPC  Furthermore, MPC can be used with constraints to calculate the most optimal control output at the given timeslot and taking disturbance into the account. 
 % In figure \ref{fig:control_of_sewer} it is shown that the MPC controller is setting the input to the pump.
 
@@ -225,7 +236,7 @@ Thereby inserting these expressions in equation \ref{eq:cost_function_big_eq} th
 	\min_{\Delta \CMcal{U}(k)} \CMcal{J}(\Delta \CMcal{U}(k)) =\min_{\Delta \CMcal{U}(k)} \Delta \CMcal{U}(k)^T\CMcal{H}\Delta \CMcal{U}(k)+\CMcal{G}\Delta \CMcal{U}(k)+c
 \end{equation}
 
-\subsection{Constraints}
+\subsection{Constraints}\label{subse:constraints}
 
 In order to apply the constraints, shown in equation \ref{eq:cost_function_height} for the states, to the optimization problem in equation \ref{eq:the_cost_function} the constraints must be reformulated so they are a constraint of the controller input $\Delta\CMcal{U}$, therefore it is required to reformulate the inequalities constraints. 
 
@@ -322,4 +333,16 @@ The constraints can be setup on the standard inequality constraint form and ther
 \subsection{Implementation of MPC}\label{subse:implementation_mpc}
 In this section the implementation of MPC in MATLAB will be elaborated. 
 
-The cost function in equation \ref{eq:the_cost_function} is setup as a quadratic problem. In order to solve this minimization problem and find a global minimum quadratic programming (QP) is used. In MATLAB there well develop solvers for QP problems, in this project the quadprog function has been chosen. Quadprog solves the minimization problem subject to constraints to the specified convex objective function. 
+The cost function in equation \ref{eq:the_cost_function} is a quadratic problem. In order to solve this minimization problem and find a global minimum quadratic programming (QP) is used. In MATLAB there well develop solvers for QP problems, in this project the quadprog function has been chosen. Quadprog solves the minimization problem subject to constraints to the specified convex cost function. The model used for the predictive model is the one covered in section \ref{se:linearization}. Furthermore, the constraints for the cost explained in subsection \ref{subse:constraints} will also be included. 
+
+In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.60\textwidth]{report/control/pictures/mpc_diagram}
+	\caption{Diagram of an MPC controller}
+	\label{fig:mpc_diagram}
+\end{figure}
+
+Here it is illustrated that the model, constraint and cost function will be used in the optimizer to generate an control output, that will be used in the process, which in this case is the nonlinear model. The output y(k+1) is the output height at the end of the last pipe in the sewer network. At each time step the current value of the output is feedback to the MPC controller. Here the MPC will at each iteration calculate up to $H_p$ control inputs, as it calculates for future disturbances, however, only the first element of this u vector will be used to control the process. Thereafter a new measurement will be taken and a new controller output will be calculated and this will iterate for the entire simulation.
+
+The ideal prediction horizon would be 24 hours, thus the MPC is able to see the disturbance across a hole day. However due to large system matrices and thereby extremely large predictive model matrices MATLAB is not able to manage these big matrices as the dimension will exceed the dimension limitation for matrices in MATLAB.       

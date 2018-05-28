@@ -1,9 +1,9 @@
-\section{Sewer reservoir}\label{se:sewer_reservoir}
-In this section the model for a reservior will be derived. 
+\section{Tank model}\label{se:sewer_reservoir}
+In this section the model for a tank will be derived. 
 The assumptions made deriving the tank model is:
 \begin{table}[H]
 \begin{enumerate}
-\item The pressure is considerede hydrostatic.
+\item The pressure is considered hydrostatic.
 \end{enumerate}
 \end{table}
 
@@ -15,7 +15,7 @@ In figure \ref{fig:tank_model} an illustration of a reservoir is shown.
 \label{fig:tank_model}
 \end{figure} 
 
-This illustration will be used to derive the model for the reservior. From the left an open channel that discharges fluid into the reservoir is shown. The fluid going into the reservoir has a mass flow rate, $m_{in}$ [$\frac{kg}{s}$]. Within the reservoir the stored fluid has a height, h [$m$], and the reservoir has a surface area, A. To the bottom right the fluid is discharged, $m_{out}$. The output mass flow is depended on the openings degree (OD) of the valve. The mass balance equation is derived in \cite{model_tank} and is given as:
+This illustration will be used to derive the model for the tank. From the left an open channel that discharges fluid into the reservoir is shown. The fluid going into the reservoir has a mass flow rate, $m_{in}$ [$\frac{kg}{s}$]. Within the reservoir the stored fluid has a height, h [$m$], and the reservoir has a surface area, A. To the bottom right the fluid is discharged, $m_{out}$. The output mass flow is depended on the openings degree (OD) of the valve. The mass balance equation is derived in \cite{model_tank} and is given as:
 
 %Assumption: incompressible flow
 
@@ -24,7 +24,7 @@ This illustration will be used to derive the model for the reservior. From the l
 \label{eq:tank_mass_balance}
 \end{equation} 
 
-Where $M_{cv}$ is the total mass within the control volume [$kg$], and $m_{in}$ and $m_{out}$ is the mass in and outflow rate of the tank $\left[\frac{kg}{s}\right]$. The mass balance can be written as $M_{cv} = \rho Ah$ where $\rho$ is the densisty $\left[\frac{kg}{m^3}\right]$, A is the area $\left[m^2\right]$ and h is the height [m]. The mass flow rate can be written as $m = \rho Q$, where Q is the flow $\left[\frac{m^3}{s}\right]$. Inserting this into equation \ref{eq:tank_mass_balance} the following is obtained:
+Where $M_{cv}$ is the total mass within the control volume [$kg$], and $m_{in}$ and $m_{out}$ is the mass in and outflow rate of the tank $\left[\frac{kg}{s}\right]$. The mass balance can be written as $M_{cv} = \rho Ah$ where $\rho$ is the density $\left[\frac{kg}{m^3}\right]$, A is the area $\left[m^2\right]$ and h is the height [m]. The mass flow rate can be written as $m = \rho Q$, where Q is the flow $\left[\frac{m^3}{s}\right]$. Inserting this into equation \ref{eq:tank_mass_balance} the following is obtained:
 
 \begin{equation}
 		\frac{d(\rho Ah(t))}{dt}=\rho Q_{in}(t)-\rho Q_{out}(t)
@@ -41,34 +41,48 @@ Simplifying equation \ref{eq:balance_reservior} by dividing with $\rho A$:
 	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-Q_{out}(t)\right)
 \end{equation}
 
+This equation describes the change in height according to an inflow and outflow. However, it has been chosen in this project to have a pump regulating the output of the tank as shown in figure \ref{fig:reservior_with_pump}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.60\textwidth]{report/modeling/pictures/reservior_with_pump}
-	\caption{Illustration of a tank with a pump inserted to control the output flow.}
+	\caption{Illustration of a tank with a pump inserted to regulate the output flow.}
 	\label{fig:reservior_with_pump}
 \end{figure}
 
-Because the output flow is depending on the OD of the valve, a model is needed to described the output flow of it. The model for the valve is derived by \cite{boysen} and is given as:
-\begin{equation}\label{eq:valve_model}
-	Q_{out} = kv(OD) \sqrt{\Delta p}
+To simplify the model it has been chosen to use a linear pump model where the output flow, $Q_{out}$ is depended on a constant between 1 and 0 and the maximum flow that the following pipe can transfer.
+
+\begin{equation}
+	Q_{out} = K \cdot Q_{max}
 \end{equation}
-Where kv(OD) is a function that describes the flow for different ODs. $\Delta p$ is the pressure drop across the valve [Pa]. The pressure difference across the valve is the pressure at the bottom of the tank minus the pressure in the open channel. The pressure at the bottom of the tank can be found with:
-\fxnote{Skal nok jhave noget med ventil karakterstik med}
-\begin{equation}\label{eq:pressure_at_depth}
- 	P_{bot} = P_{top} +\rho g h
- \end{equation} 
- Where $P_{top}$ is the atmospheric pressure $[Pa]$ and g is the gravitational constant $\left[\frac{m}{s^2}\right]$. The pressure on the output side of the valve is assumed to be 1 atm as it is an open channel. Inserting equation \ref{eq:pressure_at_depth} into equation \ref{eq:valve_model} the following is obtained:    
+Where K is the constant and $Q_{max}$ is the flow for a fully filled pipe for the respective pipe diameter. By inserting this equation for the output of the tank into equation \ref{eq:balance_reserviorv2} the following is obtained:
+
+\begin{equation}\label{eq:final_pump_model}
+  	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-K \cdot Q_{max}\right)
+\end{equation}\fxnote{Skal K her være afhængig af t?}  
+
+Equation \ref{eq:final_pump_model} then gives an expression where change in height is given as a function of inflow and outflow. 
+
+% Because the output flow is depending on the OD of the valve, a model is needed to described the output flow of it. The model for the valve is derived by \cite{boysen} and is given as:
+% \begin{equation}\label{eq:valve_model}
+% 	Q_{out} = kv(OD) \sqrt{\Delta p}
+% \end{equation}
+% Where kv(OD) is a function that describes the flow for different ODs. $\Delta p$ is the pressure drop across the valve [Pa]. The pressure difference across the valve is the pressure at the bottom of the tank minus the pressure in the open channel. The pressure at the bottom of the tank can be found with:
+% \fxnote{Skal nok jhave noget med ventil karakterstik med}
+% \begin{equation}\label{eq:pressure_at_depth}
+%  	P_{bot} = P_{top} +\rho g h
+%  \end{equation} 
+%  Where $P_{top}$ is the atmospheric pressure $[Pa]$ and g is the gravitational constant $\left[\frac{m}{s^2}\right]$. The pressure on the output side of the valve is assumed to be 1 atm as it is an open channel. Inserting equation \ref{eq:pressure_at_depth} into equation \ref{eq:valve_model} the following is obtained:    
 
 
-\begin{equation}\label{eq:valve_modelv2}
-	Q_{out} = kv(OD) \sqrt{(P_0 +\rho g h)- P_0} = kv(OD) \sqrt{\rho g h} 
-\end{equation}
+% \begin{equation}\label{eq:valve_modelv2}
+% 	Q_{out} = kv(OD) \sqrt{(P_0 +\rho g h)- P_0} = kv(OD) \sqrt{\rho g h} 
+% \end{equation}
 
-Equation \ref{eq:valve_modelv2} can be inserted into equation \ref{eq:balance_reserviorv2} and thereby the following model for the reservoir is obtained.
+% Equation \ref{eq:valve_modelv2} can be inserted into equation \ref{eq:balance_reserviorv2} and thereby the following model for the reservoir is obtained.
 
-\begin{equation}\label{eq:balance_reserviorv3}
-	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-\left(kv(OD) \sqrt{\rho g h(t)}\right)\right)
-\end{equation}
+% \begin{equation}\label{eq:balance_reserviorv3}
+% 	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-\left(kv(OD) \sqrt{\rho g h(t)}\right)\right)
+% \end{equation}
 
-Equation \ref{eq:balance_reserviorv3} then gives an expresion where change in height is given as a function of inflow, pressure and opening degree of the valve. 
+% Equation \ref{eq:balance_reserviorv3} then gives an expression where change in height is given as a function of inflow, pressure and opening degree of the valve. 
