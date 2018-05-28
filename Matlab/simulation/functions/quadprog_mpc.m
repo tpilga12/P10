@@ -14,7 +14,7 @@ H = 2*gamma'*Q*gamma;
 
 
 
-f = 2*(delta_xstates*psi'*Q*gamma)+2*Dlifted'*theta'*Q*gamma;
+f = 2*(delta_xstates*psi'*Q*gamma)+2*D_delta'*theta'*Q*gamma;
 %+2*(u'*gamma'*Q*theta) - (2*(x1*psi' ...
     %*Q*theta))-(2*(u'*gamma'*Q*theta))-(2*(delta_u'*theta'*Q ...
    % *theta))

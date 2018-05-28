@@ -31,8 +31,6 @@ toc
 clc
 iterations = 500;
 
-
-
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
@@ -54,7 +52,7 @@ n=1;
   h_input1=fitfuncv2(input.Q_in(1,1)); 
  
   h_input=[0];
-  u=[h_input1;h_input]%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
+  u=[h_input1;h_input];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
 D_old = u;
     for n = 1:Hp %%% Lifted D matrix
         if n == 1
@@ -98,8 +96,8 @@ for m = 2:iterations
    
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-%     input.Q_in(m,1) = 0.15 +disturbance_input(1,m)';%+ sin(m/100)/15;
-    input.Q_in(m,1) = 0.15 + sin(m/100)/10;
+    input.Q_in(m,1) = 0.15 +disturbance_input(1,m)';%+ sin(m/100)/15;
+%     input.Q_in(m,1) = 0.15 + sin(m/100)/10;
     
     utank1(m,1) = input.u_init(1,1);% + sin(m/10)/65;
     utank2(m,1) = input.u_init(1,2);
@@ -111,7 +109,7 @@ if m > 4
 end
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   h_input1=[fitfuncv2(input.Q_in(m,1))];    
-    u=[h_input1;h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];    
+    u=[h_input1;h_input];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];    
     for n = 1:Hp %%% Lifted D matrix
         if n == 1
             Dlifted = [u.^n];
@@ -129,8 +127,8 @@ end
     
      if p==1
         [xstates delta_xstates xstates_old]=collect_states(data,m,lin_sys);
-        
-        [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp,sys_setup);
+        xstates_save(m-1,1:length(xstates)) = xstates';
+        [b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp,sys_setup);
     
         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta);
 %         if data{1,2}.h(m-1,1) == 0
@@ -140,8 +138,8 @@ end
 %         u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
 %         u_output_tank_old =X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
 %         end
-                u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
-        u_output_tank_old =X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
+        u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
+        u_output_tank_old =X(1)+u_output_tank_old;%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
         counter =1;
 %         p =0;
         n=1;

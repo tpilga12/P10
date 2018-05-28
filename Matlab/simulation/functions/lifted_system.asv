@@ -14,14 +14,14 @@ function[psi gamma theta Q Alifted Bulifted Dlifted] =  lifted_system(lin_sys,Hp
         end
     end
     %%
-  u=u';
-    for n = 1:Hp %%% Lifted D matrix
-        if n == 1
-            Dlifted = [u.^n];
-        else
-            Dlifted = [Dlifted; u.^(n-1)];
-        end
-    end
+%   u=u';
+%     for n = 1:Hp %%% Lifted D matrix
+%         if n == 1
+%             Dlifted = [u.^n];
+%         else
+%             Dlifted = [Dlifted; u.^(n-1)];
+%         end
+%     end
     %%
     
 % B lifted
@@ -46,33 +46,44 @@ for n = 1:Hp
     p = p +1;
 end
           
-%% Clifted The one from lin_sys
-length_C = 0;
-Clifted = zeros(length(lin_sys.C)*Hp);
-%%
-for n=1:Hp
-   Clifted(1+length_C:length(lin_sys.C)*n,1+length_C:length(lin_sys.C)*n) =  lin_sys.C;
-    length_C = length(lin_sys.C)*n;
-end
-%%
+% Clifted The one from lin_sys
 % length_C = 0;
-% Clifted = zeros(length(lin_sys.C)*Hp,length(lin_sys.C)*Hp);
-% C_insert=zeros(length(lin_sys.A),length(lin_sys.A)); 
-% C_insert(263,263)=1;
+% Clifted = zeros(length(lin_sys.C)*Hp);
 % %%
 % for n=1:Hp
-%    Clifted(1+length_C:length(C_insert)*n,1+length_C:length(C_insert)*n) =C_insert;
-%     length_C = length(lin_sys.A)*n;
-% end  
-%%    
+%    Clifted(1+length_C:length(lin_sys.C)*n,1+length_C:length(lin_sys.C)*n) =  lin_sys.C;
+%     length_C = length(lin_sys.C)*n;
+% end
+%%
+length_C = 0;
+% Clifted = zeros(length(lin_sys.C)*Hp,length(lin_sys.C)*Hp);
+ Clifted = zeros(Hp,length(lin_sys.C)*Hp);
+C_insert=zeros(1,length(lin_sys.A)); 
+% C_insert(1,262:263)=1;
+counter =1;
+for n = 1:length(lin_sys.StateName) % find the output
+    if  contains(lin_sys.StateName(counter),'h_pipe_2_14') ==1
+    
+        C_insert(1,counter)=1;
+    end
+    
+    counter = counter +1;
+end    
+%%
+for n=1:Hp
+   Clifted(1+length_C,1+length_C:length(C_insert)*n) =C_insert;
+% Clifted(n,1+length_C:length(C_insert)*n) =C_insert;
+    length_C = length(lin_sys.A)*n;
+end  
+%%    %
 
 
 
 
    B_Deltalifted =Bulifted;
    
-    Q= eye(length(Clifted));
-    
+%     Q= eye(length(Clifted));
+     Q= eye(3246);
     
 %     Clifted = eye(Hp);
     psi = Clifted*Alifted; % R(10x263)

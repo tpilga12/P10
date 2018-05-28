@@ -127,8 +127,8 @@ end
     
      if p==1
         [xstates delta_xstates xstates_old]=collect_states(data,m,lin_sys);
-        
-        [A_constraints b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp,sys_setup);
+        xstates_save(m-1,1:length(xstates)) = xstates';
+        [b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp,sys_setup);
     
         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta);
 %         if data{1,2}.h(m-1,1) == 0
@@ -139,7 +139,7 @@ end
 %         u_output_tank_old =X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
 %         end
         u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
-        u_output_tank_old =X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
+        u_output_tank_old =X(1)+u_output_tank_old;%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
         counter =1;
 %         p =0;
         n=1;
