@@ -32,11 +32,10 @@ u=[h_data_hat'; tank_in(1,:)];% ; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i ; 
 
 %u = [ u(17:end,:) ; u(end-15:end,:)];
 % u = [h_data_hat'; h_input];
-sysT2 = ss(lin_sys.A,lin_sys.B,C_insert,0,lin_sys.Ts);
+A_
 x0(1:length(lin_sys.A)) = 0;
 % x0(36)=1;
-% [Y_hat t1 x1]=lsim(lin_sys,u);
-[Y_hat t1 x1]=lsim(sysT2,u);
+[Y_hat t1 x1]=lsim(lin_sys,u);
 [Y_hat2 t2 x2] = lsim(sysT,u);
 
 %
