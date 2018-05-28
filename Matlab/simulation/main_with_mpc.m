@@ -31,8 +31,6 @@ toc
 clc
 iterations = 500;
 
-
-
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
