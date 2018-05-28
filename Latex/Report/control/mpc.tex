@@ -277,21 +277,23 @@ The constraint needs to be written for small signal values, and needs to depend 
  		u_{min} -  \bar{u} \leq \hat{\CMcal{U}}(k-1)+\sum_{i=1}^n \Delta\hat{\CMcal{U}}(k+i)  \leq  u_{max} -  \bar{u}
  \end{equation}
 
-The constraint is split up into lower and upper bound for the signal, the lower bound is:
-
- \begin{equation}
- \begin{aligned}
-			 	u_{min} -  \bar{u} &\leq \CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(k+i) \\
--\sum_{i=1}^n \Delta\CMcal{U}(k+i) &\leq \underbrace{\CMcal{U}(k-1)-u_{min}+\bar{u}}_{\Gamma_3}
- \end{aligned}
- \end{equation}
-
-And the upper bound:
+The constraint is split up into lower and upper bound for the signal, the upper bound is:
 
  \begin{equation}
  \begin{aligned}
 			 	\CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(k+i)  &\leq  u_{max} -  \bar{u} \\
-				\sum_{i=1}^n \Delta\CMcal{U}(k+i)  &\leq  \underbrace{u_{max} -  \bar{u} - \CMcal{U}(k-1)}_{\Gamma_4} \\
+				\sum_{i=1}^n \Delta\CMcal{U}(k+i)  &\leq  \underbrace{u_{max} -  \bar{u} - \CMcal{U}(k-1)}_{\Gamma_3} \\
+ \end{aligned}
+ \end{equation}
+
+
+
+And the lower bound:
+
+ \begin{equation}
+ \begin{aligned}
+			 	u_{min} -  \bar{u} &\leq \CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(k+i) \\
+-\sum_{i=1}^n \Delta\CMcal{U}(k+i) &\leq \underbrace{\CMcal{U}(k-1)-u_{min}+\bar{u}}_{\Gamma_4}
  \end{aligned}
  \end{equation}
 
@@ -301,16 +303,16 @@ The constraints can be setup on the standard inequality constraint form and ther
         \begin{bmatrix}
            \Lambda\\
            -\Lambda\\
-           -\sum_{i=1}^n \\
-           \sum_{i=1}^n
+           \sum_{i=1}^n \\
+           -\sum_{i=1}^n
            \end{bmatrix}
            \Delta\CMcal{U}
            \leq 
            \begin{bmatrix}
-         \Gamma_1\\
-         \Gamma_2\\
-         \Gamma_3\\
-         \Gamma_4
+         \Gamma_{1max}\\
+         \Gamma_{2min}\\
+         \Gamma_{3max}\\
+         \Gamma_{4min}
 
            \end{bmatrix}
  \end{equation}

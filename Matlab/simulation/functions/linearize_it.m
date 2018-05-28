@@ -45,7 +45,7 @@ else
             A(s_c+1,s_c) =  (tank_spec(tank_counter).area/Dt)/tank_spec(tank_counter).Q_out_max;
             InputName{nr_inputs,1} = ['Pump_tank_',num2str(tank_counter)];
             StateName{s_c,1} = ['Tank_',num2str(tank_counter)];
-            StateName{s_c+1,1} = ['Tank_u_max'];
+            StateName{s_c+1,1} = ['Tank',num2str(tank_counter),'_u_max'];
             
             x0(s_c,1) = data{section-2}.h(1,end);
             u0(nr_inputs,1) = input.u_init(1,tank_counter);

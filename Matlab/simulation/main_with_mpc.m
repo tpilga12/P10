@@ -140,7 +140,7 @@ end
 %         u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
 %         u_output_tank_old =X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
 %         end
-                u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
+        u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
         u_output_tank_old =X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
         counter =1;
 %         p =0;
