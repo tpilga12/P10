@@ -12,7 +12,7 @@ Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Hp = 120;% Prediciton horizon
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.15; % initial input flow
+input.Q_init = 0.20; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
 input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
@@ -30,7 +30,7 @@ toc
 %% run stuff !!!!!
 clc
 iterations = 500;
-
+xstates_linear = lin_point.x0;
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
@@ -41,9 +41,9 @@ utank1(2) = input.u_init(1,2);
 
 
 
-[psi gamma theta Q Alifted Bulifted] = lifted_system(lin_sys,Hp);
+[psi gamma theta Q Alifted Bulifted C_insert] = lifted_system(lin_sys,Hp);
 
-[SUM_matrix_mpc C_matrix_mpc fitfuncv2]= mpc_init_sewer(size(Bulifted,2),Hp,lin_sys,pipe_spec); 
+[SUM_matrix_mpc C_matrix_mpc fitfuncv2 C_matrix_output]= mpc_init_sewer(size(Bulifted,2),Hp,lin_sys,pipe_spec); 
 u_output_tank_old(1,1) =  0;
 counter = 1;
 p=1;
@@ -91,18 +91,19 @@ p=1;
 n=1;
 %%
 tic
+hold on
 for m = 2:iterations
    
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.15% +disturbance_input(1,m)';%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.20;% +disturbance_input(1,m)';%+ sin(m/100)/15;
 %     input.Q_in(m,1) = 0.15 + sin(m/100)/15;
     
     utank1(m,1) = input.u_init(1,1);% + sin(m/10)/65;
     utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 if m > 4
-    utank1(m,1) =  u_output_tank(n);
+    utank1(m,1) =  0.97*u_output_tank;
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
     n=n+1;
 end
@@ -110,8 +111,13 @@ end
   h_input1=[fitfuncv2(input.Q_in(m,1))]; 
   
     u=[h_input1; utank1(m,1)];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
+    disp(u)
+    xstates_next_time_step= lin_sys.A*xstates_linear+lin_sys.B*u+lin_sys.B*[disturbance_input(m); 0];
+    delta_xstates_linear = xstates_next_time_step-xstates_linear;
+    y(m,1:length(xstates_next_time_step))=C_matrix_output* xstates_next_time_step;
+    temp(m,1:length(xstates_next_time_step)) = xstates_next_time_step;
     
-    x_next_time= lin_sys.A*x+lin_sys.B*u+lin_sys.B*disturbance_input(m)
+    
     
     for n = 1:Hp %%% Lifted D matrix
         if n == 1
@@ -122,26 +128,28 @@ end
     end
     D_delta = Dlifted - D_old;
     D_old = Dlifted;
-%     if counter < 100
-%         counter = counter +1;
-%     else
-%         p = 1 ;
-%     end
+
+    
     
      if p==1
-        [xstates delta_xstates xstates_old]=collect_states(data,m,lin_sys);
-        xstates_save(m-1,1:length(xstates)) = xstates';
+%         [xstates delta_xstates xstates_old]=collect_states(data,m,lin_sys);
+%         xstates_save(m-1,1:length(xstates)) = xstates';
         [b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp,sys_setup);
-    
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta);
-
+    % Nonlinear
+%         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta);
+    % Linear
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates_linear, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates_next_time_step,C_matrix_mpc,input,Dlifted,D_delta);
         u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
         u_output_tank_old =X(1)+u_output_tank_old;%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
         counter =1;
 %         p =0;
         n=1;
      end
-     
+%      xstate_linear=xstates_next_time_step;
+%      figure(12)
+%      plot(xstates_linear)
+%      drawnow;
+%      pause(0.01)
  end
 toc
 
@@ -151,4 +159,16 @@ sampling = 1; %increase number to skip samples to increase playback speed
 starting_point = 20; % change starting point (START IS 1)
 playback_speed = 1/5; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
+
+%% Plot for linear MPC
+
+% for m = 1:iterations
+%         figure(12)
+%      plot(y(m,1:end))
+%       ylim([0 0.9])
+%      pause(0.01)
+%     
+% end
+%     
+
 

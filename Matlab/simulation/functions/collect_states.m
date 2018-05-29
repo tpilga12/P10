@@ -27,11 +27,11 @@ counter = 1;
         
         x_delta_output= data{1,end}.h(iteration-1,end);%-data{1,end}.h(iteration-2,end); % state for difference between the last two outputs
         pipe_states=1;
-        xstates_old(1,counter:counter-1+pipe_states) = x_delta_output; % state for difference between the last two outputs
+%         xstates_old(1,counter:counter-1+pipe_states) = x_delta_output; % state for difference between the last two outputs
         counter = counter+pipe_states;
         pipe_states=1;
         x_old_output  = data{1,end}.h(iteration-1,end)-data{1,1}.h(1,1);% last output stod 2 før iteration-2,end)
-        xstates_old(1,counter:counter-1+pipe_states) = x_old_output; % last output
+%         xstates_old(1,counter:counter-1+pipe_states) = x_old_output; % last output
 
         counter=1;
         for m = 1:length(data) % Loop to find the states and then take the values from the nonlinear model and insert into the state
@@ -54,11 +54,11 @@ counter = 1;
 %         xstates =xstates- data{1,1}.h(1,1);% sustract small signal
         x_delta_output= data{1,end}.h(iteration,end);%-data{1,end}.h(iteration-1,end);% state for difference between the last two outputs
         pipe_states=1;
-        xstates(1,counter:counter-1+pipe_states) = x_delta_output;% state for difference between the last two outputs
+%         xstates(1,counter:counter-1+pipe_states) = x_delta_output;% state for difference between the last two outputs
         counter = counter+pipe_states;
         pipe_states=1;
         x_output  = data{1,end}.h(iteration,end)-data{1,1}.h(1,1);% last output
-        xstates(1,counter:counter-1+pipe_states) = x_output;% last output
+%         xstates(1,counter:counter-1+pipe_states) = x_output;% last output
         
         
     end

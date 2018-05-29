@@ -1,4 +1,4 @@
-function[psi gamma theta Q Alifted Bulifted Dlifted] =  lifted_system(lin_sys,Hp,u) 
+function[psi gamma theta Q Alifted Bulifted C_insert] =  lifted_system(lin_sys,Hp,u) 
 
 % Lifted system 
 % [psi gamma theta] =  lifted_system(lin_sys,Hp) 
@@ -62,7 +62,7 @@ C_insert=zeros(1,length(lin_sys.A));
 % C_insert(1,262:263)=1;
 counter =1;
 for n = 1:length(lin_sys.StateName) % find the output
-    if  contains(lin_sys.StateName(counter),'h_pipe_2_1') ==1
+    if  strcmp(lin_sys.StateName(counter),'h_pipe_2_1') ==1
     
         C_insert(1,counter)=1;
     end
