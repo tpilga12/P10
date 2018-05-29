@@ -13,7 +13,7 @@ if error == 1
     sys = 'Not available';
 else
     
-    add_states = 2; % additional states needed to show change in output
+    add_states = 0; % additional states needed to show change in output
     dimension = sys_setup(end).sections+add_states+nr_tanks+1; % Setup matrix dimension for sections of system
     
     A = zeros(dimension);  F = eye(dimension);
@@ -139,18 +139,18 @@ else
     BF2 = BF;
     BF2(abs(BF2) < slim_matrix) = 0;
     
-    last_pipe_out = find(strcmp(StateName , ['h_pipe_',num2str(length(pipe_spec)),'_',num2str(pipe_spec(end).sections)]));
+%     last_pipe_out = find(strcmp(StateName , ['h_pipe_',num2str(length(pipe_spec)),'_',num2str(pipe_spec(end).sections)]));
 %     C(1,last_pipe_out) = 1;
 %     C(2,dimension-1) = 1;
-    OutputName{1} = 'Output_height';
-    OutputName{2} = 'Output_height_dot';
-    AF(dimension-1,dimension) = -1;
-    AF(dimension-1,last_pipe_out) = 1;
-   
-    StateName{dimension-1,1} = 'h_out_dot';
-    
-    AF(dimension,last_pipe_out) = 1;
-    StateName{dimension,1} = 'h_out_old';
+%     OutputName{1} = 'Output_height';
+%     OutputName{2} = 'Output_height_dot';
+%     AF(dimension-1,dimension) = -1;
+%     AF(dimension-1,last_pipe_out) = 1;
+%    
+%     StateName{dimension-1,1} = 'h_out_dot';
+%     
+%     AF(dimension,last_pipe_out) = 1;
+%     StateName{dimension,1} = 'h_out_old';
     
     T = scale_states;
     diag_scale = diag(scale_states);
