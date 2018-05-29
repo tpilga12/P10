@@ -58,10 +58,7 @@ for m= (1+adjust_start):sampling:length(data{1}.Q(:,1))
     hold on
     for p=1:(length(vertical_line)-1)
         if pipe_spec(p+1).lat_inflow == 1
-            color_shape = ':b';
-        else
-            color_shape = ':r';
-        end
+            color_shape = '
         plot([vertical_line(p) vertical_line(p)], flowylim, color_shape,'Linewidth',line_thick);
     end
     ylim(flowylim)

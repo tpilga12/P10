@@ -50,7 +50,7 @@ else
             StateName{s_c,1} = ['Tank_',num2str(tank_counter)];
 
             
-            x0(s_c,1) = data{section-2}.h(1,end);
+%             x0(s_c,1) = data{section-2}.h(1,end);
             x0(s_c,1) = input.tank_height_init(tank_counter);
             u0(nr_inputs,1) = input.u_init(1,tank_counter);
             s_c = s_c + 1;
@@ -74,8 +74,8 @@ else
                         InputName{1,1} = ['Pipe_1_1_inflow'];
                         StateName{s_c,1} = ['h_pipe_in_',num2str(pipe_fetch),'_',num2str(k-1)];
                         nr_inputs = nr_inputs + 1;
+                        x0(s_c:(s_c+1),1) = data{section}.h(1,k);
                         s_c = s_c + 1;
-                        x0(s_c,1) = data{section}.h(1,k);
                     elseif tank_inserted == 1
                         tank_inserted = 0;
                         new_pipe = 0;
@@ -90,8 +90,9 @@ else
 %                         s_c = s_c + 1;
 %                         F(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'b');
 %                         A(s_c,s_c)   = lin_pipe(data{section}.h(1,k), pipe_fetch, pipe_spec, 'd');
+                        
+                        x0(s_c:(s_c+1),1) = data{section}.h(1,k);
                         s_c = s_c + 1;
-                        x0(s_c,1) = data{section}.h(1,k);
                     else
                         if new_pipe == 1
                             index = [s_c:(pipe_spec(pipe_fetch).sections-1+s_c)];
