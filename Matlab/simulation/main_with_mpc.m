@@ -10,7 +10,7 @@ global Dt iterations error
 Dt = 20;
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Hp = 60;% Prediciton horizon
+Hp = 120;% Prediciton horizon
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.15; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
@@ -68,7 +68,7 @@ i =1;
 p=1;
 counter =1;
 ramp= 0;
-index = 0.05;
+index = 0.01;
 for n= 1:iterations/40
     
     for i= 1:20 
@@ -86,7 +86,6 @@ for n= 1:iterations/40
        counter = counter +1;
     end   
 end
-
 counter = 1;
 p=1;
 n=1;
@@ -96,8 +95,8 @@ for m = 2:iterations
    
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.15 +disturbance_input(1,m)';%+ sin(m/100)/15;
-%     input.Q_in(m,1) = 0.15 + sin(m/100)/10;
+    input.Q_in(m,1) = 0.15% +disturbance_input(1,m)';%+ sin(m/100)/15;
+%     input.Q_in(m,1) = 0.15 + sin(m/100)/15;
     
     utank1(m,1) = input.u_init(1,1);% + sin(m/10)/65;
     utank2(m,1) = input.u_init(1,2);
@@ -107,9 +106,13 @@ if m > 4
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
     n=n+1;
 end
-    [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
-  h_input1=[fitfuncv2(input.Q_in(m,1))];    
-    u=[h_input1;h_input];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];    
+%     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
+  h_input1=[fitfuncv2(input.Q_in(m,1))]; 
+  
+    u=[h_input1; utank1(m,1)];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
+    
+    x_next_time= lin_sys.A*x+lin_sys.B*u+lin_sys.B*disturbance_input(m)
+    
     for n = 1:Hp %%% Lifted D matrix
         if n == 1
             Dlifted = [u.^n];
@@ -131,13 +134,7 @@ end
         [b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp,sys_setup);
     
         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta);
-%         if data{1,2}.h(m-1,1) == 0
-%             u_output_tank =0.01;
-%             u_output_tank_old =0.01;
-%         else
-%         u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
-%         u_output_tank_old =X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
-%         end
+
         u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
         u_output_tank_old =X(1)+u_output_tank_old;%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
         counter =1;
@@ -151,7 +148,7 @@ toc
 %%
 
 sampling = 1; %increase number to skip samples to increase playback speed
-starting_point = 1; % change starting point (START IS 1)
-playback_speed = 1/15; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
+starting_point = 20; % change starting point (START IS 1)
+playback_speed = 1/5; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 
