@@ -31,7 +31,7 @@ error = 0;
 
 [data tank_spec, input] = initialize(input, sys_setup, pipe_spec, tank_spec);
 tic
-[lin_point lin_sys sysT] = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
+[lin_point lin_sys] = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
 %% run stuff !!!!!
 clc

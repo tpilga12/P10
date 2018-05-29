@@ -44,7 +44,6 @@ umaxi = x0(:,find_umax)+ubar_tank;
 [Y_hat t1 x1]=lsim(lin_sys,u);
 % [Y_hat t1 x1]=lsim(sysT2,u);
 
-[Y_hat2 t2 x2] = lsim(sysT,u);
 
 %
 %  Y_hat = x1(:,226);
