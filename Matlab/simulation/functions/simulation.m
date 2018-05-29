@@ -19,6 +19,7 @@ global Dt
                  sys_component = sys_component + 1;
             
              else
+
                  data{sys_component} = pipe(pipe_spec, input, data, pipe_component, m, x, sys_component, new_pipe);
                  sys_component = sys_component + 1;
                  pipe_component = pipe_component + 1;
