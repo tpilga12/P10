@@ -17,9 +17,9 @@ d = pipe_spec(pipe_component).d; %[m] Diameter
 k = pipe_spec(pipe_component).k; %sandruhed angives typisk i mm der skal bruges m i formler
 Theta = pipe_spec(pipe_component).Theta;
 Dx = pipe_spec(pipe_component).Dx; %[m] grid distance
-sections = pipe_spec(pipe_component).sections+1; % Number of sections,
-Q_mark = 10; % initial value that makes sure the while loop runs at least once
-epsi = input.Q_init/1000;
+sections = pipe_spec(pipe_component).sections+1; % Number of sections + intersection at start,
+Q_mark = 10; % initial value that makes sure the while loop runs at least once (bisection (probably not in use))
+epsi = input.Q_init/1000; % most likely not used either
 % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
 if m > 1
     Q = data{sys_component}.Q;
@@ -38,7 +38,7 @@ for n = 1:sections
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Border conditions %%%%%%%%%%%%%%%%%%%%
     if n == 1
         
-        if new_pipe == 1
+        if new_pipe == 1 
             if  pipe_spec(pipe_component).lat_inflow == 1
                 Q(m,n) = input.Q_in(m,element)+input.lat.Q{pipe_component};
                 C(m,n) = (input.C_in(m,element) * input.Q_in(m,element) + input.lat.C{pipe_component} * input.lat.Q{pipe_component}) / (input.Q_in(m,element) + input.lat.Q{pipe_component-1});
@@ -46,7 +46,7 @@ for n = 1:sections
                 Q(m,n) = input.Q_in(m,element);
                 C(m,n) = input.C_in(m,element);
             end
-        else
+        else % input flow is output of previous pipe
             if pipe_spec(pipe_component).lat_inflow == 1
                 Q(m,n) = data{sys_component-1}.Q(m,end)+input.lat.Q{pipe_component};
                 C(m,n) = (data{sys_component-1}.C(m,end) * data{sys_component-1}.Q(m,end) + input.lat.C{pipe_component} * input.lat.Q{pipe_component}) / (data{sys_component-1}.Q(m,end) + input.lat.Q{pipe_component});
@@ -92,7 +92,7 @@ else
     temp.fitfunc2 = data{sys_component}.fitfunc2;
     temp.lut = lut; 
 end
-data{1,sys_component} = temp;
+data = temp;
 output = data;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

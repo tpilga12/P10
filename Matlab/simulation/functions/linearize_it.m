@@ -39,21 +39,25 @@ else
             section = section + 1; % needed here, fetches fitfunc for pipe after tank
            
             B(s_c,nr_inputs) = -lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], [], 'a'); % change in tank height due to pump
-            B(s_c+2,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], data{section}.fitfunc, 'b'); % height into next pipe
+            B(s_c+1,nr_inputs) = lin_tank(input.u_init(1,tank_counter), tank_spec(tank_counter), [], data{section}.fitfunc, 'b'); % height into next pipe
             A(s_c,s_c) = 1; %tank height
             A(s_c,s_c-1) = lin_tank(data{section-2}.h(1,end), tank_spec(tank_counter), [], data{section-2}.fitfunc2, 'c');   %change in tank height from pipe inflow
-            A(s_c+1,s_c) =  (tank_spec(tank_counter).area/Dt)/tank_spec(tank_counter).Q_out_max;
+
+            %             A(s_c+1,s_c) =  (tank_spec(tank_counter).area/Dt)/tank_spec(tank_counter).Q_out_max;
+            %             StateName{s_c+1,1} = ['Tank',num2str(tank_counter),'_u_max'];
+            
             InputName{nr_inputs,1} = ['Pump_tank_',num2str(tank_counter)];
             StateName{s_c,1} = ['Tank_',num2str(tank_counter)];
-            StateName{s_c+1,1} = ['Tank',num2str(tank_counter),'_u_max'];
+
             
             x0(s_c,1) = data{section-2}.h(1,end);
+            x0(s_c,1) = input.tank_height_init(tank_counter);
             u0(nr_inputs,1) = input.u_init(1,tank_counter);
-            s_c = s_c + 2;
+            s_c = s_c + 1;
             nr_inputs = nr_inputs + 1;
             tank_counter = tank_counter +1;
             tank_inserted = 1;
-%             new_pipe = 1;
+            new_pipe = 1;
         else
               for n = 1:sys_setup(run).component
                 k = 2;
@@ -66,7 +70,6 @@ else
                         B(s_c,s_c) = 1; % h^(i)
                         B(s_c+1,s_c) = -lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a');
                         %B(s_c+1,s_c)=[lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'c')-lin_pipe(data{section}.h(1,1), pipe_fetch, pipe_spec, 'a')];
-                        
                         
                         InputName{1,1} = ['Pipe_1_1_inflow'];
                         StateName{s_c,1} = ['h_pipe_in_',num2str(pipe_fetch),'_',num2str(k-1)];
