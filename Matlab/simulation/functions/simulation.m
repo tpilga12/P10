@@ -15,11 +15,12 @@ global Dt
          for n = 1:sys_setup(x).component
              if strcmp(sys_setup(x).type,'Tank') == 1 
                  tank_nr = tank_nr + 1;
-                 [data{1,sys_component} input] = tank(m, data{1,sys_component}, tank_nr, x, input, tank_spec, init);
+                 [data{sys_component} input] = tank(m, data{1,sys_component}, tank_nr, x, input, tank_spec, init);
                  sys_component = sys_component + 1;
             
              else
-                 data{1,sys_component} = pipe(pipe_spec, input, data, pipe_component, m, x, sys_component, new_pipe);
+
+                 data{sys_component} = pipe(pipe_spec, input, data, pipe_component, m, x, sys_component, new_pipe);
                  sys_component = sys_component + 1;
                  pipe_component = pipe_component + 1;
                  new_pipe = 0;

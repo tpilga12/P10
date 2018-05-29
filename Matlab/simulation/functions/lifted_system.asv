@@ -71,8 +71,8 @@ for n = 1:length(lin_sys.StateName) % find the output
 end    
 %%
 for n=1:Hp
-%    Clifted(1+length_C:length(C_insert)*n,1+length_C:length(C_insert)*n) =C_insert;
-Clifted(n,1+length_C:length(C_insert)*n) =C_insert;
+   Clifted(1+length_C,1+length_C:length(C_insert)*n) =C_insert;
+% Clifted(n,1+length_C:length(C_insert)*n) =C_insert;
     length_C = length(lin_sys.A)*n;
 end  
 %%    %
@@ -83,7 +83,7 @@ end
    B_Deltalifted =Bulifted;
    
 %     Q= eye(length(Clifted));
-     Q= eye(Hp);
+     Q= eye(3246);
     
 %     Clifted = eye(Hp);
     psi = Clifted*Alifted; % R(10x263)

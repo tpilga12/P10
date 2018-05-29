@@ -2,12 +2,12 @@
 To be able to obtain a MPC control algorithm the system needs to be transform into state space form. In this section it will be elaborated how this is obtained.
 
 
-The continuity equation from section ??? and an equation to describe the flow knowing the height is used found in section ????. 
+The continuity equation from section \ref{se:hydraulics_of_sewer_line} and an equation to describe the flow knowing the height is used found in appendix \ref{app:formulas}. 
 \begin{equation}\label{eq:linearization_Continuity}
 \frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:flow_eq_given_a_height}
 	Q = f(h) = \left(0.46-0.5 \cdot cos\left(\pi \frac{h}{d}\right)+0.04\cdot cos\left(2\pi\frac{h}{d}\right)\right)Q_f
 \end{equation}
 
@@ -19,14 +19,19 @@ Equation \ref{eq:linearization_Continuity} is expanded to the following:
 
 By applying the Preissmann scheme from section \ref{se:preissmann_scheme} equation \ref{eq:preissmann_time_derivatie} and \ref{eq:preissmann_space_derivatie} on the partial derivate of h in terms of time and position, the following is obtained: 
 
-\begin{equation}
+\begin{equation}\label{eq:preissmann_skrevet_om}
 \begin{aligned}
 	&\frac{\partial A(x,t)}{\partial h} \left(\frac{1}{2}\frac{h_{j+1}^{i+1}-h_{j+1}^i}{\Delta t} +  \frac{1}{2} \frac{h_{j}^{i+1} - h_j^i}{\Delta t}\right) + \\ &\frac{\partial Q(x,t)}{\partial h}\left(\theta \frac{h_{j+1}^{i+1}-h_j^{i+1}}{\Delta x}+(1-\theta)\frac{h_{j+1}^i - h_j^i}{\Delta x}\right)=0
 \end{aligned}
 \end{equation}
-This equation can be written on a matrix form:
+Where the derivate of Q given h can be found by taking the derivate of equation \ref{eq:flow_eq_given_a_height} with respect to h, and the the derivate of A can be found by taking the derivate of equation the following equation with the respect to h:
+\begin{equation}%\label{eq:calc_area_open_channel}
+	A = \frac {d^2}{4} \cdot acos \left(\frac{\frac{d}{2}-h}{\frac{d}{2}}\right)-\sqrt{h\cdot (d-h)}\cdot  \left(\frac{d}{2}-h\right)
+\end{equation}
 
-\begin{equation}
+Equation \ref{eq:preissmann_skrevet_om} can be written on matrix form as:
+
+\begin{equation}\label{eq:rearrange_continuity_eq}
 \begin{aligned}
 	&\begin{bmatrix}
 		\underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{a} & \underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{b} 
@@ -46,12 +51,12 @@ This equation can be written on a matrix form:
 	\end{aligned}
 \end{equation}
 
-We want the equation on the normal state space form.
+Thereby this equation can be written normal state space form, where the heights are the states of the state space system. 
 
 \begin{equation}
-	\dot{x} = Ax + Bu
+	x(k+1) = Ax(k) + Bu(k) + B_dd
 \end{equation}
-Where A is the system matrix, x is the state of the system, B is the input matrix and u is the input. 
+Where A is the system matrix, x is the state of the system, B is the input matrix and u is the input. By utilizing equation \ref{eq:rearrange_continuity_eq} the following can be wriiten:
 
 \begin{equation}
 \begin{aligned}

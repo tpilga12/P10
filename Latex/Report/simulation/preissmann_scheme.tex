@@ -72,7 +72,7 @@ For the Preissmann scheme to be numerical stable the $\theta$ parameter is $\the
 
 In the following section, the calculating of the flow and height in each node will be explained.
 
-\subsubsection*{Iteration scheme} \fxnote{This subsec needs to get canned}
+\subsection{Iteration scheme} \fxnote{This subsec needs to get canned, hvorfor skal dette afsnit på dåse? xD}
 In this section, it will be elaborated how the calculation of the flow and height in each iteration is done \cite{ikke_stationear}.
 
 The discretized continuity equation \ref{eq:continuity_eq_preissmann} from section \ref{se:preissmann_scheme}, stated below, is solved for the desired flow in equation \ref{eq:continuity_solve_flow},
@@ -89,13 +89,13 @@ Where H is a parameter for the previous flows and areas in time and section whic
 	H = \left(2\cdot(1-\theta)\cdot Q_j^i-2\cdot(1-\theta)\cdot Q_{j+1}^i+2\theta Q_j^{i+1}\right)\cdot\frac{\Delta t}{\Delta x}- A_{j}^{i+1}+A_j^i+A_{j+1}^i
 \end{equation}
 
-Instead of using the the second Saint-Venant equation as explained in ??? \fxnote{ref tilbage til hvor vi vaelger den fra} an equation for calculating the flow in a circular pipe will be used:
+Instead of using the the second Saint-Venant equation as explained in ??? \fxnote{ref tilbage til hvor vi vaelger den fra} an equation for calculating the flow in a circular pipe will be used \cite{ikke_stationear}:
 
 \begin{equation}\label{eq:calc_for_flowv2}
  	Q = \left(0.46-0.5 \cdot cos\left(\pi \frac{h}{d}\right)+0.04\cdot cos\left(2\pi\frac{h}{d}\right)\right)\cdot Q_f
 \end{equation}
 
-This equation describes the flow in a circular pipe by knowing the diameter, d height, h and the flow for a filled pipe $Q_f$. Where $Q_f$ is calculated as:
+This equation describes the flow in a circular pipe by knowing the diameter, d height, h and the flow for a filled pipe $Q_f$. Where $Q_f$ is calculated as \cite{ikke_stationear}:
 
 \begin{equation}\label{eq:qf_for_flow}
 	Q_f =-72\cdot \left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2\cdot I_e^{0,5}% -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
