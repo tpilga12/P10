@@ -195,10 +195,12 @@ To ease eventual expansion of the simulation a simple design, where individual p
 \end{figure}
 
 The amount of iterations desired to simulate the system is chosen. As the system is already initialized and MATLAB does not have zero indexing the system is initialized at m equal to one. Therefore the first iterations is calculated at m equal to two until the chosen amount of iterations is reached. The function ``simulation'' is given flow and concentrate input, system specification (Sys\_setup), pipe specification (pipe\_spec). If tank is present actuator input and tank specification (tank\_spec) is also needed.
-
+In figure \ref{fig:simu_chart} the simulation function is seen.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9 \textwidth]{report/simulation/pictures/simu_chart.pdf}
 \caption{Simulation function.}
 \label{fig:simu_chart}
 \end{figure}
+
+The function is given input of flow, concentrate and actuator for pipes and tanks respectively. Furthermore specifications of system, pipe and tank is given. The basic functionality is an outer loop and an inner loop. The outer loop iterates through the parts in ``Sys\_setup'' and the inner loop iterates through the components each part consists of. Iterating through the parts, checking whether the component is a tank or pipes, the respective tank or pipe function is called. 

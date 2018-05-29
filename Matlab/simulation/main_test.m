@@ -36,7 +36,7 @@ toc
 %% run stuff !!!!!
 clc
 
-iterations = 600;
+iterations = 400;
 
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
 
@@ -45,10 +45,12 @@ utank1(2) = input.u_init(1,2);
 tic
 for m = 2:iterations
         %%%%%% inputs %%%%%%%%%%%%
-    input.C_in(m,1) = 8; % concentrate input [g/m^3]
-%     if m >= 100
+        input.C_in(m,1) = 8; % concentrate input [g/m^3]
+    if m >= 100
 %         input.Q_in(m,1) = 0.25;
+        input.C_in(m,1) = 10; % concentrate input [g/m^3]
 %     else
+    end
     input.Q_in(m,1) = 0.25;% + sin(m/10)/35 ;%+ sin(m/100)/15;
 %     end
     utank1(m,1) = input.u_init(1,1) + sin(m/10)/35;
@@ -64,7 +66,7 @@ toc
 %%
 
 sampling = 1; %increase number to skip samples to increase playback speed
-starting_point = 0; % change starting point (START IS 0)
+starting_point = 80; % change starting point (START IS 0)
 playback_speed = 1/10; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 
