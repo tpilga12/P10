@@ -49,6 +49,7 @@ for m= (1+adjust_start):sampling:length(data{1}.Q(:,1))
     if nr_tanks > 0
         yyaxis right
         plot(pipe_sep_line(tank_x),tank_height(m,1:end),'*')
+        ylim([0 10])
         yyaxis left
         plot(pipe_sep_line(1:end),flow(m,:))
     else
@@ -69,8 +70,10 @@ for m= (1+adjust_start):sampling:length(data{1}.Q(:,1))
     if nr_tanks > 0
         yyaxis right
         plot(pipe_sep_line(tank_x),tank_height(m,1:end),'*')
+        
         yyaxis left
         plot(pipe_sep_line(1:end),height(m,:))
+        
     else
         plot(pipe_sep_line(1:end),height(m,:))
     end
