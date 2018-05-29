@@ -30,7 +30,11 @@ toc
 %% run stuff !!!!!
 clc
 iterations = 500;
-xstates_linear = lin_point.x0;
+xstates_linear(37,1) = lin_point.x0(37,1) -3+lin_point.x0(1);
+xstates_linear = lin_point.x0-lin_point.x0(1);
+
+
+
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
@@ -103,14 +107,14 @@ for m = 2:iterations
     utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 if m > 4
-    utank1(m,1) =  0.97*u_output_tank;
+    utank1(m,1) =  u_output_tank;
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
     n=n+1;
 end
 %     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   h_input1=[fitfuncv2(input.Q_in(m,1))]; 
-  
-    u=[h_input1; utank1(m,1)];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
+  h_input2=[fitfuncv2(utank1(m,1))]; 
+    u=[h_input1; h_input2];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
     disp(u)
     xstates_next_time_step= lin_sys.A*xstates_linear+lin_sys.B*u+lin_sys.B*[disturbance_input(m); 0];
     delta_xstates_linear = xstates_next_time_step-xstates_linear;
@@ -169,6 +173,13 @@ plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, ta
 %      pause(0.01)
 %     
 % end
-%     
-
-
+     
+figure(1)
+plot(temp(1:end,1))
+title('First state')
+figure(2)
+plot(temp(1:end,37))
+title('tank height')
+figure(3)
+plot(temp(1:end,38))
+title('Output of tank')
