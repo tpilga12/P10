@@ -1,4 +1,4 @@
-function [SUM_matrix_mpc C_matrix_mpc fitfuncv2]= mpc_init_sewer(k,Hp,lin_sys,pipe_spec) 
+function [SUM_matrix_mpc C_matrix_mpc fitfuncv2 C_matrix_output]= mpc_init_sewer(k,Hp,lin_sys,pipe_spec) 
 %%% Matrix multiplied on 
 Test_matrix = zeros(k,k);
 p = 0;
@@ -34,6 +34,19 @@ for t = 1:100
 end
 fitfuncv2 = fit(h_test',Q_test','poly9');
 
-
+length_C = 0;
+% Clifted = zeros(length(lin_sys.C)*Hp,length(lin_sys.C)*Hp);
+ Clifted = zeros(Hp,length(lin_sys.C)*Hp);
+C_matrix_output=zeros(1,length(lin_sys.A)); 
+% C_insert(1,262:263)=1;
+counter =1;
+for n = 1:length(lin_sys.StateName) % find the output
+    if  strcmp(lin_sys.StateName(counter),'h_pipe_2_35') ==1
+    
+        C_matrix_output(1,counter)=1;
+    end
+    
+    counter = counter +1;
+end   
 
 end
