@@ -1,4 +1,4 @@
-function[psi gamma theta Q Alifted Bulifted C_insert omega Blifted] =  lifted_system(lin_sys,Hp,u) 
+function[psi gamma theta Q Alifted Bulifted C_insert] =  lifted_system(lin_sys,Hp,u) 
 
 % Lifted system 
 % [psi gamma theta] =  lifted_system(lin_sys,Hp) 
@@ -16,9 +16,9 @@ function[psi gamma theta Q Alifted Bulifted C_insert omega Blifted] =  lifted_sy
     %%
     for n = 1:Hp %%% Lifted B matrix
         if n == 1
-            Blifted = [lin_sys.B.^n];
+            Blifted = [lin_sys.B^n];
         else
-            Blifted = [Blifted ;lin_sys.B.^n];
+            Blifted = [Blifted ;lin_sys.B^n];
         end
     end
 
@@ -62,7 +62,7 @@ C_insert=zeros(1,length(lin_sys.A));
 % C_insert(1,262:263)=1;
 counter =1;
 for n = 1:length(lin_sys.StateName) % find the output
-    if  strcmp(lin_sys.StateName(counter),'h_pipe_2_1') ==1
+    if  strcmp(lin_sys.StateName(counter),'h_pipe_2_5') ==1
     
         C_insert(1,counter)=1;
     end
@@ -78,15 +78,12 @@ end
 %%
      
 
-%     B_Deltalifted =Bulifted;
-   B_Deltalifted=Blifted;
+    B_Deltalifted =Bulifted;
+   
      Q= eye(Hp)*0.1;
     
     psi = Clifted*Alifted; % 
     
-    gamma = Clifted*Blifted; %Bulifted;
-    
+    gamma = Clifted*Bulifted; %
     theta = Clifted*B_Deltalifted; %
-    
-    omega = Clifted*Bulifted; % fra bogen 
 end
