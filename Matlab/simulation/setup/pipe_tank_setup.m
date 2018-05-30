@@ -12,8 +12,8 @@ if call == 1
     % method than MPC is needed unless a predefined control signal is used.
     
     %%%%%%%%%%%%%%%%%% pipe_sys_input %%%%%%%%%%%%%%
-    pipe.length = 700; % length in meter
-    pipe.sections = 35; % Number of sections,
+    pipe.length = 100; % length in meter
+    pipe.sections = 5; % Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.003; %bed slope
     pipe.d = 0.9; %[m] Diameter
@@ -44,8 +44,8 @@ if call == 1
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
 %%%%%%%%%%%%%%%%%% pipe1.1 %%%%%%%%%%%%%%
-    pipe.length = 700; %303 length in meter
-    pipe.sections = 35; %15 Number of sections,
+    pipe.length = 100; %303 length in meter
+    pipe.sections = 5; %15 Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.003; %bed slope
     pipe.d = 0.9; %[m] Diameter

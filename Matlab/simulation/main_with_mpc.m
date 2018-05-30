@@ -10,7 +10,7 @@ global Dt iterations error
 Dt = 20;
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Hp = 120;% Prediciton horizon
+Hp = 10;% Prediciton horizon
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.20; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
@@ -30,9 +30,9 @@ toc
 %% run stuff !!!!!
 clc
 iterations = 500;
-xstates_linear(37,1) = lin_point.x0(37,1) -3+lin_point.x0(1);
 xstates_linear = lin_point.x0-lin_point.x0(1);
 
+xstates_linear(7,1) =xstates_linear(7,1) -xstates_linear(7,1); 
 
 
 % data = init_data;
@@ -72,15 +72,15 @@ i =1;
 p=1;
 counter =1;
 ramp= 0;
-index = 0.01;
+index = 0.035;
 for n= 1:iterations/40
     
     for i= 1:20 
        disturbance_input(1,counter) = 0; 
        counter = counter +1;
     end    
-    for p= 1:20 
-       if p < 11  
+    for p= 1:40
+       if p < 21  
             disturbance_input(1,counter) =index+ramp; 
             ramp = ramp +index;
        else
@@ -100,7 +100,7 @@ for m = 2:iterations
    
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.20;% +disturbance_input(1,m)';%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.20+disturbance_input(1,m)';%+ sin(m/100)/15;
 %     input.Q_in(m,1) = 0.15 + sin(m/100)/15;
     
     utank1(m,1) = input.u_init(1,1);% + sin(m/10)/65;
@@ -111,15 +111,17 @@ if m > 4
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
     n=n+1;
 end
-%     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
-  h_input1=[fitfuncv2(input.Q_in(m,1))]; 
-  h_input2=[fitfuncv2(utank1(m,1))]; 
-    u=[h_input1; h_input2];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
-    disp(u)
-    xstates_next_time_step= lin_sys.A*xstates_linear+lin_sys.B*u+lin_sys.B*[disturbance_input(m); 0];
-    delta_xstates_linear = xstates_next_time_step-xstates_linear;
-    y(m,1:length(xstates_next_time_step))=C_matrix_output* xstates_next_time_step;
-    temp(m,1:length(xstates_next_time_step)) = xstates_next_time_step;
+    [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
+    
+    
+%   h_input1=[fitfuncv2(input.Q_in(m,1))]; 
+%   h_input2=[fitfuncv2(utank1(m,1))]; 
+%     u=[h_input1; h_input2];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
+%     disp(u)
+%     xstates_k_plus_one_linear= lin_sys.A*xstates_linear+lin_sys.B*u+lin_sys.B*[disturbance_input(m); 0];
+%     delta_xstates_linear = xstates_k_plus_one_linear-xstates_linear;
+%     y(m,1:length(xstates_k_plus_one_linear))=C_matrix_output* xstates_k_plus_one_linear;
+%     temp(m,1:length(xstates_k_plus_one_linear)) = xstates_k_plus_one_linear;
     
     
     
@@ -136,13 +138,18 @@ end
     
     
      if p==1
-%         [xstates delta_xstates xstates_old]=collect_states(data,m,lin_sys);
-%         xstates_save(m-1,1:length(xstates)) = xstates';
+        [xstates delta_xstates xstates_old]=collect_states(data,m,lin_sys);
+        xstates_save(m-1,1:length(xstates)) = xstates';
+        
         [b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp,sys_setup);
-    % Nonlinear
-%         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta);
+        if m == 2
+         b_constraints1(:,1) = b_constraints(:,1)-Alifted*(xstates')-Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-Bulifted*D_delta;
+         b_constraints1(:,2) = -b_constraints(:,2)+Alifted*(xstates')+Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old+Bulifted*D_delta;
+        end
+           % Nonlinear
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1);
     % Linear
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates_linear, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates_next_time_step,C_matrix_mpc,input,Dlifted,D_delta);
+%         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates_linear, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates_k_plus_one_linear,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1);
         u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
         u_output_tank_old =X(1)+u_output_tank_old;%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
         counter =1;
@@ -173,13 +180,16 @@ plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, ta
 %      pause(0.01)
 %     
 % end
-     
+close all     
 figure(1)
 plot(temp(1:end,1))
 title('First state')
 figure(2)
-plot(temp(1:end,37))
+plot(temp(1:end,7)+lin_point.x0(7))
 title('tank height')
 figure(3)
-plot(temp(1:end,38))
+plot(temp(1:end,8)+lin_point.x0(8))
 title('Output of tank')
+figure(4)
+plot(temp(1:end,8)+lin_point.x0(8))
+title('input state - to tank')
