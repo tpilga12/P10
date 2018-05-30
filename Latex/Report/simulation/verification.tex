@@ -204,7 +204,6 @@ In figure \ref{fig:simu_chart} the simulation function is seen.
 \end{figure}
 
 The function is given input of flow, concentrate and actuator for pipes and tanks respectively. Furthermore specifications of system, pipe and tank is given. The basic functionality is an outer loop and an inner loop. The outer loop iterates through the parts in ``Sys\_setup'' and the inner loop iterates through the components each part consists of. Iterating through the parts, checking whether the component is a tank or pipes, the respective function is called. The tank function is given tank specifications, current iteration value, flow and actuator input. Furthermore the index number of the tank or tanks is given, in the order the tanks is placed from input to output in the entire sewer setup. The iteration value ``m'' is in the function used to index data for logging. Output flow is found by equation \ref{eq:imp_tank_outflow}.
-
 \begin{equation}\label{eq:imp_tank_outflow}
 	Q_{out} = u_{pump} \cdot Q_{max\_outflow}
 \end{equation} 
