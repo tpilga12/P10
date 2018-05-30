@@ -80,16 +80,16 @@ for m = 1:sys_setup(4).component
     counter= counter+pipe_states;
     
 end
-b_constraints = b_constraints';
-b_constraints2 = b_constraints;
-    for n = 1:Hp %%% Lifted A matrix
-        if n == 1
-            b_constraints= [b_constraints];
-        else
-            b_constraints = [b_constraints;b_constraints2];
-        end
-    end
-    
+% b_constraints = b_constraints';
+% b_constraints2 = b_constraints;
+%     for n = 1:Hp %%% Lifted A matrix
+%         if n == 1
+%             b_constraints= [b_constraints];
+%         else
+%             b_constraints = [b_constraints;b_constraints2];
+%         end
+%     end
+%     
     
 end
 

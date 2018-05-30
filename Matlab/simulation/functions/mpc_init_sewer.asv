@@ -1,6 +1,5 @@
-function [SUM_matrix_mpc C_matrix_mpc fitfuncv2 C_matrix_output C_matrix_mpc2]= mpc_init_sewer(k,Hp,lin_sys,pipe_spec) 
+function [SUM_matrix_mpc C_matrix_mpc fitfuncv2 C_matrix_output]= mpc_init_sewer(k,Hp,lin_sys,pipe_spec) 
 %%% Matrix multiplied on 
-
 Test_matrix = zeros(k,k);
 p = 0;
 for m =1:k
@@ -23,16 +22,6 @@ for n=1:Hp
     length_C = length(lin_sys.A)*n;
 end
 
-%%% constraints
-length_C = 0;
-C_matrix_mpc2 = zeros(10,length(lin_sys.C)*Hp);
-C_matrix_mpc_constraint2=zeros(1,length(lin_sys.A)); 
-C_matrix_mpc_constraint2(1,8)=1;
-
-for n=1:Hp
-   C_matrix_mpc2(n,1+length_C:length(C_matrix_mpc_constraint)*n) = C_matrix_mpc_constraint2;
-    length_C = length(lin_sys.A)*n;
-end
 
 
 Qf = pipe_spec(1).Qf;

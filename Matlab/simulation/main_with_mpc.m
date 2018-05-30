@@ -10,7 +10,7 @@ global Dt iterations error
 Dt = 20;
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Hp = 10;% Prediciton horizon
+Hp = 20;% Prediciton horizon
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.20; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
@@ -45,9 +45,9 @@ utank1(2) = input.u_init(1,2);
 
 
 
-[psi gamma theta Q Alifted Bulifted C_insert] = lifted_system(lin_sys,Hp);
+[psi gamma theta Q Alifted Bulifted C_insert omega Blifted ] = lifted_system(lin_sys,Hp);
 
-[SUM_matrix_mpc C_matrix_mpc fitfuncv2 C_matrix_output]= mpc_init_sewer(size(Bulifted,2),Hp,lin_sys,pipe_spec); 
+[SUM_matrix_mpc C_matrix_mpc fitfuncv2 C_matrix_output C_matrix_mpc2]= mpc_init_sewer(size(Bulifted,2),Hp,lin_sys,pipe_spec); 
 u_output_tank_old(1,1) =  0;
 counter = 1;
 p=1;
@@ -73,26 +73,31 @@ p=1;
 counter =1;
 ramp= 0;
 index = 0.035;
-for n= 1:iterations/40
+% index = 0;
+for n= 1:iterations/50
     
-    for i= 1:20 
+    for i= 1:10 
        disturbance_input(1,counter) = 0; 
        counter = counter +1;
     end    
     for p= 1:40
        if p < 21  
+%            disturbance_input(1,counter)=0.051;
             disturbance_input(1,counter) =index+ramp; 
             ramp = ramp +index;
        else
+%            disturbance_input(1,counter)=-0.051;
             disturbance_input(1,counter) = ramp-index; 
-            ramp = ramp -index;
+            %ramp = ramp -index;
        end
        counter = counter +1;
     end   
+    ramp = 0;
 end
 counter = 1;
 p=1;
 n=1;
+u_output_tank=utank1(1,1);
 %%
 tic
 hold on
@@ -100,23 +105,21 @@ for m = 2:iterations
    
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = 0.20+disturbance_input(1,m)';%+ sin(m/100)/15;
-%     input.Q_in(m,1) = 0.15 + sin(m/100)/15;
-    
-    utank1(m,1) = input.u_init(1,1);% + sin(m/10)/65;
-    utank2(m,1) = input.u_init(1,2);
-    input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
-if m > 4
-    utank1(m,1) =  u_output_tank;
+%     input.Q_in(m,1) = 0.2+disturbance_input(1,m)';%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.2+sin(m/100)/15;
+
+       utank1(m,1) =  u_output_tank;
+       utank2(m,1) = input.u_init(1,2);
+ 
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
     n=n+1;
-end
+
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
     
-    
+    % Linear stuff
 %   h_input1=[fitfuncv2(input.Q_in(m,1))]; 
 %   h_input2=[fitfuncv2(utank1(m,1))]; 
-%     u=[h_input1; h_input2];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
+%     u=[h_input1; utank1(m,1)];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
 %     disp(u)
 %     xstates_k_plus_one_linear= lin_sys.A*xstates_linear+lin_sys.B*u+lin_sys.B*[disturbance_input(m); 0];
 %     delta_xstates_linear = xstates_k_plus_one_linear-xstates_linear;
@@ -142,16 +145,48 @@ end
         xstates_save(m-1,1:length(xstates)) = xstates';
         
         [b_constraints]= constraints_mpc(lin_sys, data,pipe_spec,tank_spec,Hp,sys_setup);
-        if m == 2
-         b_constraints1(:,1) = b_constraints(:,1)-Alifted*(xstates')-Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-Bulifted*D_delta;
-         b_constraints1(:,2) = -b_constraints(:,2)+Alifted*(xstates')+Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old+Bulifted*D_delta;
-        end
+        
+         %Nonliner constraints
+         % Constraints for tank height for normal lifted
+          if m ==2 
+          b_constraints1(:,1)= b_constraints(1,7)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc*Alifted*(xstates')-C_matrix_mpc*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-C_matrix_mpc*Bulifted*Dlifted;
+          b_constraints1(:,2)= -b_constraints(2,7)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc*Alifted*(xstates')+C_matrix_mpc*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old+C_matrix_mpc*Bulifted*Dlifted;
+          b_constraints1(:,3)= b_constraints(1,8)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc2*Alifted*(xstates')-C_matrix_mpc2*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-C_matrix_mpc2*Bulifted*Dlifted;
+          b_constraints1(:,4)= -b_constraints(2,8)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc2*Alifted*(xstates')+C_matrix_mpc2*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old+C_matrix_mpc2*Bulifted*Dlifted;
+          b_constraints2(:,1)= (1-input.u(1,1))*ones(size(Bulifted,2),1)-ones(size(Bulifted,2),1)*u_output_tank_old;
+          b_constraints2(:,2)= (0+input.u(1,1))*ones(size(Bulifted,2),1)+ones(size(Bulifted,2),1)*u_output_tank_old;
+          end
+%           %%
+%           if m ==2 
+%           b_constraints1(:,1)= b_constraints(1,7)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc*Alifted*(xstates')-C_matrix_mpc*Blifted*[u_output_tank_old;0]-C_matrix_mpc*Blifted*[Dlifted(1,1);0];
+%           b_constraints1(:,2)= -b_constraints(2,7)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc*Alifted*(xstates')+C_matrix_mpc*Blifted*[u_output_tank_old;0]+C_matrix_mpc*Blifted*[Dlifted(1,1);0];
+%           b_constraints1(:,3)= b_constraints(1,8)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc2*Alifted*(xstates')-C_matrix_mpc2*Blifted*[u_output_tank_old;0]-C_matrix_mpc2*Blifted*[Dlifted(1,1);0];
+%           b_constraints1(:,4)= -b_constraints(2,8)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc2*Alifted*(xstates')+C_matrix_mpc2*Blifted*[u_output_tank_old;0]+C_matrix_mpc2*Blifted*[Dlifted(1,1);0];
+%           b_constraints2(:,1)= (1-input.u(1,1))*ones(size(Bulifted,2),1)-ones(size(Bulifted,2),1)*u_output_tank_old;
+%           b_constraints2(:,2)= (0+input.u(1,1))*ones(size(Bulifted,2),1)+ones(size(Bulifted,2),1)*u_output_tank_old;
+%           end
+%           
+          %%
+          
+          
+          
+          
+          % linear
+%              if m ==2 
+%           b_constraints1(:,1)= b_constraints(1,7)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc*Alifted*(xstates_linear)-C_matrix_mpc*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-C_matrix_mpc*Bulifted*Dlifted;
+%           b_constraints1(:,2)= -b_constraints(2,7)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc*Alifted*(xstates_linear)+C_matrix_mpc*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old+C_matrix_mpc*Bulifted*Dlifted;
+%           b_constraints1(:,3)= b_constraints(1,8)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc2*Alifted*(xstates_linear)-C_matrix_mpc2*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-C_matrix_mpc2*Bulifted*Dlifted;
+%           b_constraints1(:,4)= -b_constraints(2,8)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc2*Alifted*(xstates_linear)+C_matrix_mpc2*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old+C_matrix_mpc2*Bulifted*Dlifted;
+%           b_constraints1(:,5)= (1-input.u(1,1))*ones(size(C_matrix_mpc,1),1)-ones(size(C_matrix_mpc,1),1)*u_output_tank_old;
+%           b_constraints1(:,6)= (0+input.u(1,1))*ones(size(C_matrix_mpc,1),1)+ones(size(C_matrix_mpc,1),1)*u_output_tank_old;
+%           end
+        
            % Nonlinear
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1);
+        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1, C_matrix_mpc2, b_constraints2,omega);
     % Linear
-%         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates_linear, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates_k_plus_one_linear,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1);
-        u_output_tank = X(1)+u_output_tank_old+input.u_init(1,1);%u_output_tank_old;
-        u_output_tank_old =X(1)+u_output_tank_old;%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
+%         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates_linear, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates_k_plus_one_linear,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1,C_matrix_mpc2);
+        u_output_tank = ((X(1))+u_output_tank_old+input.u_init(1,1))*0.970;%+input.u_init(1,1);%u_output_tank_old;
+        u_output_tank_old =(u_output_tank-u_output_tank_old-input.u_init(1,1))-X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
         counter =1;
 %         p =0;
         n=1;
@@ -167,7 +202,7 @@ toc
 %%
 
 sampling = 1; %increase number to skip samples to increase playback speed
-starting_point = 20; % change starting point (START IS 1)
+starting_point = 1; % change starting point (START IS 1)
 playback_speed = 1/5; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 
@@ -188,8 +223,8 @@ figure(2)
 plot(temp(1:end,7)+lin_point.x0(7))
 title('tank height')
 figure(3)
-plot(temp(1:end,8)+lin_point.x0(8))
+plot(temp(1:end,8)+lin_point.x0(1))
 title('Output of tank')
 figure(4)
-plot(temp(1:end,8)+lin_point.x0(8))
+plot(temp(1:end,8)+lin_point.x0(1))
 title('input state - to tank')
