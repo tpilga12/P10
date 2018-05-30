@@ -57,9 +57,11 @@ An MPC algorithm consists of:
 For MPC to optimize the system a cost function must be written to penalize variations of the flow output $Q(k+i|k)$ and the concentration output $C(k+i|k)$. Where k defines the prediction time and i is a value going from 1 to $H_p$. The cost function for flow and concentration is:
 
 \begin{equation}
-	 \CMcal{J} = \sum_{i=1}^{H_p-1} || Q(k+i|k)C(k+i|k)-Q(k+i-1|k)C(k+i-1|k)||_{\CMcal{Q}(i)}^2
+\begin{aligned}
+	 \CMcal{J} &= \sum_{i=1}^{H_p-1} || Q(k+i|k)C_1(k+i|k)-Q(k+i-1|k)C_1(k+i-1|k)||_{\CMcal{Q}(i)}^2 \\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_2(k+i|k)-Q(k+i-1|k)C_2(k+i-1|k)||_{\CMcal{Q}(i)}^2 \\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_3(k+i|k)-Q(k+i-1|k)C_3(k+i-1|k)||_{\CMcal{Q}(i)}^2\\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_4(k+i|k)-Q(k+i-1|k)C_4(k+i-1|k)||_{\CMcal{Q}(i)}^2 \\& +\sum_{i=1}^{H_p-1} || Q(k+i|k)-Q(k+i-1|k)||_{\CMcal{Q}(i)}^2
+\end{aligned}	
 \end{equation}\fxnote{skal skrives så alle 4 koncentrationer er med, samt en for flow og et eller andet sted afgrænsning for liggetid i tank}
-Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. It has been desired to only look at flow variation in the simulation and thereby excluding concentration from the cost function. This has been done to limit the control problem and ease the computation, to begin with. Thereby the cost function has been rewritten to: 
+Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. The concentrations $C_1, C_2, C_3$ and $C_4$ are respectively chloride, phosphor nitrogen and organic matter levels in the wastewater.However, It has been chosen to only look at flow variation in the simulation and thereby excluding concentrations from the cost function and retention time in the tank\fxnote{enten skal vi fra vaelge os den noget før eller os skal vi have fundet på en cost function til liggetid}. This has been done to limit the control problem and ease the computation, to begin with. Thereby the cost function has been rewritten to: 
 
 \begin{equation}\label{eq:cost_function_height}
 	 \CMcal{J} = \sum_{i=1}^{H_p-1} || \hat{y}(k+i|k)-\hat{y}(k+i-1|k)||_{\CMcal{Q}(i)}^2
@@ -138,7 +140,7 @@ Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is
 	\end{aligned}
 \end{equation}
 
-Where $\CMcal{X}$ is the predicted state vector for the entire prediction horizon. $\CMcal{A}$ is the state matrix up to the prediction horizon. $x(k|k)$ is the initial state and is used to predict the hole prediction horizon\fxnote{Somewhere in the report you need to put some words on how you get information above x(k|k). If you should measure it, it means that you should have level measurements along the pipe which is a bit realistic. Therefore, ideas to avoid this must be described somewhere (though you don't need to build a method.)}, $\CMcal{B}$ is the input matrix for the prediction horizon, $\CMcal{U}$ is the predicted input vector, which consists of all the predicted inputs from the current timestep until $(k+H_p-1)$. $\CMcal{B}_d$ is the disturbance matrix for the prediction horizon and $\CMcal{D}$ is the disturbance vector. 
+Where $\CMcal{X}$ is the predicted state vector for the entire prediction horizon. $\CMcal{A}$ is the state matrix up to the prediction horizon. $x(k|k)$ is the initial state and is used to predict the hole prediction horizon, $\CMcal{B}$ is the input matrix for the prediction horizon, $\CMcal{U}$ is the predicted input vector, which consists of all the predicted inputs from the current timestep until $(k+H_p-1)$. $\CMcal{B}_d$ is the disturbance matrix for the prediction horizon and $\CMcal{D}$ is the disturbance vector. 
 
 This iteration process is also done for the output equation:
 
@@ -247,7 +249,7 @@ The constraints applied to the states are upper and lower bound to the channel a
     x_{min} \leq \CMcal{X}(k) \leq x_{max}
 \end{equation}
 
-Where $x_{min}$ and $x_{max}$ are respectively lower and upper bound. As the $\CMcal{X}$ is a small signal value and as the constraint is for full signal values the operating point needs to be subtracted from the lower and upper bounds thereby transforming the constraint into small signals:
+Where $x_{min}$ and $x_{max}$ are respectively lower and upper bound. As the constraint needs to be for small signal value and as the constraint is for full signal values the operating point needs to be subtracted from the lower and upper bounds thereby transforming the constraint into small signals:
 
 \begin{equation}
     x_{min}- \bar{x} \leq \hat{\CMcal{X}}(k) \leq x_{max}-\bar{x}
@@ -259,7 +261,10 @@ To reformulated the constraint the predicted state equation \ref{eq:lifted_state
      x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{U}(k)+\CMcal{BD}(k) \leq x_{max}-\bar{x}
  \end{equation} 
 
-However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k+n-1) = \CMcal{U}(k-1) +\sum_{i=1}^n\Delta \CMcal{U}(k+i-1) $, where n is the prediction horizon. This is inserted in the following equation: 
+However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k+n-1) = wu(k-1) +V\Delta \CMcal{U}(k+i-1) $, where w is a vector and V is a matrix on the form: 
+
+
+This is inserted in the following equation: 
 
 \begin{equation}
      x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}(\CMcal{U}(k-1)+\sum_{i=1}^n \Delta\CMcal{U}(k+i-1))+\CMcal{B}\CMcal{D}(k) \leq x_{max}-\bar{x}
