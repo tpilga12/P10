@@ -11,7 +11,7 @@ for n = 1:length(sys_setup)-1
         axis(section:(section+pipe_spec(comp_nr).sections)) = ((1:pipe_spec(comp_nr).sections+1)*pipe_spec(comp_nr).Dx) - pipe_spec(comp_nr).Dx + add_prev;
         section = section + pipe_spec(comp_nr).sections+1;
         comp_nr = comp_nr + 1;
-        add_prev = axis(1,end)
+        add_prev = axis(1,end);
         end
     end
 end
