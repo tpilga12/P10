@@ -2,7 +2,7 @@
 To be able to obtain a MPC control algorithm the system needs to be transform into state space form. In this section it will be elaborated how this is obtained.
 
 
-The continuity equation from section \ref{se:hydraulics_of_sewer_line} and the equation to describe the flow knowing the height is used: 
+The continuity equation from section \ref{se:hydraulics_of_sewer_line} and the equation to describe the flow in a pipe knowing the height is used: 
 \begin{equation}\label{eq:linearization_Continuity}
 \frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
 \end{equation}
@@ -11,7 +11,12 @@ The continuity equation from section \ref{se:hydraulics_of_sewer_line} and the e
 	Q = f(h) = \left(0.46-0.5 \cdot cos\left(\pi \frac{h}{d}\right)+0.04\cdot cos\left(2\pi\frac{h}{d}\right)\right)Q_f
 \end{equation}
 
-In the state space model it is desired to have the states as heights of the wastewater. The reason for this is, as required in \ref{ch:simulation_solution_and_limitation}, it is assumed that it is possible to measure the height of the wastewater in the pipes. Therefore equation \ref{eq:linearization_Continuity} is expanded to the following:
+To be able to implement control in this project, some form of measurement is needed from the pipe. Because it is needed to get information about the condition in the pipe to be able to control it. Therefore it is assumed that it is possible to measure the height of the wastewater in the pipe.
+
+\fxnote{Ved ikke om det skal stå her (det skal det vist ikke). Somewhere in the report you need to put some words on how you get information above x(k|k). If you should measure it, it means that you should have level measurements along the pipe which is a bit realistic. Therefore, ideas to avoid this must be described somewhere (though you don't need to build a method.)} 
+
+
+In the state space model it is desired to have the states as heights of the wastewater. Therefore, equation \ref{eq:linearization_Continuity}, is expanded to the following:
 
 \begin{equation}
 	\frac{\partial A(h)}{\partial h}\frac{\partial h(x,t)}{\partial t} + \frac{\partial Q(h)}{\partial h}\frac{\partial h(x,t)}{\partial x}=0
@@ -109,14 +114,14 @@ Where A is the system matrix, x is the state of the system, B is the input vecto
 		 \vdots \\
 		 0\\
 		\end{bmatrix}}_{B_d}
-		Qd_{m+1}
+		d_{0}^{i+1}
 	\end{aligned}
 \end{equation}\fxnote{Subscribt til forstyrrelsen, hvad skal der står der?}
 Where m denotes the pipe pieces.  
 To obtain a state space form $\xi$ needs to inversed, thereby obtaining the following equation:
 
 \begin{equation}
-	x(k+1) = -\xi^{-1} (Ax(k)+Bu(k))
+	x(k+1) = \xi^{-1} (Ax(k)+Bu(k)+B_dd(k))
 \end{equation}
 
 
@@ -142,4 +147,6 @@ In figure \ref{fig:height_output_nonlinear_and_linear_model} a comparison of the
 \label{fig:height_output_nonlinear_and_linear_model}
 \end{figure}
  
- The peaks of the response are not at the time, however, it should be noted that the response for both the models crosses the linearization point at the same time. It can be concluded that the plot of the nonlinear and linear responses are very similar, and therefore the linear model will be used to construct the MPC controller.  
+
+
+ The fluctuations of the response of the nonlinear and linear are not identical as the top and bottom of the curves peaks at different times. However, the linear output looks very similar in phase as the input signal shown in figure \ref{fig:height_input_for_comparision} where the nonlinear has a faster response up going, and a slower one down going. It should be noted, that each time the response for both the models crosses the linearization point, they cross the same point. Hence it can be verified that the two models follows a similar pattern. It can be concluded that the plot of the nonlinear and linear responses are very similar, and therefore the linear model will be used to construct the MPC controller.  

@@ -1,6 +1,3 @@
-
-
-
 %% Brewery disturbance
 
 brewery_disturbance = [0
