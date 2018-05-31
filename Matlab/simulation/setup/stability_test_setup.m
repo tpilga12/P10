@@ -16,7 +16,7 @@ if call == 1
     pipe.sections = 25; % Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.003; %bed slope
-    pipe.d = 1; %[m] Diameter
+    pipe.d = 1.2; %[m] Diameter
     pipe.k=0.0015; %sandruhed angives typisk i mm der skal bruges m i formler
     pipe.Theta = 0.65; %
     pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Ib^0.5;
