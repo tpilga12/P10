@@ -3,7 +3,8 @@ In this section, a numerical method for solving the Saint-Venant equations are c
 
 %Argument for at bruge numeriske metode til at løse saint venant eq.
 
-The numerical method, chosen for solving the Saint-Venant equations, described in section \ref{se:hydraulics_of_sewer_line}, is the Preissmann scheme which is based on the box scheme. Other methods exist such as Lax scheme, Abbot-Ionescu scheme, leap-frog scheme, Vasiliev scheme, however, the Preissmann scheme is commonly known as the most robust. Basically, by using the Preissmann scheme the Saint-Venant equations can be discretized, and thereby utilized to simulate the flow and height throughout an open channel.
+The numerical method chosen, for solving the Saint-Venant equations,% described in section \ref{se:hydraulics_of_sewer_line}, 
+is the Preissmann scheme which is based on the box scheme. Other methods exist such as Lax scheme, Abbot-Ionescu scheme, leap-frog scheme, Vasiliev scheme, however, the Preissmann scheme is commonly known as the most robust. Basically, by using the Preissmann scheme the Saint-Venant equations can be discretized, and thereby utilized to simulate the flow and height throughout an open channel.
 
 From section \ref{se:hydraulics_of_sewer_line} the Saint Venant equations for conservation of mass and momentum are derived, they are also shown below.
 
@@ -26,9 +27,10 @@ In figure \ref{fig:preissmann_grid_scheme} a single mesh for the Preissmann sche
 \caption{Preissmann non-staggered grid scheme.}
 \label{fig:preissmann_grid_scheme}
 \end{figure}
-\fxnote{Bedre? -Tekst skal stå på den rigtige side af tuborg klammerne og så skal klammerne tilpasses  stregnerne, derudover skal teksten være større og hvorfor er den sorte prik ikke rund?}
+
 Where $\theta$ is a weighting parameter ranging between zero and one, j is an index of cross section and i is an index of time. The mesh contains four nodes, (j,i), (j+1,i), (j,i+1) and (j+1,i+1), however in the implementation the dimension of the grid is $\Delta t \times \Delta x$ for $0 \leq x \leq L$ and $0\leq t$. Where L defines the length of the open channel section. The derivatives in equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} are calculated as an approximation at the point P, which is in the middle of the interval of $\Delta x$.% and is also the reason why the Preissmann scheme is corresponding to a box scheme.
-The difference between the box scheme and the Preissmann scheme is that the point P is always found at the middle of $\Delta x$ and the point can only move along the time axis within this mesh by adjusting the weighting parameter $\theta$. This weighting parameter will be elaborated on later. An arbitrary function $f_p(x,t)$ calculated at point P is approximated by \cite{numerical_modeling}.
+ The difference between the box scheme and the Preissmann scheme is that the point P is always found at the middle of $\Delta x$ and the point can only move along the time axis within this mesh by adjusting the weighting parameter $\theta$. %This weighting parameter will be elaborated on later. 
+ An arbitrary function $f_p(x,t)$ calculated at point P is approximated by \cite{numerical_modeling}.
 
 \begin{equation}\label{eq:approximated_function}
     f_P \approx \frac{1}{2} (\theta \cdot f_j^{i+1}+(1-\theta)f_j^i)+\frac{1}{2}(\theta\cdot f_{j+1}^{i+1}+(1-\theta)f_{j+1}^i)
@@ -70,12 +72,11 @@ By discretizing the Saint-Venant equations they can be used in a simulation to c
 %% Dette skal omformuleres
 By knowing the flow and parameters for the pipe, the height can be calculated in the initialization nodes, which will be elaborated on later. With equation \ref{eq:continuity_eq_preissmann}, the flow (j+1,i+1) can be calculated by knowing the flow and height in the previous nodes (j,i), (j+1,i) and (j,i+1) as illustrated with the box in the left bottom corner in figure \ref{fig:preissmann_grid_scheme_exampel}.
 
-For the Preissmann scheme to be numerical stable the $\theta$ parameter is $\theta \leq 0,5$. Does closer $\theta$ is to 0,5 the more accurate it is, however it is also more likely to be unstable, therefore from \cite{theta_decision} it is suggested to place $\theta$ in the range of $0,55 \leq \theta \leq 0.65$ for practical analysis.
+%For the Preissmann scheme to be numerical stable the $\theta$ parameter is $\theta \leq 0,5$. Does closer $\theta$ is to 0,5 the more accurate it is, however it is also more likely to be unstable, therefore from \cite{theta_decision} it is suggested to place $\theta$ in the range of $0,55 \leq \theta \leq 0.65$ for practical analysis.
 
-In the following section, the calculating of the flow and height in each node will be explained.
+%In the following section, the calculating of the flow and height in each node will be explained.
 
-\subsection{Iteration scheme} \fxnote{This subsec needs to get canned, hvorfor skal dette afsnit på dåse? xD}
-In this section, it will be elaborated how the calculation of the flow and height in each iteration is done \cite{ikke_stationear}.
+%\subsection{Iteration scheme} \fxnote{This subsec needs to get canned, hvorfor skal dette afsnit på dåse? xD} In this section, it will be elaborated how the calculation of the flow and height in each iteration is done \cite{ikke_stationear}.
 
 The discretized continuity equation \ref{eq:continuity_eq_preissmann}, stated below, is solved for the desired flow in equation \ref{eq:continuity_solve_flow},
 \begin{equation}
@@ -91,13 +92,13 @@ Where H is a parameter for the previous flows and areas in time and section, whi
     H = \left(2\cdot(1-\theta)\cdot Q_j^i-2\cdot(1-\theta)\cdot Q_{j+1}^i+2\theta Q_j^{i+1}\right)\cdot\frac{\Delta t}{\Delta x}- A_{j}^{i+1}+A_j^i+A_{j+1}^i
 \end{equation}
 
-It has been chosen to set the slope of the water surface identical to the channel bend, $I_e = I_b$. By doing this the calculation of the flow throughout the pipe has been simplified, thus some limitation about the dynamics of the water flow are excluded, which is explained in section \ref{subse:open_channel} and also shown in table \ref{momentum_approximations}. Therefore, instead of using the second discretized Saint-Venant equation \ref{eq:Momentum_eq_preissmann_discrete} an equation for calculating the flow in a circular pipe will be used \cite{ikke_stationear} to find the flow and area used in the Preissmann scheme:\fxnote{Skal der står mere om valg af at sætte Ie = Ib}
+It has been chosen to set the slope of the water surface identical to the channel bed, $I_e = I_b$. By doing this the calculation of the flow throughout the pipe has been simplified, thus some limitation about the dynamics of the water flow are excluded, which is explained in section \ref{se:hydraulics_of_sewer_line} and also shown in table \ref{momentum_approximations}. Therefore, instead of using the second discretized Saint-Venant equation \ref{eq:Momentum_eq_preissmann_discrete} an equation for calculating the flow in a circular pipe will be used \cite{ikke_stationear} to find the flow and area used in the Preissmann scheme:\fxnote{Skal der står mere om valg af at sætte Ie = Ib}
 
 \begin{equation}\label{eq:calc_for_flowv2}
      Q = \left(0.46-0.5 \cdot cos\left(\pi \frac{h}{d}\right)+0.04\cdot cos\left(2\pi\frac{h}{d}\right)\right)\cdot Q_f
 \end{equation}
 
-This equation describes the flow in a circular pipe by knowing the diameter, d height, h and the flow for a filled pipe $Q_f$. Where $Q_f$ is calculated as \cite{ikke_stationear}:
+This equation describes the flow in a circular pipe by knowing the diameter, d height, h and the flow for a filled pipe $Q_f$. %Where $Q_f$ is calculated as \cite{ikke_stationear}:
 
 \begin{equation}\label{eq:qf_for_flow}
     Q_f =-72\cdot \left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2\cdot I_e^{0,5}% -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
@@ -158,3 +159,5 @@ This calculation is performed for each node in the Preissmann scheme, therefore 
 
 The iteration scheme starts with setting the boundary conditions for the flow and height as seen in figure \ref{fig:preissmann_grid_scheme_exampel}, thereafter i and j are countered one up before starting the iteration process. Hereafter the calculation for H, h, A, and Q are conducted iteratively throughout the channel. Finally, a check is made to investigate if the iteration scheme has been through the whole channel before it steps one up in time. This iteration process will go on until the i > m, which means that all the inputs to the channel have been calculated throughout the pipe.   
 
+
+\input{report/simulation/preissmann_stability}
