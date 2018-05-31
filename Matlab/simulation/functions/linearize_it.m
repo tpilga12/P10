@@ -116,7 +116,7 @@ else
     BF2(abs(BF2) < slim_matrix) = 0;
 
   
-    sys = ss(AF2, BF2 ,C ,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);
+    sys = ss(AF, BF ,C ,0,Dt,'StateName', StateName,'InputName',InputName,'OutputName',StateName);
     init_val.x0 = x0;
     if nr_tanks > 0
         init_val.u0 = u0;
