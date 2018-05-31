@@ -51,7 +51,7 @@ for m = 2:(iterations+1)
         input.C_in(m,1) = 10; % concentrate input [g/m^3]
 %     else
     end
-    input.Q_in(m,1) = 0.25;% + sin(m/10)/35 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.25 + sin(m/10)/35 ;%+ sin(m/100)/15;
 %     end
     utank1(m,1) = input.u_init(1,1) + sin(m/10)/15;
     utank2(m,1) = input.u_init(1,2);

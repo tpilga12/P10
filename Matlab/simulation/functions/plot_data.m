@@ -6,13 +6,15 @@ topplot_adjust = 1.1; %set how much headroom there should be from graph to top, 
 botplot_adjust = 0.9; %set how much headroom there should be from bot to graph, 0.9 = 10% 
 hours = 0; % initialize hours in plot
 
-    [plot_limits vertical_line pipe_sep_line] = find_plot_limits(pipe_spec, tank_spec, data, topplot_adjust, botplot_adjust);
+    [plot_limits vertical_line pipe_sep_line] = find_plot_limits(pipe_spec, tank_spec, nr_tanks, data, topplot_adjust, botplot_adjust);
     
     flowylim = [plot_limits(1,1) plot_limits(1,2)];
     heightylim = [plot_limits(2,1) plot_limits(2,2)];
     conflowylim = [plot_limits(3,1) plot_limits(3,2)];
     conspeedylim = [plot_limits(4,1) plot_limits(4,2)];
-    tankheightlim = [plot_limits(5,1) plot_limits(5,2)];
+    if nr_tanks ~= 0
+        tankheightlim = [plot_limits(5,1) plot_limits(5,2)];
+    end
     distlim = [0 pipe_sep_line(end-1)]; 
     line_thick = 1.2; % adjust vertical line thickness
     
