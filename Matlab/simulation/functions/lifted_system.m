@@ -78,13 +78,13 @@ end
 %%
      
 
-%     B_Deltalifted =Bulifted;
-   B_Deltalifted=Blifted;
-     Q= eye(Hp)*2;
+    B_Deltalifted =Bulifted;
+%    B_Deltalifted=Blifted;
+     Q= eye(Hp)*1;
     
     psi = Clifted*Alifted; % 
     
-    gamma = Clifted*Blifted; %Bulifted;
+    gamma = Clifted*Bulifted; %Bulifted;
     
     theta = Clifted*B_Deltalifted; %
     
