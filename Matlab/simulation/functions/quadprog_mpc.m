@@ -20,7 +20,7 @@ options = optimoptions('quadprog','Display','final','Algorithm','interior-point-
 
  
 
-[X,FVAL,EXITFLAG] = quadprog(H,f,[],[],[],[],[],[],[],options);
+% [X,FVAL,EXITFLAG] = quadprog(H,f,[],[],[],[],[],[],[],options);
 
 %  [X,FVAL,EXITFLAG] = quadprog(H,f,[SUM_matrix_mpc; -SUM_matrix_mpc;C_matrix_mpc*Bulifted*SUM_matrix_mpc;-C_matrix_mpc*Bulifted*SUM_matrix_mpc;C_matrix_mpc2*Bulifted*SUM_matrix_mpc;-C_matrix_mpc2*Bulifted*SUM_matrix_mpc],[ b_constraints2(:,1); b_constraints2(:,2)-0.1; b_constraints1(:,1);b_constraints1(:,2); b_constraints1(:,3);b_constraints1(:,4) ],[],[],[],[],[],options);
 % [X,FVAL,EXITFLAG] = quadprog(H,f,[SUM_matrix_mpc; -SUM_matrix_mpc;C_matrix_mpc*Bulifted*SUM_matrix_mpc;-C_matrix_mpc*Bulifted*SUM_matrix_mpc;C_matrix_mpc2*Bulifted*SUM_matrix_mpc;-C_matrix_mpc2*Bulifted*SUM_matrix_mpc],[ b_constraints2(:,1); b_constraints2(:,2)-0.1; b_constraints1(:,1);b_constraints1(:,2); b_constraints1(:,3);b_constraints1(:,4) ],[],[],[],[],[],options);
@@ -29,4 +29,6 @@ options = optimoptions('quadprog','Display','final','Algorithm','interior-point-
 
 % [X,FVAL,EXITFLAG] = quadprog(H,f,[SUM_matrix_mpc; -SUM_matrix_mpc;C_matrix_mpc*Bulifted;-C_matrix_mpc*Bulifted;C_matrix_mpc2*Bulifted;-C_matrix_mpc2*Bulifted],[ b_constraints2(:,1); b_constraints2(:,2)-0.1; b_constraints1(:,1);b_constraints1(:,2); b_constraints1(:,3);b_constraints1(:,4) ],[],[],[],[],[],options);
 
+
+[X,FVAL,EXITFLAG] = quadprog(H,f,[SUM_matrix_mpc; -SUM_matrix_mpc;C_matrix_mpc*Bulifted;-C_matrix_mpc*Bulifted],[ b_constraints2(:,1); b_constraints2(:,2)-0.1; b_constraints1(:,1);b_constraints1(:,2) ],[],[],[],[],[],options);
 end

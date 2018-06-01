@@ -236,7 +236,7 @@ close all
 
 t = 1:20:7200;
 figure(1)
-reduce_plot(t,data{1}.h(1:end,end))
+reduce_plot(t,data{1}.h(1:end,1))
 xlabel('Time [hh:mm]')
 ylabel('Height [m]')
 xticklabels({'00:00','00:20','00:40','01:00','01:20','01:40','02:00'})
@@ -259,9 +259,7 @@ reduce_plot(t,data{3}.h(1:end,end))
 xlabel('Time [hh:mm]')
 ylabel('Height [m]')
 xticklabels({'00:00','00:20','00:40','01:00','01:20','01:40','02:00'})
-
-set(gca,'ytick',[0.3:0.2:0.4])
 xlim([0 7200])
-% ylim([0.3115 0.3125])
+
 
 grid
