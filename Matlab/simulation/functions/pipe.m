@@ -9,7 +9,7 @@ function [output]=pipe(pipe_spec, input, data, pipe_component, m, element, sys_c
 
 global Dt
 newt_iter = 50;
-limitvalue = 1e-6; %newton stop iteration value
+limitvalue = 1e-9; %newton stop iteration value
 %         Qf = -3.02 * log((0.74*10^(-6))/(d*sqrt(d*Ie(m,n)))+(k/(3.71*d)))*d^2*sqrt(d*Ie(m,n));
 
 Ib = pipe_spec(pipe_component).Ib; 
