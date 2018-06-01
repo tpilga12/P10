@@ -129,36 +129,36 @@ To obtain a state space form $\xi$ needs to inversed, thereby obtaining the foll
 
 \fxnote{Noget om, hvordan tanken er indsat} 
 
-A verification has been conducted to investigate if the linear model creates a similar response as the nonlinear model for small signal values. Therefore, a test has been conducted on the sewer network setup shown in the tabulars \ref{tab:pipe_data_nonlinear_linear_test} and \ref{tab:tank_data_nonlinear_linear_test}.
+A verification has been conducted to investigate if the linear model creates a similar response as the nonlinear model for small signal values. Therefore, a test has been conducted on the sewer network setup where the specification for the pipes are shown in figure \ref{fig:Fredericia_pipe_setup} and the specification for the tank placed after the first pipe is seen in \ref{tab:tank_data_nonlinear_linear_test} 
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
-\hline
-\begin{tabular}[c]{@{}c@{}}Component\\ number\end{tabular} & Length {[}m{]} & Sections & Dx {[}m{]} & Ib     & d {[}m{]} & $\theta$ & \begin{tabular}[c]{@{}c@{}}$Q_f $\\  {[}$m^3/s${]}\end{tabular} \\ \hline
-1                                                          & 700            & 35       & 20         & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
-3                                                          & 303            & 15       & 20,2       & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
-4                                                          & 27             & 1        & 27         & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
-5                                                          & 155            & 8        & 19,4       & 0,0041 & 1         & 0,65     & 1,50                                                                           \\ \hline
-6                                                          & 295            & 14       & 21         & 0,0122 & 0,8       & 0,65     & 1,438                                                                          \\ \hline
-7                                                          & 318            & 15       & 21,2       & 0,0053 & 0,9       & 0,65     & 1,293                                                                          \\ \hline
-8                                                          & 110            & 5        & 22         & 0,0036 & 0,9       & 0,65     & 1,066                                                                          \\ \hline
-9                                                          & 38             & 2        & 19         & 0,0024 & 1         & 0,65     & 1,149                                                                          \\ \hline
-10                                                         & 665            & 30       & 22,2       & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
-11                                                         & 155            & 7        & 22,1       & 0,0008 & 1         & 0,65     & 0,663                                                                          \\ \hline
-12                                                         & 955            & 40       & 23,9       & 0,0029 & 1,2       & 0,65     & 2,041                                                                          \\ \hline
-13                                                         & 304            & 15       & 20,3       & 0,003  & 1,2       & 0,65     & 2,076                                                                          \\ \hline
-14                                                         & 116            & 5        & 23,2       & 0,0021 & 1,2       & 0,65     & 1,737                                                                          \\ \hline
-15                                                         & 283            & 12       & 23,6       & 0,0017 & 1,4       & 0,65     & 2,346                                                                          \\ \hline
-16                                                         & 31             & 1        & 31         & 0,0019 & 1,4       & 0,65     & 2,480                                                                          \\ \hline
-17                                                         & 125            & 6        & 20,8       & 0,0021 & 1,6       & 0,65     & 3,707                                                                          \\ \hline
-18                                                         & 94             & 4        & 23,5       & 0,0013 & 1,5       & 0,65     & 2,461                                                                          \\ \hline
-19                                                         & 360            & 15       & 24         & 0,0046 & 1,6       & 0,65     & 5,487                                                                          \\ \hline
-20                                                         & 736            & 32       & 23         & 0,0012 & 1,6       & 0,65     & 2,802                                                                          \\ \hline
-\end{tabular}
-\caption{The specification on the pipes for comparing the nonlinear model with the linear model.}
-\label{tab:pipe_data_nonlinear_linear_test}
-\end{table}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{|c|c|c|c|c|c|c|c|}
+% \hline
+% \begin{tabular}[c]{@{}c@{}}Component\\ number\end{tabular} & Length {[}m{]} & Sections & Dx {[}m{]} & Ib     & d {[}m{]} & $\theta$ & \begin{tabular}[c]{@{}c@{}}$Q_f $\\  {[}$m^3/s${]}\end{tabular} \\ \hline
+% 1                                                          & 700            & 35       & 20         & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
+% 3                                                          & 303            & 15       & 20,2       & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
+% 4                                                          & 27             & 1        & 27         & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
+% 5                                                          & 155            & 8        & 19,4       & 0,0041 & 1         & 0,65     & 1,50                                                                           \\ \hline
+% 6                                                          & 295            & 14       & 21         & 0,0122 & 0,8       & 0,65     & 1,438                                                                          \\ \hline
+% 7                                                          & 318            & 15       & 21,2       & 0,0053 & 0,9       & 0,65     & 1,293                                                                          \\ \hline
+% 8                                                          & 110            & 5        & 22         & 0,0036 & 0,9       & 0,65     & 1,066                                                                          \\ \hline
+% 9                                                          & 38             & 2        & 19         & 0,0024 & 1         & 0,65     & 1,149                                                                          \\ \hline
+% 10                                                         & 665            & 30       & 22,2       & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
+% 11                                                         & 155            & 7        & 22,1       & 0,0008 & 1         & 0,65     & 0,663                                                                          \\ \hline
+% 12                                                         & 955            & 40       & 23,9       & 0,0029 & 1,2       & 0,65     & 2,041                                                                          \\ \hline
+% 13                                                         & 304            & 15       & 20,3       & 0,003  & 1,2       & 0,65     & 2,076                                                                          \\ \hline
+% 14                                                         & 116            & 5        & 23,2       & 0,0021 & 1,2       & 0,65     & 1,737                                                                          \\ \hline
+% 15                                                         & 283            & 12       & 23,6       & 0,0017 & 1,4       & 0,65     & 2,346                                                                          \\ \hline
+% 16                                                         & 31             & 1        & 31         & 0,0019 & 1,4       & 0,65     & 2,480                                                                          \\ \hline
+% 17                                                         & 125            & 6        & 20,8       & 0,0021 & 1,6       & 0,65     & 3,707                                                                          \\ \hline
+% 18                                                         & 94             & 4        & 23,5       & 0,0013 & 1,5       & 0,65     & 2,461                                                                          \\ \hline
+% 19                                                         & 360            & 15       & 24         & 0,0046 & 1,6       & 0,65     & 5,487                                                                          \\ \hline
+% 20                                                         & 736            & 32       & 23         & 0,0012 & 1,6       & 0,65     & 2,802                                                                          \\ \hline
+% \end{tabular}
+% \caption{The specification on the pipes for comparing the nonlinear model with the linear model.}
+% \label{tab:pipe_data_nonlinear_linear_test}
+% \end{table}
 
 
 \begin{table}[H]
@@ -174,7 +174,7 @@ Area {[}$m^2$                                              & 9  \\ \hline
 \label{tab:tank_data_nonlinear_linear_test}
 \end{table}
 
-Furthermore in the tabular \ref{tab:system_setup_nonlinear_linear_test} the system setup is shown.
+Furthermore in the table \ref{tab:system_setup_nonlinear_linear_test} the system setup is shown.
 
 \begin{table}[H]
 \centering
@@ -190,7 +190,7 @@ Total & 20        & 263      \\ \hline
 \label{tab:system_setup_nonlinear_linear_test}
 \end{table}
 
-It can be seen that the setup consist of 19 pipes and one tank, where the tank is placed after the first pipe in the setup. The input to the sewer network from the tank is a sinus wave as is shown in figure \ref{fig:height_input_for_comparision}.  
+It can be seen that the setup consist of 19 pipes and one tank. The input to the pipes after tank is a sinus wave as is shown in figure \ref{fig:height_input_for_comparision}.  
 
 \begin{figure}[H]
  \centering

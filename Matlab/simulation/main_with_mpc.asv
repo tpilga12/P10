@@ -29,7 +29,7 @@ tic
 toc
 %% run stuff !!!!!
 clc
-iterations = 360;
+iterations = 3;
 xstates_linear = lin_point.x0-lin_point.x0(1);
 
 xstates_linear(7,1) =xstates_linear(7,1) -xstates_linear(7,1); 
@@ -74,16 +74,16 @@ i =1;
 p=1;
 counter =1;
 ramp= 0;
-index = 0.1;
+index = 0.035;
 % index = 0;
 for n= 1:iterations/50
     
-    for i= 1:2 
+    for i= 1:10 
        disturbance_input(1,counter) = 0; 
        counter = counter +1;
     end    
-    for p= 1:10
-       if p < 6  
+    for p= 1:40
+       if p < 21  
 %            disturbance_input(1,counter)=0.051;
             disturbance_input(1,counter) =index+ramp; 
             ramp = ramp +index;
@@ -234,33 +234,24 @@ title('input state - to tank')
 %%
 close all
 
-t = 1:20:7200;
+t = 1:20:10000;
 figure(1)
 reduce_plot(t,data{1}.h(1:end,end))
-xlabel('Time [hh:mm]')
+xlabel('Time [s]')
 ylabel('Height [m]')
-xticklabels({'00:00','00:20','00:40','01:00','01:20','01:40','02:00'})
-set(gca,'xtick',[0:1200:7200])
-xlim([0 7200])
+
 grid
 
 
 figure(2)
 reduce_plot(t,data{2}.h(1:end,end))
-xlabel('Time [hh:mm]')
+xlabel('Time [s]')
 ylabel('Height [m]')
-xticklabels({'00:00','00:20','00:40','01:00','01:20','01:40','02:00'})
-set(gca,'xtick',[0:1200:7200])
-xlim([0 7200])
 grid
 
 figure(3)
 reduce_plot(t,data{3}.h(1:end,end))
-xlabel('Time [hh:mm]')
+xlabel('Time [s]')
 ylabel('Height [m]')
-xticklabels({'00:00','00:20','00:40','01:00','01:20','01:40','02:00'})
-set(gca,'xtick',[0:1200:7200])
-xlim([0 7200])
-% ylim([0.3115 0.3125])
-
+ylim([0.3115 0.3125])
 grid
