@@ -187,8 +187,9 @@ for m = 2:iterations
         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1, C_matrix_mpc2, b_constraints2,omega);
     % Linear
 %         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates_linear, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates_k_plus_one_linear,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1,C_matrix_mpc2, b_constraints2,omega);
-        u_output_tank = ((X(1))+u_output_tank_old+input.u_init(1,1))*0.970;%+input.u_init(1,1);%u_output_tank_old;
+        u_output_tank = ((X(1))+u_output_tank_old+input.u_init(1,1));%+input.u_init(1,1);%u_output_tank_old;
         u_output_tank_old =(u_output_tank-u_output_tank_old-input.u_init(1,1))-X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
+%         u_output_tank_old =u_output_tank-X(1);
         counter =1;
 %         p =0;
         n=1;

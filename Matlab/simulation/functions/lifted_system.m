@@ -80,7 +80,7 @@ end
 
 %     B_Deltalifted =Bulifted;
    B_Deltalifted=Blifted;
-     Q= eye(Hp)*1;
+     Q= eye(Hp)*0.1;
     
     psi = Clifted*Alifted; % 
     
