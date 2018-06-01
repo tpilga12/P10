@@ -150,23 +150,23 @@ for m = 2:iterations
         
          %Nonliner constraints
          % Constraints for tank height for normal lifted
-%           if m ==2 
-%           b_constraints1(:,1)= b_constraints(1,7)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc*Alifted*(xstates')-C_matrix_mpc*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-C_matrix_mpc*Bulifted*Dlifted;
-%           b_constraints1(:,2)= -b_constraints(2,7)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc*Alifted*(xstates')+C_matrix_mpc*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old+C_matrix_mpc*Bulifted*Dlifted;
-%           b_constraints1(:,3)= b_constraints(1,8)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc2*Alifted*(xstates')-C_matrix_mpc2*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-C_matrix_mpc2*Bulifted*Dlifted;
-%           b_constraints1(:,4)= -b_constraints(2,8)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc2*Alifted*(xstates')+C_matrix_mpc2*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old+C_matrix_mpc2*Bulifted*Dlifted;
-%           b_constraints2(:,1)= (1-input.u(1,1))*ones(size(Bulifted,2),1)-ones(size(Bulifted,2),1)*u_output_tank_old;
-%           b_constraints2(:,2)= (0+input.u(1,1))*ones(size(Bulifted,2),1)+ones(size(Bulifted,2),1)*u_output_tank_old;
-%           end
-%           %%
           if m ==2 
-          b_constraints1(:,1)= b_constraints(1,7)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc*Alifted*(xstates')-C_matrix_mpc*Blifted*[u_output_tank_old;0]-C_matrix_mpc*Blifted*[Dlifted(1,1);0];
-          b_constraints1(:,2)= -b_constraints(2,7)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc*Alifted*(xstates')+C_matrix_mpc*Blifted*[u_output_tank_old;0]+C_matrix_mpc*Blifted*[Dlifted(1,1);0];
-          b_constraints1(:,3)= b_constraints(1,8)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc2*Alifted*(xstates')-C_matrix_mpc2*Blifted*[u_output_tank_old;0]-C_matrix_mpc2*Blifted*[Dlifted(1,1);0];
-          b_constraints1(:,4)= -b_constraints(2,8)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc2*Alifted*(xstates')+C_matrix_mpc2*Blifted*[u_output_tank_old;0]+C_matrix_mpc2*Blifted*[Dlifted(1,1);0];
+          b_constraints1(:,1)= b_constraints(1,7)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc*Alifted*(xstates')-C_matrix_mpc*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-C_matrix_mpc*Bulifted*Dlifted;
+          b_constraints1(:,2)= -b_constraints(2,7)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc*Alifted*(xstates')+C_matrix_mpc*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old+C_matrix_mpc*Bulifted*Dlifted;
+          b_constraints1(:,3)= b_constraints(1,8)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc2*Alifted*(xstates')-C_matrix_mpc2*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-C_matrix_mpc2*Bulifted*Dlifted;
+          b_constraints1(:,4)= -b_constraints(2,8)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc2*Alifted*(xstates')+C_matrix_mpc2*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old+C_matrix_mpc2*Bulifted*Dlifted;
           b_constraints2(:,1)= (1-input.u(1,1))*ones(size(Bulifted,2),1)-ones(size(Bulifted,2),1)*u_output_tank_old;
           b_constraints2(:,2)= (0+input.u(1,1))*ones(size(Bulifted,2),1)+ones(size(Bulifted,2),1)*u_output_tank_old;
           end
+%           %%
+%           if m ==2 
+%           b_constraints1(:,1)= b_constraints(1,7)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc*Alifted*(xstates')-C_matrix_mpc*Blifted*[u_output_tank_old;0]-C_matrix_mpc*Blifted*[Dlifted(1,1);0];
+%           b_constraints1(:,2)= -b_constraints(2,7)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc*Alifted*(xstates')+C_matrix_mpc*Blifted*[u_output_tank_old;0]+C_matrix_mpc*Blifted*[Dlifted(1,1);0];
+%           b_constraints1(:,3)= b_constraints(1,8)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc2*Alifted*(xstates')-C_matrix_mpc2*Blifted*[u_output_tank_old;0]-C_matrix_mpc2*Blifted*[Dlifted(1,1);0];
+%           b_constraints1(:,4)= -b_constraints(2,8)*ones(size(C_matrix_mpc,1),1)+C_matrix_mpc2*Alifted*(xstates')+C_matrix_mpc2*Blifted*[u_output_tank_old;0]+C_matrix_mpc2*Blifted*[Dlifted(1,1);0];
+%           b_constraints2(:,1)= (1-input.u(1,1))*ones(size(Bulifted,2),1)-ones(size(Bulifted,2),1)*u_output_tank_old;
+%           b_constraints2(:,2)= (0+input.u(1,1))*ones(size(Bulifted,2),1)+ones(size(Bulifted,2),1)*u_output_tank_old;
+%           end
 %           
           %%
           
@@ -230,7 +230,3 @@ title('Output of tank')
 figure(4)
 plot(temp(1:end,6))
 title('input state - to tank')
-
-%%
-
-

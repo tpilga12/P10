@@ -3,7 +3,7 @@ clc
 clear all
 clear path
 format long
-addpath(['functions'], ['setup'])
+addpath(['functions'], ['setup'],['disturbance'])
 global Dt iterations error 
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11,14 +11,14 @@ Dt = 20;
 % [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup(1);
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup_experiment(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+disturbance = load_disturbance();
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.25; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
 input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
     if pipe_spec(k).lat_inflow == 1
-    input.lat.Q{k} = 0.0;
+    input.lat.Q{k} = 0;
     else
     input.lat.Q{k} = 0;
     end

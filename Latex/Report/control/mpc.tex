@@ -132,10 +132,10 @@ Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is
  %    	\sum_{i=0}^{H_p-1}A^i B & \cdots & \sum_{i=0}^{H_p-H_u}A^i B \\
 	  \end{bmatrix}}_{\CMcal{B}_d} 
 	\underbrace{\begin{bmatrix}
-	d(k|k)\\
-	d(k+1|k)\\
+	\hat{d}(k|k)\\
+	\hat{d}(k+1|k)\\
 	\vdots\\
-	d(k+H_p-1|k)
+	\hat{d}(k+H_p-1|k)
 	\end{bmatrix}}_{\CMcal{D}}
 	\end{aligned}
 \end{equation}
@@ -147,10 +147,10 @@ This iteration process is also done for the output equation:
 \begin{equation}\label{eq:lifted_output_equation}
 	\CMcal{Y}(k)= 
 	\begin{bmatrix}
-	y(k+1|k)\\
-	y(k+2|k)\\
+	\hat{y}(k+1|k)\\
+	\hat{y}(k+2|k)\\
 	\vdots\\
-	y(k+H_p-1|k)
+	\hat{y}(k+H_p-1|k)
 	\end{bmatrix}
 	= 
 	\underbrace{\begin{bmatrix}
@@ -205,30 +205,30 @@ Thereby the following cost function is achieved:
 To be able to write the cost function as quadratic and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:lifted_output_with_states_inserted} is therefore inserted into equation \ref{eq:delta_cost_function} and thereby the following is obtained:
 
 \begin{equation}\label{eq:cost_function_with_all_the_crap}
-	\CMcal{J} = (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))
+	\CMcal{J} = (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))
 \end{equation}
 
 The term on the right hand side of equation \ref{eq:cost_function_with_all_the_crap} is equal to:
 
 \begin{equation}\label{eq:cost_function_big_eq}
 	\begin{aligned}
-	&(\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta x(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k)) = \\
-	& \Delta x(k)^T\psi ^T Q \psi \Delta x(k) 								+ \underbrace{\Delta x(k)^T \psi ^T Q \gamma \Delta  \CMcal{U}(k) }_{Linear}				+\Delta x(k)^T \psi ^T Q \Theta \Delta \CMcal{D}(k) \\
-	& \underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q \psi\Delta x(k)}_{Linear} + \underbrace{\Delta \CMcal{U}(k)^T\gamma ^T Q \gamma\Delta \CMcal{U}(k)}_{Quadratic} +\underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q\Theta \Delta \CMcal{D}(k)}_{Linear} \\ 
-	& \Delta \CMcal{D}(k)^T \Theta ^T Q  \psi \Delta x(k)					+ \underbrace{\Delta \CMcal{D}(k)^T \Theta ^T Q \gamma  \Delta \CMcal{U}(k) }_{Linear}	+\Delta \CMcal{D}(k)^T \Theta ^T Q \Theta \Delta \CMcal{D}(k)
+	&(\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k)) = \\
+	& \Delta \hat{x}(k)^T\psi ^T Q \psi \Delta \hat{x}(k) + \underbrace{\Delta \hat{x}(k)^T \psi ^T Q \gamma \Delta  \CMcal{U}(k) }_{Linear} +\Delta \hat{x}(k)^T \psi ^T Q \Theta \Delta \CMcal{D}(k) \\
+	& \underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q \psi\Delta \hat{x}(k)}_{Linear} + \underbrace{\Delta \CMcal{U}(k)^T\gamma ^T Q \gamma\Delta \CMcal{U}(k)}_{Quadratic} +\underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q\Theta \Delta \CMcal{D}(k)}_{Linear} \\ 
+	& \Delta \CMcal{D}(k)^T \Theta ^T Q  \psi \Delta \hat{x}(k)					+ \underbrace{\Delta \CMcal{D}(k)^T \Theta ^T Q \gamma  \Delta \CMcal{U}(k) }_{Linear}	+\Delta \CMcal{D}(k)^T \Theta ^T Q \Theta \Delta \CMcal{D}(k)
 	\end{aligned}
 \end{equation}
 
 Here the quadratic and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however, they will be referred to in the following equations as, c. The quadratic variables are collected in: 
 
-\begin{equation}
+\begin{equation}\label{eq:quadratic_h_matrix}
 	\CMcal{H} = \gamma^T Q\gamma 
 \end{equation}
 
 And the linear variables are collected in:
 \begin{equation}
 	\begin{aligned}
-	\CMcal{G} &= 2 \Delta x(k)^T\psi^T Q \gamma+2 \Delta \CMcal{D}(k)^T\Theta^T Q \gamma 
+	\CMcal{G} &= 2 \Delta \hat{x}(k)^T\psi^T Q \gamma+2 \Delta \CMcal{D}(k)^T\Theta^T Q \gamma 
 	\end{aligned}
 \end{equation}
 
@@ -242,7 +242,7 @@ Thereby inserting these expressions in equation \ref{eq:cost_function_big_eq} th
 
 In order to apply the constraints, shown in equation \ref{eq:cost_function_height} for the states, to the optimization problem in equation \ref{eq:the_cost_function} the constraints must be reformulated so they are a constraint of the controller input $\Delta\CMcal{U}$, therefore it is required to reformulate the inequalities constraints. 
 
-The constraints applied to the states are upper and lower bound to the channel and the tank. This will not allow the simulation to overfill the channel or the tank, or, to have a negative height in either of the two. In the following equation the constraint for the states is shown:  
+The constraints applied to the states are upper and lower bound to the channel and the tank. This will not allow the simulation to overfill the channel or the tank, or to have a negative height in either of the two. In the following equation the constraint for the states are shown:  
 
 
 \begin{equation}
@@ -338,7 +338,7 @@ The constraints can be setup on the standard inequality constraint form and ther
 \subsection{Implementation of MPC}\label{subse:implementation_mpc}
 In this section the implementation of MPC in MATLAB will be elaborated. 
 
-The cost function in equation \ref{eq:the_cost_function} is a quadratic problem. In order to solve this minimization problem and find a global minimum quadratic programming (QP) is used. In MATLAB there well develop solvers for QP problems, in this project the quadprog function has been chosen. Quadprog solves the minimization problem subject to constraints to the specified convex cost function. The model used for the predictive model is the one covered in section \ref{se:linearization}. Furthermore, the constraints for the cost explained in subsection \ref{subse:constraints} will also be included. 
+The cost function in equation \ref{eq:the_cost_function} is a quadratic problem. In order to solve this minimization problem and find a global minimum quadratic programming (QP) is used. In MATLAB there well develop solvers for QP problems, in this project the quadprog function has been chosen. Quadprog solves the minimization problem subject to constraints to the specified convex cost function. The model used for the predictive model is the one covered in section \ref{se:linearization}. Furthermore, the constraints for the cost explained in the previous section will also be included. 
 
 In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
 \begin{figure}[H]
@@ -350,4 +350,36 @@ In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
 
 Here it is illustrated that the model, constraint and cost function will be used in the optimizer to generate an control output, that will be used in the process, which in this case is the nonlinear model. The output y(k+1) is the output height at the end of the last pipe in the sewer network. At each time step the current value of the output is feedback to the MPC controller. Here the MPC will at each iteration calculate up to $H_p$ control inputs, as it calculates for future disturbances, however, only the first element of this u vector will be used to control the process. Thereafter a new measurement will be taken and a new controller output will be calculated and this will iterate for the entire simulation.
 
-The ideal prediction horizon would be 24 hours, thus the MPC is able to see the disturbance across a hole day. However due to large system matrices and thereby extremely large predictive model matrices MATLAB is not able to manage these big matrices as the dimension will exceed the dimension limitation for matrices in MATLAB.       
+In determining the length of the prediction horizon several considerations were taken into account. As illustration in section \ref{sec:WWTP_challenges} in figure \ref{fig:input_to_wwtp} a daily flow from the households is shown. Here the flow is illustrated for working days and in the weekend. Thereby by knowing the flow pattern for households the MPC would be able to include this knowledge in the prediction model. Thus ideal prediction horizon would be 24 hours, as it would be able to see the disturbance across a whole day. However, as the households are not the only disturbance in this setup this is not entirely true. Because the disturbance coming from the larger industry e.g. the bottling plant and the brewery are stochastic in a way, where it is unknown when the wastewater from the plants is coming and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the plants are also different from time to time. Therefore, it would not be preferable to place the tank next to the industry as it would not be able to predict the disturbance. Thus the tank needs to be placed in a distance away from the industry, where it would be able to use the disturbance in the prediction model by knowing the disturbance coming from the industry by having a measurement of it. The time it takes the wastewater to leave the industry and to arrive at the tank would then decide the length of the prediction horizon. However, in the implementation of the MPC, it was discovered that the prediction horizon was restricted. Because when it was set to high, above 20, the quadratic $\CMcal{H}$ matrix, equation \ref{eq:quadratic_h_matrix}, was not semi-positive definite, as in the eigenvalues of it was negative, hence the quadratic problem was not convex. The reason for this problem is, that in the linearized model, some of the elements in matrices are very small and therefore, when the system is predicted, as shown in equation \ref{eq:lifted_state_equation}, the elements would be even smaller, thus causing the $\CMcal{H}$ matrix to have an extremely small negative eigenvalue. Therefore, several tests were conducted to find a prediction horizon that did not result in a negative eigenvalue. It was found that a prediction horizon of 20, where the lowest eigenvalue of $\CMcal{H}$ was zero. However, this restricts the length of the pipe after the tank, because if the pipe is too long the MPC will not be able to predict all the way down to the output of it. Therefore, in the test of the MPC controller, this must be kept in mind.   
+
+\subsection*{Results}
+In the subsection the results obtained from the testing of the MPC controller will be covered.
+
+The pipe and tank setup for the test includes two pipes and one tank, where the tank is placed in the middle of the pipes. The specification for both pipes and the tank can be seen in tabular \ref{tab:pipe_data_for_mpc_test} and \ref{tab:tank_data_for_mpc_test} respectively.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Pipe number} & \textbf{Length} [m] & \textbf{Sections} & \textbf{Dx} [m] & \textbf{Ib} & \textbf{d} [m] & \textbf{$\theta$} & \textbf{Qf $[m^3/s]$} \\ \hline
+1&100             & 5                 & 20          & 0,003       & 0,9        & 0,65              & 0,97        \\ \hline
+2&100             & 5                 & 20          & 0,003       & 0,9        & 0,65              & 0,97        \\ \hline
+\end{tabular}
+\caption{The pipe specification for the test.}
+\label{tab:pipe_data_for_mpc_test}
+\end{table}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Size $[m^3]$}        & 90   \\ \hline
+\textbf{Height $[m]$}      & 10   \\ \hline
+\textbf{Area $[m^2]$}        & 9    \\ \hline
+\textbf{Q\_out\_max} $[m^3/s]$& 0,97 \\ \hline
+\end{tabular}
+\caption{Tank specification for the test.}
+\label{tab:tank_data_for_mpc_test}
+\end{table}
+
+In the first test the MPC controller is controlling the output of the pipe without any constraints included. 
+
