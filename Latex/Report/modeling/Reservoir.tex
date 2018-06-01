@@ -4,6 +4,7 @@ The assumptions made deriving the tank model is:
 \begin{table}[H]
 \begin{enumerate}
 \item Turbulence, caused by in- or output in the tank, is neglected.
+\item Level of concentrate in the tank is considered uniform, over time and when level of concentrate in inflow changes. 
 %\item The pressure is considered hydrostatic.
 \end{enumerate}
 \end{table}
@@ -11,7 +12,7 @@ The assumptions made deriving the tank model is:
 In figure \ref{fig:tank_model} an illustration of a tank is shown.
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{report/modeling/pictures/reservior.pdf}
+\includegraphics[width=.55\textwidth]{report/modeling/pictures/reservior.pdf}
 \caption{Illustration of a tank.}
 \label{fig:tank_model}
 \end{figure} 
@@ -52,7 +53,7 @@ In figure \ref{fig:reservior_with_pump} the chosen tank setup is seen.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.60\textwidth]{report/modeling/pictures/reservior_with_pump}
+	\includegraphics[width=0.55\textwidth]{report/modeling/pictures/reservior_with_pump}
 	\caption{Illustration of a tank with a pump inserted to regulate the output flow.}
 	\label{fig:reservior_with_pump}
 \end{figure}
@@ -66,16 +67,24 @@ Due to the nature of free flow in pipes, the dynamics of the pump will be mitiga
 Where u is pump control input and $\overline Q$ is a fixed operating point which for example could be the maximum flow of the adjoining pipe. By inserting equation \ref{eq:control_signal_pump_tank} into equation \ref{eq:balance_reserviorv2} the following is obtained:
 
 \begin{equation}\label{eq:final_pump_model}
-  	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-u(t) \cdot \overline Q \right)
+ \boxed{ 	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-u(t) \cdot \overline Q \right) }
 \end{equation}
 
 Equation \ref{eq:final_pump_model} then gives an expression where change in height is given as a function of inflow and outflow. 
 
-For the concentration part of the tank, there is the ratio of concentrate to consider when the tanks is not empty. When empty the concentration of the outflow should be equal to the inflow concentration.
+For the concentration part of the tank there is the ratio of concentrate to consider. At some point the level of concentrate flowing into the tank might differ from the concentrate level already in the tank. Then as the stored fluid is pumped out of the tank the concentrate level should go towards the inflow concentration. When empty the concentration of the outflow should be equal to the inflow concentration. By the initial assumptions the change in concentrate in the tank is given by equation \ref{eq:prut_i_tank_equation}.
 
-\begin{equation}
-	C_{tank} = C_{in} \cdot \frac{\frac{Q_{in}}{A}}{h} +    
+\begin{equation} \label{eq:prut_i_tank_equation}
+	\frac{dC_{tank}(t)}{dt} = C_{in}(t) \cdot \frac{\frac{Q_{in}(t)}{A}}{h(t)} - C_{out}(t) \cdot \frac{\frac{Q_{out}(t)}{A}}{h(t)}   
 \end{equation}
+
+As the output concentration is equal to what is in the tank at current time the following is obtained.
+
+\begin{equation} \label{eq:prut_i_tank_equation2}
+\boxed{	\frac{dC_{tank}(t)}{dt} = C_{in}(t) \cdot \frac{\frac{Q_{in}(t)}{A}}{h(t)} - C_{tank}(t) \cdot \frac{\frac{Q_{out}(t)}{A}}{h(t)} }  
+\end{equation}
+
+The advantage of this scheme is that flow and height is already known. This keeps the computational power required at a minimum while some realism, in the level of concentrate flowing through the tank, is obtained.
 
 % Because the output flow is depending on the OD of the valve, a model is needed to described the output flow of it. The model for the valve is derived by \cite{boysen} and is given as:
 % \begin{equation}\label{eq:valve_model}
