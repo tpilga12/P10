@@ -1,7 +1,7 @@
 \subsection{Stability \& Precision} \label{subse:stability_and_precision}
 
 Stability is an important parameter to consider when trying to obtain a solution for nonlinear equations. 
-An advantage of the Preissmann scheme is that if the parameter $\theta$ is chosen $0.5 \leq \theta \leq 1$, then stability is always guaranteed \cite{cunge1980practical}. But guaranteed stability does not necessarily mean precision in the obtained solution. An accurate solution can be found when $\theta$ is set to 0,5 and appropriate values of $\Delta t$ and $\Delta x$ are chosen. For some explicit schemes, utilized for solving the Saint-Venant equations, the Courant number is often used as a stability criterion. It can also be utilized as an indication of precision of the Preissmann scheme. The Courant number can be obtained by the following equation \cite{cunge1980practical,szymkiewicz2010numerical}.
+An advantage of the Preissmann scheme is that if the parameter $\theta$ is chosen $0.5 \leq \theta \leq 1$, then stability is unconditionally guaranteed \cite{cunge1980practical}. But guaranteed stability does not necessarily mean precision in the obtained solution. An accurate solution can be found when $\theta$ is set to 0,5 and appropriate values of $\Delta t$ and $\Delta x$ are chosen. For some explicit schemes, utilized for solving the Saint-Venant equations, the Courant number is often used as a stability criterion. It can also be utilized as an indication of precision of the Preissmann scheme. The Courant number can be obtained by the following equation \cite{cunge1980practical,szymkiewicz2010numerical}.
 
 \begin{equation} \label{eq:courant_number_equation}
 	C_r =  \frac{\sqrt{g \cdot \overline{\text{H}}} \cdot \Delta t}{\Delta x}
@@ -50,6 +50,7 @@ Due to the choice of simplifying, any natural dampening effect has thereby been 
 \label{fig:stability_test_theta_0_65}
 \end{figure}
 
-The chosen value of $\theta$ together with Courant's number as a tuning parameter could be a simple way to obtain values of $\Delta t$ and $\Delta x$ for which the simulated results are less affected by distortion caused by numerical errors. To be able to conclude on this as a solution further testing would be needed with different pipes with different specifications. Furthermore different steps in inflow would also be needed. Due to the results shown in figure \ref{fig:stability_test_theta_0_65} and time constraints further investigations is not made into the subject.   
+The chosen value of $\theta$ together with Courant's number as a tuning parameter could be a simple way to obtain values of $\Delta t$ and $\Delta x$ for which the simulated results are less affected by distortion caused by numerical errors. To be able to conclude on this as a feasible tuning parameter, further testing would be needed with different pipes with different specifications. Furthermore different steps in both directions of inflow at different initial heights would also be needed to conclude on the uniformity of the Courant number. 
+%Due to the results shown in figure \ref{fig:stability_test_theta_0_65} and time constraints further investigations is not made into the subject.   
 
 %\cite{szymkiewicz2010numerical}
