@@ -74,11 +74,11 @@ i =1;
 p=1;
 counter =1;
 ramp= 0;
-index = 0.1;
+index = 0.140;
 % index = 0;
-for n= 1:iterations/50
+for n= 1:iterations/20
     
-    for i= 1:2 
+    for i= 1:10
        disturbance_input(1,counter) = 0; 
        counter = counter +1;
     end    
@@ -259,7 +259,8 @@ reduce_plot(t,data{3}.h(1:end,end))
 xlabel('Time [hh:mm]')
 ylabel('Height [m]')
 xticklabels({'00:00','00:20','00:40','01:00','01:20','01:40','02:00'})
-set(gca,'xtick',[0:1200:7200])
+
+set(gca,'ytick',[0.3:0.2:0.4])
 xlim([0 7200])
 % ylim([0.3115 0.3125])
 

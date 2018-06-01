@@ -58,8 +58,8 @@ To simplify the model it has been chosen to use a linear pump model where the ou
 Where K is the constant and $Q_{max}$ is the flow for a fully filled pipe for the respective pipe diameter. By inserting this equation for the output of the tank into equation \ref{eq:balance_reserviorv2} the following is obtained:
 
 \begin{equation}\label{eq:final_pump_model}
-  	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-K \cdot Q_{max}\right)
-\end{equation}\fxnote{Skal K her være afhængig af t?}  
+  	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-K(t) \cdot Q_{max}\right)
+\end{equation}
 
 Equation \ref{eq:final_pump_model} then gives an expression where change in height is given as a function of inflow and outflow. 
 

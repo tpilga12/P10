@@ -353,7 +353,7 @@ Here it is illustrated that the model, constraint and cost function will be used
 In determining the length of the prediction horizon several considerations were taken into account. As illustration in section \ref{sec:WWTP_challenges} in figure \ref{fig:input_to_wwtp} a daily flow from the households is shown. Here the flow is illustrated for working days and in the weekend. Thereby by knowing the flow pattern for households the MPC would be able to include this knowledge in the prediction model. Thus ideal prediction horizon would be 24 hours, as it would be able to see the disturbance across a whole day. However, as the households are not the only disturbance in this setup this is not entirely true. Because the disturbance coming from the larger industry e.g. the bottling plant and the brewery are stochastic in a way, where it is unknown when the wastewater from the plants is coming and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the plants are also different from time to time. Therefore, it would not be preferable to place the tank next to the industry as it would not be able to predict the disturbance. Thus the tank needs to be placed in a distance away from the industry, where it would be able to use the disturbance in the prediction model by knowing the disturbance coming from the industry by having a measurement of it. The time it takes the wastewater to leave the industry and to arrive at the tank would then decide the length of the prediction horizon. However, in the implementation of the MPC, it was discovered that the prediction horizon was restricted. Because when it was set to high, above 20, the quadratic $\CMcal{H}$ matrix, equation \ref{eq:quadratic_h_matrix}, was not semi-positive definite, as in the eigenvalues of it was negative, hence the quadratic problem was not convex. The reason for this problem is, that in the linearized model, some of the elements in matrices are very small and therefore, when the system is predicted, as shown in equation \ref{eq:lifted_state_equation}, the elements would be even smaller, thus causing the $\CMcal{H}$ matrix to have an extremely small negative eigenvalue. Therefore, several tests were conducted to find a prediction horizon that did not result in a negative eigenvalue. It was found that a prediction horizon of 20, thereby, the lowest eigenvalue of $\CMcal{H}$ was zero. However, this restricts the length of the pipe after the tank, because if the pipe is too long the MPC will not be able to predict all the way down to the output of it. Therefore, in the test of the MPC controller, this must be kept in mind.   
 
 \subsection*{Results}
-In the subsection the results obtained from the testing of the MPC controller will be covered.
+In the subsection the results obtained from the testing of the MPC controller will be covered. Two test will conducted, one where the constraints are neglected and therefore minimized without any restriction and another test where the constraints included. 
 
 The pipe and tank setup for the test includes two pipes and one tank, where the tank is placed in the middle of the pipes. The specification for both pipes and the tank can be seen in tabular \ref{tab:pipe_data_for_mpc_test} and \ref{tab:tank_data_for_mpc_test} respectively.
 
@@ -381,13 +381,15 @@ The pipe and tank setup for the test includes two pipes and one tank, where the 
 \label{tab:tank_data_for_mpc_test}
 \end{table}
 
-In the first test the MPC controller is minimizing the output variations of the tank without any constraints included.  
+In the first test the MPC controller is minimizing the output variations of the tank without any constraints included. The input signal in the first pipe is shown in figure \ref{fig:input_to_pipe_mpc_test}. 
 \begin{figure}[H]
  \centering
  \input{report/control/tikz/MPC_test_control_input}
 \caption{The input to the first pipe.}
 \label{fig:input_to_pipe_mpc_test}
 \end{figure}
+
+Here there is a constant input of 0,2 $m^3/s$, which results in a height of 0,31 meters in the pipe. On top of the input a disturbance signal is added. This is done to see if the MPC is able to keep the flow variations out of the tank to a minimum. This signal is a upper triangular signal which goes from the input up to 0,9 $m^3/s$ which is equal to a height of 0,74 meters in the pipe. The time between each disturbance signal is 200 seconds and the period of the   
 
 \begin{figure}[H]
  \centering
