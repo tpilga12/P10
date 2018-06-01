@@ -1,0 +1,86 @@
+% This file was created by matlab2tikz.
+%
+%The latest updates can be retrieved from
+%  http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz-matlab2tikz
+%where you can also make suggestions and rate matlab2tikz.
+%
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
+\definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=4.521in,
+height=3.566in,
+at={(0.758in,0.481in)},
+scale only axis,
+xmin=0,
+xmax=500,
+xlabel style={font=\color{white!15!black}},
+xlabel={Distance [m]},
+ymin=0.35,
+ymax=0.67,
+ylabel style={font=\color{white!15!black}},
+ylabel={Height [m]},
+axis background/.style={fill=white},
+xmajorgrids,
+ymajorgrids,
+legend style={legend cell align=left, align=left, draw=white!15!black}
+]
+\addplot [color=mycolor1]
+  table[row sep=crcr]{%
+0	0.646320000000003\\
+60	0.646276050713254\\
+160	0.646310155623098\\
+180	0.376872286030618\\
+280	0.376840431718108\\
+500	0.376840417593883\\
+};
+\addlegendentry{Theta = 0.5}
+
+\addplot [color=mycolor2]
+  table[row sep=crcr]{%
+0	0.646320000000003\\
+80	0.64624640057724\\
+100	0.645897528752698\\
+120	0.643024844027934\\
+140	0.627340662030861\\
+160	0.574962749099655\\
+180	0.482975200012561\\
+200	0.406738255140283\\
+220	0.380633403616173\\
+240	0.377144178424658\\
+260	0.376861538074763\\
+400	0.376840417642768\\
+500	0.376840417593883\\
+};
+\addlegendentry{Theta = 0.65}
+
+\addplot [color=mycolor3]
+  table[row sep=crcr]{%
+0	0.646320000000003\\
+40	0.646114001556498\\
+60	0.645277732382112\\
+80	0.642278908735364\\
+100	0.634470248439527\\
+120	0.618608579564977\\
+140	0.592296821259026\\
+160	0.555638802949943\\
+180	0.512224654573913\\
+200	0.468642227745363\\
+220	0.431975238240568\\
+240	0.406279099337155\\
+260	0.391077260818861\\
+280	0.383229133040004\\
+300	0.379555033462054\\
+320	0.377947501212986\\
+340	0.377277301724973\\
+360	0.377008073659567\\
+400	0.376863443115042\\
+500	0.376840600709272\\
+};
+\addlegendentry{Theta = 1}
+
+\end{axis}
+\end{tikzpicture}%

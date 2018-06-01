@@ -7,13 +7,13 @@ addpath(['functions'], ['setup'], ['input'])
 global Dt iterations error 
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Dt = 5;
+Dt = 17.393;%6.589;%8.921;
 % [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_setup_test_verification(1);
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = stability_test_setup(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.7; % initial input flow
+input.Q_init = 0.35; % initial input flow
 input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
     input.lat.Q{k} = 0;
@@ -54,13 +54,15 @@ for m = 2:iterations
 end
 
 %%
-prop = 24;
+row = 10;
+
+[C_r possible_Dt] = courant(data, pipe_spec, Dt, row, 1)
 figure(123123)
 hold on
-plot(((1:length(data{1}.h(1,:)))*pipe_spec(1).Dx - pipe_spec(1).Dx), data{1}.h(prop,:))
+plot(((1:length(data{1}.h(1,:)))*pipe_spec(1).Dx - pipe_spec(1).Dx), data{1}.h(row,:))
 %%
 sampling = 1; %increase number to skip samples to increase playback speed
-starting_point = 1; % change starting point in iterations (START IS 1)
+starting_point = 0; % change starting point in iterations (START IS 1)
 playback_speed = 1/4; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 
