@@ -1,9 +1,10 @@
 \section{Tank model}\label{se:sewer_reservoir}
-In this section the model for a tank will be derived. 
+In this section a model for flow and concentrate is derived for a tank.% will be derived. 
 The assumptions made deriving the tank model is:
 \begin{table}[H]
 \begin{enumerate}
-\item The pressure is considered hydrostatic.
+\item Turbulence, caused by in- or output in the tank, is neglected.
+%\item The pressure is considered hydrostatic.
 \end{enumerate}
 \end{table}
 
@@ -11,11 +12,15 @@ In figure \ref{fig:tank_model} an illustration of a tank is shown.
 \begin{figure}[H]
 \centering
 \includegraphics[width=.6\textwidth]{report/modeling/pictures/reservior.pdf}
-\caption{An illustration of a tank.}
+\caption{Illustration of a tank.}
 \label{fig:tank_model}
 \end{figure} 
 
-This illustration will be used to derive the model for the tank. From the left an open channel that discharges fluid into the tank is shown. The fluid going into the tank has a mass flow rate, $m_{in}$ [$\frac{kg}{s}$]. Within the tank the stored fluid has a height, h [$m$], and the tank has a surface area, A. To the bottom right the fluid is discharged, $m_{out}$. The output mass flow is depended on the openings degree (OD) of the valve. The mass balance equation is derived in \cite{model_tank} and is given as:
+The illustration will be used to derive the model for the tank. From the left an open channel that discharges fluid into the tank is shown. The fluid going into the tank has a mass flow rate $m_{in}$ $\left[kg/s\right]$. At the bottom right the fluid is discharged from the tank with a mass flow rate, $m_{out}$. 
+% Within the tank the stored fluid has a height, h [$m$], and the tank has a surface area, A.
+Within the tank the height of the stored fluid is dependent on horizontal cross section area and the mass in- and outflow.
+%The output mass flow is dependent on the opening degree (OD) of the valve. 
+The mass balance equation is derived in \cite{model_tank} and is given as:
 
 %Assumption: incompressible flow
 
@@ -24,13 +29,13 @@ This illustration will be used to derive the model for the tank. From the left a
 \label{eq:tank_mass_balance}
 \end{equation} 
 
-Where $M_{cv}$ is the total mass within the control volume [$kg$], and $m_{in}$ and $m_{out}$ is the mass in and outflow rate of the tank $\left[\frac{kg}{s}\right]$. The mass balance can be written as $M_{cv} = \rho Ah$ where $\rho$ is the density $\left[\frac{kg}{m^3}\right]$, A is the area $\left[m^2\right]$ and h is the height [m]. The mass flow rate can be written as $m = \rho Q$, where Q is the flow $\left[\frac{m^3}{s}\right]$. Inserting this into equation \ref{eq:tank_mass_balance} the following is obtained:
+Where $M_{cv}$ is the total mass within the control volume $\left[kg\right]$, and $m_{in}$ and $m_{out}$ is the mass in and outflow rate of the tank $\left[kg/s\right]$. The mass balance can be written as $M_{cv} = \rho Ah$ where $\rho$ is the density $\left[kg/m^3 \right]$, A is the area $\left[m^2\right]$ and h is the height [m]. The mass flow rate can be written as $m = \rho Q$, where Q is the flow $\left[ m^3/s \right]$. Inserting this into equation \ref{eq:tank_mass_balance} the following is obtained:
 
 \begin{equation}
 		\frac{d(\rho Ah(t))}{dt}=\rho Q_{in}(t)-\rho Q_{out}(t)
 \end{equation}
 
-By assuming incompressible fluid such that density is constant then:
+By assuming incompressible fluid such that density is constant then the in- and outflow can be isolated.
 
 \begin{equation}\label{eq:balance_reservior}
 	\rho A\frac{dh(t)}{dt}=\rho \left(Q_{in}(t)-Q_{out}(t)\right)
@@ -41,7 +46,9 @@ Simplifying equation \ref{eq:balance_reservior} by dividing with $\rho A$:
 	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-Q_{out}(t)\right)
 \end{equation}
 
-This equation describes the change in height according to an inflow and outflow. However, it has been chosen in this project to have a pump regulating the output of the tank as shown in figure \ref{fig:reservior_with_pump}.
+This equation describes the change in height according to in- and outflow. Due to the nature of a sewer system it is typically not possible to implement a tank where outflow is controlled by gravity and a valve. For this reason it is decided to implement an actuator in the form of a pump within the tank, which control the output flow into the adjoining pipe.
+In figure \ref{fig:reservior_with_pump} the chosen tank setup is seen.
+%However, it has been chosen in this project to have a pump regulating the output of the tank as shown in figure \ref{fig:reservior_with_pump}.
 
 \begin{figure}[H]
 	\centering
@@ -50,18 +57,25 @@ This equation describes the change in height according to an inflow and outflow.
 	\label{fig:reservior_with_pump}
 \end{figure}
 
-To simplify the model it has been chosen to use a linear pump model where the output flow, $Q_{out}$ is depended on a constant between 1 and 0 and the maximum flow that the following pipe can transfer.
+Due to the nature of free flow in pipes, the dynamics of the pump will be mitigated for longer pipes. For this reason it is decided to disregard pump dynamics and implement a simple linear term where an actuator input controls the output flow.
+%To simplify the model it has been chosen to use a linear pump model where the output flow, $Q_{out}$ is depended on a constant between 1 and 0 and the maximum flow that the following pipe can transfer.
 
-\begin{equation}
-	Q_{out} = K \cdot Q_{max}
+\begin{equation} \label{eq:control_signal_pump_tank}
+	Q_{out}(t) = u(t) \cdot \overline Q
 \end{equation}
-Where K is the constant and $Q_{max}$ is the flow for a fully filled pipe for the respective pipe diameter. By inserting this equation for the output of the tank into equation \ref{eq:balance_reserviorv2} the following is obtained:
+Where u is pump control input and $\overline Q$ is a fixed operating point which for example could be the maximum flow of the adjoining pipe. By inserting equation \ref{eq:control_signal_pump_tank} into equation \ref{eq:balance_reserviorv2} the following is obtained:
 
 \begin{equation}\label{eq:final_pump_model}
-  	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-K \cdot Q_{max}\right)
-\end{equation}\fxnote{Skal K her være afhængig af t?}  
+  	\frac{dh(t)}{dt}=\frac{1}{A} \left(Q_{in}(t)-u(t) \cdot \overline Q \right)
+\end{equation}
 
 Equation \ref{eq:final_pump_model} then gives an expression where change in height is given as a function of inflow and outflow. 
+
+For the concentration part of the tank, there is the ratio of concentrate to consider when the tanks is not empty. When empty the concentration of the outflow should be equal to the inflow concentration.
+
+\begin{equation}
+	C_{tank} = C_{in} \cdot \frac{\frac{Q_{in}}{A}}{h} +    
+\end{equation}
 
 % Because the output flow is depending on the OD of the valve, a model is needed to described the output flow of it. The model for the valve is derived by \cite{boysen} and is given as:
 % \begin{equation}\label{eq:valve_model}
