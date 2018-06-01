@@ -19,7 +19,7 @@ Theta = pipe_spec(pipe_component).Theta;
 Dx = pipe_spec(pipe_component).Dx; %[m] grid distance
 sections = pipe_spec(pipe_component).sections+1; % Number of sections + intersection at start,
 Q_mark = 10; % initial value that makes sure the while loop runs at least once (bisection (probably not in use))
-epsi = input.Q_init/1000; % most likely not used either
+epsi = input.Q_init/1000; % bisection stop condition (most likely not used either)
 % Ie(1:n,1:n) = 0.00214;% [.] Resistance Ie = f * v^2/(2*g)*1/R
 if m > 1
     Q = data{sys_component}.Q;
