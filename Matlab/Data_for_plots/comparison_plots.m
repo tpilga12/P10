@@ -27,7 +27,7 @@ tank_in = (input.u(2:end,:)-input.u(1,:))';
 % tank_in = (input.u(1:end,1))';
 
 %u=[(data{1}.h(:,end)-data{1}.h(1,end))'; (input.u(1:end,1))' ; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
-u=[h_data_hat'; tank_in(1,:)];% h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i ; h_i]';
+u=[h_data_hat'; tank_in(1,:); h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i ; h_i]';
 
 % u=[h_data_hat'; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i]';
  %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
@@ -61,7 +61,7 @@ Y_lsim = Y_bar + Y_hat;
  for n = 1:length(plot_lin)
      figure(n)
 %      figure('units','normalized','outerposition',[0 0 1 1])
-     reduce_plot(t,data{n+2}.h(:,end))
+     reduce_plot(t1,data{n+2}.h(:,end))
      hold on
      reduce_plot(t1,Y_hat(1:end,plot_lin(n))+data{n+2}.h(1,end))
      hold on
