@@ -33,12 +33,10 @@ error = 0;
 tic
 [lin_point lin_sys] = linearize_it(pipe_spec, nr_tanks, tank_spec, sys_setup, input, data);
 toc
-i=1;
 %% run stuff !!!!!
 clc
 flag =1;
-
-iterations = 4319;
+iterations = 20000;
 
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
 
@@ -53,22 +51,22 @@ for m = 2:(iterations+1)
         input.C_in(m,1) = 10; % concentrate input [g/m^3]
 %     else
     end
- 
+    if flag == 1
         
-        input.lat.Q(3) = num2cell(disturbance.Zone1_1(i)+disturbance.Zone1_2(i)+disturbance.Zone1_3(i)+disturbance.Industry_1_1(i)+disturbance.Industry_1_3(i));
-        input.lat.Q(6) = num2cell(disturbance.Zone2(i));
-        input.lat.Q(7) = num2cell(disturbance.Zone3(i));
-        input.lat.Q(8) = num2cell(disturbance.Zone4_1(m)+disturbance.Zone4_2(i)+disturbance.Zone4_3(i)+disturbance.Industry_4_1(i));
-        input.lat.Q(9) = num2cell(disturbance.Zone5(i));
-        input.lat.Q(11)= num2cell(disturbance.Zone6(i));
-        input.lat.Q(13)= num2cell(disturbance.Zone7(i)+disturbance.Industry7_1(i));
-        input.lat.Q(14)= num2cell(disturbance.Zone8And9(i)+disturbance.Industry_8And9(i));
-         input.lat.Q(15)=num2cell(0.2);% num2cell(disturbance.Zone10(m));
-        input.lat.Q(18)= num2cell(disturbance.Zone11(i));
-        i = m*20;
+        input.lat.Q(3) = num2cell(disturbance.Zone1_1(m)+disturbance.Zone1_2(m)+disturbance.Zone1_3(m)+disturbance.Industry_1_1(m)+disturbance.Industry_1_3(m));
+        input.lat.Q(6) = num2cell(disturbance.Zone2(m));
+        input.lat.Q(7) = num2cell(disturbance.Zone3(m));
+        input.lat.Q(8) = num2cell(disturbance.Zone4_1(m)+disturbance.Zone4_2(m)+disturbance.Zone4_3(m)+disturbance.Industry_4_1(m));
+        input.lat.Q(9) = num2cell(disturbance.Zone5(m));
+        input.lat.Q(11)= num2cell(disturbance.Zone6(m));
+        input.lat.Q(13)= num2cell(disturbance.Zone7(m)+disturbance.Industry7_1(m));
+        input.lat.Q(14)= num2cell(disturbance.Zone8And9(m)+disturbance.Industry_8And9(m));
+        input.lat.Q(15)= num2cell(disturbance.Zone10(m));
+        input.lat.Q(18)= num2cell(disturbance.Zone11(m));
         
- 
-    input.Q_in(m,1) = 0.025;% + sin(m/10)/35 ;%+ sin(m/100)/15;
+        
+    end
+    input.Q_in(m,1) = 0.25;% + sin(m/10)/35 ;%+ sin(m/100)/15;
 %     end
     utank1(m,1) = input.u_init(1,1);% + sin(m/10)/8;
     utank2(m,1) = input.u_init(1,2);
@@ -83,7 +81,7 @@ toc
 %%
 
 sampling = 1; %increase number to skip samples to increase playback speed
-starting_point = 1000; % change starting point (START IS 0)
-playback_speed = 1/100; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
+starting_point = 80; % change starting point (START IS 0)
+playback_speed = 1/10; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 

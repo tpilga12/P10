@@ -293,7 +293,8 @@ f7_indu = ((f/1000)*5874/2000)*1/5;
 f8_9_indu = ((f/1000)*2067/2000)*1/5;
 f10_1_indu = ((f/1000)*3916/2000)*1/5;
 
-disturbance = struct('Zone1_1',f1_1,'Zone1_2',f1_2,'Zone1_3',f1_3,'Industry_1_1',f1_1_indu,'Industry_1_3',f1_3_indu,'Zone2',f2,'Zone3',f3,'Zone4_1',f4_1,'Zone4_2',f4_2,'Zone4_3',f4_3,'Industry_4_1',f4_1_indu,'Zone5',f5,'Zone6',f6,'Zone7',f7,'Industry7_1',f7_indu,'Zone8And9',f89,'Industry_8And9',f8_9_indu,'Zone10',f10(1:86400),'Industry_10_1',f10_1_indu,'Zone11',f11)
+disturbance = struct('Zone1_1',f1_1,'Zone1_2',f1_2,'Zone1_3',f1_3,'Industry_1_1',f1_1_indu,'Industry_1_3',f1_3_indu,'Zone2',f2,'Zone3',f3,'Zone4_1',f4_1,'Zone4_2',f4_2,'Zone4_3',f4_3,'Industry_4_1',f4_1_indu,
+                        'Zone5',f5,'Zone6',f6,'Zone7',f7,'Industry7_id)
     %'f1_2','f1_3','f1_1_indu','f1_3_indu'}
 
 %%

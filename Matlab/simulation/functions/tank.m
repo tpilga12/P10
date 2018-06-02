@@ -1,4 +1,4 @@
-asdfunction [data input] = tank(m, data, tank_nr, x, input, tank_spec, init)
+function [data input] = tank(m, data, tank_nr, x, input, tank_spec, init)
 %TANK Summary of this function goes here
 %   Detailed explanation goes here
 global Dt
