@@ -1,4 +1,4 @@
-\section{Tank model}\label{se:sewer_reservoir}
+\section{Tank}\label{se:sewer_reservoir}
 In this section a model for flow and concentrate is derived for a tank.% will be derived. 
 The assumptions made deriving the tank model is:
 \begin{table}[H]
@@ -81,7 +81,7 @@ For the concentration part of the tank there is the ratio of concentrate to cons
 As the output concentration is equal to what is in the tank at current time the following is obtained.
 
 \begin{equation} \label{eq:prut_i_tank_equation2}
-\boxed{	\frac{dC_{tank}(t)}{dt} = C_{in}(t) \cdot \frac{\frac{Q_{in}(t)}{A}}{h(t)} - C_{tank}(t) \cdot \frac{\frac{Q_{out}(t)}{A}}{h(t)} }  
+\boxed{	\frac{dC_{tank}(t)}{dt} = \frac{1}{A} \left(C_{in}(t) \cdot \frac{Q_{in}(t)}{h(t)} - C_{tank}(t) \cdot \frac{Q_{out}(t)}{h(t)} \right) }   
 \end{equation}
 
 The advantage of this scheme is that flow and height is already known. This keeps the computational power required at a minimum while some realism, in the level of concentrate flowing through the tank, is obtained.
