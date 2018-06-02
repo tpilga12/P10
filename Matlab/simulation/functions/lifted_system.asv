@@ -86,7 +86,7 @@ end
     
     psi = Clifted*Alifted; % 
     
-    gamma = Clifted*Bulifted; %Blifted;
+    gamma = Clifted*Bulifted; %Bulifted;
     
     theta = Clifted*B_Deltalifted; %
     
