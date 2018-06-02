@@ -16,14 +16,14 @@ else
     data.h(m,1) = (1/tank_spec(tank_nr).area)*(data.Q(m,1)-data.Q(m,2))*Dt + data.h(m-1,1);
 %     data.C(m,2) = input.C_in(m,x);
     if data.h(m,1) < 0.1
-        data.C(m,1) = input.C_in(m,x)
+        data.C(m,1) = input.C_in(m,x);
     else
     data.C(m,1) = input.C_in(m,x) *  ((data.Q(m,1)*Dt / tank_spec(tank_nr).area))/data.h(m,1) + data.C(m-1,1) * (1 - ((data.Q(m,1)*Dt / tank_spec(tank_nr).area))/data.h(m,1));
     end
     if data.h(m,1) <= 0
         data.h(m,1) = 0;
         if data.Q(m,1) <= 0
-            data.Q(m,2) = 0;
+            data.Q(m,2) = 0
         elseif data.Q(m,1) < data.Q(m,2)
             data.Q(m,2) = data.Q(m,1);
 %         else

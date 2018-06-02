@@ -1,7 +1,7 @@
 \section{Sewer interconnection}\label{se:sewer_interconnection}
-This section will explain how interconnection between channels are modeled and how the mixing between wastewater and wastewater with chemicals.
+This section will explain how pipes are interconnected and how the concentration for two joint pipes are calculated.
 
-In figure \ref{fig:interconnections} an illustration of a interconnection between two flows are shown.
+In figure \ref{fig:interconnections} an illustration of two pipes that are connected to the same point.
 
 \begin{figure}[H]
 \centering
@@ -10,16 +10,21 @@ In figure \ref{fig:interconnections} an illustration of a interconnection betwee
 \label{fig:interconnections}
 \end{figure} 
 
-The two channels $Q_1$ and $Q_2$ are connected at the end of each channel here the wastewater from the two channels will be added up. The flow $Q_3$ is calculated as:
+The two pipes leading into the point are connected, where the wastewater from the two pipes will be added up and transferred to the following pipe. The flow $Q_3$ is calculated as:
 
 \begin{equation}
-	Q_3 = Q_1 + Q_2 	
+	\boxed{Q_3 = Q_1 + Q_2}
 \end{equation} 
 
-For the mixing between two flows where one of them is transporting chemicals will be done in similar way as for flows. 
+Which is a sum of the flows going into the point.
+
+To calculate the concentration in a interconnection the following equation is used: %For the mixing between two flows where one of them is transporting chemicals will be done in similar way as for flows. 
 
 \begin{equation}\label{poop_addition_interconnection}
-	C_3 = \frac{C_1 Q_1 + C_2 Q_2}{Q_3}
+	\boxed{C_3 = \frac{C_1 Q_1 + C_2 Q_2}{Q_3}}
 \end{equation}
 
-Where C is the amount of concentrate $\left[g /m^3 \right]$. This is done to keep the same amount of concentrate within the wastewater, as the algorithm for transporting concentrate depends on flow, as seen in section \ref{se:transport_of_concentrate}. If it is not calculated like this, thus when the flow is increasing the same will the chemicals within the wastewater, hence it is needed to divided by $Q_3$ to get the right amount of chemicals in the wastewater.  
+Where $C_1$ and $C_2$ is the amount of concentrate in the respective pipe $\left[g /m^3 \right]$. 
+
+
+%This is done to keep the same amount of concentrate within the wastewater, as the algorithm for transporting concentrate depends on flow, as seen in section \ref{se:transport_of_concentrate}. %If it is not calculated like this, thus when the flow is increasing the same will the chemicals within the wastewater, hence it is needed to divided by $Q_3$ to get the right amount of chemicals in the wastewater.  
