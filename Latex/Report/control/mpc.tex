@@ -1,5 +1,5 @@
 \section{Model predictive control}\label{se:model_predictive_control}
-In this section, the design of the controller is elaborated. First the control problem the design of the Model predictive controller (MPC). 
+In this section, the design of the controller is elaborated. First the control problem thereafter Model predictive controller (MPC) is elaborated followed by the design of the MPC controller and ending with the implementation and results from the simulation. 
 
 The simulation covered in chapter \ref{ch:simulation} is to be controlled with respect to the problems elaborated in section \ref{sec:problem_statement} and stated here. 
 \begin{enumerate}
@@ -13,7 +13,7 @@ The simulation covered in chapter \ref{ch:simulation} is to be controlled with r
 \end{enumerate}
 \end{enumerate}
 
-From the problem statement, it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this, tanks are used, these are placed in the sewer network to find locations where they are able to hold back disturbance that will otherwise cause flow and concentration variations into the WWTP. However, the output of these tanks must be controlled in a way where overflow in the tank is prohibited. Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and still be controlled according to some constraints.
+From the problem statement, it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this, tanks are used. These are placed in the sewer network to find locations where they are able to hold back disturbance that will otherwise cause flow and concentration variations into the WWTP. However, the output of these tanks must be controlled in a way where overflow in the tank is prohibited. Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and still be controlled according to some constraints.
 
 To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC solves a optimizations problem at each time instant, k, where the main point is to compute a control vector, u that is feed to the system. 
 
@@ -22,9 +22,9 @@ An MPC algorithm consists of:
 \\ 
 \textbf{Cost function} or control objective,$\CMcal{J}$, is an algorithm measuring e.g. the difference between future outputs and a reference while at the same time instant recognizing that any control action is costly for the system. Therefore the price is measured in the cost function over the prediction horizon, $H_p$. This function is therefore minimized with the respect to the future control vector to keep the cost minimized. Furthermore, only the first control input from the vector is used in each time instant thus this optimization is process is calculated at each time step where a new control input is calculated \cite{mpc_control_lecture_notes}.
 
-\textbf{Constraints} is unique advantages of MPC. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax\leq b$ where the constraint a subject to the optimization problem \cite{mpc_control_lecture_notes}.   
+\textbf{Constraints} is unique advantages of MPC. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax\leq b$ where the constraint is subject to the optimization problem \cite{mpc_control_lecture_notes}.   
 
-\textbf{Prediction model} for the MPC to be able to predict future system behavior it needs a model to predict from. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon \cite{mpc_control_lecture_notes}.  
+\textbf{Prediction model} is a model that is able to predict future system behavior. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon \cite{mpc_control_lecture_notes}.  
 
 % In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
 % \begin{figure}[H]
@@ -61,23 +61,20 @@ For MPC to optimize the system a cost function must be written to penalize varia
 	 \CMcal{J} &= \sum_{i=1}^{H_p-1} || Q(k+i|k)C_1(k+i|k)-Q(k+i-1|k)C_1(k+i-1|k)||_{\CMcal{Q}(i)}^2 \\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_2(k+i|k)-Q(k+i-1|k)C_2(k+i-1|k)||_{\CMcal{Q}(i)}^2 \\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_3(k+i|k)-Q(k+i-1|k)C_3(k+i-1|k)||_{\CMcal{Q}(i)}^2\\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_4(k+i|k)-Q(k+i-1|k)C_4(k+i-1|k)||_{\CMcal{Q}(i)}^2 \\& +\sum_{i=1}^{H_p-1} || Q(k+i|k)-Q(k+i-1|k)||_{\CMcal{Q}(i)}^2
 \end{aligned}	
 \end{equation}\fxnote{skal skrives så alle 4 koncentrationer er med, samt en for flow og et eller andet sted afgrænsning for liggetid i tank}
-Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. The concentrations $C_1, C_2, C_3$ and $C_4$ are respectively chloride, phosphor nitrogen and organic matter levels in the wastewater.However, It has been chosen to only look at flow variation in the simulation and thereby excluding concentrations from the cost function and retention time in the tank\fxnote{enten skal vi fra vaelge os den noget før eller os skal vi have fundet på en cost function til liggetid}. This has been done to limit the control problem and ease the computation, to begin with. Thereby the cost function has been rewritten to: 
+Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. The concentrations $C_1, C_2, C_3$ and $C_4$ are respectively chloride, phosphor nitrogen and organic matter levels in the wastewater. However, It has been chosen to only look at flow variation in the simulation and thereby excluding concentrations from the cost function and retention time in the tank\fxnote{enten skal vi fra vaelge os den noget før eller os skal vi have fundet på en cost function til liggetid}. This has been done to limit the control problem and ease the computation, to begin with. Thereby the cost function has been rewritten to: 
 
 \begin{equation}\label{eq:cost_function_height}
 	 \CMcal{J} = \sum_{i=1}^{H_p-1} || \hat{y}(k+i|k)-\hat{y}(k+i-1|k)||_{\CMcal{Q}(i)}^2
 \end{equation}
-\begin{equation}
+\begin{equation}\label{eq:state_eq_subject_to}
 	\begin{aligned}
-	\text{s.t.} \hspace{5mm}  \hat{x}(k+i+1) &= A\hat{x}(k+i|k)+B\hat{u}(k+i|k)+B_dd(k+i|k) \\
+	\text{s.t.} \hspace{5mm}  \hat{x}(k+i+1) &= A\hat{x}(k+i|k)+B\hat{u}(k+i|k)+B_d\hat{d}(k+i|k) \\
 						      \hat{y}(k+i)&= C\hat{x}(k+i|k) \\
-						     \underline{x} \leq \hat{x} \leq \overline{x}
+						     x_{min} &\leq  x \leq x_{max} \\
+						     u_{min} & \leq u \leq u_{max}
 	\end{aligned}
 \end{equation}
-Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value and not an estimate for y. y corresponds to the height of the wastewater in the channel, however, it is the same to minimize height difference as the flow because both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states. The states have a lower and upper constraint corresponding respectively to the bottom of the channel and the top of the channel, denoted respectively with $\underline{x}$ and $\overline{x}$. In order for the controller to minimize the variations in the output, it must be able to predict future events from knowing the current state. Therefore, by iterating the linear model up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}. The state equation is used for this predictive model: 
-
-\begin{equation}
-	\hat{x}(k+1|k) = A\hat{x}(k|k)+B\hat{u}(k|k) + B_d\hat{d}(k|k)
-\end{equation}
+Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value and not an estimate for y. This notation is used throughout the chapter. Where y corresponds to the height of the wastewater in the channel. It is the same to minimize height difference as the flow, due to both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states and control input. Both the states and the control input have a lower and upper constraint corresponding respectively to the bottom of the pipe and the top of the pipe and respectively to the the minimum and maximum input to the pump. In order for the controller to minimize the variations in the output, it must be able to predict future events from knowing the current state. Therefore, by iterating the linear model, shown in section \ref{se:linearization}, up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}.
 
 %Where $\hat{u}(k|k)$ and $\hat{d}(k|k)$ can be written as:
 
@@ -88,7 +85,7 @@ Where Q has been replaced with the output y as it can be measured directly from 
 % 	\end{aligned}
 % \end{equation}
 
-Thus by using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
+By using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
 
 % \begin{equation}\label{eq:iterating_state_equation}
 % \begin{aligned}
@@ -125,14 +122,14 @@ Thus by using the state equation recursively the state equation can be predicted
 
 \begin{equation}\label{eq:iterating_state_equation}
 \begin{aligned}
-	\hat{x}(k+1|k) &= A\hat{x}(k|k)+B\hat{u}(k|k) + B_dd(k|k)\\
-	\hat{x}(k+2|k) &= A\hat{x}(k+1|k)+B\hat{u}(k+1|k)+ B_dd(k+1|k) \\
-				   &= A^2\hat{x}(k|k)+AB\hat{u}(k|k)+AB_dd(k|k) + B\hat{u}(k+1|k) \\
-				   &+ B_dd(k+1|k) \\
+	\hat{x}(k+1|k) &= A\hat{x}(k|k)+B\hat{u}(k|k) + B_d\hat{d}(k|k)\\
+	\hat{x}(k+2|k) &= A\hat{x}(k+1|k)+B\hat{u}(k+1|k)+ B_d\hat{d}(k+1|k) \\
+				   &= A^2\hat{x}(k|k)+AB\hat{u}(k|k)+AB_d\hat{d}(k|k) + B\hat{u}(k+1|k) \\
+				   &+ B_d\hat{d}(k+1|k) \\
 				   &\hspace{2mm}\vdots\\
-   \hat{x}(k+H_p|k)&= A\hat{x}(k+H_p-1|k)+B\hat{u}(k+H_p-1|k)+B_dd(k+H_p-1|k)\\
+   \hat{x}(k+H_p|k)&= A\hat{x}(k+H_p-1|k)+B\hat{u}(k+H_p-1|k)+B_d\hat{d}(k+H_p-1|k)\\
    				   &= A^{H_p}\hat{x}(k|k)+A^{H_p-1}B\hat{u}(k|k)+\cdots+ B\hat{u}(k+H_p-1|k)\\
-   				   &A^{H_p-1}B_dd(k|k)+\cdots+B_dd(k+H_p-1|k)
+   				   &+A^{H_p-1}B_d\hat{d}(k|k)+\cdots+B_d\hat{d}(k+H_p-1|k)
 \end{aligned}
 \end{equation}
 Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is iterated up to the prediction horizon. This can be setup as prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{D}$:
@@ -253,7 +250,7 @@ Where $\CMcal{X}$ is the predicted state vector for the entire prediction horizo
 This iteration process is also done for the output equation:
 
 \begin{equation}\label{eq:lifted_output_equation}
-	\CMcal{Y}(k)= 
+	\hat{\CMcal{Y}}(k)= 
 	\underbrace{\begin{bmatrix}
 	\hat{y}(k+1|k)\\
 	\hat{y}(k+2|k)\\
@@ -274,10 +271,10 @@ This iteration process is also done for the output equation:
 	  \hat{x}(k+H_p|k) 	\\
 	   \end{bmatrix}
 \end{equation}
-Where $\CMcal{C}$ is a diagonal matrix with the output matrix C and $\CMcal{X}$ the predicted state vector. By inserting the predicted state equation \ref{eq:lifted_state_equation}, into the predicted output equation \ref{eq:lifted_output_equation} the following is achieved:
+Where $\CMcal{C}$ is a diagonal matrix with the output matrix C. By inserting the predicted state equation \ref{eq:lifted_state_equation}, into the predicted output equation \ref{eq:lifted_output_equation} the following is achieved:
 
 \begin{equation}\label{eq:output_eq_with_state_eq}
-	\CMcal{Y}(k) =  \CMcal{C}\CMcal{A}x(k) +  \CMcal{C}\CMcal{B}\CMcal{U}(k) +\CMcal{C}\CMcal{B}_d\CMcal{D}(k)
+	\hat{\CMcal{Y}}(k) =  \CMcal{C}\CMcal{A}\hat{x}(k) +  \CMcal{C}\CMcal{B}\hat{\CMcal{U}}(k) +\CMcal{C}\CMcal{B}_d\hat{\CMcal{D}}(k)
 \end{equation}   
 % \begin{equation}\label{eq:output_eq_with_state_eq}
 % 	\CMcal{Y}(k) =  \CMcal{C}\CMcal{A}x(k) +  \CMcal{C}\CMcal{B}u(k-1)+ \CMcal{C}\CMcal{B}_f\Delta \CMcal{U} +\CMcal{C}\CMcal{B}_d\CMcal{D}(k)
@@ -293,7 +290,7 @@ By using the following notation on equation \ref{eq:output_eq_with_state_eq}:
 The predicted output equation can be rewritten as: 
 
 \begin{equation}\label{eq:lifted_output_with_states_inserted}
-	\CMcal{Y}(k) = \psi x(k) + \gamma \CMcal{U}(k) + \Theta \CMcal{D}(k)
+	\hat{\CMcal{Y}}(k) = \psi \hat{x}(k) + \gamma \hat{\CMcal{U}}(k) + \Theta \hat{\CMcal{D}}(k)
 \end{equation}
 
 
@@ -301,16 +298,16 @@ The predicted output equation can be rewritten as:
 % 	\CMcal{Y}(k) = \psi x(k) + \gamma u(k-1) +\Omega\Delta\CMcal{U}+ \Theta \CMcal{D}(k)
 % \end{equation}
 
-To be able to use the cost function, equation \ref{eq:cost_function_height}, it has to be rewritten so the predicted output equation can be used. This is done by replacing the output y with the predicted output $\CMcal{Y}$ thereby the following is obtained:
+To be able to use the cost function, equation \ref{eq:cost_function_height}, it has to be rewritten so the predicted output equation is used. Thereby, replacing the output y with the predicted output $\CMcal{Y}$ hence the following is obtained:
 
 \begin{equation}\label{eq:new_the_cost_function_yeah}
-	\CMcal{J} = ||\CMcal{Y}(k)-\CMcal{Y}(k-1)||_{\CMcal{Q}(i)}^2
+	\CMcal{J} = ||\hat{\CMcal{Y}}(k)-\hat{\CMcal{Y}}(k-1)||_{\CMcal{Q}(i)}^2
 \end{equation}
 
-Where the difference between $\CMcal{Y}(k)$ and $\CMcal{Y}(k-1)$ can be expressed as:
+Where the difference between $\hat{\CMcal{Y}}(k)$ and $\hat{\CMcal{Y}}(k-1)$ can be expressed as:
 
 \begin{equation}
-	\Delta \CMcal{Y}(k) =\CMcal{Y}(k)-\CMcal{Y}(k-1) 
+	\Delta \hat{\CMcal{Y}}(k) =\hat{\CMcal{Y}}(k)-\hat{\CMcal{Y}}(k-1) 
 \end{equation}
 
 Thereby the following cost function is achieved:
@@ -397,7 +394,7 @@ Where $x_{min}$ and $x_{max}$ are respectively lower and upper bound. As the con
 To reformulated the constraint the predicted state equation \ref{eq:lifted_state_equation} is inserted instead of the state vector.
 
 \begin{equation}
-	x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{U}(k)+\CMcal{BD}(k) \leq x_{max}-\bar{x}
+	x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}\hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k) \leq x_{max}-\bar{x}
      %x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}u(k-1)+\CMcal{B}_f\Delta\CMcal{U}(k)+\CMcal{BD}(k) \leq x_{max}-\bar{x}
  \end{equation} 
 
@@ -524,7 +521,11 @@ In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
 
 Here it is illustrated that the model, constraint and cost function will be used in the optimizer to generate an control output, that will be used in the process, which in this case is the nonlinear model. The output y(k+1) is the output height at the end of the last pipe in the sewer network. At each time step the current value of the output is feedback to the MPC controller. Here the MPC will at each iteration calculate up to $H_p$ control inputs, as it calculates for future disturbances, however, only the first element of this u vector will be used to control the process. Thereafter a new measurement will be taken and a new controller output will be calculated and this will iterate for the entire simulation.
 
-In determining the length of the prediction horizon several considerations were taken into account. As illustration in section \ref{sec:WWTP_challenges} in figure \ref{fig:input_to_wwtp} a daily flow from the households is shown. Here the flow is illustrated for working days and in the weekend. Thereby by knowing the flow pattern for households the MPC would be able to include this knowledge in the prediction model. Thus ideal prediction horizon would be 24 hours, as it would be able to see the disturbance across a whole day. However, as the households are not the only disturbance in this setup this is not entirely true. Because the disturbance coming from the larger industry e.g. the bottling plant and the brewery are stochastic in a way, where it is unknown when the wastewater from the plants is coming and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the plants are also different from time to time. Therefore, it would not be preferable to place the tank next to the industry as it would not be able to predict the disturbance. Thus the tank needs to be placed in a distance away from the industry, where it would be able to use the disturbance in the prediction model by knowing the disturbance coming from the industry by having a measurement of it. The time it takes the wastewater to leave the industry and to arrive at the tank would then decide the length of the prediction horizon. However, in the implementation of the MPC, it was discovered that the prediction horizon was restricted. Because when it was set to high, above 20, the quadratic $\CMcal{H}$ matrix, equation \ref{eq:quadratic_h_matrix}, was not semi-positive definite, as in the eigenvalues of it was negative, hence the quadratic problem was not convex. The reason for this problem is, that in the linearized model, some of the elements in matrices are very small and therefore, when the system is predicted, as shown in equation \ref{eq:lifted_state_equation}, the elements would be even smaller, thus causing the $\CMcal{H}$ matrix to have an extremely small negative eigenvalue. Therefore, several tests were conducted to find a prediction horizon that did not result in a negative eigenvalue. It was found that a prediction horizon of 20, thereby, the lowest eigenvalue of $\CMcal{H}$ was zero. However, this restricts the length of the pipe after the tank, because if the pipe is too long the MPC will not be able to predict all the way down to the output of it. Therefore, in the simulation of the MPC controller, this must be kept in mind.   
+In determining the length of the prediction horizon several considerations were taken into account. As illustration in figure \ref{fig:input_to_wwtp} a daily flow from the households is shown. Here the flow is illustrated for working days and in the weekend. Thereby by knowing the flow pattern for households the MPC would be able to include this knowledge in the prediction model. Thus an ideal prediction horizon would be 24 hours, as it would be able to see the disturbance across a whole day. 
+
+However, as the households are not the only disturbance in this setup this is not entirely true. Because the disturbance coming from the larger industry e.g. the bottling plant and the brewery are stochastic in a way, where it is unknown when the wastewater from the plants is coming and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the plants are also different from time to time. Therefore, it would not be preferable to place the tank next to the industry as it would not be able to predict the disturbance. Thus the tank needs to be placed in a distance away from the industry, where it would be able to use the disturbance in the prediction model by knowing the disturbance coming from the industry by having a measurement of it. The time it takes the wastewater to leave the industry and to arrive at the tank would then decide the length of the prediction horizon. 
+
+However, in the implementation of the MPC, it was discovered that the prediction horizon was restricted. Because when it was set to high, above 20, the quadratic $\CMcal{H}$ matrix, equation \ref{eq:quadratic_h_matrix}, was not semi-positive definite, as in the eigenvalues of it was negative, hence the quadratic problem was not convex. The reason for this problem is, that in the linearized model, some of the elements in matrices are very small and therefore, when the system is predicted, as shown in equation \ref{eq:lifted_state_equation}, the elements would be even smaller, thus causing the $\CMcal{H}$ matrix to have an extremely small negative eigenvalue. Therefore, several tests were conducted to find a prediction horizon that did not result in a negative eigenvalue. It was found that a prediction horizon of 20, thereby, the lowest eigenvalue of $\CMcal{H}$ was zero. However, this restricts the length of the pipe after the tank, because if the pipe is too long the MPC will not be able to predict all the way down to the output of it. Therefore, in the simulation of the MPC controller, this must be kept in mind.   
 
 \subsection*{Results}
 In the subsection the results obtained from the testing of the MPC controller will be covered. Two simulation will conducted, one where the constraints are neglected and therefore minimized without any restriction and another simulation where the constraints included. 
