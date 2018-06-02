@@ -76,45 +76,127 @@ Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow
 Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value and not an estimate for y. y corresponds to the height of the wastewater in the channel, however, it is the same to minimize height difference as the flow because both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states. The states have a lower and upper constraint corresponding respectively to the bottom of the channel and the top of the channel, denoted respectively with $\underline{x}$ and $\overline{x}$. In order for the controller to minimize the variations in the output, it must be able to predict future events from knowing the current state. Therefore, by iterating the linear model up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}. The state equation is used for this predictive model: 
 
 \begin{equation}
-	\hat{x}(k+1|k) = A\hat{x}(k|k)+B\hat{u}(k|k) + B_dd(k|k)
+	\hat{x}(k+1|k) = A\hat{x}(k|k)+B\hat{u}(k|k) + B_d\hat{d}(k|k)
 \end{equation}
 
-Where $\hat{u}(k|k)$ can be written as:
+%Where $\hat{u}(k|k)$ and $\hat{d}(k|k)$ can be written as:
 
-\begin{equation}
-	\hat{u}(k) = \Delta \hat{u}(k|k)+u(k-1)
-\end{equation}
+% \begin{equation}
+% \begin{aligned}
+% 	\hat{u}(k) &= \Delta \hat{u}(k|k)+\hat{u}(k-1) \\
+% 	\hat{d}(k) &= \Delta \hat{d}(k|k)+\hat{d}(k-1)
+% 	\end{aligned}
+% \end{equation}
 
 Thus by using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
 
-\begin{equation}\label{eq:iterating_state_equation}
-\begin{aligned}
-	\hat{x}(k+1|k) &= A\hat{x}(k|k)+B(\Delta \hat{u}(k|k)+u(k-1)) + B_dd(k|k)\\
-	\hat{x}(k+2|k) &= A\hat{x}(k+1|k)+B\hat{u}(k+1|k)+ B_dd(k+1|k) \\
-				   &= A^2\hat{x}(k|k)+AB(\Delta \hat{u}(k|k)+u(k-1))+AB_dd(k|k)\\ & + B\underbrace{(\Delta \hat{u}(k+1)+\Delta \hat{u}(k)+u(k-1))}_{\hat{u}(k+1|k)}+ B_dd(k+1|k) \\
-				   &\hspace{2mm}\vdots\\
-   \hat{x}(k+H_p|k)&= A^{H_p}\hat{x}(k|k)+(A^{H_p-1}+ \cdots +A +I)B\Delta\hat{u}(k|k)+\cdots\\
-   				   &+ (A^{H_p-1}+ \cdots +A +I)B\Delta \hat{u}(k+H_p-1|k) \\	
-   				   &+(A^{H_p-1}+ \cdots +A +I)Bu(k-1)\\
-   				   &+A^{H_p-1}B_dd(k|k)  +\cdots+B_dd(k+H_p-1|k) 
-\end{aligned}
-\end{equation}\fxnote{skal lige gennemskue det her i morgen}
-Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is iterated up to the prediction horizon. This can be setup as prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{D}$:
-
-
 % \begin{equation}\label{eq:iterating_state_equation}
 % \begin{aligned}
-% 	\hat{x}(k+1|k) &= A\hat{x}(k|k)+B\hat{u}(k|k) + B_dd(k|k)\\
-% 	\hat{x}(k+2|k) &= A\hat{x}(k+1|k)+B\hat{u}(k+1|k)+ B_dd(k+1|k) \\
-% 				   &= A^2\hat{x}(k|k)+AB\hat{u}(k|k)+AB_dd(k|k) + B\hat{u}(k+1|k) \\
-% 				   &+ B_dd(k+1|k) \\
+% 	\hat{x}(k+1|k) &= A\hat{x}(k|k)+B(\Delta \hat{u}(k|k)+u(k-1)) + B_d(\hat{d}(k|k)+\hat{d}(k-1))\\
+% 	\hat{x}(k+2|k) &= A\hat{x}(k+1|k)+B\hat{u}(k+1|k)+ B_d\hat{d}(k+1|k) \\  
+% 				   &= A(A\hat{x}(k|k)+B(\Delta \hat{u}(k|k)+u(k-1)) + B_d(\Delta \hat{d}(k|k)+\hat{d}(k-1)) \\ 
+% 				   &+B\hat{u}(k+1|k)+ B_d\hat{d}(k+1|k) \\ 
+% 				   &= A^2\hat{x}(k|k)+AB(\Delta \hat{u}(k|k)+u(k-1))+AB_d(\Delta \hat{d}(k|k)+\hat{d}(k-1))\\ 
+% 				   & + B\underbrace{(\Delta \hat{u}(k+1)+\Delta \hat{u}(k)+\hat{u}(k-1))}_{\hat{u}(k+1|k)}\\
+% 				   & + B_d\underbrace{(\Delta \hat{d}(k+1)+\Delta \hat{d}(k)+\hat{d}(k-1))}_{\hat{d}(k+1|k)} \\ 
+% 				   &= A^2 x(k|k) + AB\Delta \hat{u}(k|k)+AB \hat{u}(k-1|k)+B\Delta \hat{u}(k+1|k)\\
+% 				   &+	AB\Delta \hat{d}(k|k)+AB \hat{d}(k-1|k)+B\Delta \hat{d}(k+1|k)\\
 % 				   &\hspace{2mm}\vdots\\
-%    \hat{x}(k+H_p|k)&= A\hat{x}(k+H_p-1|k)+B\hat{u}(k+H_p-1|k)+B_dd(k+H_p-1|k)\\
-%    				   &= A^{H_p}\hat{x}(k|k)+A^{H_p-1}B\hat{u}(k|k)+A^{H_p-1}B_dd(k|k)+\cdots+\\
-%    				   &+B\hat{u}(k+H_p-1|k)+B_dd(k+H_p-1|k)
+%    \hat{x}(k+H_p|k)&=A^{H_p}x(k|k)\\
+%    				   &+A^{Hp-1}B\Delta \hat{u}(k|k)+ \cdots +B\Delta \hat{u}(k+H_p-1|k) \\
+%    				   &+A^{Hp-1}B\hat{u}(k-1|k) \\
+%    				   &+A^{Hp-1}B_d\Delta \hat{d}(k|k)+\cdots+B_d\Delta \hat{d}(k+H_p-1|k)\\
+%    				   &+A^{Hp-1}B_d\hat{d}(k-1|k)
 % \end{aligned}
 % \end{equation}
 
+% \begin{equation}\label{eq:iterating_state_equation}
+% \begin{aligned}
+% 	\hat{x}(k+1|k) &= A\hat{x}(k|k)+B(\Delta \hat{u}(k|k)+u(k-1)) + B_dd(k|k)\\
+% 	\hat{x}(k+2|k) &= A\hat{x}(k+1|k)+B\hat{u}(k+1|k)+ B_dd(k+1|k) \\
+% 				   &= A^2\hat{x}(k|k)+AB(\Delta \hat{u}(k|k)+u(k-1))+AB_dd(k|k)\\ & + B\underbrace{(\Delta \hat{u}(k+1)+\Delta \hat{u}(k)+u(k-1))}_{\hat{u}(k+1|k)}+ B_dd(k+1|k) \\
+% 				   &\hspace{2mm}\vdots\\
+%    \hat{x}(k+H_p|k)&= A^{H_p}\hat{x}(k|k)+(A^{H_p-1}+ \cdots +A +I)B\Delta\hat{u}(k|k)+\cdots\\
+%    				   &+ (A^{H_p-1}+ \cdots +A +I)B\Delta \hat{u}(k+H_p-1|k) \\	
+%    				   &+(A^{H_p-1}+ \cdots +A +I)Bu(k-1)\\
+%    				   &+A^{H_p-1}B_dd(k|k)  +\cdots+B_dd(k+H_p-1|k) 
+% \end{aligned}
+% \end{equation}\fxnote{skal lige gennemskue det her i morgen}
+
+\begin{equation}\label{eq:iterating_state_equation}
+\begin{aligned}
+	\hat{x}(k+1|k) &= A\hat{x}(k|k)+B\hat{u}(k|k) + B_dd(k|k)\\
+	\hat{x}(k+2|k) &= A\hat{x}(k+1|k)+B\hat{u}(k+1|k)+ B_dd(k+1|k) \\
+				   &= A^2\hat{x}(k|k)+AB\hat{u}(k|k)+AB_dd(k|k) + B\hat{u}(k+1|k) \\
+				   &+ B_dd(k+1|k) \\
+				   &\hspace{2mm}\vdots\\
+   \hat{x}(k+H_p|k)&= A\hat{x}(k+H_p-1|k)+B\hat{u}(k+H_p-1|k)+B_dd(k+H_p-1|k)\\
+   				   &= A^{H_p}\hat{x}(k|k)+A^{H_p-1}B\hat{u}(k|k)+\cdots+ B\hat{u}(k+H_p-1|k)\\
+   				   &A^{H_p-1}B_dd(k|k)+\cdots+B_dd(k+H_p-1|k)
+\end{aligned}
+\end{equation}
+Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is iterated up to the prediction horizon. This can be setup as prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{D}$:
+
+
+
+
+% \begin{equation}\label{eq:lifted_state_equation}
+% \begin{aligned}
+% 	  \underbrace{\begin{bmatrix}
+% 	  \hat{x}(k+1|k) 	\\
+% 	  \hat{x}(k+2|k) 	\\
+% 	  \vdots 			\\
+% 	  \hat{x}(k+H_p|k) 	\\
+% 	   \end{bmatrix}}_{\CMcal{X}}
+% 	 &=
+% 	\underbrace{\begin{bmatrix}
+% 		A \\
+% 		A^2 \\
+% 		\vdots \\
+% 		A^{H_p} \\
+% 	\end{bmatrix}}_{\CMcal{A}}
+% 	\hat{x}(k|k) 
+% 	+	\underbrace{\begin{bmatrix}
+% 		B \\
+% 		AB \\
+% 		\vdots \\
+% 		A^{H_p-1}B \\
+% 	\end{bmatrix}}_{\CMcal{B}}
+% 	\hat{u}(k-1|k)
+% 		\\ &+	\underbrace{\begin{bmatrix}
+% 		B_d \\
+% 		AB_d \\
+% 		\vdots \\
+% 		A^{H_p-1}B_d \\
+% 	\end{bmatrix}}_{\CMcal{B}_d}
+% 	\hat{d}(k-1|k) \\
+% 	&+
+% 	\underbrace{\begin{bmatrix}
+% 		B 		 &0			 &\cdots	& 0		\\
+% 		AB  	 &B  		 & \cdots& 0		\\
+% 		\vdots 	 &\vdots	 & \ddots&\vdots	\\
+% 		A^{H_p-1}B&A^{H_p-2}B&\cdots &B 
+%     \end{bmatrix}}_{\CMcal{B}_{\Delta \CMcal{U}}}
+%     	\underbrace{\begin{bmatrix}
+% 	\Delta\hat{u}(k|k)\\
+% 	\Delta\hat{u}(k+1|k)\\
+% 	\vdots\\
+% 	\Delta\hat{u}(k+H_p-1|k)
+% 	\end{bmatrix}}_{\Delta\CMcal{U}} \\ &+ 
+%     \underbrace{\begin{bmatrix}
+%     	B_d 	    &0	         &\cdots & 0		\\
+% 		AB_d  	    &B_d  	     & \cdots& 0		\\
+% 		\vdots 	    &\vdots	     & \ddots&\vdots	\\
+% 		A^{H_p-1}B_d&A^{H_p-2}B_d&\cdots &B_d 
+% 	  \end{bmatrix}}_{\CMcal{B}_{\Delta\CMcal{D}}} 
+% 	\underbrace{\begin{bmatrix}
+% 	\Delta\hat{d}(k|k)\\
+% 	\Delta\hat{d}(k+1|k)\\
+% 	\vdots\\
+% 	\Delta\hat{d}(k+H_p-1|k)
+% 	\end{bmatrix}}_{\Delta\CMcal{D}}
+% 	\end{aligned}
+% \end{equation}
 
 \begin{equation}\label{eq:lifted_state_equation}
 \begin{aligned}
@@ -194,30 +276,30 @@ This iteration process is also done for the output equation:
 \end{equation}
 Where $\CMcal{C}$ is a diagonal matrix with the output matrix C and $\CMcal{X}$ the predicted state vector. By inserting the predicted state equation \ref{eq:lifted_state_equation}, into the predicted output equation \ref{eq:lifted_output_equation} the following is achieved:
 
-% \begin{equation}\label{eq:output_eq_with_state_eq}
-% 	\CMcal{Y}(k) =  \CMcal{C}\CMcal{A}x(k) +  \CMcal{C}\CMcal{B}\CMcal{U}(k) +\CMcal{C}\CMcal{B}_d\CMcal{D}(k)
-% \end{equation}   
 \begin{equation}\label{eq:output_eq_with_state_eq}
-	\CMcal{Y}(k) =  \CMcal{C}\CMcal{A}x(k) +  \CMcal{C}\CMcal{B}u(k-1)+ \CMcal{C}\CMcal{B}_f\Delta \CMcal{U} +\CMcal{C}\CMcal{B}_d\CMcal{D}(k)
-\end{equation}  
+	\CMcal{Y}(k) =  \CMcal{C}\CMcal{A}x(k) +  \CMcal{C}\CMcal{B}\CMcal{U}(k) +\CMcal{C}\CMcal{B}_d\CMcal{D}(k)
+\end{equation}   
+% \begin{equation}\label{eq:output_eq_with_state_eq}
+% 	\CMcal{Y}(k) =  \CMcal{C}\CMcal{A}x(k) +  \CMcal{C}\CMcal{B}u(k-1)+ \CMcal{C}\CMcal{B}_f\Delta \CMcal{U} +\CMcal{C}\CMcal{B}_d\CMcal{D}(k)
+% \end{equation}  
 
 By using the following notation on equation \ref{eq:output_eq_with_state_eq}:
 
 
 \begin{equation}
- \psi = \CMcal{C}\CMcal{A}  \hspace{5mm} \gamma = \CMcal{C}\CMcal{B} \hspace{5mm} \Omega = \CMcal{C}\CMcal{B}_f\Delta \CMcal{U}\hspace{5mm}  \Theta = \CMcal{C}\CMcal{B}_{d}
+ \psi = \CMcal{C}\CMcal{A}  \hspace{5mm} \gamma = \CMcal{C}\CMcal{B} \hspace{5mm}  \Theta = \CMcal{C}\CMcal{B}_{d}
 \end{equation}
 
 The predicted output equation can be rewritten as: 
 
-% \begin{equation}\label{eq:lifted_output_with_states_inserted}
-% 	\CMcal{Y}(k) = \psi x(k) + \gamma \CMcal{U}(k) + \Theta \CMcal{D}(k)
-% \end{equation}
-
-
 \begin{equation}\label{eq:lifted_output_with_states_inserted}
-	\CMcal{Y}(k) = \psi x(k) + \gamma u(k-1) +\Omega\Delta\CMcal{U}+ \Theta \CMcal{D}(k)
+	\CMcal{Y}(k) = \psi x(k) + \gamma \CMcal{U}(k) + \Theta \CMcal{D}(k)
 \end{equation}
+
+
+% \begin{equation}\label{eq:lifted_output_with_states_inserted}
+% 	\CMcal{Y}(k) = \psi x(k) + \gamma u(k-1) +\Omega\Delta\CMcal{U}+ \Theta \CMcal{D}(k)
+% \end{equation}
 
 To be able to use the cost function, equation \ref{eq:cost_function_height}, it has to be rewritten so the predicted output equation can be used. This is done by replacing the output y with the predicted output $\CMcal{Y}$ thereby the following is obtained:
 
@@ -225,58 +307,67 @@ To be able to use the cost function, equation \ref{eq:cost_function_height}, it 
 	\CMcal{J} = ||\CMcal{Y}(k)-\CMcal{Y}(k-1)||_{\CMcal{Q}(i)}^2
 \end{equation}
 
-%Where the difference between $\CMcal{Y}(k)$ and $\CMcal{Y}(k-1)$ can be expressed as:
+Where the difference between $\CMcal{Y}(k)$ and $\CMcal{Y}(k-1)$ can be expressed as:
 
-% \begin{equation}
-% 	\Delta \CMcal{Y}(k) =\CMcal{Y}(k)-\CMcal{Y}(k-1) 
-% \end{equation}
+\begin{equation}
+	\Delta \CMcal{Y}(k) =\CMcal{Y}(k)-\CMcal{Y}(k-1) 
+\end{equation}
 
-% Thereby the following cost function is achieved:
+Thereby the following cost function is achieved:
 
-% \begin{equation}\label{eq:delta_cost_function}
-% 	J = \Delta\CMcal{Y}(k)^T \cdot Q \cdot \Delta\CMcal{Y}(k)
-% \end{equation}
+\begin{equation}\label{eq:delta_cost_function}
+	J = \Delta\CMcal{Y}(k)^T \cdot Q \cdot \Delta\CMcal{Y}(k)
+\end{equation}
 
 To be able to write the cost function as quadratic and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:lifted_output_with_states_inserted} is therefore inserted into equation \ref{eq:new_the_cost_function_yeah} and thereby the following is obtained:
 
+\begin{equation}\label{eq:cost_function_with_all_the_crap}
+	\CMcal{J} = (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))
+\end{equation}
+
 % \begin{equation}\label{eq:cost_function_with_all_the_crap}
-% 	\CMcal{J} = (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))
+% \begin{aligned}
+% 	\CMcal{J} 	&= (\psi \hat{x}(k) + \gamma u(k-1)+ \Omega \Delta \CMcal{U} + \Theta\CMcal{D}(k))^T\cdot Q \cdot (\psi \hat{x}(k) \\
+% 				&+ \gamma u(k-1)+\Omega \Delta \CMcal{U} + \Theta\CMcal{D}(k))
+% \end{aligned}
 % \end{equation}
 
-\begin{equation}\label{eq:cost_function_with_all_the_crap}
-\begin{aligned}
-	\CMcal{J} 	&= (\psi \hat{x}(k) + \gamma u(k-1)+ \Omega \Delta \CMcal{U} + \Theta\CMcal{D}(k))^T\cdot Q \cdot (\psi \hat{x}(k) \\
-				&+ \gamma u(k-1)+\Omega \Delta \CMcal{U} + \Theta\CMcal{D}(k))
-\end{aligned}
-\end{equation}
 
 The term on the right hand side of equation \ref{eq:cost_function_with_all_the_crap} is equal to:
-
 \begin{equation}\label{eq:cost_function_big_eq}
 	\begin{aligned}
-	&(\psi \hat{x}(k) + \gamma u(k-1)+\Omega\Delta\CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi \hat{x}(k) + \gamma u(k-1)+\Omega\Delta\CMcal{U}(k) \\
-	& + \Theta\Delta \CMcal{D}(k)) = \\
-	&  \hat{x}(k)^T\psi ^T Q \psi  \hat{x}(k) +  \hat{x}(k)^T \psi ^T Q \gamma u(k-1)+ \underbrace{\hat{x}(k)^T \psi ^T Q \Omega\Delta\CMcal{U}(k)}_{Linear}\\
-	& + \hat{x}(k)^T \psi ^T Q \Theta  \CMcal{D}(k) \\
-	&+ u(k-1)^T \gamma ^T Q \psi \hat{x}(k) +  u(k-1)^T\gamma ^T Q \gamma u(k-1) +\underbrace{ u(k-1)^T \gamma Q \Omega\Delta\CMcal{U}(k)k)}_{Linear}\\
-	&+ u(k-1)^T \gamma ^T Q\Theta \CMcal{D}(k) \\ 
-	&+ \underbrace{\Delta\CMcal{U}(k)^T\gamma^TQ \psi  \hat{x}(k)}_{Linear} +  \underbrace{\Delta\CMcal{U}(k)^T\gamma^TQ \gamma u(k-1)}_{Linear}+ \underbrace{\Delta\CMcal{U}(k)^T\gamma^TQ \Omega\Delta\CMcal{U}(k)}_{Quadradic} \\
-	&+ \underbrace{\Delta\CMcal{U}(k)^T\gamma^T Q \Theta  \CMcal{D}(k)}_{Linear} \\
-	&+\CMcal{D}(k)^T \Theta ^T Q  \psi  \hat{x}(k)	+  \CMcal{D}(k)^T \Theta ^T Q \gamma u(k-1)+ \underbrace{\CMcal{D}(k)^T \Theta ^T Q   \Omega\Delta\CMcal{U}(k)}_{Linear}\\
-	&+ \CMcal{D}(k)^T \Theta ^T Q \Theta \CMcal{D}(k)
-	\end{aligned}
+	&(\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k)) = \\
+	& \Delta \hat{x}(k)^T\psi ^T Q \psi \Delta \hat{x}(k) + \underbrace{\Delta \hat{x}(k)^T \psi ^T Q \gamma \Delta  \CMcal{U}(k) }_{Linear} +\Delta \hat{x}(k)^T \psi ^T Q \Theta \Delta \CMcal{D}(k) \\
+	& \underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q \psi\Delta \hat{x}(k)}_{Linear} + \underbrace{\Delta \CMcal{U}(k)^T\gamma ^T Q \gamma\Delta \CMcal{U}(k)}_{Quadratic} +\underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q\Theta \Delta \CMcal{D}(k)}_{Linear} \\ 
+	& \Delta \CMcal{D}(k)^T \Theta ^T Q  \psi \Delta \hat{x}(k)					+ \underbrace{\Delta \CMcal{D}(k)^T \Theta ^T Q \gamma  \Delta \CMcal{U}(k) }_{Linear}	+\Delta \CMcal{D}(k)^T \Theta ^T Q \Theta \Delta \CMcal{D}(k)
+		\end{aligned}
 \end{equation}
+% \begin{equation}\label{eq:cost_function_big_eq}
+% 	\begin{aligned}
+% 	&(\psi \hat{x}(k) + \gamma u(k-1)+\Omega\Delta\CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi \hat{x}(k) + \gamma u(k-1)+\Omega\Delta\CMcal{U}(k) \\
+% 	& + \Theta\Delta \CMcal{D}(k)) = \\
+% 	&  \hat{x}(k)^T\psi ^T Q \psi  \hat{x}(k) +  \hat{x}(k)^T \psi ^T Q \gamma u(k-1)+ \underbrace{\hat{x}(k)^T \psi ^T Q \Omega\Delta\CMcal{U}(k)}_{Linear}\\
+% 	& + \hat{x}(k)^T \psi ^T Q \Theta  \CMcal{D}(k) \\
+% 	&+ u(k-1)^T \gamma ^T Q \psi \hat{x}(k) +  u(k-1)^T\gamma ^T Q \gamma u(k-1) +\underbrace{ u(k-1)^T \gamma Q \Omega\Delta\CMcal{U}(k)k)}_{Linear}\\
+% 	&+ u(k-1)^T \gamma ^T Q\Theta \CMcal{D}(k) \\ 
+% 	&+ \underbrace{\Delta\CMcal{U}(k)^T\gamma^TQ \psi  \hat{x}(k)}_{Linear} +  \underbrace{\Delta\CMcal{U}(k)^T\gamma^TQ \gamma u(k-1)}_{Linear}+ \underbrace{\Delta\CMcal{U}(k)^T\gamma^TQ \Omega\Delta\CMcal{U}(k)}_{Quadradic} \\
+% 	&+ \underbrace{\Delta\CMcal{U}(k)^T\gamma^T Q \Theta  \CMcal{D}(k)}_{Linear} \\
+% 	&+\CMcal{D}(k)^T \Theta ^T Q  \psi  \hat{x}(k)	+  \CMcal{D}(k)^T \Theta ^T Q \gamma u(k-1)+ \underbrace{\CMcal{D}(k)^T \Theta ^T Q   \Omega\Delta\CMcal{U}(k)}_{Linear}\\
+% 	&+ \CMcal{D}(k)^T \Theta ^T Q \Theta \CMcal{D}(k)
+% 	\end{aligned}
+% \end{equation}
 
 Here the quadratic and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however, they will be referred to in the following equations as, c. The quadratic variables are collected in: 
 
 \begin{equation}\label{eq:quadratic_h_matrix}
-	\CMcal{H} = \Omega^T Q\Omega 
+	\CMcal{H} = \gamma^T Q\gamma 
 \end{equation}
 
 And the linear variables are collected in:
 \begin{equation}
 	\begin{aligned}
-	\CMcal{G} &= 2 \cdot \hat{x}(k)^T\psi^T Q \Omega+2\cdot u(k-1)^T\gamma^T Q\Omega+2\cdot  \CMcal{D}(k)^T\Theta^T Q \Omega
+	\CMcal{G} &= 2 \Delta \hat{x}(k)^T\psi^T Q \gamma+2 \Delta \CMcal{D}(k)^T\Theta^T Q \gamma 
+	%\CMcal{G} &= 2 \cdot \hat{x}(k)^T\psi^T Q \Omega+2\cdot u(k-1)^T\gamma^T Q\Omega+2\cdot  \CMcal{D}(k)^T\Theta^T Q \Omega
 	\end{aligned}
 \end{equation}
 
@@ -306,10 +397,43 @@ Where $x_{min}$ and $x_{max}$ are respectively lower and upper bound. As the con
 To reformulated the constraint the predicted state equation \ref{eq:lifted_state_equation} is inserted instead of the state vector.
 
 \begin{equation}
-     x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}u(k-1)+\CMcal{B}_f\Delta\CMcal{U}(k)+\CMcal{BD}(k) \leq x_{max}-\bar{x}
+	x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{U}(k)+\CMcal{BD}(k) \leq x_{max}-\bar{x}
+     %x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}u(k-1)+\CMcal{B}_f\Delta\CMcal{U}(k)+\CMcal{BD}(k) \leq x_{max}-\bar{x}
  \end{equation} 
 
-%However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k+n-1) = wu(k-1) +V\Delta \CMcal{U}(k+i-1) $, where w is a vector and V is a matrix on the form: 
+However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k) = vu(k-1) +W\Delta \CMcal{U}(k) $, where v is a vector and W is a matrix on the form: 
+
+\begin{equation}
+v=
+	\begin{bmatrix}
+	  v(k+1|k) 	\\
+	  v(k+2|k) 	\\
+	  \vdots 			\\
+	  v(k+H_p|k) 	\\
+	  \end{bmatrix}
+	  = 
+	  \begin{bmatrix}
+	  1 	\\
+	  1 	\\
+	  \vdots 			\\
+	  1 	\\
+	  \end{bmatrix}
+\end{equation}
+\begin{equation}
+	W=	  
+\begin{bmatrix}
+	  w_{1,1}  & w_{1,2} & w_{1,3} & w_{1,H_p} 	\\
+	  w_{1,2}  & w_{2,2} & w_{2,3} & w_{2,H_p} 	\\
+	  w_{1,3}  & \vdots & \ddots & w_{3,H_p}		\\
+	  w_{H_p,1} & w_{H_p,2} & \cdots & w_{H_p,H_p} 	\\
+	  \end{bmatrix}=
+	  \begin{bmatrix}
+	  1 & 0 & 0 & 0 	\\
+	  1 & 1 & 0 & 0 	\\
+	  1 & \vdots & \ddots & 0		\\
+	  1 & 1 & \cdots & 1 	\\
+	  \end{bmatrix}
+\end{equation}
 
 
 % This is inserted in the following equation: 
@@ -322,11 +446,13 @@ To reformulated the constraint the predicted state equation \ref{eq:lifted_state
  Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be setup as equality constraints, therefore, it is divided into two constraints: 
 
  \begin{equation}
-        \CMcal{B}_f\Delta\CMcal{U}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}u(k-1)-\CMcal{B}\CMcal{D}(k)}_{\Gamma_1}
+ \underbrace{BW}_{\Lambda} \Delta\hat{\CMcal{U}}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}\hat{u}(k-1)-\CMcal{B}\CMcal{D}(k)}_{\Gamma_1}
+        %\CMcal{B}_f\Delta\CMcal{U}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}u(k-1)-\CMcal{B}\CMcal{D}(k)}_{\Gamma_1}
  \end{equation}  
 
  \begin{equation}
-    -\CMcal{B}_f\Delta\CMcal{U}(k) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}x(k)+\CMcal{B}u(k-1)+\CMcal{B}\CMcal{D}(k)}_{\Gamma_2}
+ \underbrace{\CMcal{B}W}_{\Lambda} \Delta\hat{\CMcal{U}}(k) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}x(k)+\CMcal{B}\hat{u}(k-1)+\CMcal{B}\CMcal{D}(k)}_{\Gamma_2}
+   % -\CMcal{B}_f\Delta\CMcal{U}(k) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}x(k)+\CMcal{B}u(k-1)+\CMcal{B}\CMcal{D}(k)}_{\Gamma_2}
  \end{equation}
 
 
@@ -335,18 +461,18 @@ Constraints are also applied on the controller output. The reason for these cons
  	u_{min} \leq \CMcal{U}(k) \leq u_{max}
  \end{equation}
 
-The constraint needs to be written for small signal values, and needs to depend on the $\Delta \CMcal{U}$:
+The constraint needs to be written for small signal values, and needs to depend on $\Delta \CMcal{U}$:
 
  \begin{equation}
- 		u_{min} -  \bar{u} \leq vu(k-1)+ W\Delta\hat{\CMcal{U}}(k+i-1)  \leq  u_{max} -  \bar{u}
+ 		u_{min} -  \bar{u} \leq v\hat{u}(k-1)+ W\Delta\hat{\CMcal{U}}(k)  \leq  u_{max} -  \bar{u}
  \end{equation}
-Where v is a one vector with as many rows as $\CMcal{B}_f$, and W is a square matrix with as many rows as $\CMcal{B}_f$ with ones below and in the diagonal and zeros above the diagonal. 
+
 The constraint is split up into lower and upper bound for the signal, the upper bound is:
 
  \begin{equation}
  \begin{aligned}
-			 	vu(k-1)+W \Delta\hat{\CMcal{U}}(k)  &\leq  u_{max} -  \bar{u} \\
-				W\Delta\hat{\CMcal{U}}(k)  &\leq  \underbrace{u_{max} -  \bar{u} - vu(k-1)}_{\Gamma_3} \\
+			 	v\hat{u}(k-1)+W \Delta\hat{\CMcal{U}}(k)  &\leq  u_{max} -  \bar{u} \\
+				W\Delta\hat{\CMcal{U}}(k)  &\leq  \underbrace{u_{max} -  \bar{u} - v\hat{u}(k-1)}_{\Gamma_3} \\
  \end{aligned}
  \end{equation}
 
@@ -365,8 +491,8 @@ The constraints can be setup on the standard inequality constraint form and ther
 
  \begin{equation}
         \begin{bmatrix}
-           \CMcal{B}_f\\
-           -\CMcal{B}_f\\
+           \Lambda\\
+           -\Lambda\\
            W \\
            -W
            \end{bmatrix}

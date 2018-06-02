@@ -203,11 +203,16 @@ for m = 2:iterations
 %         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates_linear, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates_k_plus_one_linear,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1,C_matrix_mpc2, b_constraints2,omega);
         u_output_tank = ((X(1))+u_output_tank_old+input.u_init(1,1));%+input.u_init(1,1);%u_output_tank_old;
         u_output_tank_old =(u_output_tank-u_output_tank_old-input.u_init(1,1))-X(1);%+u_output_tank_old+input.u_init(1,1);%u_output_tank_old; 
-
+%         u_output_tank_old =u_output_tank-X(1);
         counter =1;
+%         p =0;
         n=1;
      end
-
+%      xstate_linear=xstates_next_time_step;
+%      figure(12)
+%      plot(xstates_linear)
+%      drawnow;
+%      pause(0.01)
  end
 toc
 
@@ -220,7 +225,13 @@ plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, ta
 
 %% Plot for linear MPC
 
-
+% for m = 1:iterations
+%         figure(12)
+%      plot(y(m,1:end))
+%       ylim([0 0.9])
+%      pause(0.01)
+%     
+% end
 close all     
 figure(1)
 plot(temp(1:end,1))
