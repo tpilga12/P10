@@ -7,7 +7,7 @@ addpath(['functions'], ['setup'], ['input'])
 global Dt iterations error 
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Dt = 17.393;%6.589;%8.921;
+Dt = 15;%17.393;%6.589;%8.921;
 % [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_setup_test_verification(1);
 % [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = stability_test_setup(1);
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_setup_fredericia(1);
@@ -28,7 +28,7 @@ tic
 toc
 %% run stuff !!!!!
 clc
-iterations = 400;
+iterations = 2000;
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
@@ -40,7 +40,7 @@ tic
 for m = 2:(iterations+1)
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
-    input.Q_in(m,1) = input.Q_init(1,1) + sin(m/5)/10 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = input.Q_init(1,1) + sin(m/5)/5 ;%+ sin(m/100)/15;
     if m >= 100
 %         input.Q_in(m,1) = 0.25;
         input.C_in(m,1) = 10; % concentrate input [g/m^3]
@@ -53,10 +53,10 @@ for m = 2:(iterations+1)
 
     
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
-    [C_r(m,:) possible_Dt] = courant(data, pipe_spec, Dt, m, 1);
+%     [C_r(m,:) possible_Dt] = courant(data, pipe_spec, Dt, m, 1);
 
 end
-toc
+sim_time = toc
 %%
 row = 10;
 
