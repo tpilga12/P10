@@ -7,7 +7,7 @@ addpath(['functions'], ['setup'], ['input'])
 global Dt iterations error 
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Dt = 15;%17.393;%6.589;%8.921;
+Dt = 20;%17.393;%6.589;%8.921;
 % [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_setup_test_verification(1);
 % [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = stability_test_setup(1);
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_setup_fredericia(1);
