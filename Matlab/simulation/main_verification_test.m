@@ -13,8 +13,8 @@ Dt = 17.393;%6.589;%8.921;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 2.0674; % initial input flow
-input.tank_height_init(:) = [5.0 3]; % initial tank height
+input.Q_init = 0.3674; % initial input flow
+input.tank_height_init(:) = [1.0 3]; % initial tank height
 for k = 1:length(pipe_spec)
     input.lat.Q{k} = 0;
     input.lat.C{k} = 0;
@@ -45,7 +45,7 @@ for m = 2:(iterations+1)
 %     else
     end
 %     input.Q_in(m,1) = 0.25 + sin(m/10)/35;%test_verification_input(m);
-    input.u(m,1) = input.u_init;% + sin(m/10)/35;
+    input.u(m,1) = input.u_init + sin(m/15)/25;
     input.u(m,2) = 0.25;
     %input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 
