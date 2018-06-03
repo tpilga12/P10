@@ -235,5 +235,27 @@ At the first section, n = 1, it is determined if the pipe is the first in the sp
 To decided upon which of the, curve fitted polynomial or lookup table, methods should be implemented a test with the pipe setup shown in figure \ref{fig:Fredericia_pipe_setup} is performed for various iterations.
 The result can be seen in table
 
- 
+\begin{table}[H]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{|l|llll|llll|llll|}
+\hline
+Iterations                    & \multicolumn{4}{c|}{400}    & \multicolumn{4}{c|}{800}         & \multicolumn{4}{c|}{2000}          \\ \hline
+\multicolumn{1}{|c|}{Method}  & \multicolumn{2}{c|}{Lookup} & \multicolumn{2}{c|}{Polynomial}  & \multicolumn{2}{c|}{lookup}   & \multicolumn{2}{c|}{Polynomial} & \multicolumn{2}{c|}{lookup}          & \multicolumn{2}{c|}{Polynomial} \\ \hline
+$\Delta t$    & 15    & \multicolumn{1}{l|}{20}    & 15        & 20     & 15     & \multicolumn{1}{l|}{20}     & 15             & 20             & 15     & \multicolumn{1}{l|}{20}     & 15             & 20             \\ \cline{1-1}
+\begin{tabular}[c]{@{}l@{}}Computation \\ time\end{tabular} & 4,600 & \multicolumn{1}{l|}{4,978} & 5,554          & 5,893          & 10,073 & \multicolumn{1}{l|}{10,574} & 11,868         & 11,859         & 30,380 & \multicolumn{1}{l|}{30,776} & 33,247         & 34,194         \\ \hline
+\end{tabular}
+\end{table}
 
+
+\begin{table}[H]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{|l|l|l|} \hline
+$\Delta t$ &	15 & 20 \\ \hline
+lookup table &	4,600	&	4,978  \\ \hline
+\multirow{2}{*}{Curve fitted polynomial} & 5,554 & 5,893 \\ \hline
+\end{tabular}
+\end{table}
