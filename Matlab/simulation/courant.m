@@ -1,7 +1,7 @@
 function [C_r sugest_Dt] = courant(data, pipe_spec, Dt, row, desired_Cr)
 
 g = 9.81;
-for m = length(pipe_spec)
+for m = 1:length(pipe_spec)
 
 d = pipe_spec(m).d;
 %h = sum(data{pipe_spec(m).data_location}.h(row,:)) / length(data{pipe_spec(m).data_location}.h(1,:));
@@ -11,7 +11,7 @@ R=hy_perimeter(h,d);
 ie = pipe_spec(m).Ib;
 n = 0.013;
 
-C_r(m,1) = sqrt(g*h)*Dt/pipe_spec(m).Dx;
+C_r(m) = sqrt(g*h)*Dt/pipe_spec(m).Dx;
 sugest_Dt(m,1) = pipe_spec(m).Dx*desired_Cr/sqrt(g*h);
 end
 
