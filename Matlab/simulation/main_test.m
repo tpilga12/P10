@@ -7,7 +7,7 @@ addpath(['functions'], ['setup'],['disturbance'])
 global Dt iterations error 
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Dt = 20;
+Dt = 15;
 % [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup(1);
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup_experiment(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -39,7 +39,7 @@ i=1;
 clc
 flag =1;
 
-iterations = 8640-1;
+iterations = 500;
 
 brewery_disturbance = [brewery_disturbance brewery_disturbance brewery_disturbance brewery_disturbance]; 
 
@@ -86,13 +86,17 @@ for m = 2:(iterations+1)
     
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
   
+row = m;
+
+[C_r(m,:) possible_Dt] = courant(data, pipe_spec, Dt, row, 1);
+
 
 end
 toc
 %%
 
-sampling = 20; %increase number to skip samples to increase playback speed
-starting_point = 800; % change starting point (START IS 0)
+sampling = 5; %increase number to skip samples to increase playback speed
+starting_point = 1; % change starting point (START IS 0)
 playback_speed = 1/100; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 
