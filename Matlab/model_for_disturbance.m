@@ -233,6 +233,7 @@ for n= 1:length(xtime)/2700
        counter = counter +1;
     end   
 end
+f10 = f10/1000;
 reduce_plot(f10)
 legend('Zone 10')
 

@@ -64,7 +64,7 @@ if call == 1
 
 %%%%%%%%%%%%%%%%%% pipe1.2 %%%%%%%%%%%%%%
     pipe.length = 27; % length in meter
-    pipe.sections = 1; % Number of sections,
+    pipe.sections = 2; % Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.003; %bed slope
     pipe.d = 1; %[m] Diameter
@@ -222,7 +222,7 @@ if call == 1
 
 %%%%%%%%%%%%%%%%%% pipe6.2 %%%%%%%%%%%%%%
     pipe.length = 955; % length in meter
-    pipe.sections = 40; % Number of sections,
+    pipe.sections = 47; % Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.0029; %bed slope
     pipe.d = 1.2; %[m] Diameter
@@ -294,7 +294,7 @@ if call == 1
 
 %%%%%%%%%%%%%%%%%% pipe9.1 %%%%%%%%%%%%%%
     pipe.length = 31; % length in meter
-    pipe.sections = 1; % Number of sections,
+    pipe.sections = 2; % Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.0019; %bed slope
     pipe.d = 1.4; %[m] Diameter
@@ -348,7 +348,7 @@ if call == 1
 
 %%%%%%%%%%%%%%%%%% pipe10.3 %%%%%%%%%%%%%%
     pipe.length = 360; % length in meter
-    pipe.sections = 15; % Number of sections,
+    pipe.sections = 18; % Number of sections,
     pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
     pipe.Ib = 0.0046; %bed slope
     pipe.d = 1.6; %[m] Diameter
@@ -363,6 +363,19 @@ if call == 1
     sys_order{order} = ('Pipe');
     order = order +1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
+    tank.size = 90; %m^3
+    tank.height = 10; %m
+    tank.area = tank.size/tank.height; %m^2
+    tank.Q_out_max = 0.5; % m^3/s
+    tank.data_location = order;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    init_tank(tank_load) = tank;
+    tank_load = tank_load + 1;
+    sys_order{order} = ('Tank');
+    order = order +1;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%% pipe11.1 %%%%%%%%%%%%%%
     pipe.length = 736; % length in meter
