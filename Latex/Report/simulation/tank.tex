@@ -12,7 +12,8 @@ Discretizing the equation expressing change in height the following is obtained:
 \end{equation}
 
 Some limitations is needed to be considered during implementation such that outflow can never exceed what is currently in the tank.
-Discretizing the tank concentrate equation and solving it explicit the following is obtained:
+Solving the equation for change in level of concentrate in the tank explicit, and discretizing it the following is obtained:
+%Discretizing the equation for change in level of concentrate in the tank solving it explicit the following is obtained:
 
 \begin{equation}\label{eq:disc_con_tank}
 \begin{array}{l}
@@ -33,6 +34,8 @@ Discretizing the tank concentrate equation and solving it explicit the following
 \end{array}
 \end{equation}
 
-Again considerations is needed during implementation, such that the level of concentrate in the tank can not exceed the input level of concentrate when fluid height in tank goes toward zero.
+To avoid instability or oscillation when the condition $h(t) < Q_{out}\cdot \Delta t / A$ occurs, the concentrate level in the tank should be set equal to the inflow level. The condition corresponds to the fluid being in the tank at one time step has been emptied out of the tank at the next, meaning that the fluid in the tank at the next time step is new inflow.  
+
+%Again considerations is needed during implementation, such that the level of concentrate in the tank can not exceed the input level of concentrate when fluid height in tank goes toward zero.
 
 

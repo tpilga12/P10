@@ -184,8 +184,8 @@ If the curve fitted polynomial is utilized to obtain boundary conditions then an
 
 \subsection*{Simulation}
 
-Having obtained initial data, for which iteration with the Presissmann scheme can be performed, the next part to be implemented is the simulation of the initialized setup.
-To ease eventual expansion of the simulation a simple design, where individual parts is simulated one at a time, is chosen. This is realized by nesting functions in two steps. The main simulation procedure is seen in figure \ref{fig:simu_main_chart}.
+Having obtained initial data, for which iterating with the Presissmann scheme can begin, the next part to be implemented is the simulation of the initialized setup.
+To ease eventual future expansion of the simulation a simple design, where individual parts is simulated one at a time, is chosen. This is realized by nesting functions in two steps from the main simulation module which is seen in figure \ref{fig:simu_main_chart}.
 
 \begin{figure}[H]
 \centering
@@ -194,7 +194,7 @@ To ease eventual expansion of the simulation a simple design, where individual p
 \label{fig:simu_main_chart}
 \end{figure}
 
-The amount of iterations desired to simulate the system is chosen. As the system is already initialized and MATLAB does not have zero indexing the system is initialized at m equal to one. Therefore the first iterations is calculated at m equal to two until the chosen amount of iterations is reached. The function ``simulation'' is given flow and concentrate input, system specification (Sys\_setup), pipe specification (pipe\_spec). If tank is present actuator input and tank specification (tank\_spec) is also needed.
+The amount of iterations desired to simulate the system for is chosen. As the system is already initialized and MATLAB does not have zero indexing the system is initialized at m equal to one. Therefore the first iteration is performed at m equal to two and proceeds until the chosen amount of iterations is reached. The function ``simulation'' is given flow and concentrate input, system specification (Sys\_setup), pipe specification (pipe\_spec). If a tank is present, actuator input and tank specification (tank\_spec) is also needed.
 In figure \ref{fig:simu_chart} the simulation function is seen.
 \begin{figure}[H]
 \centering
@@ -203,28 +203,24 @@ In figure \ref{fig:simu_chart} the simulation function is seen.
 \label{fig:simu_chart}
 \end{figure}
 
-The function is given input of flow, concentrate and actuator for pipes and tanks respectively. Furthermore specifications of system, pipe and tank is given. The basic functionality is an outer loop and an inner loop. The outer loop iterates through the parts in ``Sys\_setup'' and the inner loop iterates through the components each part consists of. Iterating through the parts, checking whether the component is a tank or pipes, the respective function is called. The tank function is given tank specifications, current iteration value, flow and actuator input. Furthermore the index number of the tank or tanks is given, in the order the tanks is placed from input to output in the entire sewer setup. The iteration value ``m'' is in the function used to index data for logging. 
-Output flow is found by equation \ref{eq:control_signal_pump_tank}. The value of $\overline Q$ is set to be the maximum inflow of the adjoining pipe. 
-
+The simulation function is given input of flow, concentrate and actuator for pipes and tanks respectively. Furthermore specifications of system, pipe and tank is given. The basic functionality is an outer and an inner loop. The outer loop iterates through the parts in ``Sys\_setup'' and the inner loop iterates through the components each part consists of. Iterating through the parts, checking whether the component is a tank or pipe, the respective function is called. The tank function is given tank specifications, current iteration value, flow and actuator input. Furthermore the index number of the tank is given. The iteration value ``m'' is in the function used to index when logging data. Output flow is found by equation \ref{eq:control_signal_pump_tank}. The value of $\overline Q$ is set to be the maximum inflow of the adjoining pipe. 
 \begin{equation}\label{eq:imp_tank_outflow}
 	Q_{out} = u_{pump} \cdot Q_{max\_outflow}
 \end{equation} 
-
-Doing so makes is possible to always have an actuator input which ranges from zero to one, which helps minimizing complexity when implementing control on large scale setups where several tanks is present. In figure \ref{fig:tank_function} a flow chart of the tank function can be seen.
+Where maximum outflow is equal to maximum inflow of the down stream adjoining pipe.
+Doing so makes is possible to always have an actuator input which ranges from zero to one, which helps minimizing complexity when implementing control on large scale setups where several tanks of various sizes could be present. In figure \ref{fig:tank_function} a flow chart of the tank function can be seen.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9 \textwidth]{report/simulation/pictures/tank_function.pdf}
+\includegraphics[width=0.95 \textwidth]{report/simulation/pictures/tank_function.pdf}
 \caption{Tank function.}
 \label{fig:tank_function}
 \end{figure}
 
-As mentioned in section \ref{sec:tank} considerations is needed when fluid height goes towards zero. As seen in figure \ref{fig:tank_function} if the calculated height gives a result below zero the height is set to zero and maximum outflow is set equal to inflow. In the case of the concentrate, a height limit is set when solving equation \ref{eq:disc_con_tank}  
-
-
-
-
-
+The tank function is given inflow, actuator input, ``Tank\_nr'', tank specification, iteration value ``m'', part index ``x'' and data stored at index ``Sys\_comp''. Iteration and part index is used to fetch previous values of height and concentrate level, used in calculation of new values. Furthermore the value of ``Tank\_nr'' is used as index in ``Tank\_spec''.
+First when the height and flow has been calculated, the condition mentioned in section \ref{sec:tank} is checked to avoid oscillating concentrate level in the tank. %Secondly the considerations mentioned in section \ref{sec:tank} is needed when fluid height goes towards zero. 
+Secondly, as seen in the flowchart, if the calculated height gives a result below zero the height is set to zero and maximum outflow is set equal to inflow. In the case of concentrate level, if height is less than $\text{Q}_\text{out} \cdot \Delta t / \text{A}$ then the level in the tank is set equal to the inflow level. If the fluid level exceed the height of the tank a message is printed to the command windows which also contains at which iteration the overflow occurred. Instead of placing a hard limit on tank height, knowing when a tank overflow occurs, and how much the dimension of the tank needs to be adjusted, would be more valuable. 
+In figure \ref{fig:pipe_function} the pipe function can be seen.
 
 \begin{figure}[H]
 \centering
@@ -232,3 +228,6 @@ As mentioned in section \ref{sec:tank} considerations is needed when fluid heigh
 \caption{Pipe function.}
 \label{fig:pipe_function}
 \end{figure}
+
+The function is given inflow, pipe\_comp, pipe specifications, iteration value ``m'', part index ``x'' and data stored at index ``Sys\_comp''.
+Once again iteration and part index is used to fetch previous values of height and concentrate level, used in calculation of new values. The value of pipe\_comp is used as index in ``pipe\_spec''.
