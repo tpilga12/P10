@@ -13,9 +13,9 @@ Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 load disturbance_from_house_holds_and_small_industry % Load the households and small industry disturbance
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.25; % initial input flow
+input.Q_init = 0.35; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
-input.tank_height_init(:) = [3 3]; % initial tank height
+input.tank_height_init(:) = [0.3 3]; % initial tank height
 for k = 1:length(pipe_spec)
     if pipe_spec(k).lat_inflow == 1
     input.lat.Q{k} = 0;
@@ -53,6 +53,7 @@ for m = 2:(iterations+1)
         input.C_in(m,1) = 10; % concentrate input [g/m^3]
 %     else
     end
+
  
         if i == 86400
             i =1;
