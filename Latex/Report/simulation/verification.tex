@@ -230,4 +230,10 @@ In figure \ref{fig:pipe_function} the pipe function can be seen.
 \end{figure}
 
 The function is given inflow, pipe\_comp, pipe specifications, iteration value ``m'', part index ``x'' and data stored at index ``Sys\_comp''.
-Once again iteration and part index is used to fetch previous values of height and concentrate level, used in calculation of new values. The value of pipe\_comp is used as index in ``pipe\_spec''.
+Once again iteration and part index is used to fetch previous values of height and concentrate level, used in calculation of new values. The value of pipe\_comp is used as index in ``pipe\_spec''. The functionality of the function is to iterate through the sections which the pipe consists of.
+At the first section, n = 1, it is determined if the pipe is the first in the specific part. Afterwards it is checked if side inflow is present. If the pipe is the first then inflow needs to be given, otherwise the flow out of the previous pipe is set as inflow. When inflow is obtained height can be found from either curve fitted polynomial or lookup table as mentioned in the initialization part of the implementation. For the remaining sections in the pipe the the height is found by the Preissmann scheme. Lastly data is returned to the simulation function.
+To decided upon which of the, curve fitted polynomial or lookup table, methods should be implemented a test with the pipe setup shown in figure \ref{fig:Fredericia_pipe_setup} is performed for various iterations.
+The result can be seen in table
+
+ 
+
