@@ -1,1 +1,66 @@
 \chapter{Results}\label{ch:results}
+In this chapter the results of the simulation will be shown.
+
+
+The goal of this simulation is to simulate a daily flow in the northern part of Fredericia. To do so the simulation model explained in \ref{ch:simulation} is utilized. To generate the disturbances from the residential and industrial zones, shown in figure \ref{fig:kloakgrid_simplified}, the flow profiles in appendix \ref{app:flow_profiles} is used. It has been chosen to only use the disturbance from the brewery and bottling plant, as the data from the refinery is not accessible. The disturbance from the brewery and bottling plant is shown in figure \ref{fig:flow_profile_industry}. The pipe specifications for this simulation can be seen in table \ref{tab:pipe_data_nonlinear_linear_testv2}.  
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\begin{tabular}[c]{@{}c@{}}Component\\ number\end{tabular} & Length {[}m{]} & Sections & Dx {[}m{]} & Ib     & d {[}m{]} & $\theta$ & \begin{tabular}[c]{@{}c@{}}$Q_f $\\  {[}$m^3/s${]}\end{tabular} \\ \hline
+1                                                          & 700            & 35       & 20         & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
+3                                                          & 303            & 15       & 20,2       & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
+4                                                          & 27             & 1        & 27         & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
+5                                                          & 155            & 8        & 19,4       & 0,0041 & 1         & 0,65     & 1,50                                                                           \\ \hline
+6                                                          & 295            & 14       & 21         & 0,0122 & 0,8       & 0,65     & 1,438                                                                          \\ \hline
+7                                                          & 318            & 15       & 21,2       & 0,0053 & 0,9       & 0,65     & 1,293                                                                          \\ \hline
+8                                                          & 110            & 5        & 22         & 0,0036 & 0,9       & 0,65     & 1,066                                                                          \\ \hline
+9                                                          & 38             & 2        & 19         & 0,0024 & 1         & 0,65     & 1,149                                                                          \\ \hline
+10                                                         & 665            & 30       & 22,2       & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
+11                                                         & 155            & 7        & 22,1       & 0,0008 & 1         & 0,65     & 0,663                                                                          \\ \hline
+12                                                         & 955            & 40       & 23,9       & 0,0029 & 1,2       & 0,65     & 2,041                                                                          \\ \hline
+13                                                         & 304            & 15       & 20,3       & 0,003  & 1,2       & 0,65     & 2,076                                                                          \\ \hline
+14                                                         & 116            & 5        & 23,2       & 0,0021 & 1,2       & 0,65     & 1,737                                                                          \\ \hline
+15                                                         & 283            & 12       & 23,6       & 0,0017 & 1,4       & 0,65     & 2,346                                                                          \\ \hline
+16                                                         & 31             & 1        & 31         & 0,0019 & 1,4       & 0,65     & 2,480                                                                          \\ \hline
+17                                                         & 125            & 6        & 20,8       & 0,0021 & 1,6       & 0,65     & 3,707                                                                          \\ \hline
+18                                                         & 94             & 4        & 23,5       & 0,0013 & 1,5       & 0,65     & 2,461                                                                          \\ \hline
+19                                                         & 360            & 15       & 24         & 0,0046 & 1,6       & 0,65     & 5,487                                                                          \\ \hline
+20                                                         & 736            & 32       & 23         & 0,0012 & 1,6       & 0,65     & 2,802                                                                          \\ \hline
+\end{tabular}
+\caption{The specification of the pipes for in the simulation.}
+\label{tab:pipe_data_nonlinear_linear_testv2}
+\end{table}
+
+The tank specification can be seen in table \ref{tab:tank_data_nonlinear_linear_testv2}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\begin{tabular}[c]{@{}c@{}}Component\\ number\end{tabular} & 2  \\ \hline
+Size $[m^3]$                                              & 90 \\ \hline
+Height {[}m{]}                                             & 10 \\ \hline
+Area {[}$m^2$                                              & 9  \\ \hline
+\end{tabular}
+\caption{The tank specification for the simulation. }
+\label{tab:tank_data_nonlinear_linear_testv2}
+\end{table}
+
+Furthermore, table \ref{tab:system_setup_nonlinear_linear_test} shows the system setup.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Type  & Component & Sections \\ \hline
+Pipe  & 1         & 35       \\ \hline
+Tank  & 1         & 1        \\ \hline
+Pipe  & 18        & 227      \\ \hline
+Total & 20        & 263      \\ \hline
+\end{tabular}
+\caption{The system setup.}
+\label{tab:system_setup_nonlinear_linear_testv2}
+\end{table}
+
+Where the first component in the simulated sewer network is a pipe followed by a tank and hereafter 18 pipes follows. The first pipe and the tank have been added on the originally sewer network shown in figure \ref{fig:sewer_line_diagram}. The first pipe goes from the larger industrial area down to the main sewer line showed with a black circle in figure \ref{fig:kloakgrid_simplified}. Furthermore, the tank is placed in the same black circle. The reason for placing the tank there is, that the idea would have been to smoothen the wastewater coming from the larger industry. Furthermore, the pipe is placed, because the MPC could have used for prediction horizon, as it would be able to measure the disturbance, and thereby use it in the predictive model to create a control signal for the pump. However, as this it not possible, due to the MPC controller is not able to keep a flow output where the flow variations are kept to a minimum, as explained in section \ref{se:model_predictive_control}.    

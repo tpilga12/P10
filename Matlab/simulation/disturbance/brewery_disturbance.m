@@ -514,4 +514,5 @@ title('Daily flow')
 xlabel('Time [hh:mm]')
 ylabel('Flow [m^3/hr]')
 
+brewery=fit(Time_vec,brewery_disturbance,'poly9');
 

@@ -11,6 +11,8 @@ Dt = 20;
 [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Hp = 20;% Prediciton horizon
+load disturbance_from_house_holds_and_small_industry % Load the households and small industry disturbance
+load brewery_datav2.mat
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.20; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
@@ -105,6 +107,14 @@ tic
 hold on
 for m = 2:iterations
 
+
+
+        
+        
+ 
+    
+    
+    
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
     input.Q_in(m,1) = 0.2+disturbance_input(1,m)';%+ sin(m/100)/15;
@@ -119,9 +129,9 @@ for m = 2:iterations
     [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
     
     % Linear stuff
-%   h_input1=[fitfuncv2(input.Q_in(m,1))]; 
+   h_input1=[fitfuncv2(input.Q_in(m,1))]; 
 %   h_input2=[fitfuncv2(utank1(m,1))]; 
-%     u=[h_input1; utank1(m,1)];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
+     u=[h_input1; utank1(m,1)];%; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input];  
 %     disp(u)
 %     xstates_k_plus_one_linear= lin_sys.A*xstates_linear+lin_sys.B*u+lin_sys.B*[disturbance_input(m); 0];
 %     delta_xstates_linear = xstates_k_plus_one_linear-xstates_linear;
@@ -213,7 +223,7 @@ toc
 
 %%
 
-sampling = 1; %increase number to skip samples to increase playback speed
+sampling = 20; %increase number to skip samples to increase playback speed
 starting_point = 1; % change starting point (START IS 1)
 playback_speed = 1/5; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
