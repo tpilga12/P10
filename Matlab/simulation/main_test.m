@@ -13,9 +13,9 @@ Dt = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 disturbance = load_disturbance();
 input.C_init = 8; % initial concentrate in pipe
-input.Q_init = 0.25; % initial input flow
+input.Q_init = 0.35; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
-input.tank_height_init(:) = [3 3]; % initial tank height
+input.tank_height_init(:) = [0.3 3]; % initial tank height
 for k = 1:length(pipe_spec)
     if pipe_spec(k).lat_inflow == 1
     input.lat.Q{k} = 0;
@@ -51,9 +51,9 @@ for m = 2:(iterations+1)
         input.C_in(m,1) = 10; % concentrate input [g/m^3]
 %     else
     end
-    input.Q_in(m,1) = 0.25;% + sin(m/10)/35 ;%+ sin(m/100)/15;
+    input.Q_in(m,1) = 0.35 + sin(m/10)/15 ;%+ sin(m/100)/15;
 %     end
-    utank1(m,1) = input.u_init(1,1) + sin(m/10)/8;
+    utank1(m,1) = input.u_init(1,1) + sin(m/10)/10;
     utank2(m,1) = input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 

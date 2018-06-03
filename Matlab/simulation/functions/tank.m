@@ -1,4 +1,4 @@
-asdfunction [data input] = tank(m, data, tank_nr, x, input, tank_spec, init)
+function [data input] = tank(m, data, tank_nr, x, input, tank_spec, init)
 %TANK Summary of this function goes here
 %   Detailed explanation goes here
 global Dt
@@ -14,17 +14,14 @@ else
     data.Q(m,1) = input.Q_in(m,x);
     data.Q(m,2) = input.u(m,tank_nr)*tank_spec(tank_nr).Q_out_max;
     data.h(m,1) = (1/tank_spec(tank_nr).area)*(data.Q(m,1)-data.Q(m,2))*Dt + data.h(m-1,1);
-     
-    data.C(m,2) = input.C_in(m,x);
-    test_val = 1;
-    if data.h(m,1) < 0
-%     if abs(data.C(m-1,1) - input.C_in(m,x)) < 0.1    
 
-        data.C(m,1) = input.C_in(m,x);
+    if data.h(m,1) < data.Q(m,2)
+        data.C(m,1) = (input.C_in(m,x) + data.C(m-1,1))/2 ;
     else
-    data.C(m,1) = input.C_in(m,x) *  ((data.Q(m,1)*Dt / tank_spec(tank_nr).area))/(test_val*data.h(m,1)) + data.C(m-1,1) * (1 - ((data.Q(m,1)*Dt / tank_spec(tank_nr).area))/(test_val*data.h(m,1)));
-    data.C(m,1) = data.C(m,1)*test_val;
-    end
+       height = data.h(m,1);
+        data.C(m,1) = input.C_in(m,x) *  ((data.Q(m,1)*Dt / tank_spec(tank_nr).area))/height + data.C(m-1,1) * (1 - ((data.Q(m,1)*Dt / tank_spec(tank_nr).area))/height);
+    end    
+   
     
     if data.h(m,1) <= 0
         data.h(m,1) = 0;
