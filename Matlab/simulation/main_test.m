@@ -38,7 +38,7 @@ i=1;
 clc
 flag =1;
 
-iterations = 4319;
+iterations = 8640;
 
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
 
@@ -54,7 +54,10 @@ for m = 2:(iterations+1)
 %     else
     end
  
-        
+        if i == 86400
+            i =1;
+            disp('var her')
+        end
         input.lat.Q(3) = num2cell(disturbance.Zone1_1(i)+disturbance.Zone1_2(i)+disturbance.Zone1_3(i)+disturbance.Industry_1_1(i)+disturbance.Industry_1_3(i));
         input.lat.Q(6) = num2cell(disturbance.Zone2(i));
         input.lat.Q(7) = num2cell(disturbance.Zone3(i));
@@ -63,11 +66,12 @@ for m = 2:(iterations+1)
         input.lat.Q(11)= num2cell(disturbance.Zone6(i));
         input.lat.Q(13)= num2cell(disturbance.Zone7(i)+disturbance.Industry7_1(i));
         input.lat.Q(14)= num2cell(disturbance.Zone8And9(i)+disturbance.Industry_8And9(i));
-         input.lat.Q(15)=num2cell(0.2);% num2cell(disturbance.Zone10(m));
+%          input.lat.Q(15)= num2cell(disturbance.Zone10(m));
         input.lat.Q(18)= num2cell(disturbance.Zone11(i));
+
         i = m*20;
         
- 
+        
     input.Q_in(m,1) = 0.025;% + sin(m/10)/35 ;%+ sin(m/100)/15;
 %     end
     utank1(m,1) = input.u_init(1,1);% + sin(m/10)/8;
@@ -82,8 +86,8 @@ end
 toc
 %%
 
-sampling = 1; %increase number to skip samples to increase playback speed
-starting_point = 1000; % change starting point (START IS 0)
+sampling = 20; %increase number to skip samples to increase playback speed
+starting_point = 800; % change starting point (START IS 0)
 playback_speed = 1/100; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
 

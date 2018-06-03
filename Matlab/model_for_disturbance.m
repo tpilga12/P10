@@ -2,7 +2,7 @@ close all
 clear all
 
 x=0;
-for n = 0:86400
+for n = 0:86400*2
     if x > 0 
         if    x < 4*3600
             f(n)=0;
@@ -64,7 +64,7 @@ f7_indu = ((f*3.6)*5874/2000)*1/5;
 f8_9_indu = ((f*3.6)*2067/2000)*1/5;
 f10_1_indu = ((f*3.6)*3916/2000)*1/5;
 
-xtime= 1:1:86400;
+xtime= 1:1:86400*2;
 %%
 close all
 
@@ -222,7 +222,7 @@ f10 = zeros(1,90000)
 counter = 1;
 i=1;
 p=1;
-for n= 1:90000/2700
+for n= 1:length(xtime)/2700
     
     for i= 1:1800 
        f10(1,counter) = 0; 
@@ -293,7 +293,7 @@ f7_indu = ((f/1000)*5874/2000)*1/5;
 f8_9_indu = ((f/1000)*2067/2000)*1/5;
 f10_1_indu = ((f/1000)*3916/2000)*1/5;
 
-disturbance = struct('Zone1_1',f1_1,'Zone1_2',f1_2,'Zone1_3',f1_3,'Industry_1_1',f1_1_indu,'Industry_1_3',f1_3_indu,'Zone2',f2,'Zone3',f3,'Zone4_1',f4_1,'Zone4_2',f4_2,'Zone4_3',f4_3,'Industry_4_1',f4_1_indu,'Zone5',f5,'Zone6',f6,'Zone7',f7,'Industry7_1',f7_indu,'Zone8And9',f89,'Industry_8And9',f8_9_indu,'Zone10',f10(1:86400),'Industry_10_1',f10_1_indu,'Zone11',f11)
+disturbance = struct('Zone1_1',f1_1,'Zone1_2',f1_2,'Zone1_3',f1_3,'Industry_1_1',f1_1_indu,'Industry_1_3',f1_3_indu,'Zone2',f2,'Zone3',f3,'Zone4_1',f4_1,'Zone4_2',f4_2,'Zone4_3',f4_3,'Industry_4_1',f4_1_indu,'Zone5',f5,'Zone6',f6,'Zone7',f7,'Industry7_1',f7_indu,'Zone8And9',f89,'Industry_8And9',f8_9_indu,'Zone10',f10(1:length(xtime)),'Industry_10_1',f10_1_indu,'Zone11',f11)
     %'f1_2','f1_3','f1_1_indu','f1_3_indu'}
 
 %%
