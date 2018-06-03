@@ -264,12 +264,12 @@ This iteration process is also done for the output equation:
 	\vdots	& \vdots&\ddots & 0\\
 	0 		& 0		&0 		& C
 	\end{bmatrix}}_{\CMcal{C}}
-	  \begin{bmatrix}
+	  \underbrace{\begin{bmatrix}
 	  \hat{x}(k+1|k) 	\\
 	  \hat{x}(k+2|k) 	\\
 	  \vdots 			\\
 	  \hat{x}(k+H_p|k) 	\\
-	   \end{bmatrix}
+	   \end{bmatrix}}_{\CMcal{X}}
 \end{equation}
 Where $\CMcal{C}$ is a diagonal matrix with the output matrix C. By inserting the predicted state equation \ref{eq:lifted_state_equation}, into the predicted output equation \ref{eq:lifted_output_equation} the following is achieved:
 
@@ -313,13 +313,13 @@ Where the difference between $\hat{\CMcal{Y}}(k)$ and $\hat{\CMcal{Y}}(k-1)$ can
 Thereby the following cost function is achieved:
 
 \begin{equation}\label{eq:delta_cost_function}
-	J = \Delta\CMcal{Y}(k)^T \cdot Q \cdot \Delta\CMcal{Y}(k)
+	J = \Delta\hat{\CMcal{Y}}(k)^T \cdot Q \cdot \Delta\hat{\CMcal{Y}}(k)
 \end{equation}
 
 To be able to write the cost function as quadratic and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:lifted_output_with_states_inserted} is therefore inserted into equation \ref{eq:new_the_cost_function_yeah} and thereby the following is obtained:
 
 \begin{equation}\label{eq:cost_function_with_all_the_crap}
-	\CMcal{J} = (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))
+	\CMcal{J} = (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))
 \end{equation}
 
 % \begin{equation}\label{eq:cost_function_with_all_the_crap}
@@ -333,10 +333,10 @@ To be able to write the cost function as quadratic and linear terms of the predi
 The term on the right hand side of equation \ref{eq:cost_function_with_all_the_crap} is equal to:
 \begin{equation}\label{eq:cost_function_big_eq}
 	\begin{aligned}
-	&(\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \CMcal{U}(k) + \Theta\Delta \CMcal{D}(k)) = \\
-	& \Delta \hat{x}(k)^T\psi ^T Q \psi \Delta \hat{x}(k) + \underbrace{\Delta \hat{x}(k)^T \psi ^T Q \gamma \Delta  \CMcal{U}(k) }_{Linear} +\Delta \hat{x}(k)^T \psi ^T Q \Theta \Delta \CMcal{D}(k) \\
-	& \underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q \psi\Delta \hat{x}(k)}_{Linear} + \underbrace{\Delta \CMcal{U}(k)^T\gamma ^T Q \gamma\Delta \CMcal{U}(k)}_{Quadratic} +\underbrace{\Delta \CMcal{U}(k)^T \gamma ^T Q\Theta \Delta \CMcal{D}(k)}_{Linear} \\ 
-	& \Delta \CMcal{D}(k)^T \Theta ^T Q  \psi \Delta \hat{x}(k)					+ \underbrace{\Delta \CMcal{D}(k)^T \Theta ^T Q \gamma  \Delta \CMcal{U}(k) }_{Linear}	+\Delta \CMcal{D}(k)^T \Theta ^T Q \Theta \Delta \CMcal{D}(k)
+	&(\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k)) = \\
+	& \Delta \hat{x}(k)^T\psi ^T Q \psi \Delta \hat{x}(k) + \underbrace{\Delta \hat{x}(k)^T \psi ^T Q \gamma \Delta  \hat{\CMcal{U}}(k) }_{Linear} +\Delta \hat{x}(k)^T \psi ^T Q \Theta \Delta \hat{\CMcal{D}}(k) \\
+	& \underbrace{\Delta \hat{\CMcal{U}}(k)^T \gamma ^T Q \psi\Delta \hat{x}(k)}_{Linear} + \underbrace{\Delta \hat{\CMcal{U}}(k)^T\gamma ^T Q \gamma\Delta \hat{\CMcal{U}}(k)}_{Quadratic} +\underbrace{\Delta \hat{\CMcal{U}}(k)^T \gamma ^T Q\Theta \Delta\hat{\CMcal{D}}(k)}_{Linear} \\ 
+	& \Delta \hat{\CMcal{D}}(k)^T \Theta ^T Q  \psi \Delta \hat{x}(k)					+ \underbrace{\Delta \hat{\CMcal{D}}(k)^T \Theta ^T Q \gamma  \Delta \hat{\CMcal{U}}(k) }_{Linear}	+\Delta \hat{\CMcal{D}}(k)^T \Theta ^T Q \Theta \Delta \hat{\CMcal{D}}(k)
 		\end{aligned}
 \end{equation}
 % \begin{equation}\label{eq:cost_function_big_eq}
@@ -363,7 +363,7 @@ Here the quadratic and linear terms of $\Delta \CMcal{U}$ are denoted respective
 And the linear variables are collected in:
 \begin{equation}
 	\begin{aligned}
-	\CMcal{G} &= 2 \Delta \hat{x}(k)^T\psi^T Q \gamma+2 \Delta \CMcal{D}(k)^T\Theta^T Q \gamma 
+	\CMcal{G} &= 2 \Delta \hat{x}(k)^T\psi^T Q \gamma+2 \Delta \hat{\CMcal{D}}(k)^T\Theta^T Q \gamma 
 	%\CMcal{G} &= 2 \cdot \hat{x}(k)^T\psi^T Q \Omega+2\cdot u(k-1)^T\gamma^T Q\Omega+2\cdot  \CMcal{D}(k)^T\Theta^T Q \Omega
 	\end{aligned}
 \end{equation}
@@ -443,12 +443,12 @@ v=
  Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be setup as equality constraints, therefore, it is divided into two constraints: 
 
  \begin{equation}
- \underbrace{BW}_{\Lambda} \Delta\hat{\CMcal{U}}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}\hat{u}(k-1)-\CMcal{B}\CMcal{D}(k)}_{\Gamma_1}
+ \underbrace{BW}_{\Lambda} \Delta\hat{\CMcal{U}}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}\hat{x}(k)-\CMcal{B}\hat{u}(k-1)-\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_1}
         %\CMcal{B}_f\Delta\CMcal{U}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}u(k-1)-\CMcal{B}\CMcal{D}(k)}_{\Gamma_1}
  \end{equation}  
 
  \begin{equation}
- \underbrace{\CMcal{B}W}_{\Lambda} \Delta\hat{\CMcal{U}}(k) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}x(k)+\CMcal{B}\hat{u}(k-1)+\CMcal{B}\CMcal{D}(k)}_{\Gamma_2}
+ \underbrace{\CMcal{B}W}_{\Lambda} \Delta\hat{\CMcal{U}}(k) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}\hat{x}(k)+\CMcal{B}\hat{u}(k-1)+\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_2}
    % -\CMcal{B}_f\Delta\CMcal{U}(k) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}x(k)+\CMcal{B}u(k-1)+\CMcal{B}\CMcal{D}(k)}_{\Gamma_2}
  \end{equation}
 
@@ -479,8 +479,8 @@ And the lower bound:
 
  \begin{equation}
  \begin{aligned}
-			 	u_{min} -  \bar{u} &\leq vu(k-1)+W \Delta\hat{\CMcal{U}}(k) \\
--W\Delta\hat{\CMcal{U}}(k) &\leq \underbrace{u(k-1)-u_{min}+\bar{u}}_{\Gamma_4}
+			 	u_{min} -  \bar{u} &\leq v\hat{u}(k-1)+W \Delta\hat{\CMcal{U}}(k) \\
+-W\Delta\hat{\CMcal{U}}(k) &\leq \underbrace{\hat{u}(k-1)-u_{min}+\bar{u}}_{\Gamma_4}
  \end{aligned}
  \end{equation}
 

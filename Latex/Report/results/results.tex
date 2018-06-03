@@ -1,8 +1,8 @@
 \chapter{Results}\label{ch:results}
-In this chapter the results of the simulation will be shown.
+In this chapter, the results of the simulation model will be shown.
 
 
-The goal of this simulation is to simulate a daily flow in the northern part of Fredericia, where the disturbance can be seen on the input to the WWTP. To do so the simulation model explained in \ref{ch:simulation} is utilized. However, the pump station, illustrated with the blue solid circle in figure \ref{fig:kloakgrid}, is not included in this simulation, as it will smooth the flow from that station down to the WWTP, thus there will not be any variation in the flow into the WWTP. To generate the disturbances from the residential and industrial zones, shown in figure \ref{fig:kloakgrid_simplified}, the flow profiles in appendix \ref{app:flow_profiles} is used. These disturbance models are not simulated from the zones into the main sewer line, but are directly added on the main sewer line, therefore causing higher peaks. It has been chosen to only use the disturbance from the brewery and bottling plant, as the data from the refinery is not accessible. The disturbance from the brewery and bottling plant is shown in figure \ref{fig:flow_profile_industry}. The pipe specifications for this simulation can be seen in table \ref{tab:pipe_data_nonlinear_linear_testv2}.  
+The goal of this simulation is to simulate a daily flow in the northern part of Fredericia, where the disturbance can be seen on the input to the WWTP. To do so the simulation model explained in chapter \ref{ch:simulation} is utilized. The pump station, illustrated with the blue solid circle in figure \ref{fig:kloakgrid_simplified}, is not included in this simulation, as it will smooth the flow from that station down to the WWTP, thus there will not be any variation in the flow into the WWTP. To generate the disturbances from the residential and industrial zones, shown in figure \ref{fig:kloakgrid_simplified}, the flow profiles in appendix \ref{app:flow_profiles} is used. These disturbance models are not simulated from the zones into the main sewer line but are directly added on the main sewer line, therefore the results are expected to have higher peaks, as these models are not attenuated, as they would have been if they were simulated from the zones. It has been chosen to only use the disturbance from the brewery and bottling plant, as the data from the refinery is not accessible. The disturbance from the brewery and bottling plant is shown in figure \ref{fig:flow_profile_industry}. The pipe specifications for this simulation can be seen in table \ref{tab:pipe_data_nonlinear_linear_testv2}.  
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
@@ -10,7 +10,7 @@ The goal of this simulation is to simulate a daily flow in the northern part of 
 \begin{tabular}[c]{@{}c@{}}Component\\ number\end{tabular} & Length {[}m{]} & Sections & Dx {[}m{]} & Ib     & d {[}m{]} & $\theta$ & \begin{tabular}[c]{@{}c@{}}$Q_f $\\  {[}$m^3/s${]}\end{tabular} \\ \hline
 1                                                          & 700            & 35       & 20         & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
 3                                                          & 303            & 15       & 20,2       & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
-4                                                          & 27             & 1        & 27         & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
+4                                                          & 27             & 1        & 13,5       & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
 5                                                          & 155            & 8        & 19,4       & 0,0041 & 1         & 0,65     & 1,50                                                                           \\ \hline
 6                                                          & 295            & 14       & 21         & 0,0122 & 0,8       & 0,65     & 1,438                                                                          \\ \hline
 7                                                          & 318            & 15       & 21,2       & 0,0053 & 0,9       & 0,65     & 1,293                                                                          \\ \hline
@@ -18,15 +18,15 @@ The goal of this simulation is to simulate a daily flow in the northern part of 
 9                                                          & 38             & 2        & 19         & 0,0024 & 1         & 0,65     & 1,149                                                                          \\ \hline
 10                                                         & 665            & 30       & 22,2       & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
 11                                                         & 155            & 7        & 22,1       & 0,0008 & 1         & 0,65     & 0,663                                                                          \\ \hline
-12                                                         & 955            & 40       & 23,9       & 0,0029 & 1,2       & 0,65     & 2,041                                                                          \\ \hline
+12                                                         & 955            & 47       & 20,3       & 0,0029 & 1,2       & 0,65     & 2,041                                                                          \\ \hline
 13                                                         & 304            & 15       & 20,3       & 0,003  & 1,2       & 0,65     & 2,076                                                                          \\ \hline
 14                                                         & 116            & 5        & 23,2       & 0,0021 & 1,2       & 0,65     & 1,737                                                                          \\ \hline
 15                                                         & 283            & 12       & 23,6       & 0,0017 & 1,4       & 0,65     & 2,346                                                                          \\ \hline
-16                                                         & 31             & 1        & 31         & 0,0019 & 1,4       & 0,65     & 2,480                                                                          \\ \hline
+16                                                         & 31             & 2        & 15,5       & 0,0019 & 1,4       & 0,65     & 2,480                                                                          \\ \hline
 17                                                         & 125            & 6        & 20,8       & 0,0021 & 1,6       & 0,65     & 3,707                                                                          \\ \hline
 18                                                         & 94             & 4        & 23,5       & 0,0013 & 1,5       & 0,65     & 2,461                                                                          \\ \hline
-19                                                         & 360            & 15       & 24         & 0,0046 & 1,6       & 0,65     & 5,487                                                                          \\ \hline
-20                                                         & 736            & 32       & 23         & 0,0012 & 1,6       & 0,65     & 2,802                                                                          \\ \hline
+19                                                         & 360            & 18       & 20         & 0,0046 & 1,6       & 0,65     & 5,487                                                                          \\ \hline
+20                                                         & 736            & 38       & 19,4         & 0,0012 & 1,6       & 0,65     & 2,802                                                                          \\ \hline
 \end{tabular}
 \caption{The specification of the pipes for in the simulation.}
 \label{tab:pipe_data_nonlinear_linear_testv2}
@@ -47,7 +47,7 @@ Area {[}$m^2$                                              & 9  \\ \hline
 \label{tab:tank_data_nonlinear_linear_testv2}
 \end{table}
 
-Furthermore, table \ref{tab:system_setup_nonlinear_linear_test} shows the system setup.
+Furthermore, table \ref{tab:system_setup_nonlinear_linear_testv2} shows the system setup.
 
 \begin{table}[H]
 \centering
@@ -63,18 +63,30 @@ Total & 20        & 263      \\ \hline
 \label{tab:system_setup_nonlinear_linear_testv2}
 \end{table}
 
-Where the first component in the simulated sewer network is a pipe followed by a tank and hereafter 18 pipes follows. The first pipe and the tank have been added on the originally sewer network shown in figure \ref{fig:sewer_line_diagram}. The first pipe goes from the larger industrial area down to the main sewer line showed with a black circle in figure \ref{fig:kloakgrid_simplified}, where the tank is placed as well. The reason for placing the tank there is, that the idea would have been to smoothen the wastewater coming from the larger industry. Furthermore, the pipe is placed, as the MPC could have used it for prediction, as it would be able to measure the disturbance going into the pipe at the industry, and thereby use it in the predictive model to calculate the must optimal control output to the pump. However, as this it not possible, due to the MPC controller is not able to keep a flow output, where the flow variations are kept to a minimum, and as the prediction horizon is limited due to non-convexity as explained in section \ref{se:model_predictive_control}. Therefore in the simulation the tank will just transfer wastewater from the previous pipe to the pipe after the tank. 
+Where the first component in the simulated sewer network is a pipe followed by a tank and hereafter 18 pipes follows. The first pipe and the tank have been added to the original sewer network shown in figure \ref{fig:sewer_line_diagram}. The first pipe goes from the larger industrial area down to the main sewer line showed with a black circle in figure \ref{fig:kloakgrid_simplified}, where the tank is placed as well. The reason for placing the tank there is, that the idea would have been to smoothen the wastewater coming from the larger industry. Furthermore, the pipe is placed, as the MPC could have used it for prediction, as it would be able to measure the disturbance going into the pipe at the industry, and thereby use it in the predictive model to calculate the most optimal control output to the pump. However, as this is not possible, due to the MPC controller is not able to keep a flow output, where the flow variations are kept to a minimum, and as the prediction horizon is limited due to non-convexity as explained in section \ref{se:model_predictive_control}. Therefore in the simulation, the tank will just transfer wastewater from the previous pipe to the pipe after the tank. 
 
-Several simulation was conducted to find the must optimal $\Delta t$ as explained in section \ref{subse:stability_and_precision}. As the pipes are split in different sections and as the average flow height is also different from pipe to pipe. Therefore the Courant number variates from pipe to pipe, and is therefore difficult to tune so all pipes have the must optimal Courant number. However, it was found that a $\Delta t = 20$, with the given $\Delta x$ shown in table \ref{tab:pipe_data_nonlinear_linear_testv2}, gave the must realistic outcome, as values lower resulted in a output where some distortion was visible.
+Several simulations were conducted to find the must optimal $\Delta t$ as explained in section \ref{subse:stability_and_precision}. As the pipes are split into different sections and as the average flow height is also different from pipe to pipe, the Courant number variates from pipe to pipe. Thus it is therefore difficult to tune so all pipes have the must optimal Courant number. However, it was found that a $\Delta t = 20$, with the given $\Delta x$ shown in table \ref{tab:pipe_data_nonlinear_linear_testv2}, gave the most realistic outcome, as values lower resulted in an output where some distortion was visible.
 
 In figure \ref{fig:simulation_output_first} the output of a simulation across two days are shown. 
 
 \begin{figure}[H]
 \centering
-\input{report/results/pictures/simulation_output_first}
+\input{report/results/tikz/simulation_output_first}
 \caption{Output of the last pipe into the WWTP.}
 \label{fig:simulation_output_first}
 \end{figure}  
 
-It is clear that flow variates to a great extent as is also shown in figure \ref{fig:flow_input_wwtp} from the WWTP at Fredericia. However, these two can not be direct compared, as the data from Fredericia also includes the wastewater from the southern part of the city. But can give a indication that the simulation correspond to what is happening in the reality. However, the simulated results in a greater variation of flow than the data obtained from Fredericia. This could be due to the pump, as mention previously, that it smoothen the flow from the northern part of the city and therefore the variations on the figure from Fredericia is due to disturbance coming from the southern part of the city.       
+It is clear that flow variates to a great extent as is also shown in figure \ref{fig:flow_input_wwtp} from the WWTP at Fredericia. However, these two can not be directly compared, as the data from Fredericia also includes the wastewater from the southern part of the city. But can give an indication that the simulation corresponds to what is happening in the reality. However, the simulated results in a greater variation of flow than the data obtained from Fredericia. This could be due to the pump, as mention previously, that it smoothen the flow from the northern part of the city and therefore the variations on the figure from Fredericia is due to disturbance coming from the southern part of the city.     
 
+In figure \ref{fig:simulation_output_first_concentration} the concentration at the output for the first eight hours can be seen.
+
+\begin{figure}[H]
+\centering
+\input{report/results/tikz/simulation_output_first_concentration}
+\caption{Concentration output for the first eight hours of the last pipe into the WWTP.}
+\label{fig:simulation_output_first_concentration}
+\end{figure}  
+
+The disturbance coming from the brewery and bottling plant has a concentration on 10 $g/m^3$ where the rest of the wastewater has zero concentration. The concentration from the brewery and bottling plant is therefore attenuated by the wastewater coming from the residential areas. 
+
+It can be concluded that a sewer network can be designed in the simulation model, where flow profiles and concentration can be added to the different parts of the model. Furthermore, is the simulation model able to simulate a flow and a concentration. 
