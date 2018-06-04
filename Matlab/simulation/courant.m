@@ -8,7 +8,7 @@ d = pipe_spec(m).d;
 h = mean(data{pipe_spec(m).data_location}.h(row,:));
 % h = (data{pipe_spec(m).data_location}.h(end,1)+data{pipe_spec(m).data_location}.h(1,1))/2;
 R=hy_perimeter(h,d);
-ie = pipe_spec(m).Ib;
+ie = pipe_spec(m).Sb;
 n = 0.013;
 
 C_r(m) = sqrt(g*h)*Dt/pipe_spec(m).Dx;
