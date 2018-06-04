@@ -92,7 +92,7 @@ Where H is a parameter for the previous flows and areas in time and section, whi
     H = \left(2\cdot(1-\theta)\cdot Q_j^i-2\cdot(1-\theta)\cdot Q_{j+1}^i+2\theta Q_j^{i+1}\right)\cdot\frac{\Delta t}{\Delta x}- A_{j}^{i+1}+A_j^i+A_{j+1}^i
 \end{equation}
 
-It has been chosen to set the slope of the water surface identical to the pipe bed, $I_e = I_b$. By doing this the calculation of the flow throughout the pipe has been simplified, thus some limitation about the dynamics of the water flow are excluded, which is explained in section \ref{se:hydraulics_of_sewer_line} and also shown in table \ref{momentum_approximations}. Therefore, instead of using the second discretized Saint-Venant equation \ref{eq:Momentum_eq_preissmann_discrete} an equation for calculating the flow in a circular pipe will be used to find the flow and area used in the Preissmann scheme and can be seen in appendix \ref{app:formulas} \cite{ikke_stationear}:\fxnote{Skal der står mere om valg af at sætte Ie = Ib}
+It has been chosen to set the slope of the water surface identical to the pipe bed, $S_f = S_b$. By doing this the calculation of the flow throughout the pipe has been simplified, thus some limitation about the dynamics of the water flow are excluded, which is explained in section \ref{se:hydraulics_of_sewer_line} and also shown in table \ref{momentum_approximations}. Therefore, instead of using the second discretized Saint-Venant equation \ref{eq:Momentum_eq_preissmann_discrete} an equation for calculating the flow in a circular pipe will be used to find the flow and area used in the Preissmann scheme and can be seen in appendix \ref{app:formulas} \cite{ikke_stationear}:\fxnote{Skal der står mere om valg af at sætte Ie = Ib}
 
 \begin{equation}\label{eq:calc_for_flowv2}
      Q = \left(0.46-0.5 \cdot cos\left(\pi \frac{h}{d}\right)+0.04\cdot cos\left(2\pi\frac{h}{d}\right)\right)\cdot Q_f
@@ -101,7 +101,7 @@ It has been chosen to set the slope of the water surface identical to the pipe b
 This equation describes the flow in a circular pipe by knowing the diameter, d height, h and the flow for a filled pipe $Q_f$. %Where $Q_f$ is calculated as \cite{ikke_stationear}:
 
 \begin{equation}\label{eq:qf_for_flow}
-    Q_f =-72\cdot \left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2\cdot I_e^{0,5}% -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
+    Q_f =-72\cdot \left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2\cdot S_f^{0,5}% -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
 \end{equation}
 $Q_f$ is calculated from Mannings eqaution and can be seen in appendix \ref{app:formulas}. \fxnote{skal der skrives her, at det er antaget at friction er lig med haeldning?}  \fxnote{lav hjaelpe formeller}
 
@@ -126,7 +126,7 @@ There are still two unknowns in equation \ref{eq:continuity_V}, $Q_{j+1}^{i+1}$ 
 Furthermore $Q_f$ from equation \ref{eq:qf_for_flow} is inserted into equation \ref{eq:V_with_flow},
 
 \begin{multline}\label{eq:new_continuity_equation}
-    V = -72\left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2I_e^{0,5}\cdot \left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+ 0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\\ \frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
+    V = -72\left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2S_f^{0,5}\cdot \left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+ 0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\\ \frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
 \end{multline}
 
 V is now a function of the height $h_{j+1}^{i+1}$ as the height is the only unknown parameter for finding the area $A_{j+1}^{i+1}$ and the flow for the pipe, where the wetted area for a circular pipe is calculated with the following \cite{ikke_stationear}:
@@ -174,5 +174,6 @@ This calculation is performed for each node in the Preissmann scheme, therefore 
 
 The iteration scheme starts with setting the boundary conditions for the flow and height as seen in figure \ref{fig:preissmann_grid_scheme_exampel}, thereafter i and j are countered one up before starting the iteration process. Hereafter the calculation for H, h, A, and Q are conducted iteratively throughout the pipe. Finally, a check is made to investigate if the iteration scheme has been through the whole pipe before it steps one up in time. This iteration process will go on until the i = n, which means that all the inputs to the pipe have been calculated throughout the pipe.   
 
+In the following stability and precision for the Preissmann scheme will be elaborated. Furthermore, how to chose $\Delta t, \Delta x$ and $\theta$ will be explained. 
 
 \input{report/simulation/preissmann_stability}
