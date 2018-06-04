@@ -15,11 +15,12 @@ at={(0.758in,0.481in)},
 scale only axis,
 xmin=3600,
 xmax=90000,
+scaled x ticks = false,
 xtick={3600,17950,32300,46650,61000,75350,89700},
 xticklabels={{01:00},{05:00},{09:00},{13:00},{17:00},{21:00},{01:00},{},{},{}},
 xlabel={Time [hh:mm]},
 xmajorgrids,
-ymin=0,
+ymin=-0.5,
 ymax=7,
 ylabel={$\text{Flow [m}^\text{3}\text{/hr]}$},
 ymajorgrids,
@@ -470,7 +471,7 @@ legend style={legend cell align=left,align=left,draw=white!15!black}
 89602	0\\
 90000	0\\
 };
-\addlegendentry{Zone 1,1};
+%\addlegendentry{Zone 1,1};
 
 \end{axis}
 \end{tikzpicture}%
