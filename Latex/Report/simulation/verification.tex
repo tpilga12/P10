@@ -245,6 +245,7 @@ The results of the computational tests can be seen in table \ref{400_it_comput},
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|} \hline
+			&  Run 1 & Run 2 \\ \hline
 $\Delta t$ &	15 s & 20 s \\ \hline
 lookup table &	4,600 s	&	4,978 s \\ \hline
 Curve fitted  & \multirow{2}{*}{5,554 s} & \multirow{2}{*}{5,893 s} \\ 
@@ -258,6 +259,7 @@ Difference    & 20.722 \%			   &  18.393 \% \\ \hline
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|} \hline
+			&  Run 1 & Run 2 \\ \hline
 $\Delta t$ 		&	15 s		& 	20 s \\ \hline
 lookup table 	&	10,073 s	&	10,574 s \\ \hline
 Curve fitted  	& \multirow{2}{*}{11,868 s} & \multirow{2}{*}{11,859 s} \\ 
@@ -271,6 +273,7 @@ Difference    & 17.817 \%			   &  12.153 \% \\ \hline
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|} \hline
+			&  Run 1 & Run 2 \\ \hline
 $\Delta t$ 		&	15 s		& 	20 s \\ \hline
 lookup table 	&	30,380 s	&	30,776 s  \\ \hline
 Curve fitted 	& \multirow{2}{*}{33,247 s} & \multirow{2}{*}{34,194 s} \\ 
@@ -281,7 +284,7 @@ Difference    	& 9.437 \%			   &  11.105 \% \\ \hline
 \label{2000_it_comput}
 \end{table}
 
-The results are obtained by using the MATLAB function ``tic-toc'' on the main simulation loop shown in figure \ref{fig:simu_main_chart}. Clearly the lookup table is preferable both in accuracy and computational speed. For this reason it is implemented as the solution to obtain fluid height border condition from inflow of the pipe.
+The results are obtained by using the MATLAB function ``tic-toc'' on the main simulation loop shown in figure \ref{fig:simu_main_chart}. Furthermore a laptop with an I7-4710MQ processor at 3,4 GHz is used for the test. Clearly the lookup table is preferable both in accuracy and computational speed. For this reason it is implemented as the solution to obtain fluid height border condition from inflow of the pipe.
 
 \subsection*{Result}
 
