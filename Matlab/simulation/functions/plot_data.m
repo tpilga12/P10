@@ -2,6 +2,7 @@ function [hej]=plot_data(data, nr_tanks, nr_pipes, sys_setup, play_speed, Dt, pi
 global pipe_sep_line
 fig_nr  = 2000;
 time_font_size = 14; % font size of time and iteration
+line_thick = 1.2; % adjust vertical line thickness
 topplot_adjust = 1.1; %set how much headroom there should be from graph to top, 1.1 = 10% 
 botplot_adjust = 0.9; %set how much headroom there should be from bot to graph, 0.9 = 10% 
 hours = 0; % initialize hours in plot
@@ -16,7 +17,7 @@ hours = 0; % initialize hours in plot
         tankheightlim = [plot_limits(5,1) plot_limits(5,2)];
     end
     distlim = [0 pipe_sep_line(end-1)]; 
-    line_thick = 1.2; % adjust vertical line thickness
+
     
     %%%%% plot!!!%%%%%%%%%%%%
     x_axis = fetch_axis(sys_setup,pipe_spec,tank_spec);

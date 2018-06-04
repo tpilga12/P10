@@ -14,9 +14,9 @@ The first part to be elaborated upon is the initialization.
 
  \subsection*{Initialization}
 
-For the setup procedure of the simulation in list form, the specifications part shown in figure \ref{fig:sys_setup} needs to be defined. The necessary parameters in the list for both pipe and tank can be seen in table \ref {tab:init_list}. 
-
-\begin{enumerate} \label{tab:init_list}
+For the setup procedure of the simulation in list form, the specifications part shown in figure \ref{fig:sys_setup} needs to be defined. The necessary parameters in the list for both pipe and tank can be seen in table \ref{tab:init_list}. 
+\begin{table}[H]
+\begin{enumerate} 
 	\item Pipe
 	\begin{itemize}
 		\item Length [m]
@@ -37,9 +37,11 @@ For the setup procedure of the simulation in list form, the specifications part 
 		\item Maximum outflow [$\text{m}^\text{3}/\text{s}$]
 		\item Section location in data 
 	\end{itemize}
-	%b\caption{Table of needed parameters for pipe and tank}
+	
 \end{enumerate}
-
+\caption{List of parameters for pipe and tank}
+\label{tab:init_list}
+\end{table}
 Some parameters can be found from others and is set to be calculated automatically. 
 %Furthermore an item is added that indicates in which section of the obtained simulation data the specific output of the component is located. This item is given the number of the order in which the component appears in the list. 
 Furthermore an item is added to the list which indicates, where the initial and simulated data, for the specific item can be found.
@@ -48,7 +50,7 @@ To give an overview of the system to be simulated, and to easily be able to loca
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5 \textwidth]{report/simulation/pictures/sys_setup_matlab.png}
-\caption{Display of structure holding system setup information in MATLAB.}
+\caption{Display of structure showing system setup information in MATLAB.}
 \label{fig:sys_setup_matlab}
 \end{figure}
 
@@ -290,6 +292,8 @@ Difference    	& 9.437 \%			   &  11.105 \% \\ \hline
 
 The results are obtained by using the MATLAB function ``tic-toc'' on the main simulation loop shown in figure \ref{fig:simu_main_chart}. Furthermore a laptop with an I7-4710MQ processor at 3,4 GHz is used for the test. Clearly the lookup table is preferable both in accuracy and computational speed. For this reason it is implemented as the solution to obtain fluid height border condition from inflow of the pipe.
 
-\subsection*{Result}
+\subsection*{Simulation result}
+
+
 
 
