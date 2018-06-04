@@ -173,7 +173,7 @@ In figure \ref{fig:flow_profile_thulevej} a flow profile is shown for residentia
 \begin{figure}[H]
 \centering
 \input{report/system_overview/tikz/flow_profile_thulevej}
-\caption{Flow profile for the residential area 1,1.}
+\caption{Flow profile of residential area 1,1.}
 \label{fig:flow_profile_thulevej}
 \end{figure}  
 
@@ -189,7 +189,7 @@ Creation of the flow profiles for the various residential and minor industry are
 
 %From zone ten a pump is pumping the wastewater to the main sewer line every 30 minuted for a period of 15 minutes. The pump has a pumping capacity of 0,350 $m^3/s$ which have been state by Fredericia. Therefore the flow profile for this area will be a constant input of 0,350 $m^3/s$ for 15 minutes every 30 minute. 
 
-Lastly profiles are needed for the larger industry which counts the brewery, bottling plant and the refinery. In figure \ref{fig:flow_profile_industry} combined flow from the brewery and bottling plant during 24 hours is seen.
+Lastly profiles are needed for the larger industry which counts brewery, bottling plant and the refinery. In figure \ref{fig:flow_profile_industry} the combined flow from the brewery and bottling plant during 24 hours is seen.
 %The flow coming from one of the industries into the main sewer line is given by Fredericia. The original dataset can be seen in appendix/attachment\fxnote{Hvor skal det være} and in figure \ref{fig:flow_profile_industry} a simplification of the dataset can be seen.
 
 \begin{figure}[H]
@@ -200,19 +200,23 @@ Lastly profiles are needed for the larger industry which counts the brewery, bot
 	\label{fig:flow_profile_industry}
 \end{figure}	
 
-From the figure, it can be seen that the combined outflow from the brewery and bottling plant arrives in pulses of up to 200 $m^3/hr$ where the longest pulse last around an hour and the shortest around 10 minutes. Between the pulse the flow is limited and the duration of these zones are most often around 30 minutes. From the flow pattern in the figure, it is likely indicated that there are two pumps pumping the wastewater away from the industry, as there are two levels in the plot. Around 190-200 $m^3/hr$ and around 110-120 $m^3/hr$. This data will be used to create the input to the main sewer line from the industry.     
+From the figure, it can be seen that the combined outflow from the brewery and bottling plant arrives in pulses of up to 200 $m^3/hr$. The longest pulse last approximately an hour and the shortest approximately 10 minutes. The duration between ranges approximately from three minutes to one and a half hour. 
+%From the flow pattern in the figure, it is likely indicated that there are two pumps pumping the wastewater away from the industry, as there are two levels in the plot. Around 190-200 $m^3/hr$ and around 110-120 $m^3/hr$. 
+This data will be used to create the inflow profile, to the main sewer line, from the industry.     
 
-In figure \ref{fig:flow_input_wwtp} the flow input into the WWTP can be seen.
+In figure \ref{fig:flow_input_wwtp} the inflow to the WWTP can be seen.
 \begin{figure}[H]
 \centering
 \input{report/system_overview/tikz/flow_input_wwtp}
-\caption{Flow input at Fredericia wastewater and treatment plant, from the fifth of February to the sixth of February.}
+\caption{Typical dry weather Inflow at Fredericia wastewater and treatment plant during 24 hours.}
 \label{fig:flow_input_wwtp}
 \end{figure}  
 
-From the figure, it can be seen how the flow into the WWTP fluctuates. From 00:00 to 03:25 the flow fluctuates between 1000 $m^3/hr$ to 1200 $m^3/hr$ and these huge shirts in flow rate is ongoing the entire day. Around 07:00 a large shift in flow occurs, it is unknown if this is a false measurement or it is due to a huge load change, as this peck seems to be only for one sample. However, it is very clear that the flow fluctuates across the entire day and it would be desirable to smooth the flow out.    
+%In the figure it can be seen how the inflow to the WWTP fluctuates. From 00:00 to 03:25 the flow fluctuates between 1000 $m^3/hr$ to 1200 $m^3/hr$ and these huge shirts in flow rate is ongoing the entire day. Around 07:00 a large shift in flow occurs, it is unknown if this is a false measurement or it is due to a huge load change, as this peck seems to be only for one sample. However, it is very clear that the flow fluctuates across the entire day and it would be desirable to smooth the flow out.    
+Unfortunately concentrate measurements were not available from the industry. For that reason it is decided to lessen focus on the various chemicals and implement it as a single component. Measurements is available from the inflow to the WWTP, but due to the dispersion of the concentrate happening from the industry to the WWTP, it is not possible to recreate a proper profile for the industry. 
+In appendix \ref{app:flow_profiles} figure \ref{fig:Forfos_data}, \ref{fig:Forfos_data} and \ref{fig:kvaelstof_data} show COD, phosphorus and nitrogen measurements respectively from inflow to the WWTP. 
 
-In appendix \ref{app:flow_profiles} figures \ref{fig:Forfos_data}, \ref{fig:Forfos_data} and \ref{fig:kvaelstof_data} shows COD, phosphorus and nitrogen measurements respectively, from the input to the WWTP is shown. These figures show a similar pattern as the flow measurement, however, they do not vary as much as the flow. But a direct comparison cannot be done, as these measurements, the concentration measurements and the flow measurement, are measured at different dates, and therefore it can not be concluded if these concentrations are varying as much as the flow measurement. However, it can be concluded that these measurements also fluctuates across a day and therefore needs to be smoothed out to obtain a better cleansing process at the WWTP. 
+%These figures show a similar pattern as the flow measurement, however, they do not vary as much as the flow. But a direct comparison cannot be done, as these measurements, the concentration measurements and the flow measurement, are measured at different dates, and therefore it can not be concluded if these concentrations are varying as much as the flow measurement. However, it can be concluded that these measurements also fluctuates across a day and therefore needs to be smoothed out to obtain a better cleansing process at the WWTP. 
 
 
 
