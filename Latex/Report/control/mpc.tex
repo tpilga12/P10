@@ -298,7 +298,7 @@ The predicted output equation can be rewritten as:
 % 	\CMcal{Y}(k) = \psi x(k) + \gamma u(k-1) +\Omega\Delta\CMcal{U}+ \Theta \CMcal{D}(k)
 % \end{equation}
 
-To be able to use the cost function, equation \ref{eq:cost_function_height}, it has to be rewritten so the predicted output equation is used. Thereby, replacing the output y with the predicted output $\CMcal{Y}$ hence the following is obtained:
+To be able to use the cost function, equation \ref{eq:cost_function_height}, it has to be rewritten in terms of the predicted output equation \ref{eq:lifted_output_with_states_inserted}. Thereby replacing the output y with the predicted output $\CMcal{Y}$, the following is obtained:
 
 \begin{equation}\label{eq:new_the_cost_function_yeah}
 	\CMcal{J} = ||\hat{\CMcal{Y}}(k)-\hat{\CMcal{Y}}(k-1)||_{\CMcal{Q}(i)}^2
@@ -306,17 +306,28 @@ To be able to use the cost function, equation \ref{eq:cost_function_height}, it 
 
 Where the difference between $\hat{\CMcal{Y}}(k)$ and $\hat{\CMcal{Y}}(k-1)$ can be expressed as:
 
-\begin{equation}
+\begin{equation}\label{eq:differnce_between_y}
 	\Delta \hat{\CMcal{Y}}(k) =\hat{\CMcal{Y}}(k)-\hat{\CMcal{Y}}(k-1) 
 \end{equation}
 
-Thereby the following cost function is achieved:
+Furthermore, it is desired to have the control input as $\Delta \CMcal{U}$ as this will introduce integral action and thereby eleminate steady state error\fxnote{kilde enten til john eller bog}. To do so, equation \ref{eq:lifted_output_with_states_inserted} is inserted into equation \ref{eq:differnce_between_y} thereby obtaning:
 
-\begin{equation}\label{eq:delta_cost_function}
-	J = \Delta\hat{\CMcal{Y}}(k)^T \cdot Q \cdot \Delta\hat{\CMcal{Y}}(k)
+\begin{equation}\label{eq:delta_output_eq} \begin{aligned}
+	\Delta \hat{\CMcal{Y}}(k) &= (\psi \hat{x}(k) + \gamma \hat{\CMcal{U}}(k) + \Theta \hat{\CMcal{D}}(k))-(\psi \hat{x}(k-1) + \gamma \hat{\CMcal{U}}(k-1) + \Theta \hat{\CMcal{D}}(k-1)) \\
+							  &= \psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k)
+	\end{aligned}
 \end{equation}
 
-To be able to write the cost function as quadratic and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:lifted_output_with_states_inserted} is therefore inserted into equation \ref{eq:new_the_cost_function_yeah} and thereby the following is obtained:
+
+Thereby $\Delta \CMcal{U}$ is introduced in the predicted output. The cost function in equation \ref{eq:new_the_cost_function_yeah} can be reformulated to the following by using equation \ref{eq:differnce_between_y}:
+
+\begin{equation}\begin{aligned}\label{eq:delta_cost_function}
+	J &= ||\Delta\hat{\CMcal{Y}}(k)||_{\CMcal{Q}(i)}^2\\
+	  &= \Delta\hat{\CMcal{Y}}(k)^T \cdot Q \cdot \Delta\hat{\CMcal{Y}}(k)
+	\end{aligned}
+\end{equation}
+
+To be able to write the cost function as quadratic and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:delta_output_eq} is therefore inserted into cost function, equation \ref{eq:delta_cost_function}, and thereby the following is obtained:
 
 \begin{equation}\label{eq:cost_function_with_all_the_crap}
 	\CMcal{J} = (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))
@@ -354,7 +365,7 @@ The term on the right hand side of equation \ref{eq:cost_function_with_all_the_c
 % 	\end{aligned}
 % \end{equation}
 
-Here the quadratic and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however, they will be referred to in the following equations as, c. The quadratic variables are collected in: 
+Here the quadratic and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however, they will be referred to in the following equations as c. The quadratic variables are collected in: 
 
 \begin{equation}\label{eq:quadratic_h_matrix}
 	\CMcal{H} = \gamma^T Q\gamma 
@@ -605,7 +616,7 @@ It can be seen that the tank does not get overfilled any more, thereby is within
 \label{fig:MPC_test_output_second_test_with_constraints}
 \end{figure}
 
-It is clear from the figure that the output is not even close to be constant. I fluctuates between two values, the constant input, approximately 0,31 meters, and 0,51 meters. In the top and bottom of the curve, it can be seen that the curve level off. The bottom is due to the tank is empty and therefore, the input, that goes into the tank from the first pipe, goes right into the second pipe without storing any wastewater in the tank. When the top levels off the tank starts to be filled up and as it goes down the tank is emptied. It was discovered that the reason for the top is due to constraints on the upper bound for the input, this however is not a wanted feature. It was desired to get a constant output or a minimum of variations in the output, which is not achieved. Through several tries of changing the parameters of the constraints, e.g. lessen the controller constraint a solution was not found, in every case the output looked similar to the one shown in figure \ref{fig:MPC_test_output_second_test_with_constraints}.
+It is clear from the figure that the output is not even close to be constant. It fluctuates between two values, the constant input, approximately 0,31 meters, and 0,51 meters. In the top and bottom of the curve, it can be seen that the curve level off. The bottom is due to the tank is empty and therefore, the input, that goes into the tank from the first pipe, goes right into the second pipe without storing any wastewater in the tank. When the top levels off the tank starts to be filled up and as it goes down the tank is emptied. It was discovered that the reason for the top is due to constraints on the upper bound for the input, this however is not a wanted feature. It was desired to get a constant output or a minimum of variations in the output, which is not achieved. Through several tries of changing the parameters of the constraints, e.g. lessen the controller constraint a solution was not found, in every case the output looked similar to the one shown in figure \ref{fig:MPC_test_output_second_test_with_constraints}.
 
 
 
