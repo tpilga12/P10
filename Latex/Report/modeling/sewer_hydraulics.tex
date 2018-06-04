@@ -115,9 +115,9 @@ Where $\mathcal{M}$(t) is the momentum, given as mass times a velocity vector, o
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{report/modeling/pictures/momentum_fig.pdf}
-\caption{Illustration of the control volume $\Omega$, .}
+\caption{Illustration of the control volume $\Omega$, where the marked end pieces illustrates inifinitely small slices.}
 \label{fig:momentum_picture}
-\end{figure}\fxnote{fix figur tekst}
+\end{figure}
 
 %As already mentioned the derivate of the momentum is mass times the velocity which is equal to the force. Therefore the hydrodynamic force given by the fluid particles at each end of a infinite small slice of a control volume is given as:
 If an infinite small slice of cross section in the control volume is considered, illustrated at the ends of the pipe in figure \ref{fig:momentum_picture}, and utilizing the product rule on the hydrodynamic force acting on the slice, the following is obtained:  
@@ -130,7 +130,7 @@ Due to the assumption of incompressible fluid in the control volume the mass der
 	\frac{dM}{dt} = \rho \frac{dV}{dt} = \rho\cdot Q
 \end{equation}
 %Where the derivate of the mass is equal to the density, $\rho \left[\frac{kg}{m^3}\right]$, times the derivate of the volume. The derivate of the volume V $\left[m^3\right]$ is equal to the mass flow Q $\left[\frac{m^3}{s}\right]$. By inserting equation \ref{eq:mellem_regning_for_momentum} into equation \ref{eq:force_equal_vrhoQ} the force, given by the fluid particles at each end, can be written as:
-If assuming static speed then the acceleration term can be neglected. Then by inserting equation \ref{eq:mellem_regning_for_momentum} into equation \ref{eq:force_equal_vrhoQ} the force, given by the slice of fluid particles, can be written as:
+If assuming static speed then the acceleration term can be neglected. By inserting equation \ref{eq:mellem_regning_for_momentum} into equation \ref{eq:force_equal_vrhoQ} the force, given by the slice of fluid particles, can be written as:
 \begin{equation}
 	F = \rho\cdot Q\cdot v 
 \end{equation}
