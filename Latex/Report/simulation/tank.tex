@@ -29,12 +29,12 @@ Solving the equation for change in level of concentrate in the tank explicit, an
 
 	\Updownarrow \\
 
-	C_{tank}(t) =   C_{in}(t) \cdot \frac{1}{A} \frac{Q_{in}(t)}{h(t)} \cdot \Delta t -  C_{tank}(t - \Delta t) \cdot \left( 1 - \frac{1}{A} \frac{Q_{out}(t)}{h(t)} \cdot \Delta t \right)
+	C_{tank}(t) =   C_{in}(t) \cdot \frac{1}{A} \frac{Q_{in}(t)}{h(t)} \cdot \Delta t +  C_{tank}(t - \Delta t) \cdot \left( 1 - \frac{1}{A} \frac{Q_{out}(t)}{h(t)} \cdot \Delta t \right)
 
 \end{array}
 \end{equation}
 
-To avoid instability or oscillation when the condition $h(t) < Q_{out}\cdot \Delta t / A$ occurs, the concentrate level in the tank should be set equal to the inflow level. The condition corresponds to the fluid being in the tank at one time step has been emptied out of the tank at the next, meaning that the fluid in the tank at the next time step is new inflow.  
+To avoid instability or oscillation when the condition $h(t) > Q_{out}\cdot \Delta t / A$ occurs, the concentrate level in the tank should be set equal to the inflow level. This condition corresponds to the fluid being in the tank at one time step has been emptied out of the tank at the next, meaning that the fluid in the tank at the next time step is new inflow.  
 
 %Again considerations is needed during implementation, such that the level of concentrate in the tank can not exceed the input level of concentrate when fluid height in tank goes toward zero.
 
