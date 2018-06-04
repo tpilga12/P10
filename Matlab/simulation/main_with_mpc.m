@@ -107,14 +107,6 @@ tic
 hold on
 for m = 2:iterations
 
-
-
-        
-        
- 
-    
-    
-    
         %%%%%% inputs %%%%%%%%%%%%
     input.C_in(m,1) = 8; % concentrate input [g/m^3]
     input.Q_in(m,1) = 0.2+disturbance_input(1,m)';%+ sin(m/100)/15;
@@ -189,12 +181,7 @@ for m = 2:iterations
 %           b_constraints2(:,1)= (1-input.u(1,1))*ones(size(Bulifted,2),1)-ones(size(Bulifted,2),1)*u_output_tank_old;
 %           b_constraints2(:,2)= (0+input.u(1,1))*ones(size(Bulifted,2),1)+ones(size(Bulifted,2),1)*u_output_tank_old;
 %           end
-%           
-          %%
-          
-          
-          
-          
+
           % linear
 %              if m ==2 
 %           b_constraints1(:,1)= b_constraints(1,7)*ones(size(C_matrix_mpc,1),1)-C_matrix_mpc*Alifted*(xstates_linear)-C_matrix_mpc*Bulifted*ones(size(Bulifted,2),1)*u_output_tank_old-C_matrix_mpc*Bulifted*Dlifted;
@@ -204,10 +191,11 @@ for m = 2:iterations
 %           b_constraints2(:,1)= (1-input.u(1,1))*ones(size(C_matrix_mpc,1),1)-ones(size(C_matrix_mpc,1),1)*u_output_tank_old;
 %           b_constraints2(:,2)= (0+input.u(1,1))*ones(size(C_matrix_mpc,1),1)+ones(size(C_matrix_mpc,1),1)*u_output_tank_old;
 %           end
-% %         
+% %   
+
            % Nonlinear
-%   Virker     [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1, C_matrix_mpc2, b_constraints2,omega);
-        [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1, C_matrix_mpc2, b_constraints2,omega,D_old);
+    [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1, C_matrix_mpc2, b_constraints2,omega);
+%         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1, C_matrix_mpc2, b_constraints2,omega,D_old);
 
         % Linear
 %         [X,FVAL,EXITFLAG]=quadprog_mpc(gamma,psi,theta,Q,delta_xstates_linear, b_constraints,Alifted,Bulifted,u_output_tank_old,SUM_matrix_mpc,xstates_k_plus_one_linear,C_matrix_mpc,input,Dlifted,D_delta,b_constraints1,C_matrix_mpc2, b_constraints2,omega);
@@ -223,7 +211,7 @@ toc
 
 %%
 
-sampling = 20; %increase number to skip samples to increase playback speed
+sampling = 1; %increase number to skip samples to increase playback speed
 starting_point = 1; % change starting point (START IS 1)
 playback_speed = 1/5; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)

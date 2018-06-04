@@ -1,5 +1,5 @@
 \section{Model predictive control}\label{se:model_predictive_control}
-In this section, the design of the controller is elaborated. First the control problem thereafter Model predictive controller (MPC) is elaborated followed by the design of the MPC controller and ending with the implementation and results from the simulation. 
+In this section, the design of the controller is elaborated. First the control problem thereafter Model predictive controller (MPC) is elaborated followed by the design of the MPC controller and ending with the implementation and results of the simulation. 
 
 The simulation covered in chapter \ref{ch:simulation} is to be controlled with respect to the problems elaborated in section \ref{sec:problem_statement} and stated here. 
 \begin{enumerate}
@@ -22,7 +22,7 @@ An MPC algorithm consists of:
 \\ 
 \textbf{Cost function} or control objective,$\CMcal{J}$, is an algorithm measuring e.g. the difference between future outputs and a reference while at the same time instant recognizing that any control action is costly for the system. Therefore the price is measured in the cost function over the prediction horizon, $H_p$. This function is therefore minimized with the respect to the future control vector to keep the cost minimized. Furthermore, only the first control input from the vector is used in each time instant thus this optimization is process is calculated at each time step where a new control input is calculated \cite{mpc_control_lecture_notes}.
 
-\textbf{Constraints} is unique advantages of MPC. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax\leq b$ where the constraint is subject to the optimization problem \cite{mpc_control_lecture_notes}.   
+\textbf{Constraints} is unique advantages of MPC. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax\leq b$ where the optimization problem is subject to the constraint \cite{mpc_control_lecture_notes}.   
 
 \textbf{Prediction model} is a model that is able to predict future system behavior. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon \cite{mpc_control_lecture_notes}.  
 
@@ -74,7 +74,7 @@ Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow
 						     u_{min} & \leq u \leq u_{max}
 	\end{aligned}
 \end{equation}
-Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value and not an estimate for y. This notation is used throughout the chapter. Where y corresponds to the height of the wastewater in the channel. It is the same to minimize height difference as the flow, due to both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states and control input. Both the states and the control input have a lower and upper constraint corresponding respectively to the bottom of the pipe and the top of the pipe and respectively to the the minimum and maximum input to the pump. In order for the controller to minimize the variations in the output, it must be able to predict future events from knowing the current state. Therefore, by iterating the linear model, shown in section \ref{se:linearization}, up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}.
+Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value and not an estimate for y. This notation is used throughout the chapter. Where y corresponds to the height of the wastewater in the channel. It is the same to minimize height difference as the flow, due to both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states and control input. Both the states and the control input have a lower and upper constraint corresponding respectively to the bottom of the pipe and the top of the pipe and respectively to the minimum and maximum input to the pump. In order for the controller to minimize the variations in the output, it must be able to predict future events from the current state. Therefore, by iterating the linear model, shown in section \ref{se:linearization}, up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}.
 
 %Where $\hat{u}(k|k)$ and $\hat{d}(k|k)$ can be written as:
 
@@ -85,7 +85,7 @@ Where Q has been replaced with the output y as it can be measured directly from 
 % 	\end{aligned}
 % \end{equation}
 
-By using the state equation recursively the state equation can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
+By using the state equation recursively the state can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
 
 % \begin{equation}\label{eq:iterating_state_equation}
 % \begin{aligned}
@@ -132,7 +132,7 @@ By using the state equation recursively the state equation can be predicted up t
    				   &+A^{H_p-1}B_d\hat{d}(k|k)+\cdots+B_d\hat{d}(k+H_p-1|k)
 \end{aligned}
 \end{equation}
-Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is iterated up to the prediction horizon. This can be setup as prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{D}$:
+Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is iterated up to the prediction horizon. This can be set up as prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{D}$:
 
 
 
@@ -245,7 +245,7 @@ Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is
 	\end{aligned}
 \end{equation}
 
-Where $\CMcal{X}$ is the predicted state vector for the entire prediction horizon. $\CMcal{A}$ is the state matrix up to the prediction horizon. $x(k|k)$ is the initial state and is used to predict the hole prediction horizon, $\CMcal{B}$ is the input matrix for the prediction horizon, $\CMcal{U}$ is the predicted input vector, which consists of all the predicted inputs from the current timestep until $(k+H_p-1)$. $\CMcal{B}_d$ is the disturbance matrix for the prediction horizon and $\CMcal{D}$ is the disturbance vector. 
+Where $\CMcal{X}$ is the predicted state vector for the entire prediction horizon. $\CMcal{A}$ is the state matrix up to the prediction horizon. $x(k|k)$ is the initial state and is used to predict the hole prediction horizon, $\CMcal{B}$ is the input matrix for the prediction horizon, $\CMcal{U}$ is the predicted input vector, which consists of all the predicted inputs from the current time step until $(k+H_p-1)$. $\CMcal{B}_d$ is the disturbance matrix for the prediction horizon and $\CMcal{D}$ is the disturbance vector. 
 
 This iteration process is also done for the output equation:
 
@@ -298,7 +298,7 @@ The predicted output equation can be rewritten as:
 % 	\CMcal{Y}(k) = \psi x(k) + \gamma u(k-1) +\Omega\Delta\CMcal{U}+ \Theta \CMcal{D}(k)
 % \end{equation}
 
-To be able to use the cost function, equation \ref{eq:cost_function_height}, it has to be rewritten so the predicted output equation is used. Thereby, replacing the output y with the predicted output $\CMcal{Y}$ hence the following is obtained:
+To be able to use the cost function, equation \ref{eq:cost_function_height}, it has to be rewritten in terms of the predicted output equation \ref{eq:lifted_output_with_states_inserted}. Thereby replacing the output y with the predicted output $\CMcal{Y}$, the following is obtained:
 
 \begin{equation}\label{eq:new_the_cost_function_yeah}
 	\CMcal{J} = ||\hat{\CMcal{Y}}(k)-\hat{\CMcal{Y}}(k-1)||_{\CMcal{Q}(i)}^2
@@ -306,17 +306,28 @@ To be able to use the cost function, equation \ref{eq:cost_function_height}, it 
 
 Where the difference between $\hat{\CMcal{Y}}(k)$ and $\hat{\CMcal{Y}}(k-1)$ can be expressed as:
 
-\begin{equation}
+\begin{equation}\label{eq:differnce_between_y}
 	\Delta \hat{\CMcal{Y}}(k) =\hat{\CMcal{Y}}(k)-\hat{\CMcal{Y}}(k-1) 
 \end{equation}
 
-Thereby the following cost function is achieved:
+Furthermore, it is desired to have the control input as $\Delta \CMcal{U}$ as this will introduce integral action and thereby eleminate steady state error\fxnote{kilde enten til john eller bog}. To do so, equation \ref{eq:lifted_output_with_states_inserted} is inserted into equation \ref{eq:differnce_between_y} thereby obtaining:
 
-\begin{equation}\label{eq:delta_cost_function}
-	J = \Delta\hat{\CMcal{Y}}(k)^T \cdot Q \cdot \Delta\hat{\CMcal{Y}}(k)
+\begin{equation}\label{eq:delta_output_eq} \begin{aligned}
+	\Delta \hat{\CMcal{Y}}(k) &= (\psi \hat{x}(k) + \gamma \hat{\CMcal{U}}(k) + \Theta \hat{\CMcal{D}}(k))-(\psi \hat{x}(k-1) + \gamma \hat{\CMcal{U}}(k-1) + \Theta \hat{\CMcal{D}}(k-1)) \\
+							  &= \psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k)
+	\end{aligned}
 \end{equation}
 
-To be able to write the cost function as quadratic and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:lifted_output_with_states_inserted} is therefore inserted into equation \ref{eq:new_the_cost_function_yeah} and thereby the following is obtained:
+
+Thereby $\Delta \CMcal{U}$ is introduced in the predicted output. The cost function in equation \ref{eq:new_the_cost_function_yeah} can be reformulated to the following by using equation \ref{eq:differnce_between_y}:
+
+\begin{equation}\begin{aligned}\label{eq:delta_cost_function}
+	J &= ||\Delta\hat{\CMcal{Y}}(k)||_{\CMcal{Q}(i)}^2\\
+	  &= \Delta\hat{\CMcal{Y}}(k)^T \cdot Q \cdot \Delta\hat{\CMcal{Y}}(k)
+	\end{aligned}
+\end{equation}
+
+To be able to write the cost function as quadratic and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:delta_output_eq} is therefore inserted into cost function, equation \ref{eq:delta_cost_function}, and thereby the following is obtained:
 
 \begin{equation}\label{eq:cost_function_with_all_the_crap}
 	\CMcal{J} = (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))
@@ -354,7 +365,7 @@ The term on the right hand side of equation \ref{eq:cost_function_with_all_the_c
 % 	\end{aligned}
 % \end{equation}
 
-Here the quadratic and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however, they will be referred to in the following equations as, c. The quadratic variables are collected in: 
+Here the quadratic and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however, they will be referred to in the following equations as c. The quadratic variables are collected in: 
 
 \begin{equation}\label{eq:quadratic_h_matrix}
 	\CMcal{H} = \gamma^T Q\gamma 
@@ -442,7 +453,7 @@ v=
 %  \end{equation} 
 
 
- Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be setup as equality constraints, therefore, it is divided into two constraints: 
+ Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be set up as equality constraints, therefore, it is divided into two constraints: 
 
  \begin{equation}
  \underbrace{BW}_{\Lambda} \Delta\hat{\CMcal{U}}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}\hat{x}(k)-\CMcal{B}\hat{u}(k-1)-\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_1}
@@ -455,7 +466,7 @@ v=
  \end{equation}
 
 
-Constraints are also applied on the controller output. The reason for these constraints is to not allow the controller to produce a higher output than what the pipe after the tank is able to transport. The constraint for the controller output is construct in the same way as for the states in the system. Below the constraint for the controller output is shown:  
+Constraints are also applied to the controller output. The reason for these constraints is to not allow the controller to produce a higher output than what the pipe after the tank is able to transport. The constraint for the controller output is constructed in the same way as for the states in the system. Below the constraint for the controller output is shown:  
  \begin{equation}
  	u_{min} \leq \CMcal{U}(k) \leq u_{max}
  \end{equation}
@@ -486,7 +497,7 @@ And the lower bound:
  \end{aligned}
  \end{equation}
 
-The constraints can be setup on the standard inequality constraint form and thereby be included in the algorithm for the MPC implementation.
+The constraints can be set up on the standard inequality constraint form and thereby be included in the algorithm for the MPC implementation.
 
  \begin{equation}
         \begin{bmatrix}
@@ -506,7 +517,7 @@ The constraints can be setup on the standard inequality constraint form and ther
            \end{bmatrix}
  \end{equation}\label{eq:constriants_eq}
 
- In the following section the implementation of the cost function and constraints, shown in this section, in MATLAB will be elaborated
+ In the following section, the implementation of the cost function and constraints, shown in this section, in MATLAB will be elaborated
 
 \subsection{Implementation of MPC}\label{subse:implementation_mpc}
 In this section the implementation of MPC in MATLAB will be elaborated. 
@@ -521,16 +532,16 @@ In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
 	\label{fig:mpc_diagram}
 \end{figure}
 
-Here it is illustrated that the model, constraint and cost function will be used in the optimizer to generate an control output, that will be used in the process, which in this case is the nonlinear model. The output y(k+1) is the output height at the end of the last pipe in the sewer network. At each time step the current value of the output is feedback to the MPC controller. Here the MPC will at each iteration calculate up to $H_p$ control inputs, as it calculates for future disturbances, however, only the first element of this u vector will be used to control the process. Thereafter a new measurement will be taken and a new controller output will be calculated and this will iterate for the entire simulation.
+Here it is illustrated that the model, constraint and cost function will be used in the optimizer to generate a control output, that will be used in the process, which in this case is the nonlinear model. The output y(k+1) is the output height at the end of the last pipe in the sewer network. At each time step, the current value of the output is feedback to the MPC controller. Here the MPC will at each iteration calculate up to $H_p$ control inputs, as it calculates for future disturbances, however, only the first element of this u vector will be used to control the process. Thereafter a new measurement will be taken and a new controller output will be calculated and this will iterate for the entire simulation.
 
 In determining the length of the prediction horizon several considerations were taken into account. As illustration in figure \ref{fig:input_to_wwtp} a daily flow from the households is shown. Here the flow is illustrated for working days and in the weekend. Thereby by knowing the flow pattern for households the MPC would be able to include this knowledge in the prediction model. Thus an ideal prediction horizon would be 24 hours, as it would be able to see the disturbance across a whole day. 
 
 However, as the households are not the only disturbance in this setup this is not entirely true. Because the disturbance coming from the larger industry e.g. the bottling plant and the brewery are stochastic in a way, where it is unknown when the wastewater from the plants is coming and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the plants are also different from time to time. Therefore, it would not be preferable to place the tank next to the industry as it would not be able to predict the disturbance. Thus the tank needs to be placed in a distance away from the industry, where it would be able to use the disturbance in the prediction model by knowing the disturbance coming from the industry by having a measurement of it. The time it takes the wastewater to leave the industry and to arrive at the tank would then decide the length of the prediction horizon. 
 
-However, in the implementation of the MPC, it was discovered that the prediction horizon was restricted. Because when it was set to high, above 20, the quadratic matrix $\CMcal{H}$, equation \ref{eq:quadratic_h_matrix}, was not semi-positive definite, as in the eigenvalues of it was negative, hence the quadratic problem was not convex. The reason for this problem is, that in the linearized model, some of the elements in matrices are very small and therefore, when the system is predicted, as shown in equation \ref{eq:lifted_state_equation}, the elements would be even smaller, thus causing the $\CMcal{H}$ matrix to have an extremely small negative eigenvalue. Therefore, several tests were conducted to find a prediction horizon that did not result in a negative eigenvalue. It was found that a prediction horizon of 20, where the lowest eigenvalue of $\CMcal{H}$ was zero. However, this restricts the length of the pipe after the tank, because if the pipe is too long the MPC will not be able to predict all the way down to the output of it. Therefore, in the simulation of the MPC controller, this must be kept in mind.   
+However, in the implementation of the MPC, it was discovered that the prediction horizon was restricted. Because, when it was set to high, above 20, the quadratic matrix $\CMcal{H}$, equation \ref{eq:quadratic_h_matrix}, was not semi-positive definite, as in the eigenvalues of it was negative, hence the quadratic problem was not convex. The reason for this problem is, that in the linearized model, some of the elements in matrices are very small and therefore, when the system is predicted, as shown in equation \ref{eq:lifted_state_equation}, the elements would be even smaller, thus causing the $\CMcal{H}$ matrix to have an extremely small negative eigenvalue. \fxnote{You could write that you expect that you have numerical problems somewhere in this paragraph. } Therefore, several tests were conducted to find a prediction horizon that did not result in a negative eigenvalue. It was found that a prediction horizon of 20, where the lowest eigenvalue of $\CMcal{H}$ was zero. However, this restricts the length of the pipe after the tank, because if the pipe is too long the MPC will not be able to predict all the way down to the output of it. Therefore, in the simulation of the MPC controller, this must be kept in mind.   
 
 \subsection*{Results}
-In this subsection the results obtained from the testing of the MPC controller will be covered. Two simulation will conducted, one where the constraints are neglected and therefore minimized without any restriction and another simulation where the constraints included. 
+In this subsection, the results obtained from the testing of the MPC controller will be covered. Two simulations will be conducted, one where the constraints are neglected and therefore minimized without any restriction and another simulation where the constraints included. 
 
 The pipe and tank setup for the simulation includes two pipes and one tank, where the tank is placed in the middle of the pipes. The specification for both pipes and the tank can be seen in tabular \ref{tab:pipe_data_for_mpc_test} and \ref{tab:tank_data_for_mpc_test} respectively.
 
@@ -567,7 +578,7 @@ In the first simulation the MPC controller is minimizing the output variations o
 \label{fig:input_to_pipe_mpc_test}
 \end{figure}
 
-Here there is a constant input of 0,2 $m^3/s$, which results in a height of 0,31 meters in the pipe. On top of the input a disturbance signal is added. This is done to see if the MPC is able to keep the flow variations out of the tank to a minimum. This signal is a upper triangular signal which goes from the constant input up to 0,9 $m^3/s$ which is equal to a height of 0,75 meters in the pipe. The time between each disturbance signal is 200 seconds and the period of the triangle signal is 100 seconds. This simulation conducted is for two hours where $\Delta t$ is 20 seconds. In figure \ref{fig:MPC_test_output_first_test} the output of the the last pipe is shown.  
+Here there is a constant input of 0,2 $m^3/s$, which results in a height of 0,31 meters in the pipe. On top of the input, a disturbance signal is added. This is done to see if the MPC is able to keep the flow variations out of the tank to a minimum. This signal is an upper triangular signal which goes from the constant input up to 0,9 $m^3/s$ which is equal to a height of 0,75 meters in the pipe. The time between each disturbance signal is 200 seconds and the period of the triangle signal is 100 seconds. This simulation conducted is for two hours where $\Delta t$ is 20 seconds. In figure \ref{fig:MPC_test_output_first_test} the output of the last pipe is shown.  
 
 
 \begin{figure}[H]
@@ -586,7 +597,7 @@ Here it can be seen that the MPC controller is able to minimize the disturbance 
 \label{fig:tank_height_first_test}
 \end{figure}
 
-As expected the tank would be overfilled, as the disturbance coming from the first pipe is much higher than the output of the second. However, the cost function does what is expected, as it keeps a steady output of the tank and has no knowledge about the limitations of the tank and therefore overfills it. In the second simulation the same input is applied to the first pipe, where the constraints shown in equation \ref{eq:constriants_eq} is utilized. In this simulation only constraints regarding the tank and the control input to the pump have constraints in this system setup. The reason for not having constraints on the heights in the second pipe is, it should be sufficient to have on the control input to the pump, as it will only allow inputs between 0 to 1, where the constant is multiplied on the maximum flow that the second pipe can transfer and thereby not allowing flows higher than that. Furthermore, the constraints for the tank goes from 0 to the maximum height it, which is 10 meters in this simulation, as seen in table \ref{tab:tank_data_for_mpc_test}. The reason for not have constraints on the first pipe is, as it is impossible for the MPC controller to regulate the height in that part. In figure \ref{fig:tank_height_second_test_with_constraints} the height of the tank is shown from the second simulation.        
+As expected the tank would be overfilled, as the disturbance coming from the first pipe is much higher than the output of the second. However, the cost function does what is expected, as it keeps a steady output of the tank and has no knowledge about the limitations of the tank and therefore overfills it. In the second simulation the same input is applied to the first pipe, where the constraints are shown in equation \ref{eq:constriants_eq} is utilized. In this simulation, only constraints regarding the tank and the control input to the pump have constraints in this system setup. The reason for not having constraints on the heights in the second pipe is, it should be sufficient to have on the control input to the pump, as it will only allow inputs between 0 to 1, where the constant is multiplied on the maximum flow that the second pipe can transfer and thereby not allow flows higher than that. Furthermore, the constraints for the tank goes from 0 to the maximum height it, which is 10 meters in this simulation, as seen in table \ref{tab:tank_data_for_mpc_test}. The reason for not have constraints on the first pipe is, as it is impossible for the MPC controller to regulate the height in that part. In figure \ref{fig:tank_height_second_test_with_constraints} the height of the tank is shown from the second simulation.        
 
 
 \begin{figure}[H]
@@ -596,7 +607,7 @@ As expected the tank would be overfilled, as the disturbance coming from the fir
 \label{fig:tank_height_second_test_with_constraints}
 \end{figure}
 
-It can be seen that the tank does not get overfilled any more, thereby is within the constraints for the tank. At the beginning the tank is emptied again due to it was initials with wastewater in it. Hereafter the tank is filled up to 2 meters and then emptied again. In figure \ref{fig:MPC_test_output_second_test_with_constraints} the output of the second pipe is shown. 
+It can be seen that the tank does not get overfilled anymore, thereby is within the constraints of the tank. In the beginning, the tank is emptied again due to it was initials with wastewater in it. Hereafter the tank is filled up to 2 meters and then emptied again. In figure \ref{fig:MPC_test_output_second_test_with_constraints} the output of the second pipe is shown. 
 
 \begin{figure}[H]
  \centering
@@ -605,7 +616,7 @@ It can be seen that the tank does not get overfilled any more, thereby is within
 \label{fig:MPC_test_output_second_test_with_constraints}
 \end{figure}
 
-It is clear from the figure that the output is not even close to be constant. I fluctuates between two values, the constant input, approximately 0,31 meters, and 0,51 meters. In the top and bottom of the curve, it can be seen that the curve level off. The bottom is due to the tank is empty and therefore, the input, that goes into the tank from the first pipe, goes right into the second pipe without storing any wastewater in the tank. When the top levels off the tank starts to be filled up and as it goes down the tank is emptied. It was discovered that the reason for the top is due to constraints on the upper bound for the input, this however is not a wanted feature. It was desired to get a constant output or a minimum of variations in the output, which is not achieved. Through several tries of changing the parameters of the constraints, e.g. lessen the controller constraint a solution was not found, in every case the output looked similar to the one shown in figure \ref{fig:MPC_test_output_second_test_with_constraints}.
+It is clear from the figure that the output is not even close to being constant. It fluctuates between two values, the constant input, approximately 0,31 meters, and 0,51 meters. In the top and bottom of the curve, it can be seen that the curve flattens. The bottom is due to the tank is empty and therefore, the input, that goes into the tank from the first pipe, goes right into the second pipe without storing any wastewater in the tank. When the top flattens the tank start to be filled up and as it goes down the tank is emptied. It was discovered that the reason for the top is due to constraints on the upper bound for the input, this however, is not a wanted feature. It was desired to get a constant output or a minimum of variations in the output, which is not achieved. Through several tries of changing the parameters of the constraints, e.g. lessen the controller constraints and trying to changing the height. However, a solution was not found. In every case the output looked similar to the one shown in figure \ref{fig:MPC_test_output_second_test_with_constraints}.
 
 
 
