@@ -297,35 +297,55 @@ Dividing with $g \cdot \rho \cdot \Delta x \cdot A$ and isolating, then the foll
 
 Some or all of the terms in equation \ref{saintbernard_momentum} can be utilized when simulating free channel flow. An overview of the limitations when excluding parts of the momentum equation is given in table \ref{momentum_approximations}.
 
+% \begin{table}[H]
+% \centering
+
+% \begin{tabular}{|l|l|l|l|l|} \hline
+% %\rowcolor[HTML]{9B9B9B}
+% \multirow{2}{*} {Approximation} &   
+% Kinematic & 
+% \multirow{2}{*} {Noninertia (2)} &
+% Quasi-steady  & 
+% Dynamic \\	
+% &  	wave (1)   &  			 					 & dynamic wave (3) 	& wave (4)  \\ \hline
+
+%  \multirow{2}{*} {Momentum equation} 		&\multirow{2}{*} {$S_b = S_f$}  & \multirow{2}{*} {$\frac{\partial h}{\partial x}= S_b- S_f$ } & $\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x}$ & \multirow{2}{*} {Equation \ref{saintbernard_momentum}} \\
+% %\rowcolor[HTML]{9B9B9B} 
+% &  &  & = $S_b - S_f$  &  \\ \hline
+
+% Boundary conditions &\multirow{2}{*} 1 &\multirow{2}{*} 2  &\multirow{2}{*} 2 &\multirow{2}{*} 2 \\ 
+% required&  &  &  &  \\ \hline
+
+%  Account for 			& \multirow{4}{*} {No} &\multirow{4}{*} {Yes}  & \multirow{4}{*} {Yes}  & \multirow{4}{*} {Yes}  \\
+%  downstream backwater	&  &  &  &  \\
+%  effect and flow 		&  &  &  &  \\
+%  reversal 				&  &  &  &  \\ \hline
+
+% Damping of & \multirow{2}{*} {No}  & \multirow{2}{*} {Yes} & \multirow{2}{*} {Yes}  & \multirow{2}{*} {Yes} \\ 
+% flood peak &  &  &  &  \\ \hline
+
+% Account for & \multirow{2}{*} {No}  & \multirow{2}{*} {No} & Only convective & \multirow{2}{*} {Yes} \\
+% flow acceleration &  &  & acceleration  &  \\ \hline
+% \end{tabular}
+% \caption{Limitations when excluding, 1.(inertia and pressure terms), 2.(inertia terms), 3.(pressure term relating to local acceleration) and 4.(none), from the momentum equation \cite{stormwatercollectionsystems}. }
+% \label{momentum_approximations}
+% \end{table} 
+
 \begin{table}[H]
 \centering
-
-\begin{tabular}{|l|l|l|l|l|} \hline
-%\rowcolor[HTML]{9B9B9B}
-\multirow{2}{*} {Approximation} &   Kinematic & \multirow{2}{*} {Noninertia (2)}  & Quasi-steady  & Dynamic \\
-			 					&  	wave (1)   &  			 					 & dynamic wave (3) 	& wave (4)  \\ \hline
-
- \multirow{2}{*} {momentum equation} 		&\multirow{2}{*} {$S_b = S_f$}  & \multirow{2}{*} {$\frac{\partial h}{\partial x}= S_b- S_f$ } & $\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x}$ & \multirow{2}{*} {equation \ref{saintbernard_momentum}} \\
-%\rowcolor[HTML]{9B9B9B} 
-&  &  & = $S_b - S_f$  &  \\ \hline
-
-Boundary conditions &\multirow{2}{*} 1 &\multirow{2}{*} 2  &\multirow{2}{*} 2 &\multirow{2}{*} 2 \\ 
-required&  &  &  &  \\ \hline
-
- Account for 			& \multirow{4}{*} {No} &\multirow{4}{*} {Yes}  & \multirow{4}{*} {Yes}  & \multirow{4}{*} {Yes}  \\
- downstream backwater	&  &  &  &  \\
- effect and flow 		&  &  &  &  \\
- reversal 				&  &  &  &  \\ \hline
-
-Damping of & \multirow{2}{*} {No}  & \multirow{2}{*} {Yes} & \multirow{2}{*} {Yes}  & \multirow{2}{*} {Yes} \\ 
-flood peak &  &  &  &  \\ \hline
-
-Account for & \multirow{2}{*} {No}  & \multirow{2}{*} {No} & only convective & \multirow{2}{*} {Yes} \\
-flow acceleration &  &  & acceleration  &  \\ \hline
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{9B9B9B} 
+\textbf{Approxmation}   												 & \textbf{\begin{tabular}[l]{@{}l@{}}Kinematic\\ wave (1)\end{tabular}} & \textbf{\begin{tabular}[l]{@{}l@{}}Noninertia\\ wave (2)\end{tabular}}                & \textbf{\begin{tabular}[l]{@{}l@{}}Quasi-steady\\ dynamic wave (3)\end{tabular}}                                                                       & \textbf{\begin{tabular}[l]{@{}l@{}}Dynamic\\ wave (4)\end{tabular}} \\ \hline
+\begin{tabular}[l]{@{}l@{}}Momentum\\ equation  \end{tabular}                                                                                      & $S_b = S_f$                                                           & $\frac{\partial h}{\partial x}=S_b -S_f$ & \begin{tabular}[l]{@{}l@{}}$\frac{1}{gA}\frac{\partial}{\partial x}\left(\frac{Q^2}{A}\right)+\frac{\partial h}{\partial x}$\\ $= S_b-S_f $\end{tabular} & \begin{tabular}[l]{@{}l@{}}Equation\\ \ref{saintbernard_momentum}  \end{tabular}              \\ \hline
+\begin{tabular}[l]{@{}l@{}}Boundary \\ conditions\\ required\end{tabular}                                   & 1                                                                     & 2                                        & 2                                                                                                                                                      & 2                                                                   \\ \hline
+\begin{tabular}[l]{@{}l@{}}Account for\\ downstream\\ backwater\\ effect and flow \\ reversal\end{tabular} & No                                                                    & Yes                                      & Yes                                                                                                                                                    & Yes                                                                 \\ \hline
+\begin{tabular}[l]{@{}l@{}}Damping of\\ flood peak\end{tabular}                                          & No                                                                    & Yes                                      & Yes                                                                                                                                                    & Yes                                                                 \\ \hline
+\begin{tabular}[l]{@{}l@{}}Account for\\ flow accleration\end{tabular}                                   & No                                                                    & No                                       & \begin{tabular}[l]{@{}l@{}}Only convective \\ acceleration\end{tabular}                                                                                & Yes                                                                 \\ \hline
 \end{tabular}
 \caption{Limitations when excluding, 1.(inertia and pressure terms), 2.(inertia terms), 3.(pressure term relating to local acceleration) and 4.(none), from the momentum equation \cite{stormwatercollectionsystems}. }
 \label{momentum_approximations}
-\end{table} 
+\end{table}
 
 The kinematic wave is the simplest approximation and ignores the terms representing changes in inertia and pressure by assuming that the slope of the water surface is identical to that of the channel bed. Furthermore only one boundary condition is needed, meaning that only the upper boundary of the channel is needed to solve the Saint-Venant equations.  
 Some considerations is needed when utilizing this approximation.      
