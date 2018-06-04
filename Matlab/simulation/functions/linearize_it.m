@@ -98,11 +98,11 @@ else
         
     end
     
-    lat_in = find([pipe_spec.lat_inflow]);
-    for n = 1:length(lat_in) % Setup lateral inflow
+    side_in = find([pipe_spec.side_inflow]);
+    for n = 1:length(side_in) % Setup side inflow
         B(1:end,end+1)= 0;
-        B(find(strcmp(StateName , ['h_pipe_',num2str(lat_in(n)),'_',num2str(1)])),end) = 1;
-        InputName{end+1,1} = ['lat_h_pipe_',num2str(lat_in(n)),'_',num2str(1)];
+        B(find(strcmp(StateName , ['h_pipe_',num2str(side_in(n)),'_',num2str(1)])),end) = 1;
+        InputName{end+1,1} = ['side_h_pipe_',num2str(side_in(n)),'_',num2str(1)];
     end    
     
     

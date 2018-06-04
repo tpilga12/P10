@@ -20,12 +20,12 @@ input.Q_init = 0.05; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
 input.tank_height_init(:) = [0.3 3]; % initial tank height
 for k = 1:length(pipe_spec)
-    if pipe_spec(k).lat_inflow == 1
-    input.lat.Q{k} = 0;
+    if pipe_spec(k).side_inflow == 1
+    input.side.Q{k} = 0;
     else
-    input.lat.Q{k} = 0;
+    input.side.Q{k} = 0;
     end
-    input.lat.C{k} = 0;
+    input.side.C{k} = 0;
     
 end
 error = 0;
@@ -61,16 +61,16 @@ for m = 2:(iterations+1)
 
  
         % Disturbance input from the different zones
-        input.lat.Q(3) = num2cell(disturbance.Zone1_1(i)+disturbance.Zone1_2(i)+disturbance.Zone1_3(i)+disturbance.Industry_1_1(i)+disturbance.Industry_1_3(i));
-        input.lat.Q(6) = num2cell(disturbance.Zone2(i));
-        input.lat.Q(7) = num2cell(disturbance.Zone3(i));
-        input.lat.Q(8) = num2cell(disturbance.Zone4_1(i)+disturbance.Zone4_2(i)+disturbance.Zone4_3(i)+disturbance.Industry_4_1(i));
-        input.lat.Q(9) = num2cell(disturbance.Zone5(i));
-        input.lat.Q(11)= num2cell(disturbance.Zone6(i));
-        input.lat.Q(13)= num2cell(disturbance.Zone7(i)+disturbance.Industry7_1(i));
-        input.lat.Q(14)= num2cell(disturbance.Zone8And9(i)+disturbance.Industry_8And9(i));
-         input.lat.Q(15)= num2cell(disturbance.Zone10(i));
-        input.lat.Q(18)= num2cell(disturbance.Zone11(i));
+        input.side.Q(3) = num2cell(disturbance.Zone1_1(i)+disturbance.Zone1_2(i)+disturbance.Zone1_3(i)+disturbance.Industry_1_1(i)+disturbance.Industry_1_3(i));
+        input.side.Q(6) = num2cell(disturbance.Zone2(i));
+        input.side.Q(7) = num2cell(disturbance.Zone3(i));
+        input.side.Q(8) = num2cell(disturbance.Zone4_1(i)+disturbance.Zone4_2(i)+disturbance.Zone4_3(i)+disturbance.Industry_4_1(i));
+        input.side.Q(9) = num2cell(disturbance.Zone5(i));
+        input.side.Q(11)= num2cell(disturbance.Zone6(i));
+        input.side.Q(13)= num2cell(disturbance.Zone7(i)+disturbance.Industry7_1(i));
+        input.side.Q(14)= num2cell(disturbance.Zone8And9(i)+disturbance.Industry_8And9(i));
+         input.side.Q(15)= num2cell(disturbance.Zone10(i));
+        input.side.Q(18)= num2cell(disturbance.Zone11(i));
 
    
         

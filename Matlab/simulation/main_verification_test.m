@@ -17,8 +17,8 @@ input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.3; % initial input flow
 input.tank_height_init(:) = [1.0 3]; % initial tank height
 for k = 1:length(pipe_spec)
-    input.lat.Q{k} = 0;
-    input.lat.C{k} = 0;
+    input.side.Q{k} = 0;
+    input.side.C{k} = 0;
 end
 error = 0;
 

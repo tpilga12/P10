@@ -31,7 +31,7 @@ The following will go into details, on the thoughts and the considerations made 
 The initialization process is, as shown in figure \ref{fig:struct_overview}, comprised of several parts. The first part is to set up the desired system of pipes and tanks such that the system is simulated with the chosen components in the right order.
 %As mentioned in section \ref{ch:simulation_solution_and_limitation} a solution to minimize flow and concentrate variations could be insertion of one or more tanks in the sewer network. 
 Secondly, the system should be brought in to a steady state from which the simulation can start.
-The reason for this is that the Saint-Venant equations utilized to simulate the flow in the sewer pipes is non-linear. Because of this, it can be difficult to find a steady state by hand, which do not produce an unintended result when starting simulating. Though it might be possible to find fitting initial values for small setup it is assumed that larger setup will increase the chance of unintended results when starting simulating.
+The reason for this is that the Saint-Venant equations utilized to simulate the flow in the sewer pipes is non-linear. Because of this, it can be difficult to find a steady state by hand, which do not produce an unintended result when starting simulating. Though it might be possible to find fitting initial values for small setups it is assumed that a larger setup will increase the chance of unintended results when starting simulating.
 
 For the first part, a simple system setup is decided upon, where the desired components are added to a list. The order of the list then decides how the components is connected when simulating. An example of this setup procedure is shown in figure \ref{fig:sys_setup}. 
 

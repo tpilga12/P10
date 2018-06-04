@@ -61,7 +61,7 @@ for m = (1+adjust_start):sampling:length(data{1}.Q(:,1))
     end
     hold on
     for p=1:(length(vertical_line)-1)
-        if pipe_spec(p+1).lat_inflow == 1
+        if pipe_spec(p+1).side_inflow == 1
             color_shape = ':b';
         else
             color_shape = ':r';
@@ -89,7 +89,7 @@ for m = (1+adjust_start):sampling:length(data{1}.Q(:,1))
     hold on
    
     for p=1:(length(vertical_line)-1)
-        if pipe_spec(p+1).lat_inflow == 1
+        if pipe_spec(p+1).side_inflow == 1
             color_shape = ':b';
         else
             color_shape = ':r';
@@ -116,7 +116,7 @@ for m = (1+adjust_start):sampling:length(data{1}.Q(:,1))
     end
     hold on
     for p=1:(length(vertical_line)-1)
-        if pipe_spec(p+1).lat_inflow == 1
+        if pipe_spec(p+1).side_inflow == 1
             color_shape = ':b';
         else
             color_shape = ':r';
@@ -133,7 +133,7 @@ for m = (1+adjust_start):sampling:length(data{1}.Q(:,1))
     plot(x_axis,concentrate(m,:).*flow(m,:))
     hold on
     for p=1:(length(vertical_line)-1)
-        if pipe_spec(p+1).lat_inflow == 1
+        if pipe_spec(p+1).side_inflow == 1
             color_shape = ':b';
         else
             color_shape = ':r';
