@@ -16,7 +16,7 @@ end
 length_C = 0;
 C_matrix_mpc = zeros(10,length(lin_sys.C)*Hp);
 C_matrix_mpc_constraint=zeros(1,length(lin_sys.A)); 
-C_matrix_mpc_constraint(1,37)=1;
+C_matrix_mpc_constraint(1,7)=1;
 
 for n=1:Hp
    C_matrix_mpc(n,1+length_C:length(C_matrix_mpc_constraint)*n) = C_matrix_mpc_constraint;
@@ -27,7 +27,7 @@ end
 length_C = 0;
 C_matrix_mpc2 = zeros(10,length(lin_sys.C)*Hp);
 C_matrix_mpc_constraint2=zeros(1,length(lin_sys.A)); 
-C_matrix_mpc_constraint2(1,38)=1;
+C_matrix_mpc_constraint2(1,8)=1;
 
 for n=1:Hp
    C_matrix_mpc2(n,1+length_C:length(C_matrix_mpc_constraint)*n) = C_matrix_mpc_constraint2;

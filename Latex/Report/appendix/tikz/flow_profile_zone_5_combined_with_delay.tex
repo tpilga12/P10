@@ -10,26 +10,25 @@
 
 \begin{axis}[%
 width=4.521in,
-height=1.766in,
+height=1.7566in,
 at={(0.758in,0.481in)},
 scale only axis,
 xmin=3600,
+scaled x ticks = false,
 xmax=90000,
 xtick={3600,17950,32300,46650,61000,75350,89700},
 xticklabels={{01:00},{05:00},{09:00},{13:00},{17:00},{21:00},{01:00},{},{},{}},
 xlabel={Time [hh:mm]},
 xmajorgrids,
 ymin=-0.5,
-ymax=4.5,
+ymax=5,
 ylabel={$\text{Flow [m}^\text{3}\text{/hr]}$},
 ymajorgrids,
 axis background/.style={fill=white},
-scaled x ticks = false,
 title style={font=\bfseries},
-title={Daily flow},
-legend style={legend cell align=left,align=left,draw=white!15!black}
+title={Daily flow}
 ]
-\addplot [color=mycolor1,solid]
+\addplot [color=mycolor1,solid,forget plot]
   table[row sep=crcr]{%
 3599	0\\
 3799	0\\
@@ -471,6 +470,5 @@ legend style={legend cell align=left,align=left,draw=white!15!black}
 89602	0\\
 90000	0\\
 };
-
 \end{axis}
 \end{tikzpicture}%
