@@ -77,11 +77,17 @@ Having obtained a setup in steady state the next part is to simulate it for the 
 \end{figure}
 
 
-\subsection*{Result}
+\subsection*{Display}
 
-Having obtained data from simulating the user-defined system an overview of the results is needed. Considerable time can be spent in designing a function which can display the data in various forms. As the data can consist of a large number of components as well as a considerable time span it can get quite time-consuming to pinpoint parts of interest in time and place. For this reason, it is decided that a simple solution which can give an overview, of the obtained data, is needed. The chosen solution is a function which can playback the simulated data at a user defined speed and intervals in the data. Furthermore, it should be possible to pause and start the playback at a user-defined iteration.    
+Having obtained data from simulating the user-defined system an overview of the results is needed. Considerable time can be spent in designing a function which can display the data in various forms. As the data can consist of a large number of components as well as a considerable time span it can get quite time-consuming to pinpoint parts of interest in time and place. For this reason, it is decided that a simple solution which can give an overview, of the obtained data, is needed. The chosen solution is a function which can playback the simulated data at a user defined speed and intervals in the data. Furthermore, it should be possible to pause and start the playback at a user-defined iteration. In figure \ref{fig:display_results} an illustration of the display window is shown.   
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{report/simulation/pictures/display_results}
+	\caption{Illustration of the simulation display, where flow, height, concentrate and concentrate flow in the sewer network is seen. The red dashed lines indicates a new pipe line, the red dot denotes the height in a tank and the blue dashed line indicate a pipe with side inflow.}
+	\label{fig:display_results}
+\end{figure}
 
-
+This display should give an overview of the simulated data, where the flow, height, concentrate and concentrate flow across a sewer network can be tracked. In the top of the display the simulation time is shown, thereby the user is able to follow the time, if a certain flow profile for the simulated model is used. 
 
 Having outlined the basic details of the construction of the simulation environment the scheme needed to solve the non-linear Saint-Venant equations is explained in detail in the next section. 

@@ -2,19 +2,19 @@
 A method to model the hydraulics of gravity sewer lines is explained in the following. 
 
 %\subsection*{Open channel}\label{subse:open_channel}
-Modeling fluids is almost always done by considering it as a control volume. The reason is that it is rarely efficient, computational wise, or possible to consider the individual fluid particles.
-Henceforth the control volume will be denoted by the letter $\Omega$ which will correspond to some amount of fluid in a length of sewer line.		
+Modeling fluids are almost always done by considering it as a control volume. The reason is that it is rarely efficient, computational wise, or possible to consider the individual fluid particles.
+Henceforth the control volume will be denoted by the letter $\Omega$ which will correspond to some amount of fluid in a length of a sewer line.		
 
-The open channel flow in gravity sewer lines can be described by the Saint-Venant equations which gives an expression for conservation of mass and momentum.
-Some assumptions is made when deriving the Saint-Venant equations \cite{schutze2011modelling}:
+The open channel flow in gravity sewer lines can be described by the Saint-Venant equations which give an expression for conservation of mass and momentum.
+Some assumptions are made when deriving the Saint-Venant equations \cite{schutze2011modelling}:
 
 \begin{table}[H]
 \begin{enumerate}
-\item The flow in the channel is one dimensional, and prismatic, and as such any curvature or change in width of the sewer line is considered negligible.
+\item The flow in the channel is one dimensional and prismatic, and as such any curvature or change in the width of the sewer line is considered negligible.
 \item Fluid in the sewer line is considered incompressible. 
 \item The pressure is assumed hydrostatic.
 \item The only forces considered is friction, pressure and gravity.
-\item The water height and velocity is uniform in the cross-section and only changes horizontally i.e. turbulence in the fluid is not considered.
+\item The water height and velocity is uniform in the cross section and only changes horizontally i.e. turbulence in the fluid is not considered.
 \item The slope of the channel bed is small
 % \item The flow in the sewer is one-dimensional, meaning that the water height and velocity is uniform in the cross-section and only changes horizontally.
 % \item The curvature of the sewer line is sufficiently small such that it can be considered a straight line. 
@@ -45,7 +45,7 @@ Q_{in} \cdot \Delta t =	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delt
 \label{flowin_saintbernard}
 \end{equation}
 
-Where q is lateral inflow across the entire channel [$\frac{m^2}{s}$] and Q is the flow in the channel [$\frac{m^3}{s}$]. Lateral inflow could for example come from adjoint sewer pipes or road drain.
+Where q is lateral inflow across the entire channel [$\frac{m^2}{s}$] and Q is the flow in the channel [$\frac{m^3}{s}$]. Lateral inflow could e.g. come from adjoint sewer pipes or gutter drain.
 The discharge flow of the channel is given as:
 
 \begin{equation}
@@ -72,7 +72,7 @@ Average change in stored fluid in the channel is given as:
 % 	\frac{\partial A}{\partial t} \cdot \Delta x	\cdot \Delta t
 % \end{equation}
 
-As the flow into the channel minus the flow out is equal to the change in stored fluid in the channel, then due to the assumption of incompressible fluid and uniformity, the following can be written:  
+As the flow into the channel minus the flow out is equal to the change in the stored fluid in the channel, then due to the assumption of incompressible fluid and uniformity, the following can be written:  
 
 \begin{equation}\label{eq:saintbernard_masse_simpel}
 	Q_{in}\cdot \Delta t - Q_{out}\cdot \Delta t = \frac{\partial A}{\partial t} \cdot \Delta x	\cdot \Delta t
@@ -123,7 +123,7 @@ Where $\mathcal{M}$(t) is the momentum, given as mass times a velocity vector, o
 If an infinite small slice of cross section in the control volume is considered, illustrated at the ends of the pipe in figure \ref{fig:momentum_picture}, and utilizing the product rule on the hydrodynamic force acting on the slice, the following is obtained:   
 
 \begin{equation}\label{eq:force_equal_vrhoQ}
-	F=\frac{d\mathcal{M}}{dt} =M \cdot \frac{dv}{dt} + \frac{dM}{dt} \cdot v 
+	F=\frac{d\mathcal{M}}{dt} = \frac{d(M\cdot v)}{dt} =M \cdot \frac{dv}{dt} + \frac{dM}{dt} \cdot v 
 \end{equation}
 
 Where M is the mass of the control volume. The term $dM/dt$ is the mass in an infinite small slice of the control volume, and v is the velocity of this slice into the control volume. Due to the assumption of incompressible fluid in the control volume the mass derivative term in equation \ref{eq:force_equal_vrhoQ} can be rewritten to:
