@@ -293,9 +293,8 @@ The results are obtained by using the MATLAB function ``tic-toc'' on the main si
 
 \subsection*{Display result}
 
-
-
-
+The areas of interest chosen to be displayed is, as mentioned in section \ref{sec:Structure}, flow, height, concentrate and concentrate flow.
+In figure \ref{fig:data_plot_chart} a flowchart of the constructed playback function to examine the simulation result is seen 
 
 \begin{figure}[H]
 \centering
@@ -304,5 +303,5 @@ The results are obtained by using the MATLAB function ``tic-toc'' on the main si
 \label{fig:data_plot_chart}
 \end{figure}
 
-
+The playback function is constructed such that firstly minimum and maximum values on the y axis is limited to the variations in the data. This apply for all pipes and tanks in the system. Secondly, ``Start\_point'' is set to the iteration from where the playback is to start from, ``step\_size'' is set to the amount of iterations to skip during playback. Lastly ``frame\_time'' is set, which decides the speed of the playback. The maximum speed is in the end decided by the computational speed available to MATLAB and due to the plot function being computational demanding a low amount of updates per second should be expected.
 
