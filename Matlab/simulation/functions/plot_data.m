@@ -50,10 +50,11 @@ for m = (1+adjust_start):sampling:length(data{1}.Q(:,1))
     
     figure(fig_nr)
     clf
-    subplot(2,2,1)
+    subplot(2,2,1) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if nr_tanks > 0
         yyaxis right
         plot(pipe_sep_line(tank_x),tank_height(m,1:end),'*')
+        ylabel('height [m]')
         ylim(tankheightlim)
         yyaxis left
         plot(x_axis,flow(m,:))
@@ -75,15 +76,14 @@ for m = (1+adjust_start):sampling:length(data{1}.Q(:,1))
     xlabel('distance (m)')
      title(['Flow'])
      
-    subplot(2,2,2)
- 
+    subplot(2,2,2)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if nr_tanks > 0
         yyaxis right
         plot(pipe_sep_line(tank_x),tank_height(m,1:end),'*')
+        ylabel('height [m]')
         ylim(tankheightlim)
         yyaxis left
         plot(x_axis,height(m,:))
-        
     else
         plot(x_axis,height(m,:))
     end
@@ -103,15 +103,14 @@ for m = (1+adjust_start):sampling:length(data{1}.Q(:,1))
     xlabel('distance (m)')
     title(['Height'])
    
-    subplot(2,2,3)
-    
+    subplot(2,2,3) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      if nr_tanks > 0
         yyaxis right
         plot(pipe_sep_line(tank_x),tank_concentrate(m,1:end),'*')
         ylim(conflowylim)
+        ylabel('g/m^3')
         yyaxis left
         plot(x_axis,concentrate(m,:))
-
     else
         plot(x_axis,concentrate(m,:))
     end
