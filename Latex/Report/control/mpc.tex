@@ -58,7 +58,7 @@ For MPC to optimize the system a cost function must be written to penalize varia
 
 \begin{equation}
 \begin{aligned}
-	 \CMcal{J} &= \sum_{i=1}^{H_p-1} || Q(k+i|k)C_1(k+i|k)-Q(k+i-1|k)C_1(k+i-1|k)||_{\CMcal{Q}(i)}^2 \\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_2(k+i|k)-Q(k+i-1|k)C_2(k+i-1|k)||_{\CMcal{Q}(i)}^2 \\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_3(k+i|k)-Q(k+i-1|k)C_3(k+i-1|k)||_{\CMcal{Q}(i)}^2\\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_4(k+i|k)-Q(k+i-1|k)C_4(k+i-1|k)||_{\CMcal{Q}(i)}^2 \\& +\sum_{i=1}^{H_p-1} || Q(k+i|k)-Q(k+i-1|k)||_{\CMcal{Q}(i)}^2
+	 \CMcal{J} &= \sum_{i=1}^{H_p-1} || Q(k+i|k)C_1(k+i|k)-Q(k+i-1|k)C_1(k+i-1|k)||_{\CMcal{Q}_1(i)}^2 \\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_2(k+i|k)-Q(k+i-1|k)C_2(k+i-1|k)||_{\CMcal{Q}_2(i)}^2 \\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_3(k+i|k)-Q(k+i-1|k)C_3(k+i-1|k)||_{\CMcal{Q}_3(i)}^2\\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_4(k+i|k)-Q(k+i-1|k)C_4(k+i-1|k)||_{\CMcal{Q}_4(i)}^2 \\& +\sum_{i=1}^{H_p-1} || Q(k+i|k)-Q(k+i-1|k)||_{\CMcal{Q}_5(i)}^2
 \end{aligned}	
 \end{equation}\fxnote{skal skrives så alle 4 koncentrationer er med, samt en for flow og et eller andet sted afgrænsning for liggetid i tank}
 Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. The concentrations $C_1, C_2, C_3$ and $C_4$ are respectively chloride, phosphorus nitrogen and organic matter levels in the wastewater. However, It has been chosen to only look at flow variation in the simulation and thereby excluding concentrations from the cost function and retention time in the tank\fxnote{enten skal vi fra vaelge os den noget før eller os skal vi have fundet på en cost function til liggetid}. This has been done to limit the control problem and ease the computation, to begin with. Thereby the cost function has been rewritten to: 
@@ -74,7 +74,7 @@ Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow
 						     u_{min} & \leq u \leq u_{max}
 	\end{aligned}
 \end{equation}
-Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value and not an estimate for y. This notation is used throughout the chapter. Where y corresponds to the height of the wastewater in the channel. It is the same to minimize height difference as the flow, due to both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states and control input. Both the states and the control input have a lower and upper constraint corresponding respectively to the bottom of the pipe and the top of the pipe and respectively to the minimum and maximum input to the pump. In order for the controller to minimize the variations in the output, it must be able to predict future events from the current state. Therefore, by iterating the linear model, shown in section \ref{se:linearization}, up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}.
+Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value and not an estimate for y. This notation is used throughout the chapter. Where y corresponds to the height of the wastewater in the pipe. It is the same to minimize height difference as the flow, due to both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states and control input. Both the states and the control input have a lower and upper constraint corresponding respectively to the bottom of the pipe and the top of the pipe and respectively to the minimum and maximum input to the pump. In order for the controller to minimize the variations in the output, it must be able to predict future events from the current state. Therefore, by iterating the linear model, shown in section \ref{se:linearization}, up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}.
 
 %Where $\hat{u}(k|k)$ and $\hat{d}(k|k)$ can be written as:
 
@@ -391,7 +391,7 @@ In the following the constraints for the cost function will be elaborated.
 
 In order to apply the constraints, shown in equation \ref{eq:cost_function_height} for the states, to the optimization problem in equation \ref{eq:the_cost_function} the constraints must be reformulated so they are a constraint of the controller input $\Delta\CMcal{U}$, therefore it is required to reformulate the inequalities constraints. 
 
-The constraints applied to the states are upper and lower bound to the channel and the tank. This will not allow the simulation to overfill the channel or the tank, or to have a negative height in either of the two. In the following equation the constraint for the states are shown:  
+The constraints applied to the states are upper and lower bound to the pipe and the tank. This will not allow the simulation to overfill the pipe or the tank, or to have a negative height in either of the two. In the following equation the constraint for the states are shown:  
 
 
 \begin{equation}
@@ -416,10 +416,10 @@ However, to make the constraint depend on $\Delta \CMcal{U}$ the difference betw
 \begin{equation}
 v=
 	\begin{bmatrix}
-	  v(k+1|k) 	\\
-	  v(k+2|k) 	\\
+	  v_1 	\\
+	  v_2 	\\
 	  \vdots 			\\
-	  v(k+H_p|k) 	\\
+	  v_{H_p} 	\\
 	  \end{bmatrix}
 	  = 
 	  \begin{bmatrix}
@@ -617,6 +617,8 @@ It can be seen that the tank does not get overfilled anymore, thereby is within 
 \end{figure}
 
 It is clear from the figure that the output is not even close to being constant. It fluctuates between two values, the constant input, approximately 0,31 meters, and 0,51 meters. In the top and bottom of the curve, it can be seen that the curve flattens. The bottom is due to the tank is empty and therefore, the input, that goes into the tank from the first pipe, goes right into the second pipe without storing any wastewater in the tank. When the top flattens the tank start to be filled up and as it goes down the tank is emptied. It was discovered that the reason for the top is due to constraints on the upper bound for the input, this however, is not a wanted feature. It was desired to get a constant output or a minimum of variations in the output, which is not achieved. Through several tries of changing the parameters of the constraints, e.g. lessen the controller constraints and trying to changing the height. However, a solution was not found. In every case the output looked similar to the one shown in figure \ref{fig:MPC_test_output_second_test_with_constraints}.
+
+The MPC controller does not function as intended, however in the following chapter the results of the simulation model over the northern part of Fredericia is shown.
 
 
 
