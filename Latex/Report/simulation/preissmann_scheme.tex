@@ -101,9 +101,9 @@ It has been chosen to set the slope of the water surface identical to the pipe b
 This equation describes the flow in a circular pipe by knowing the diameter, d height, h and the flow for a filled pipe $Q_f$. %Where $Q_f$ is calculated as \cite{ikke_stationear}:
 
 \begin{equation}\label{eq:qf_for_flow}
-    Q_f =-72\cdot \left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2\cdot S_f^{0,5}% -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
+    Q_f =72\cdot \left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2\cdot S_f^{0,5}% -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
 \end{equation}
-$Q_f$ is calculated from Mannings eqaution shown in \ref{Manning_formula} and can be seen in equation \ref{Manning_formulav2} in appendix \ref{app:formulas}. \fxnote{skal der skrives her, at det er antaget at friction er lig med haeldning?}  \fxnote{lav hjaelpe formeller}
+$Q_f$ is calculated from Mannings eqaution shown in \ref{Manning_formula} and can be seen in equation \ref{Manning_formulav2} in appendix \ref{app:formulas}.
 
 In equation \ref{eq:continuity_solve_flow} the flow $Q_{j+1}^{i+1}$ is a function of the unknown area $A_{j+1}^{i+1}$, and by subtracting the flow on each side the following is achieved,
 
@@ -174,6 +174,6 @@ This calculation is performed for each node in the Preissmann scheme, therefore 
 
 The iteration scheme starts with setting the boundary conditions for the flow and height as seen in figure \ref{fig:preissmann_grid_scheme_exampel}, thereafter i and j are countered one up before starting the iteration process. Hereafter the calculation for H, h, A, and Q are conducted iteratively throughout the pipe. Finally, a check is made to investigate if the iteration scheme has been through the whole pipe before it steps one up in time. This iteration process will go on until the i = n, which means that all the inputs to the pipe have been calculated throughout the pipe.   
 
-In the following stability and precision for the Preissmann scheme will be elaborated. Furthermore, how to chose $\Delta t, \Delta x$ and $\theta$ will be explained. 
+In the following stability and precision for the Preissmann scheme will be elaborated. %Where, how to chose $\Delta t, \Delta x$ and $\theta$ will be explained. 
 
 \input{report/simulation/preissmann_stability}
