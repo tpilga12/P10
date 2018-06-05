@@ -98,7 +98,7 @@ The two plots in the figure is seemingly identical, but if observed closer the c
 \label{fig:two_pipes_init_steady_state}
 \end{figure}
 
-In figure \ref{fig:two_pipes_init_steady_state} a maximum of 22 iterations are performed, as the error between the input flow of 0.25 $\text{m}^\text{3}$/s desired to be in all sections and the calculated flow in all the sections of the two pipes is less than $1\cdot10^{-7}$ which is a preset condition. \fxnote{forstår ikke den sidste del af denne sætning}
+In figure \ref{fig:two_pipes_init_steady_state} a maximum of 22 iterations are performed. The iterations are stopped as the error between the input flow of 0,25 $\text{m}^\text{3}$/s desired to be in all sections, and the calculated flow in all the sections of the two pipes is less than $1\cdot10^{-7}$, which is a preset condition. 
 Some discrepancy in heights can be seen at the start of both pipes. These two points are the boundary conditions that are found by the fitted polynomial. Even though the anomalies are small they could pose a problem when expanding the simulation with more pipes and different slopes. 
 
 In figure \ref{fig:Fredericia_pipe_setup} the specifications of the main line of Fredericia mentioned in section \ref{se:system_description}, and given by table \ref{tab:kloak_diameter} with corrections from table \ref{tab:new_slope_values}, is seen.
@@ -126,10 +126,9 @@ It is clear that the larger setup increases the undesired behavior seen in figur
 \begin{figure}[H]
  \centering
  \input{report/simulation/tikz/fredericia_init_steady_state_zoom}
-\caption{Segment of the height plot shown in figure \ref{fig:fredericia_init_steady_state}. Pipe 10 and 16 is seen in part at the left and right side and 11 to 15 in between with a red stippled line separating pipes.}
+\caption{Segment of the height plot shown in figure \ref{fig:fredericia_init_steady_state}. Pipe 10 and 16 is seen partially at the left and right side and 11 to 15 in between with a red stippled line separating pipes.}
 \label{fig:fredericia_init_steady_state_zoom}
-\end{figure}\fxnote{Forstår ikke figur tekst}
-
+\end{figure}t
 In the above figure, the obtained height from the fitted polynomial is at it worst off by almost a centimeter. But when simulating this offset will only occur in the first section of the pipe. This means that it will be a greater disturbance on short pipes with few sections than larger ones with more sections. An alternative method is attempted to conclude if the deviations of the curve fitted polynomial seen in figure \ref{fig:curvefit_comparision_split} is the cause or if there is an unforeseen error in the Preissmann scheme. A lookup table, where the same data used to create the polynomial, is utilized. A simple implementation is made where the index in the vector of flow is found by subtracting the input flow from the vector. The desired index is then found by searching for the lowest absolute value. Finally the resulting height is given as the desired index of the height vector. The chosen scheme for creating the lookup table means that the height will in worst case be rounded to the nearest step. But indexing the flow and height into the chosen 10.000 steps, it is assumed to be an insignificant error, and in worst case the amount of steps can be increased. In figure \ref{fig:fredericia_init_steady_state_lut} an identical test of the pipe setup of Fredericia is performed at various iterations.      
 
 \begin{figure}[H]
@@ -145,9 +144,9 @@ Something else to note is that even though the difference seem to be non existen
 \begin{figure}[H]
 \centering
 \includegraphics[width=1.05 \textwidth]{report/simulation/pictures/init_sys_dia.pdf}
-\caption{}
+\caption{Initialization loop.}
 \label{fig:init_sys_dia}
-\end{figure}\fxnote{mangler figur tekst}
+\end{figure}
 
 Two functions, namely ``Tank'' and ``Init\_pipe'', is used to obtain the initial values for tanks and the boundary conditions, for the pipes, needed to start iterating with the Preissmann scheme. The tank function returns the initial flow, height and the input needed for the pump, such that inflow is equal to outflow in the tank. Due to MPC requiring constraints for the input to the pump in the tank and due to time constraint of the project, a limitation in the simulation is made. The limitation refers to tanks not being able to be the end point of the entire system setup. The reason for this is that a uniform control input of zero to one for all pumps, to ease constraint setup when utilizing MPC, is obtained. The following parameters is set in the tank function:
 \begin{itemize}
@@ -182,7 +181,7 @@ Lastly in the yellow stippled box the desired and average flow values in the pip
 \label{fig:error_value_test}
 \end{figure} 
 
-If the curve fitted polynomial is utilized to obtain boundary conditions then an error value below $1\cdot10^{-6}$ is preferable. But for setup's with more pipes it can be necessary to lower this value even further. The lookup table on the other hand is due to its better precision not considerably affected in the first place, though some precision is obtained by lowering the error value. As the tested error value is performed on a simple test, and final decision has not been made on which scheme to utilize an error value of $1\cdot10^{-9}$ has been decided upon. The reason being the results shown in figure \ref{fig:Fredericia_pipe_setup} \fxnote{rigtige henvisning? virker som resultat henvisning og ikke til pipe spec}, and that various setups where more pipes with different initial flows might yield a worse result.
+If the curve fitted polynomial is utilized to obtain boundary conditions then an error value below $1\cdot10^{-6}$ is preferable. But for setup's with more pipes it can be necessary to lower this value even further. The lookup table on the other hand is due to its better precision not considerably affected in the first place, though some precision is obtained by lowering the error value. As the tested error value is performed on a simple test, and final decision has not been made on which scheme to utilize an error value of $1\cdot10^{-9}$ has been decided upon. The reason being the results shown in figure \ref{fig:error_value_test}, and that various setups where more pipes with different initial flows might yield a worse result.
 
 
 \subsection*{Simulation}
