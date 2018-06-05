@@ -22,11 +22,34 @@ The water width in a pipe to a given height is calculated with the following equ
 	b = 2 \cdot \sqrt{-h+h\cdot d}
 \end{equation}
 
-The flow in a filled pipe can be calculated as \cite{ikke_stationear}:
-\begin{equation}%\label{eq:qf_for_flow}
-	Q_f =-72\cdot \left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2\cdot S_f^{0,5}% -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
+The flow in a filled pipe can be calculated with the equation describing the friction in a pipe \cite{ikke_stationear}:
+\begin{equation}
+	S_f = \frac{n^2 Q^2}{A^2R^{4/3}}= \frac{n^2 v^2}{R^{4/3}}
+\label{Manning_formulav2}
 \end{equation}
-Where $S_f$ is a friction term. 
+Solved for Q:
+
+\begin{equation}
+	Q^2=\frac{A^2R^{4/3}}{n}S_f			
+\end{equation}
+
+Where n is Mannings roughness factor $[sm^{-1/3}]$, which is 0,0139 for concrete pipe. R is the hydraulic radius [m], A is the area $[m^2]$ and Q is the flow $[m^3/s]$. Taking the square root on both sides and assuming that the equation is for a fully filled pipe, the following can be written:
+
+\begin{equation}
+  Q_{f} = 72 A_{f} R_{f}^{0.635}S_f^{0,5} 
+\end{equation}
+
+Where the subscript f denotes for fully filled pipe. For a fully filled pipe the area is the cross section for a circle. The hydraulic radius is the wetted area divided by the wetted perimeter. As the wetted area is the area for a circle and as the wetted perimeter is equal to the perimeter of a circle the following can be written: 
+\begin{equation}
+		Q_{f}= 72 \underbrace{\pi r^2}_{A_{f}}\underbrace{\left(\frac{\pi r^2}{2\pi r}\right)^{0,635} }_{R_{f}}S_f^{0,5} 
+\end{equation}
+
+This can be simplified to the equation for a fully filled pipe:
+
+\begin{equation}%\label{eq:qf_for_flow}
+	Q_{f} =72\pi\left(\frac{d}{2}\right)^2\left(\frac{d}{4}\right)^{0.635} S_f^{0,5}% -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
+\end{equation}
+
 
 The flow in a pipe given a height can be calculated with the following equation \cite{ikke_stationear}:
 \begin{equation}%\label{eq:calc_for_flowv2}
