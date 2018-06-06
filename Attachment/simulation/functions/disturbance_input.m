@@ -21,6 +21,7 @@ if m > 1
     end
     
         % Disturbance input from the different zones
+        input.side.Q{m,1:length(pipe_spec)} =0;
         input.side.Q{m,3} = disturbance.Zone1_1(i(m))+disturbance.Zone1_2(i(m))+disturbance.Zone1_3(i(m))+disturbance.Industry_1_1(i(m))+disturbance.Industry_1_3(i(m));
         input.side.Q{m,6} = disturbance.Zone2(i(m));
         input.side.Q{m,7} = disturbance.Zone3(i(m));
