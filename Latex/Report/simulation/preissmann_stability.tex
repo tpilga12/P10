@@ -18,7 +18,7 @@ $\Delta x$	& 20 m  \\ \hline
 Diameter	& 1.2 m \\ \hline
 Ib			& 3 \textperthousand \\ \hline
 \end{tabular}
-\caption{Pipe specifications}
+\caption{Pipe specifications.}
 \label{tab:pipe_stability_test}
 \end{table}
 
@@ -37,11 +37,11 @@ The parameter $\theta$ should not be left out of the equation, as higher values 
 \begin{figure}[H]
  \centering
  \input{report/simulation/tikz/stability_theta_test_05_065_1}
-\caption{Step in inflow given from 0,35 $\text{m}^\text{3}/ \text{s}$ to 0.7 $\text{m}^\text{3}/ \text{s}$ at first iteration in pipe listed in table \ref{tab:pipe_stability_test} and 9,753 chosen for $\Delta t$ . Plot for all tests is made at approximately t = 97,5 seconds.}
+\caption{Step in inflow given from 0,35 $\text{m}^\text{3}/ \text{s}$ to 0,7 $\text{m}^\text{3}/ \text{s}$ at first iteration in pipe listed in table \ref{tab:pipe_stability_test} and 9,753 chosen for $\Delta t$. Plot for all tests is made at approximately t = 97,5 seconds.}
 \label{fig:stability_theta_test_05_065_1}
 \end{figure}
 
-Due to the choice of simplifying, any natural dampening effect has thereby been disregarded, but as seen in figure \ref{fig:stability_theta_test_05_065_1} artificial dampening due to numerical errors can be reintroduced. By choosing a proper value of $\theta$ the simplification can be somewhat rectified, but at the same time, it can mitigate oscillations, which would be bound to happen when pipes of different diameters, slopes and $\Delta x$ are adjoined. As a consequence of introducing numerical dampening, waves of low amplitude will be dampened out. But due to the lengths sewer pipes typically are it is assumed to be an insignificant consequence compared to the reduction in oscillation which can be obtained. According to \cite{cunge1980practical} a value of approximately 0.65 is a reasonable choice for $\theta$, and for that reason, it will be used for the remaining part of the project. For comparison the test in figure \ref{fig:stability_test_theta_0_5} is replicated with the chosen value of $\theta$ and can be seen in figure \ref{fig:stability_test_theta_0_65}.
+Due to the choice of simplifying, any natural dampening effect has thereby been disregarded, but as seen in figure \ref{fig:stability_theta_test_05_065_1} artificial dampening due to numerical errors can be reintroduced. By choosing a proper value of $\theta$ the simplification can be somewhat rectified, but at the same time, it can mitigate oscillations, which would be bound to happen when pipes of different diameters, slopes and $\Delta x$ are adjoined. As a consequence of introducing numerical dampening, waves of low amplitude will be dampened out. But due to the lengths sewer pipes typically are it is assumed to be an insignificant consequence compared to the reduction in oscillation which can be obtained. According to \cite{cunge1980practical} a value of approximately 0,65 is a reasonable choice for $\theta$, and for that reason, it will be used for the remaining part of the project. For comparison the test in figure \ref{fig:stability_test_theta_0_5} is replicated with the chosen value of $\theta$ and can be seen in figure \ref{fig:stability_test_theta_0_65}.
 
 \begin{figure}[H]
  \centering
