@@ -34,7 +34,9 @@ toc
 i=1;
 %% run stuff !!!!!
 clc
+
 iterations = 2000;
+
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
 tic
 for m = 2:(iterations+1)
