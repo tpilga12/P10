@@ -185,59 +185,7 @@ The iteration scheme starts with setting boundary conditions for flow and height
 When the iteration scheme has been through the whole pipe it increments by one in time. This iteration process will go on until ``n'' time iterations has been performed.   
 
 In the following stability and precision for the Preissmann scheme will be elaborated. %Where, how to chose $\Delta t, \Delta x$ and $\theta$ will be explained. 
-\begin{equation}
-\begin{aligned}
-      & \underbrace{\begin{bmatrix}
-            1 & 0       & 0         &0          &0          &0   &0\\
-            0 & b_{1,1} & 0         &0          &0          &0  &0\\
-            0 &a_{1,1}  & b_{1,2}   & 0         &0          &0 &0\\
-            0 &0        & 0         & 1         & 0         &0      &0\\
-             0 &0        & 0         &  0        & 1         &0   & 0        \\
-            0 & 0       &0          &  0         &a_{2,1}    &  b_{2,2}&0       \\
-            0 & 0       & 0         &   0        &     0      & a_{2,2}  & b_{2,3}\\  
-       \end{bmatrix}}_{\xi}
-        \underbrace{\begin{bmatrix}
-        h_{0}^{i+1}\\
-        h_{1}^{i+1} \\
-        h_{2}^{i+1} \\ 
-        h_{3}^{i+1} \\          
-        h_{4}^{i+1}     \\
-        h_{5}^{i+1}\\
-    \end{bmatrix}}_{x(k+1)}
-    \\ &=
-    \underbrace{\begin{bmatrix}
-        0       &  0    &   0    & 0     &0         &0          &0 \\
-        c_{1,0} &d_{1,1}&   0    &  0    &0         &0          &0\\
-        0       &c_{1,1}& d_{1,2}& 0     &0         &0       &0\\
-        0       & 0     & e_1    & 1     &0         &0          &0           \\
-        0       & 0     &   0    & 0     & 0        &0          &0        \\
-        0       & 0     &  0     & 0    &c_{2,0}    &  d_{2,1} &0  \\
-         0       & 0     &  0    & 0    &0          &c_{2,1}    &  d_{2,2}   \\
-        \end{bmatrix}}_{A}
-            \underbrace{\begin{bmatrix}
-        h_{0}^{i} \\
-        h_{1}^{i} \\
-        h_{2}^{i} \\
-        h_{3}^{i}\\
-        h_{4}^{i}\\
-        h_{5}^{i}\\
-          h_{6}^{i}\\
-        \end{bmatrix}}_{x(k)}
-    +  \underbrace{\begin{bmatrix}
-         1 & 0\\
-         -a_0& 0 \\
-         0 & 0\\
-          0& -f \\
-          0& g \\ 
-          0& 0 \\
-          0& 0 \\
-        \end{bmatrix}}_{B}
-        \begin{bmatrix}
-        h_0^{i+1}\\
-        u_{tank} \\
-        \end{bmatrix}
-    \end{aligned}
-\end{equation}
+
 \input{report/simulation/preissmann_stability}
 
 
