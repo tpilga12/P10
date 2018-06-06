@@ -32,23 +32,23 @@ if m > 1
         input.side.Q{18}= disturbance.Zone11(i(m));
         
                 % Disturbance input from the different zones
-        Normalized_poop_curve=disturbance.Zone1_1(1:86400)/73.61;%Used to create a plot where the integral of the poop curve is equalt to one       
-        input.side.C{3} = (2279*0.2)*Normalized_poop_curve(m);
-        input.side.C{6} = 173*0.2*Normalized_poop_curve(m);
-        input.side.C{7} = 5799*0.2*Normalized_poop_curve(m);
-        input.side.C{8} = 322*0.2*Normalized_poop_curve(m);
-        input.side.C{9} = 356*0.2*Normalized_poop_curve(m);
-        input.side.C{11}= 5874*0.2*Normalized_poop_curve(m);
-        input.side.C{13}= 2067*0.2*Normalized_poop_curve(m);
-        input.side.C{14}= 3916*0.2*Normalized_poop_curve(m);
-        input.side.C{15}= 11748*0.2*Normalized_poop_curve(m);
-        input.side.C{18}= 865*0.2*Normalized_poop_curve(m);
+        Normalized_poop_curve=disturbance.Zone1_1(1:86400)*235;%Used to create a plot where the integral of the poop curve is equalt to one       
+        input.side.C{3} = Normalized_poop_curve(m);%(2279*0.2)*Normalized_poop_curve(m);
+        input.side.C{6} = Normalized_poop_curve(m);%173*0.2*Normalized_poop_curve(m);
+        input.side.C{7} = Normalized_poop_curve(m);%5799*0.2*Normalized_poop_curve(m);
+        input.side.C{8} = Normalized_poop_curve(m);%322*0.2*Normalized_poop_curve(m);
+        input.side.C{9} = Normalized_poop_curve(m);%356*0.2*Normalized_poop_curve(m);
+        input.side.C{11}= Normalized_poop_curve(m);%5874*0.2*Normalized_poop_curve(m);
+        input.side.C{13}= Normalized_poop_curve(m);%2067*0.2*Normalized_poop_curve(m);
+        input.side.C{14}= Normalized_poop_curve(m);%3916*0.2*Normalized_poop_curve(m);
+        input.side.C{15}= Normalized_poop_curve(m);%11748*0.2*Normalized_poop_curve(m);
+        input.side.C{18}= Normalized_poop_curve(m);%865*0.2*Normalized_poop_curve(m);
         
         
  
         % Input from the brewery / bottling plant  
         input.Q_in(m,1) = brewery_disturbance(i(m))/1000+0.05;% + sin(m/10)/35 ;%+ sin(m/100)/15;
-        input.C_in(m,1) = 0;
+        input.C_in(m,1) = 0.001;
 end 
 
 
