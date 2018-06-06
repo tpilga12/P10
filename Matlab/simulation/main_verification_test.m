@@ -10,12 +10,14 @@ global Dt iterations error
 Dt = 20;%17.393;%6.589;%8.921;
 % [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_setup_test_verification(1);
 % [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = stability_test_setup(1);
-[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_setup_fredericia(1);
+% [pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_setup_fredericia(1);
+[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup_experiment(1);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 input.C_init = 8; % initial concentrate in pipe
 input.Q_init = 0.3; % initial input flow
-input.tank_height_init(:) = [1.0 3]; % initial tank height
+input.tank_height_init(:) = [3 3]; % initial tank height
 for k = 1:length(pipe_spec)
     input.side.Q{k} = 0;
     input.side.C{k} = 0;
@@ -28,11 +30,11 @@ tic
 toc
 %% run stuff !!!!!
 clc
-iterations = 2000;
+iterations = 200;
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
-% input.u = input.u_init;
+input.u = input.u_init;
 % 
 tic
 for m = 2:(iterations+1)
@@ -45,8 +47,8 @@ for m = 2:(iterations+1)
 %     else
     end
 %     input.Q_in(m,1) = 0.25 + sin(m/10)/35;%test_verification_input(m);
-%     input.u(m,1) = input.u_init + sin(m/15)/25;
-%     input.u(m,2) = 0.25;
+     input.u(m,1) = input.u_init(1) + sin(m/15)/25;
+     input.u(m,2) = 0.11;
     %input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 
     

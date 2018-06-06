@@ -406,20 +406,20 @@ Where $x_{min}$ and $x_{max}$ are respectively lower and upper bound. As the con
 
 To reformulated the constraint the predicted state equation \ref{eq:lifted_state_equation} is inserted instead of the state vector.
 
-\begin{equation}
+\begin{equation}\label{eq:constraint_states}
 	x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}\hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k) \leq x_{max}-\bar{x}
      %x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}u(k-1)+\CMcal{B}_f\Delta\CMcal{U}(k)+\CMcal{BD}(k) \leq x_{max}-\bar{x}
  \end{equation} 
 
-However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k) = vu(k-1) +W\Delta \CMcal{U}(k) $, where v is a vector and W is a matrix on the form: 
+However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k) = \CMcal{V}u(k-1) +W\Delta \CMcal{U}(k) $, where $\CMcal{V}$ is a vector and W is a matrix on the form: 
 
 \begin{equation}
-v=
+\CMcal{V}=
 	\begin{bmatrix}
-	  v_1 	\\
-	  v_2 	\\
+	  \CMcal{V}_1 	\\
+	  \CMcal{V}_2 	\\
 	  \vdots 			\\
-	  v_{H_p} 	\\
+	  \CMcal{V}_{H_p} 	\\
 	  \end{bmatrix}
 	  = 
 	  \begin{bmatrix}
@@ -445,7 +445,12 @@ v=
 	  \end{bmatrix}
 \end{equation}
 
+Inserting this into equation \ref{eq:constraint_states} the follwing is obtained:
 
+\begin{equation}
+	x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k) \leq x_{max}-\bar{x}
+     %x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}u(k-1)+\CMcal{B}_f\Delta\CMcal{U}(k)+\CMcal{BD}(k) \leq x_{max}-\bar{x}
+ \end{equation} 
 % This is inserted in the following equation: 
 
 % \begin{equation}
@@ -453,16 +458,22 @@ v=
 %  \end{equation} 
 
 
- Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be set up as equality constraints, therefore, it is divided into two constraints: 
+ Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be set up as equality constraints, therefore, it is divided into two constraints on for the upper bound and one for the lower bound: 
 
  \begin{equation}
- \underbrace{BW}_{\Lambda} \Delta\hat{\CMcal{U}}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}\hat{x}(k)-\CMcal{B}\hat{u}(k-1)-\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_1}
+ \begin{aligned}
+ x_{max}-\bar{x} &\geq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k)\\
+ \underbrace{BW}_{\Lambda} \Delta\hat{\CMcal{U}}(k)&\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}\hat{x}(k)-\CMcal{B}\CMcal{V}\hat{u}(k-1)-\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_1}
         %\CMcal{B}_f\Delta\CMcal{U}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}u(k-1)-\CMcal{B}\CMcal{D}(k)}_{\Gamma_1}
+\end{aligned}
  \end{equation}  
 
  \begin{equation}
- \underbrace{\CMcal{B}W}_{\Lambda} \Delta\hat{\CMcal{U}}(k) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}\hat{x}(k)+\CMcal{B}\hat{u}(k-1)+\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_2}
+ \begin{aligned}
+ x_{min}- \bar{x} &\leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k)\\
+ \underbrace{\CMcal{B}W}_{\Lambda} \Delta\hat{\CMcal{U}}(k) &\leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1)+\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_2}
    % -\CMcal{B}_f\Delta\CMcal{U}(k) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}x(k)+\CMcal{B}u(k-1)+\CMcal{B}\CMcal{D}(k)}_{\Gamma_2}
+  \end{aligned}
  \end{equation}
 
 
@@ -474,15 +485,15 @@ Constraints are also applied to the controller output. The reason for these cons
 The constraint needs to be written for small signal values, and needs to depend on $\Delta \CMcal{U}$:
 
  \begin{equation}
- 		u_{min} -  \bar{u} \leq v\hat{u}(k-1)+ W\Delta\hat{\CMcal{U}}(k)  \leq  u_{max} -  \bar{u}
+ 		u_{min} -  \bar{u} \leq \CMcal{V}\hat{u}(k-1)+ W\Delta\hat{\CMcal{U}}(k)  \leq  u_{max} -  \bar{u}
  \end{equation}
 
 The constraint is split up into lower and upper bound for the signal, the upper bound is:
 
  \begin{equation}
  \begin{aligned}
-			 	v\hat{u}(k-1)+W \Delta\hat{\CMcal{U}}(k)  &\leq  u_{max} -  \bar{u} \\
-				W\Delta\hat{\CMcal{U}}(k)  &\leq  \underbrace{u_{max} -  \bar{u} - v\hat{u}(k-1)}_{\Gamma_3} \\
+			 	\CMcal{V}\hat{u}(k-1)+W \Delta\hat{\CMcal{U}}(k)  &\leq  u_{max} -  \bar{u} \\
+				W\Delta\hat{\CMcal{U}}(k)  &\leq  \underbrace{u_{max} -  \bar{u} - \CMcal{V}\hat{u}(k-1)}_{\Gamma_3} \\
  \end{aligned}
  \end{equation}
 
@@ -492,8 +503,8 @@ And the lower bound:
 
  \begin{equation}
  \begin{aligned}
-			 	u_{min} -  \bar{u} &\leq v\hat{u}(k-1)+W \Delta\hat{\CMcal{U}}(k) \\
--W\Delta\hat{\CMcal{U}}(k) &\leq \underbrace{\hat{u}(k-1)-u_{min}+\bar{u}}_{\Gamma_4}
+			 	u_{min} -  \bar{u} &\leq \CMcal{V}\hat{u}(k-1)+W \Delta\hat{\CMcal{U}}(k) \\
+-W\Delta\hat{\CMcal{U}}(k) &\leq \underbrace{\CMcal{V}\hat{u}(k-1)-u_{min}+\bar{u}}_{\Gamma_4}
  \end{aligned}
  \end{equation}
 

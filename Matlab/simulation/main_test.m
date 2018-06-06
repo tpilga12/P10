@@ -40,7 +40,7 @@ i=1;
 %% run stuff !!!!!
 clc
 
-iterations = 4400;
+iterations = 400;
 const = 0;
 i = Dt;
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
