@@ -39,16 +39,16 @@ for n = 1:sections
         
         if new_pipe == 1 
             if  pipe_spec(pipe_component).side_inflow == 1
-                Q(m,n) = input.Q_in(m,element)+input.side.Q{pipe_component};
-                C(m,n) = (input.C_in(m,element) * input.Q_in(m,element) + input.side.C{pipe_component} * input.side.Q{pipe_component}) / (input.Q_in(m,element) + input.side.Q{pipe_component-1});
+                Q(m,n) = input.Q_in(m,element)+input.side.Q{m,pipe_component};
+                C(m,n) = (input.C_in(m,element) * input.Q_in(m,element) + input.side.C{m,pipe_component} * input.side.Q{m,pipe_component}) / (input.Q_in(m,element) + input.side.Q{m,pipe_component-1});
             else
                 Q(m,n) = input.Q_in(m,element);
                 C(m,n) = input.C_in(m,element);
             end
         else % input flow is output of previous pipe
             if pipe_spec(pipe_component).side_inflow == 1
-                Q(m,n) = data{sys_component-1}.Q(m,end)+input.side.Q{pipe_component};
-                C(m,n) = (data{sys_component-1}.C(m,end) * data{sys_component-1}.Q(m,end) + input.side.C{pipe_component} * input.side.Q{pipe_component}) / (data{sys_component-1}.Q(m,end) + input.side.Q{pipe_component});
+                Q(m,n) = data{sys_component-1}.Q(m,end)+input.side.Q{m,pipe_component};
+                C(m,n) = (data{sys_component-1}.C(m,end) * data{sys_component-1}.Q(m,end) + input.side.C{m,pipe_component} * input.side.Q{m,pipe_component}) / (data{sys_component-1}.Q(m,end) + input.side.Q{m,pipe_component});
             else
                 Q(m,n) = data{sys_component-1}.Q(m,end);
                 C(m,n) = data{sys_component-1}.C(m,end);
