@@ -22,7 +22,7 @@ In figure \ref{fig:preissmann_grid_scheme} a single mesh for the Preissmann sche
 \begin{figure}[H]
 \centering
 %\includepdf[pages=1]{report/simulation/pictures/preissmann_scheme.pdf}
-\includegraphics[width=.8\textwidth]{report/simulation/pictures/preissmann_scheme.pdf}
+\includegraphics[width=.7\textwidth]{report/simulation/pictures/preissmann_scheme.pdf}
 \caption{Preissmann non-staggered grid scheme.}
 \label{fig:preissmann_grid_scheme}
 \end{figure}
@@ -56,9 +56,9 @@ The approximations of equation \ref{eq:preissmann_time_derivatie} and \ref{eq:pr
 % \end{multline}
 \begin{equation}\label{eq:Momentum_eq_preissmann_discrete}
 \begin{aligned}
-    &\frac{1}{gA_p}\left(\frac{1}{2} \left(\frac{Q_{j+1}^{i+1}-Q_{j+1}^i}{\Delta t}+\frac{Q_{j}^{i+1} - Q_j^i}{\Delta t}\right)\right) +  \\ 
-   &\frac{1}{gA_p}\left(\frac{\theta}{\Delta x} \left(\left(\frac{Q^2}{A}\right)_{j+1}^{i+1}-\left(\frac{Q^2}{A}\right)_{j}^{i+1}\right) +  \frac{1-\theta}{\Delta x}\left(\left(\frac{Q^2}{A}\right)_{j+1}^{i}-\left(\frac{Q^2}{A}\right)_{j}^{i}\right) \right) + \\ 
-   &\theta \left(\frac{h_{j+1}^{i+1}-h_j^{i+1}}{\Delta x}\right)+ (1-\theta)\left(\frac{h_{j+1}^{i} - h_j^i}{\Delta x}\right) + \\
+    &\frac{1}{gA_p}\left(\frac{1}{2} \left(\frac{Q_{j+1}^{i+1}-Q_{j+1}^i}{\Delta t}+\frac{Q_{j}^{i+1} - Q_j^i}{\Delta t}\right)\right) +  \\ \vspace{2mm}
+   &\frac{1}{gA_p}\left(\frac{\theta}{\Delta x} \left(\left(\frac{Q^2}{A}\right)_{j+1}^{i+1}-\left(\frac{Q^2}{A}\right)_{j}^{i+1}\right) +  \frac{1-\theta}{\Delta x}\left(\left(\frac{Q^2}{A}\right)_{j+1}^{i}-\left(\frac{Q^2}{A}\right)_{j}^{i}\right) \right) + \\ \vspace{2mm}
+   &\theta \left(\frac{h_{j+1}^{i+1}-h_j^{i+1}}{\Delta x}\right)+ (1-\theta)\left(\frac{h_{j+1}^{i} - h_j^i}{\Delta x}\right) + \\ \vspace{2mm}
    &S_f-S_b= 0
     \end{aligned}
 \end{equation}

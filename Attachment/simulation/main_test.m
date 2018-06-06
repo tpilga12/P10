@@ -33,7 +33,7 @@ i=1;
 %% run stuff !!!!!
 clc
 
-iterations = 4320;
+iterations = 432;
 
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
 tic
@@ -41,7 +41,7 @@ for m = 2:(iterations+1)
         %%%%%% inputs %%%%%%%%%%%%
 %         input.C_in(m,1) = 0; % concentrate input [g/m^3]
         
-        [input] = disturbance_input(m,Dt,input,disturbance,brewery_disturbance);
+        [input] = disturbance_input(m,Dt,input,disturbance,brewery_disturbance,pipe_spec);
         %     end
         utank1(m,1) = 0.9;% + sin(m/10)/8;
         utank2(m,1) = 0.2;%input.u_init(1,2);
