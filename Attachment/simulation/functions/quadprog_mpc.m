@@ -8,7 +8,7 @@ H = 2*gamma'*Q*gamma;
 f = 2*(delta_xstates*psi'*Q*gamma)+2*D_delta'*theta'*Q*gamma;
 
 
-options = optimoptions('quadprog','Display','final','Algorithm','interior-point-convex');
+options = optimoptions('quadprog','Display','final','Algorithm','Interior-point-convex');
 
 
  
