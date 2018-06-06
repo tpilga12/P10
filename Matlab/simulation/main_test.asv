@@ -16,7 +16,7 @@ load brewery_datav2.mat % load disturbance from brewery and bottle plant
 brewery_disturbance = [brewery_disturbance brewery_disturbance brewery_disturbance brewery_disturbance]; 
 
 input.C_init = 10; % initial concentrate in pipe
-input.Q_init = 0.25; % initial input flow
+input.Q_init = 0.2; % initial input flow
 input.u_init(:) = [0.35 0.35]; % initial tank actuator input
 input.tank_height_init(:) = [0.3 3]; % initial tank height
 for k = 1:length(pipe_spec)
@@ -77,9 +77,9 @@ for m = 2:(iterations+1)
  
         % Input from the brewery / bottling plant  
      %   input.Q_in(m,1) = brewery_disturbance(i(m))/1000+0.05;% + sin(m/10)/35 ;%+ sin(m/100)/15;
-      input.Q_in(m,1) = 0.25+ sin(m/10)/15;
+      input.Q_in(m,1) = 0.2;
     %     end
-    utank1(m,1) =   0.2+ sin(m/10)/8;
+    utank1(m,1) =   0.2+ sin(m/10)/5;
     utank2(m,1) = 0.2;%input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 
