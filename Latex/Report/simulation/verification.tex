@@ -167,27 +167,25 @@ The pipe function is given initial flow, a component number from the system setu
 \label{fig:init_pipe_chart}
 \end{figure}
 
-The pipe initialization function can be separated into three parts as indicated by the blue, red and yellow stippled boxes. In the blue stippled box the generated data, which can also be used for a lookup table, is used to create the curve fitted polynomial. 
-When data are generated for all the pipes given to the function, a flag is set such that unnecessary calculations are not performed further on. In the red stippled box the calculations of the height and concentrate are performed. In the first time iteration ``m = 1'' the initial boundary condition is set for all sections of pipe number ``x''. This corresponds to the i-th row of circles shown in figure \ref{fig:preissmann_grid_scheme_exampel}. Furthermore, when iterating through the pipes the corresponding pipe specifications is checked to decide if the pipe has side inflow. If it is present then the inflow into the pipe is a simple summation of input flow and side inflow. The concentrate input in the case of side inflow is found by equation \ref{poop_addition_interconnection}.
-%From the inflow and concentrate throughout the pipe is calculated. 
-For the next pipe, the input is then set to be the output of the previous pipe plus eventual side inflow.%, the same calculation of height and concentrate is then performed again.
-At the following time iterations, the input boundary condition is found at section ``n = 1''. The Preissmann scheme is then utilized to find the height, and the concentrate is calculated, for the remaining pipe sections. This is done for all the pipes given to the function.
-Lastly, in the yellow stippled box the desired and average flow values in the pipe or pipes is calculated. At the first time iteration ``m = 1'' the values of ``Flow\_avg'' and ``Flow\_desired'' are not updated. The reason is that the initial flow is inserted as the flow in all sections of all the pipes, which would give an error which is zero and stop the initialization loop. In the following iterations, disregarding the boundary condition which is still calculated, the flow is found from a height which can vary for some iterations as seen in figure \ref{fig:fredericia_init_steady_state}. When the flow in all sections of all the pipes has an error which is sufficiently small from the desired flow the iterations is stopped. The flow, height and concentrate data from the latest iteration is returned and the simulation has a steady state point from where it can start. The amount of iterations and the accuracy of the steady state of course depends on the chosen error value. In figure \ref{fig:error_value_test}, the result of various tested error values can be seen.
+The pipe initialization function can be separated into three parts as indicated by the blue, red and yellow stippled boxes. In the blue stippled box the generated data, which can also be used for a lookup table, is used to create the curve fitted polynomial. When data are generated for all the pipes given to the function, a flag is set such that unnecessary calculations are not performed further on. 
+
+In the red stippled box the calculations of the height and concentrate are performed. In the first time iteration ``m = 1'' the initial boundary condition is set for all sections of pipe number ``x''. This corresponds to the i-th row of circles shown in figure \ref{fig:preissmann_grid_scheme_exampel}. Furthermore, when iterating through the pipes the corresponding pipe specifications is checked to decide if the pipe has side inflow. If it is present then the inflow into the pipe is a simple summation of input flow and side inflow. The concentrate input in the case of side inflow is found by equation \ref{poop_addition_interconnection}. For the next pipe, the input is then set to be the output of the previous pipe plus eventual side inflow. At the following time iterations, the input boundary condition is found at section ``n = 1''. The Preissmann scheme is then utilized to find the height, and the concentrate is calculated, for the remaining pipe sections. This is done for all the pipes given to the function.
+
+Lastly, in the yellow stippled box the desired and average flow values in the pipe or pipes are calculated. At the first time iteration ``m = 1'' the values of ``Flow\_avg'' and ``Flow\_desired'' are not updated. The reason is that the initial flow is inserted as the flow in all sections of all the pipes, which would give an error which is zero and stop the initialization loop. In the following iterations, disregarding the boundary condition which is still calculated, the flow is found from a height which can vary for some iterations as seen in figure \ref{fig:fredericia_init_steady_state}. When the flow in all sections of all the pipes has an error which is sufficiently small from the desired flow the iterations is stopped. The flow, height and concentrate data from the latest iteration is returned and the simulation has a steady state point from where it can start. The amount of iterations and the accuracy of the steady state of course depends on the chosen error value. In figure \ref{fig:error_value_test}, the result of various tested error values can be seen.
 
 \begin{figure}[H]
  \centering
  \input{report/simulation/tikz/error_value_test}
-\caption{Various values of error value is tested with lookup table and curve fitted polynomial tested on pipe setup shown in figure \ref{fig:Fredericia_pipe_setup} of Fredericia.}
+\caption{Various values of error value are tested with the lookup table and curve fitted polynomial tested on pipe setup shown in figure \ref{fig:Fredericia_pipe_setup} of Fredericia.}
 \label{fig:error_value_test}
 \end{figure} 
 
-If the curve fitted polynomial is utilized to obtain boundary conditions then an error value below $1\cdot10^{-6}$ is preferable. But for setup's with more pipes it can be necessary to lower this value even further. The lookup table on the other hand is due to its better precision not considerably affected in the first place, though some precision is obtained by lowering the error value. As the tested error value is performed on a simple test, and final decision has not been made on which scheme to utilize an error value of $1\cdot10^{-9}$ has been decided upon. The reason being the results shown in figure \ref{fig:error_value_test}, and that various setups where more pipes with different initial flows might yield a worse result.
-
+If the curve fitted polynomial is utilized to obtain boundary conditions then an error value below $1\cdot10^{-6}$ is preferable. But for setup's with more pipes, it can be necessary to lower this value even further. The lookup table, on the other hand, is due to its better precision not considerably affected in the first place, though some precision is obtained by lowering the error value. As the tested error value is performed on a simple test, and a final decision has not been made on which scheme to utilize an error value of $1\cdot10^{-9}$ has been decided upon. The reason being the results shown in figure \ref{fig:error_value_test}, and that various setup where more pipes with different initial flows might yield a worse result.
 
 \subsection*{Simulation}
 
-Having obtained initial data, for which iterating with the Presissmann scheme can begin, the next part to be implemented is the simulation of the initialized setup.
-To ease eventual future expansion of the simulation a simple design, where individual parts is simulated one at a time, is chosen. This is realized by nesting functions in two steps from the main simulation module which is seen in figure \ref{fig:simu_main_chart}.
+Having obtained initial data, for which iterating with the Preissmann scheme can begin, the next part to be implemented is the simulation of the initialized setup.
+To ease eventual future expansion of the simulation a simple design, where individual parts are simulated one at a time, is chosen. This is realized by nesting functions in two steps from the main simulation module which is seen in figure \ref{fig:simu_main_chart}.
 
 \begin{figure}[H]
 \centering
@@ -196,7 +194,7 @@ To ease eventual future expansion of the simulation a simple design, where indiv
 \label{fig:simu_main_chart}
 \end{figure}
 
-The amount of iterations desired to simulate the system for is chosen. As the system is already initialized and MATLAB does not have zero indexing the system is initialized at m equal to one. Therefore the first iteration is performed at m equal to two and proceeds until the chosen amount of iterations is reached. The function ``simulation'' is given flow and concentrate input, system specification (Sys\_setup), pipe specification (pipe\_spec). If a tank is present, actuator input and tank specification (tank\_spec) is also needed.
+The number of iterations desired to simulate the system for is chosen. As the system is already initialized and MATLAB does not have zero indexing the system is initialized at m equal to one. Therefore the first iteration is performed at m equal to two and proceeds until the chosen amount of iterations is reached. The function ``simulation'' is given flow and concentrate input, system specification (Sys\_setup), pipe specification (pipe\_spec). If a tank is present, actuator input and tank specification (tank\_spec) are also needed.
 In figure \ref{fig:simu_chart} the simulation function is seen.
 \begin{figure}[H]
 \centering
@@ -205,12 +203,12 @@ In figure \ref{fig:simu_chart} the simulation function is seen.
 \label{fig:simu_chart}
 \end{figure}
 
-The simulation function is given input of flow, concentrate and actuator for pipes and tanks respectively. Furthermore specifications of system, pipe and tank is given. The basic functionality is an outer and an inner loop. The outer loop iterates through the parts in ``Sys\_setup'' and the inner loop iterates through the components each part consists of. Iterating through the parts, checking whether the component is a tank or pipe, the respective function is called. The tank function is given tank specifications, current iteration value, flow and actuator input. Furthermore the index number of the tank is given. The iteration value ``m'' is in the function used to index when logging data. Output flow is found by equation \ref{eq:control_signal_pump_tank}. The value of $\overline Q$ is set to be the maximum inflow of the adjoining pipe. 
+The simulation function is given input of flow, concentrate and actuator for pipes and tanks respectively. Furthermore specifications of system, pipe and tank are given. The basic functionality is an outer and an inner loop. The outer loop iterates through the parts in ``Sys\_setup'' and the inner loop iterates through the components each part consists of. Iterating through the parts, checking whether the component is a tank or pipe, the respective function is called. The tank function is given tank specifications, current iteration value, flow and actuator input. Furthermore, the index number of the tank is given. The iteration value ``m'' is in the function used to index when logging data. Output flow is found by equation \ref{eq:control_signal_pump_tank}. The value of $\overline Q$ in equation \ref{eq:control_signal_pump_tank} is set to be the maximum inflow of the adjoining pipe as seen below. 
 \begin{equation}\label{eq:imp_tank_outflow}
 	Q_{out} = u_{pump} \cdot Q_{max\_outflow}
 \end{equation} 
-Where maximum outflow is equal to maximum inflow of the down stream adjoining pipe.
-Doing so makes is possible to always have an actuator input which ranges from zero to one, which helps minimizing complexity when implementing control on large scale setups where several tanks of various sizes could be present. In figure \ref{fig:tank_function} a flow chart of the tank function can be seen.
+Where maximum outflow is equal to the maximum inflow of the downstream adjoining pipe.
+Doing so makes it possible to always have an actuator input which ranges from zero to one, which helps to minimize complexity when implementing control on large scale setups where several tanks of various sizes could be present. In figure \ref{fig:tank_function} a flow chart of the tank function can be seen.
 
 \begin{figure}[H]
 \centering
@@ -219,9 +217,9 @@ Doing so makes is possible to always have an actuator input which ranges from ze
 \label{fig:tank_function}
 \end{figure}
 
-The tank function is given inflow, actuator input, ``Tank\_nr'', tank specification, iteration value ``m'', part index ``x'' and data stored at index ``Sys\_comp''. Iteration and part index is used to fetch previous values of height and concentrate level, used in calculation of new values. Furthermore the value of ``Tank\_nr'' is used as index in ``Tank\_spec''.
-First when the height and flow has been calculated, the condition mentioned in section \ref{sec:tank} is checked to avoid oscillating concentrate level in the tank. %Secondly the considerations mentioned in section \ref{sec:tank} is needed when fluid height goes towards zero. 
-Secondly, as seen in the flowchart, if the calculated height gives a result below zero the height is set to zero and maximum outflow is set equal to inflow. In the case of concentrate level, if height is less than $\text{Q}_\text{out} \cdot \Delta t / \text{A}$ then the level in the tank is set equal to the inflow level. If the fluid level exceed the height of the tank a message is printed to the command windows which also contains at which iteration the overflow occurred. Instead of placing a hard limit on tank height, knowing when a tank overflow occurs, and how much the dimension of the tank needs to be adjusted, would be more valuable. 
+The tank function is given inflow, actuator input, ``Tank\_nr'', tank specification, iteration value ``m'', part index ``x'' and data stored at index ``Sys\_comp''. Iteration and part index is used to fetch previous values of height and concentrate level, used in the calculation of new values. Furthermore the value of ``Tank\_nr'' is used as index in ``Tank\_spec''.
+First, when the height and flow has been calculated, the condition mentioned in section \ref{sec:tank} is checked to avoid oscillating concentrate level in the tank. %Secondly the considerations mentioned in section \ref{sec:tank} is needed when fluid height goes towards zero. 
+Secondly, as seen in the flowchart, if the calculated height gives a result below zero the height is set to zero and maximum outflow is set equal to inflow. In the case of concentrate level, if height is less than $\text{Q}_\text{out} \cdot \Delta t / \text{A}$ then the level in the tank is set equal to the inflow level. If the fluid level exceeds the height of the tank a message is printed to the command windows which also contains at which iteration the overflow occurred. Instead of placing a hard limit on tank height, knowing when a tank overflow occurs, and how much the dimension of the tank needs to be adjusted, would be more valuable. 
 In figure \ref{fig:pipe_function} the pipe function can be seen.
 
 \begin{figure}[H]
@@ -232,13 +230,13 @@ In figure \ref{fig:pipe_function} the pipe function can be seen.
 \end{figure}
 
 The function is given inflow, pipe\_comp, pipe specifications, iteration value ``m'', part index ``x'' and data stored at index ``Sys\_comp''.
-Once again iteration and part index is used to fetch previous values of height and concentrate level, used in calculation of new values. The value of pipe\_comp is used as index in ``pipe\_spec''. The functionality of the function is to iterate through the sections which the pipe consists of.
-At the first section, n = 1, it is determined if the pipe is the first in the specific part. Afterwards it is checked if side inflow is present. If the pipe is the first then inflow needs to be given, otherwise the flow out of the previous pipe is set as inflow. When inflow is obtained, height can be found from either curve fitted polynomial or lookup table as mentioned in the initialization part of the implementation. For the remaining sections in the pipe the height is found by the Preissmann scheme. Finally data is returned to the simulation function.
-To decided upon which of the, curve fitted polynomial or lookup table, methods should be implemented a test with the pipe setup shown in figure \ref{fig:Fredericia_pipe_setup} is performed for various iterations. Furthermore two values of $\Delta t$ is tested. A  sinusoidal input is given for all tests to increase the computational power needed to solve the Preissmann scheme. The input can be seen in figure \ref{fig:comparison_look_fit_input}.
+Once again iteration and part index are used to fetch previous values of height and concentrate level, used in the calculation of new values. The value of pipe\_comp is used as an index in ``pipe\_spec''. The functionality of the function is to iterate through the sections which the pipe consists of.
+At the first section, n = 1, it is determined if the pipe is the first in the specific part. Afterward, it is checked if side inflow is present. If the pipe is the first then inflow needs to be given, otherwise the flow out of the previous pipe is set as inflow. When inflow is obtained, height can be found from either curve fitted polynomial or lookup table as mentioned in the initialization part of the implementation. For the remaining sections in the pipe, the height is found by the Preissmann scheme. Finally, data is returned to the simulation function.
+To decided upon which of the curve fitted polynomial or lookup table, methods should be implemented a test with the pipe setup shown in figure \ref{fig:Fredericia_pipe_setup} is performed for various iterations. Furthermore, two values of $\Delta t$ are tested. A  sinusoidal input is given for all tests to increase the computational power needed to solve the Preissmann scheme. The input can be seen in figure \ref{fig:comparison_look_fit_input}.
 \begin{figure}[H]
  \centering
  \input{report/simulation/tikz/comparison_look_fit_input}
-\caption{Input flow for comparison test of lookup table and curve fitted polynomial.}
+\caption{Input flow for the comparison test of lookup table and curve fitted polynomial.}
 \label{fig:comparison_look_fit_input}
 \end{figure} 
 
@@ -255,7 +253,7 @@ Curve fitted  & \multirow{2}{*}{5,554 s} & \multirow{2}{*}{5,893 s} \\
 polynomial    &						   &						\\ \hline
 Difference    & 20.722 \%			   &  18.393 \% \\ \hline 
 \end{tabular}
-\caption{Computation time of 400 iterations}
+\caption{Computation time of 400 iterations.}
 \label{400_it_comput}
 \end{table}
 
@@ -270,7 +268,7 @@ Curve fitted  	& \multirow{2}{*}{11,868 s} & \multirow{2}{*}{11,859 s} \\
 polynomial    &						   &						\\ \hline
 Difference    & 17.817 \%			   &  12.153 \% \\ \hline 
 \end{tabular}
-\caption{Computation time of 800 iterations}
+\caption{Computation time of 800 iterations.}
 \label{800_it_comput}
 \end{table}
 
@@ -285,11 +283,11 @@ Curve fitted 	& \multirow{2}{*}{33,247 s} & \multirow{2}{*}{34,194 s} \\
 polynomial    	&						   &						\\ \hline
 Difference    	& 9.437 \%			   &  11.105 \% \\ \hline 
 \end{tabular}
-\caption{Computation time of 2000 iterations}
+\caption{Computation time of 2000 iterations.}
 \label{2000_it_comput}
 \end{table}
 
-The results are obtained by using the MATLAB function ``tic-toc'' on the main simulation loop shown in figure \ref{fig:simu_main_chart}. Furthermore a laptop with an I7-4710MQ processor at 3,4 GHz is used for the test. Clearly the lookup table is preferable both in accuracy and computational speed. For this reason it is implemented as the solution to obtain fluid height boundary condition from inflow of the pipe.
+The results are obtained by using the MATLAB function ``tic-toc'' on the main simulation loop shown in figure \ref{fig:simu_main_chart}. Furthermore, a laptop with an I7-4710MQ processor at 3,4 GHz is used for the test. Clearly, the lookup table is preferable both in accuracy and computational speed. For this reason, it is implemented as the solution to obtain fluid height boundary condition from an inflow of the pipe.
 
 \subsection*{Display result}
 
@@ -299,13 +297,13 @@ In figure \ref{fig:data_plot_chart} a flowchart of the constructed playback func
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9 \textwidth]{report/simulation/pictures/data_plot_chart.pdf}
-\caption{Flow chart of playback function.}
+\caption{Flowchart of playback function.}
 \label{fig:data_plot_chart}
 \end{figure}
 
 %The playback function is constructed such that firstly minimum and maximum values on the y axis is limited to the variations in the data. 
-The first thing that is done in the playback function is finding minimum and maximum values for the y axis. This is done such that the graph can not move outside the plot. Furthermore, another setting where space, corresponding to a user defined percentage, at the top and bottom of the plot is unused. An initial value of ten percent at top and bottom is set, which leaves 80 percent of the window to be used by the graph during playback.  
-Secondly, the data for all the components are fetched into a matrix such that the MATLAB plot function can be utilized. Furthermore, x axis data is scaled correctly according to the number of components, various $\Delta x$, intersections and tanks. Afterward ``Iteration'' is set to the value of iterations which has been simulated, ``Plot\_iteration'' is set to the iteration from where the playback is to start from, ``step\_size'' is set to the number of iterations to skip during playback. Lastly ``frame\_time'' is set, which decides the speed of the playback. The maximum speed is in the end decided by the processor available to MATLAB and due to the plot function is known to be computationally demanding, a low amount of updates per second should be expected. The defined iteration or boundary conditions, if ``Start\_point'' is set to zero, is plotted before the playback is put on hold. Playback is now started by clicking on the window holding the plots and continues iterating in the predefined step size and frame time.
+The first thing that is done in the playback function is finding minimum and maximum values for the y-axis. This is done such that the graph can not move outside the plot. Furthermore, another setting where space, corresponding to a user defined percentage, at the top and bottom of the plot is unused. An initial value of ten percent at top and bottom is set, which leaves 80 percent of the window to be used by the graph during playback.  
+Secondly, the data for all the components are fetched into a matrix such that the MATLAB plot function can be utilized. Furthermore, x-axis data is scaled correctly according to the number of components, various $\Delta x$, intersections and tanks. Afterward ``Iteration'' is set to the value of iterations which has been simulated, ``Plot\_iteration'' is set to the iteration from where the playback is to start from, ``step\_size'' is set to the number of iterations to skip during playback. Lastly ``frame\_time'' is set, which decides the speed of the playback. The maximum speed is in the end decided by the processor available to MATLAB and due to the plot function is known to be computationally demanding, a low amount of updates per second should be expected. The defined iteration or boundary conditions, if ``Start\_point'' is set to zero, is plotted before the playback is put on hold. Playback is now started by clicking on the window holding the plots and continues iterating in the predefined step size and frame time.
 
 
  \begin{sidewaysfigure}
