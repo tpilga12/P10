@@ -133,30 +133,34 @@ By repeating this procedure the desired amount of pipes can be inserted into the
 The change of height within the tank is given by $h = Q_{in}-Q_{out}$.
 
 As the input to the tank is a height in an adjoint pipe the inflow to the tank needs to be obtained from it. This means that the derivative of h(Q) is needed. As mentioned in section \ref{sec:implementation} equation \ref{eq:flow_eq_given_a_height} can not be solved for h analytically. Instead a curve fitted polynomial is created for the inflowing pipe and the derivative is obtained by the MATLAB function ``differentiate''. The increase in height within the tank by the inflow is given by:
-\begin{equation}
+\begin{equation} \label{eq:heigh_in_flow_lin_tank}
 	h_{inflow} = h_{pipe} \cdot \frac{dh}{dQ} \cdot \frac{1}{A} \cdot \Delta t 
 \end{equation}
 Where $h_{pipe}$ is the inflow height in the adjoining pipe and A is the vertical cross section area of the tank.
 
 The outflow of the tank is due to being controlled by the pump split into two parts. The first being the change in height within the tank due to the pump, and secondly the height into the adjoining pipe due to the outflow controlled by the pump. 
 As seen in equation \ref{eq:final_pump_model} the outflow of the tank is already a linear term, therefore the reduction in height due to the pump is:
-\begin{equation}
+\begin{equation}\label{eq:height_reduc_pump_lin_tank}
  	h_{pump} = u_{pump} \cdot Q_{max\_out} \cdot \Delta t
 \end{equation} 
 
 The change of height is then given by:
-
 \begin{equation}
 	h_{tank} = h_{inflow} - h_{pump}
 \end{equation}
 
 Finally the inflow to the adjoining pipe is given by:
-\begin{equation}
+\begin{equation} \label{eq:height_outflow_lin_tank}
 	h_{outflow} = \frac{dQ}{dh} \cdot u_{pump} \cdot Q_{max\_out}
 \end{equation}
 
+utilizing the same indexing scheme on equation \ref{eq:heigh_in_flow_lin_tank}, \ref{eq:height_reduc_pump_lin_tank} and \ref {eq:height_outflow_lin_tank} as in equation \ref{eq:rearrange_continuity_eq} the following is given:
 
-\begin{equation}
+
+	$\underbrace{\frac{dh}{dQ} \cdot \frac{1}{A} \cdot \Delta t}_{e}$ , $\underbrace{u_{pump} \cdot Q_{max\_out} \cdot \Delta t}_{f}$, $\underbrace{\frac{dQ}{dh} \cdot u_{pump} \cdot Q_{max\_out}}_{g}$ \\\\
+An example of how the tank is implemented in a state space system in between two pipes, can be seen in equation \ref{eq:tank_linear_implement_ss}
+
+\begin{equation}\label{eq:tank_linear_implement_ss}
 \begin{aligned}
       & \underbrace{\begin{bmatrix}
             1 & 0       & 0         &0          &0          &0   &0\\
@@ -168,31 +172,31 @@ Finally the inflow to the adjoining pipe is given by:
             0 & 0       & 0         &   0        &     0      & a_{2,2}  & b_{2,3}\\  
        \end{bmatrix}}_{\xi}
         \underbrace{\begin{bmatrix}
-        h_{0}^{i+1}\\
-        h_{1}^{i+1} \\
-        h_{2}^{i+1} \\ 
-        h_{3}^{i+1} \\          
-        h_{4}^{i+1}     \\
-        h_{5}^{i+1}\\
+        h_{1,0}^{i+1}\\
+        h_{1,1}^{i+1} \\
+        h_{1,2}^{i+1} \\ 
+        h_{tank}^{i+1} \\          
+        h_{2,0}^{i+1}     \\
+        h_{2,1}^{i+1}\\
     \end{bmatrix}}_{x(k+1)}
     \\ &=
     \underbrace{\begin{bmatrix}
         0       &  0    &   0    & 0     &0         &0          &0 \\
         c_{1,0} &d_{1,1}&   0    &  0    &0         &0          &0\\
         0       &c_{1,1}& d_{1,2}& 0     &0         &0       &0\\
-        0       & 0     & e_1    & 1     &0         &0          &0           \\
+        0       & 0     & e    & 1     &0         &0          &0           \\
         0       & 0     &   0    & 0     & 0        &0          &0        \\
         0       & 0     &  0     & 0    &c_{2,0}    &  d_{2,1} &0  \\
          0       & 0     &  0    & 0    &0          &c_{2,1}    &  d_{2,2}   \\
         \end{bmatrix}}_{A}
             \underbrace{\begin{bmatrix}
-        h_{0}^{i} \\
-        h_{1}^{i} \\
-        h_{2}^{i} \\
-        h_{3}^{i}\\
-        h_{4}^{i}\\
-        h_{5}^{i}\\
-          h_{6}^{i}\\
+        h_{1,0}^{i} \\
+        h_{1,1}^{i} \\
+        h_{1,2}^{i} \\
+        h_{tank}^{i}\\
+        h_{2,0}^{i}\\
+        h_{2,1}^{i}\\
+          h_{2,2}^{i}\\
         \end{bmatrix}}_{x(k)}
     +  \underbrace{\begin{bmatrix}
          1 & 0\\
@@ -210,8 +214,7 @@ Finally the inflow to the adjoining pipe is given by:
     \end{aligned}
 \end{equation}
 
-
-A verification has been conducted to investigate if the linear model creates a similar response as the nonlinear model for small signal values. Therefore, a test has been conducted on the sewer network setup where the specification for the pipes are shown in figure \ref{fig:Fredericia_pipe_setup} and the specification for the tank placed after the first pipe is seen in \ref{tab:tank_data_nonlinear_linear_test} 
+A test of the linear system has been conducted to verify the if the linear model has a similar response of the nonlinear model for small perturbations. Therefore, a test has been conducted on the sewer network setup where the specification for the pipes are shown in figure \ref{fig:Fredericia_pipe_setup} and the specification for the tank placed after the first pipe is seen in \ref{tab:tank_data_nonlinear_linear_test} 
 
 % \begin{table}[H]
 % \centering
