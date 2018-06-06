@@ -44,7 +44,7 @@ for m = 2:(iterations+1)
         [input] = disturbance_input(m,Dt,input,disturbance,brewery_disturbance,pipe_spec);
         %     end
         input.u(m,1) = 0.2;% 
-        input.u(m,2) = 0.1;%
+        input.u(m,2) = 0.125;%
 
         [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
         
