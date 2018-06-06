@@ -153,11 +153,11 @@ Finally the inflow to the adjoining pipe is given by:
 \begin{equation} \label{eq:height_outflow_lin_tank}
 	h_{outflow} = \frac{dQ}{dh} \cdot u_{pump} \cdot Q_{max\_out}
 \end{equation}
+Where the derivative is found by curve fitted polynomial and the MATLAB function ``differentiate''.
+Utilizing the same indexing scheme on equation \ref{eq:heigh_in_flow_lin_tank}, \ref{eq:height_reduc_pump_lin_tank} and \ref {eq:height_outflow_lin_tank} as in equation \ref{eq:rearrange_continuity_eq} the following is given:
 
-utilizing the same indexing scheme on equation \ref{eq:heigh_in_flow_lin_tank}, \ref{eq:height_reduc_pump_lin_tank} and \ref {eq:height_outflow_lin_tank} as in equation \ref{eq:rearrange_continuity_eq} the following is given:
 
-
-	$\underbrace{\frac{dh}{dQ} \cdot \frac{1}{A} \cdot \Delta t}_{e}$ , $\underbrace{u_{pump} \cdot Q_{max\_out} \cdot \Delta t}_{f}$, $\underbrace{\frac{dQ}{dh} \cdot u_{pump} \cdot Q_{max\_out}}_{g}$ \\\\
+	$\underbrace{\frac{dh}{dQ} \cdot \frac{1}{A} \cdot \Delta t}_{e}$ , $\underbrace{u_{pump} \cdot Q_{max\_out} \cdot \Delta t}_{f}$, $\underbrace{\frac{dQ}{dh} \cdot u_{pump} \cdot Q_{max\_out}}_{g}$ 
 An example of how the tank is implemented in a state space system in between two pipes, can be seen in equation \ref{eq:tank_linear_implement_ss}
 
 \begin{equation}\label{eq:tank_linear_implement_ss}
