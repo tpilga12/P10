@@ -152,7 +152,7 @@ The hydrodynamic force given, by the in- and output of fluid particles in the co
 % \begin{equation}
 % \left(\rho \cdot v \cdot Q - \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2}\right)_{in} - \left(\rho \cdot v \cdot Q + \frac{\partial}{\partial x}(\rho \cdot v \cdot Q) \cdot \frac{\Delta x}{2} \right)_{out} 
 % \end{equation}
-Where subscript "\textit{in}" denote the force going in through the left side of the channel in figure \ref{fig:momentum_picture} and subscript "\textit{out}" is the force going out to the right side. The change of particle momentum in the control volume is given as $F_{in}- F_{out}$ and by replacing velocity with $Q/A$ the following is obtained:
+Where subscript "\textit{in}" denote the force going in through the left side of the channel in figure \ref{fig:momentum_picture} and subscript "\textit{out}" is the force going out of the right side. The change of particle momentum in the control volume is given as $F_{in}- F_{out}$ and by replacing velocity with $Q/A$ the following is obtained:
 
 \begin{equation}\label{mass_flow_speed}
 \begin{array}{l}
@@ -352,10 +352,8 @@ Some or all of the terms in equation \ref{saintbernard_momentum} can be utilized
 The kinematic wave is the simplest approximation and ignores the terms representing changes in inertia and pressure by assuming that the slope of the water surface is identical to that of the channel bed. Furthermore only one boundary condition is needed, meaning that only the upper boundary of the channel is needed to solve the Saint-Venant equations.  
 Some considerations is needed when utilizing this approximation.      
 Due to the simplicity of the kinematic wave approximation, attenuation, which occurs in a real free flowing channel, should not be present. But due to numerical damping, which is induced because of the nature of discretization, it occurs. Some, wrongfully attempts to mitigate it by choosing smaller steps of $\Delta x$ and $\Delta t$. Instead they should be chosen such that the simulated channel flow mimics that of the real channel.
-Due to its simplicity the kinematic wave approximation has been used and researched extensively. If the back water effect is not an issue the kinematic wave approximation is often used when dealing with simulation of flows in sewer lines.
-%To limit the complexity of the further work of the project, the kinematic wave approximation, of the momentum equation, is chosen \cite{stormwatercollectionsystems}.
- Furthermore it is decided to disregard lateral input, i.e. not take gutter drains into consideration. 
-This means that side input to the main sewer line is assumed attached at the end of the pipe section as shown in table \ref{tab:kloak_diameter}. Further details can be found in section \ref{se:sewer_interconnection}. 
+Due to its simplicity the kinematic wave approximation has been used and researched extensively. If the back water effect is not an issue the kinematic wave approximation is often used when dealing with simulation of flows in sewer lines. Furthermore it is decided to disregard lateral input, i.e. gutter drains or other inputs between ends of the pipe are not taken into consideration. 
+Instead side input into the main sewer line is assumed attached at the start of the pipe section as shown in table \ref{tab:kloak_diameter}. Further details of sewer interconnection can be found in section \ref{se:sewer_interconnection}. 
 
 
 %but mistakenly corrections has been attempted to mitigate the attenuation by choosing smaller step sizes of $\Delta x$ and $\Delta t$, where instead attempts should be made, to fit the sizes, to imitate the natural attenuation of the free flowing channel.     
