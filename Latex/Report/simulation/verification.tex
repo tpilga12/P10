@@ -21,7 +21,7 @@ For the setup procedure of the simulation in list form, the specifications part 
 	\begin{itemize}
 		\item Length [m]
 		\item Sections (Number of sections the pipe should be split in to)
-		\item $\text{I}_\text{b}$ (Slope) [\textperthousand]
+		\item $\text{S}_\text{b}$ (Slope) [\textperthousand]
 		\item $\Delta$x = Length/Sections [m]
 		\item Diameter [meter]
 		\item Theta (parameter used in Preissmann scheme)
@@ -41,11 +41,11 @@ For the setup procedure of the simulation in list form, the specifications part 
 \end{enumerate}
 \caption{List of parameters for pipe and tank}
 \label{tab:init_list}
-\end{table}\fxnote{Ib skal ændres til Sb}
+\end{table}
 Some parameters can be found from others and is set to be calculated automatically. 
 %Furthermore an item is added that indicates in which section of the obtained simulation data the specific output of the component is located. This item is given the number of the order in which the component appears in the list. 
 Furthermore an item is added to the list which indicates, where the initial and simulated data, for the specific item can be found.
-To give an overview of the system to be simulated, and to easily be able to locate specific parameters needed during simulation, three structures is returned to the workspace. These are named ``pipe\_spec'', ``tank\_spec'' and ``sys\_setup''. The first two structures holds the information shown in table \ref{tab:init_list}\fxnote{svært at se, at listen ovenover er angivet som tabel.} respectively. The last one, ``sys\_setup'', holds information of the various parts indexed in the order the system is setup and simulated. In figure \ref{fig:sys_setup_matlab} the content of ``sys\_setup'' is shown for a setup with two pipes and a tank.
+To give an overview of the system to be simulated, and to easily be able to locate specific parameters needed during simulation, three structures is returned to the workspace. These are named ``pipe\_spec'', ``tank\_spec'' and ``sys\_setup''. The first two structures holds the information shown in table \ref{tab:init_list} respectively. The last one, ``sys\_setup'', holds information of the various parts indexed in the order the system is setup and simulated. In figure \ref{fig:sys_setup_matlab} the content of ``sys\_setup'' is shown for a setup with two pipes and a tank.
 
 \begin{figure}[H]
 \centering
