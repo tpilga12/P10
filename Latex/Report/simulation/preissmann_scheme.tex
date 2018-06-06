@@ -123,14 +123,17 @@ By naming the right hand side of equation \ref{eq:continuity_zero_eq} for V yiel
 The two unknowns remaining in equation \ref{eq:continuity_V} is $Q_{j+1}^{i+1}$ and $A_{j+1}^{i+1}$. The flow $Q_{j+1}^{i+1}$ can be replaced with equation \ref{eq:calc_for_flowv2}, which inserted into equation \ref{eq:continuity_V} gives the following equation:
 
 \begin{equation}\label{eq:V_with_flow}
-    V = -Q_f\cdot\left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
+\begin{aligned}
+    V = &-Q_f\cdot\left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\frac{\Delta t}{\Delta x}\\ 
+    &-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
+    \end{aligned}
 \end{equation}
 
-Inserting $Q_f$ from equation \ref{eq:qf_for_flow} into equation \ref{eq:V_with_flow} yields the following
+Inserting $Q_f$ from equation \ref{eq:qf_for_flow} into equation \ref{eq:V_with_flow} yields the following:
 
 \begin{equation}\label{eq:new_continuity_equation}
 \begin{aligned}
-    V = -72\left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2S_f^{0,5}\cdot \left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+ 0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\\ \frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
+    V &= -72\left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2S_f^{0,5}\cdot \\ &\left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+ 0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right) \frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
 \end{aligned}
 \end{equation}
 
@@ -161,7 +164,7 @@ Where $x_1$ is an approximation of a root from the initial guess. Newtons method
 % \end{equation}
 
 % Where k is the number of iterations, V$'$ is the differentiated of V with respect to height, $(h_{j+1}^{i+1})_{k}$ is an initial guess of the root and $(h_{j+1}^{i+1})_{k+1}$ is a better approximation of the height. This calculation is iterated until a satisfied approximation is achieved which fulfills the requirement,
-To stop the iteration a tolerance value which stop the iteration can be inserted when the error between the current approximation and the past is sufficiently low, as shown in equation \ref{eq:converge_newtons}.
+To stop the iteration, a tolerance value which stops the iteration can be inserted. When the error between the current approximation and the past is sufficiently low, as shown in equation \ref{eq:converge_newtons}.
 
 \begin{equation}\label{eq:converge_newtons}
      \left( x_{i+1}-x_i \right) < \epsilon 
@@ -170,17 +173,71 @@ To stop the iteration a tolerance value which stop the iteration can be inserted
 %Where $\epsilon$ is a small tolerance value, e.g. five-centimeter variation in water height. Equation \ref{eq:converge_newtons} calculates if the difference between the previous and the current height, if it is smaller than the tolerance, the calculation stops and returns the height. If not, the iteration scheme will stop and return an error. Thereby the water height can be found and the area of the water can be calculated with equation \ref{eq:calc_area_open_channel} \fxnote{afsnit om de forskellige ligninger til beregning af Areal, Ie,Ib,Qf,Q} and thereafter equation \ref{eq:continuity_solve_flow} can be used to calculate the flow of the node.
 
 This calculation is performed for each node in the Preissmann scheme, making it an iterative method of obtaining flow in a pipe. 
-In figure \ref{fig:flow_chart_iteration} a flow chart of the Preissmann iterative scheme is seen.
+In figure \ref{fig:flow_chart_iteration} a flowchart of the Preissmann iterative scheme is seen.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{report/simulation/pictures/flow_chart_iteration.pdf}
-    \caption{Flow chart of the iteration process to calculate the flow in each point.}
+    \caption{Flowchart of the iteration process to calculate the flow in each point.}
     \label{fig:flow_chart_iteration}
 \end{figure}
 
-The iteration scheme starts with setting boundary conditions for flow and height in all sections of the pipe. Thereafter $i$ and $j$ are incremented by one, before the iteration process starts. The calculation of H, height, wetted area, and flow are conducted iteratively throughout the pipe for ``m'' sections.
+The iteration scheme starts with setting boundary conditions for flow and height in all sections of the pipe. Thereafter $i$ and $j$ are incremented by one before the iteration process starts. The calculation of H, height, wetted area, and flow are conducted iteratively throughout the pipe for ``m'' sections.
 When the iteration scheme has been through the whole pipe it increments by one in time. This iteration process will go on until ``n'' time iterations has been performed.   
 
 In the following stability and precision for the Preissmann scheme will be elaborated. %Where, how to chose $\Delta t, \Delta x$ and $\theta$ will be explained. 
-
+\begin{equation}
+\begin{aligned}
+      & \underbrace{\begin{bmatrix}
+            1 & 0       & 0         &0          &0          &0   &0\\
+            0 & b_{1,1} & 0         &0          &0          &0  &0\\
+            0 &a_{1,1}  & b_{1,2}   & 0         &0          &0 &0\\
+            0 &0        & 0         & 1         & 0         &0      &0\\
+             0 &0        & 0         &  0        & 1         &0   & 0        \\
+            0 & 0       &0          &  0         &a_{2,1}    &  b_{2,2}&0       \\
+            0 & 0       & 0         &   0        &     0      & a_{2,2}  & b_{2,3}\\  
+       \end{bmatrix}}_{\xi}
+        \underbrace{\begin{bmatrix}
+        h_{0}^{i+1}\\
+        h_{1}^{i+1} \\
+        h_{2}^{i+1} \\ 
+        h_{3}^{i+1} \\          
+        h_{4}^{i+1}     \\
+        h_{5}^{i+1}\\
+    \end{bmatrix}}_{x(k+1)}
+    \\ &=
+    \underbrace{\begin{bmatrix}
+        0       &  0    &   0    & 0     &0         &0          &0 \\
+        c_{1,0} &d_{1,1}&   0    &  0    &0         &0          &0\\
+        0       &c_{1,1}& d_{1,2}& 0     &0         &0       &0\\
+        0       & 0     & e_1    & 1     &0         &0          &0           \\
+        0       & 0     &   0    & 0     & 0        &0          &0        \\
+        0       & 0     &  0     & 0    &c_{2,0}    &  d_{2,1} &0  \\
+         0       & 0     &  0    & 0    &0          &c_{2,1}    &  d_{2,2}   \\
+        \end{bmatrix}}_{A}
+            \underbrace{\begin{bmatrix}
+        h_{0}^{i} \\
+        h_{1}^{i} \\
+        h_{2}^{i} \\
+        h_{3}^{i}\\
+        h_{4}^{i}\\
+        h_{5}^{i}\\
+          h_{6}^{i}\\
+        \end{bmatrix}}_{x(k)}
+    +  \underbrace{\begin{bmatrix}
+         1 & 0\\
+         -a_0& 0 \\
+         0 & 0\\
+          0& -f \\
+          0& g \\ 
+          0& 0 \\
+          0& 0 \\
+        \end{bmatrix}}_{B}
+        \begin{bmatrix}
+        h_0^{i+1}\\
+        u_{tank} \\
+        \end{bmatrix}
+    \end{aligned}
+\end{equation}
 \input{report/simulation/preissmann_stability}
+
+
