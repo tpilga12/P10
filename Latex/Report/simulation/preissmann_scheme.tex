@@ -56,9 +56,9 @@ The approximations of equation \ref{eq:preissmann_time_derivatie} and \ref{eq:pr
 % \end{multline}
 \begin{equation}\label{eq:Momentum_eq_preissmann_discrete}
 \begin{aligned}
-    &\frac{1}{gA_p}\left(\frac{1}{2} \left(\frac{Q_{j+1}^{i+1}-Q_{j+1}^i}{\Delta t}+\frac{Q_{j}^{i+1} - Q_j^i}{\Delta t}\right)\right) +  \\[6pt]
-   &\frac{1}{gA_p}\left(\frac{\theta}{\Delta x} \left(\left(\frac{Q^2}{A}\right)_{j+1}^{i+1}-\left(\frac{Q^2}{A}\right)_{j}^{i+1}\right) +  \frac{1-\theta}{\Delta x}\left(\left(\frac{Q^2}{A}\right)_{j+1}^{i}-\left(\frac{Q^2}{A}\right)_{j}^{i}\right) \right) + \\[6pt]
-   &\theta \left(\frac{h_{j+1}^{i+1}-h_j^{i+1}}{\Delta x}\right)+ (1-\theta)\left(\frac{h_{j+1}^{i} - h_j^i}{\Delta x}\right) + \\[4pt] 
+    &\frac{1}{gA_p}\left(\frac{1}{2} \left(\frac{Q_{j+1}^{i+1}-Q_{j+1}^i}{\Delta t}+\frac{Q_{j}^{i+1} - Q_j^i}{\Delta t}\right)\right) +  \\[10pt]
+   &\frac{1}{gA_p}\left(\frac{\theta}{\Delta x} \left(\left(\frac{Q^2}{A}\right)_{j+1}^{i+1}-\left(\frac{Q^2}{A}\right)_{j}^{i+1}\right) +  \frac{1-\theta}{\Delta x}\left(\left(\frac{Q^2}{A}\right)_{j+1}^{i}-\left(\frac{Q^2}{A}\right)_{j}^{i}\right) \right) + \\[10pt]
+   &\theta \left(\frac{h_{j+1}^{i+1}-h_j^{i+1}}{\Delta x}\right)+ (1-\theta)\left(\frac{h_{j+1}^{i} - h_j^i}{\Delta x}\right) + \\[6pt] 
    &S_f-S_b= 0
     \end{aligned}
 \end{equation}
@@ -80,7 +80,7 @@ By knowing inflow and specifications of the pipe, area can be calculated at the 
 
 %\subsection{Iteration scheme} \fxnote{This subsec needs to get canned, hvorfor skal dette afsnit på dåse? xD} In this section, it will be elaborated how the calculation of the flow and height in each iteration is done \cite{ikke_stationear}.
 
-The discretized continuity equation \ref{eq:continuity_eq_preissmann}, stated below, is solved for the desired flow in equation \ref{eq:continuity_solve_flow},
+The discretized continuity equation, seen below, is solved for the desired flow in equation \ref{eq:continuity_solve_flow},
 \begin{equation}
     \theta \frac{Q_{j+1}^{i+1}-Q_j^{i+1}}{\Delta x}+(1-\theta)\frac{Q_{j+1}^i - Q_j^i}{\Delta x}+
     \frac{1}{2}\frac{A_{j+1}^{i+1}-A_{j+1}^i}{\Delta t} + \frac{1}{2} \frac{A_{j}^{i+1} - A_j^i}{\Delta t} = 0
@@ -95,47 +95,47 @@ Where H is a parameter for the previous flows and areas in time and distance, wh
 \end{equation}
 
 %It has been chosen to set the slope of the water surface identical to the pipe bed, $S_f = S_b$. By doing this the calculation of the flow throughout the pipe has been simplified, thus some limitation about the dynamics of the water flow are excluded, which is explained in section \ref{se:hydraulics_of_sewer_line} and also shown in table \ref{momentum_approximations}. 
-Due to the delimitation to only simulate sewer channels with an inner circular cross section and to use the momentum equation for a kinematic wave
-The following expression is utilized, instead of the Saint-Venant momentum equation. %\ref{eq:Momentum_eq_preissmann_discrete} an equation for calculating the flow in a circular pipe will be used to find the flow and area used in the Preissmann scheme and can be seen in appendix \ref{app:formulas} \cite{ikke_stationear}:
-
+Due to the delimitation to sewer channels with an inner circular cross section and to use the approximated momentum equation for a kinematic wave,
+the following expression is utilized \cite{ikke_stationear}. %\ref{eq:Momentum_eq_preissmann_discrete} an equation for calculating the flow in a circular pipe will be used to find the flow and area used in the Preissmann scheme and can be seen in appendix \ref{app:formulas} \cite{ikke_stationear}:
 \begin{equation}\label{eq:calc_for_flowv2}
      Q = \left(0.46-0.5 \cdot cos\left(\pi \frac{h}{d}\right)+0.04\cdot cos\left(2\pi\frac{h}{d}\right)\right)\cdot Q_f
 \end{equation}
 
-This equation describes the flow in a circular pipe by knowing the diameter (d), height (h), and the flow for a fully filled pipe ($Q_f$). %Where $Q_f$ is calculated as \cite{ikke_stationear}:
+This equation describes flow in a circular pipe by knowing the diameter (d), height (h), and flow for a fully filled pipe ($Q_f$) as seen in equation \ref{eq:qf_for_flow}. %Where $Q_f$ is calculated as \cite{ikke_stationear}:
 
 \begin{equation}\label{eq:qf_for_flow}
     Q_f =72\cdot \left(\frac{d}{4}\right)^{0,635}\pi\cdot\left(\frac{d}{2}\right)^2\cdot S_f^{0,5}% -3.02 \cdot ln\left(\frac{0.74\cdot 10^{-6}}{d\sqrt{d\cdot I_e}}+\frac{k}{3.71\cdot d}\right)d^2\sqrt{d\cdot I_e}
 \end{equation}
-$Q_f$ is calculated from Manning's equation shown in equation \ref{Manning_formula}. The derivation from Manning's equation to equation \ref{eq:qf_for_flow} can be seen in appendix \ref{app:formulas}.
+$Q_f$ can be obtained from Manning's equation shown in equation \ref{Manning_formula}. The derivation from Manning's equation to equation \ref{eq:qf_for_flow} can be seen in appendix \ref{app:formulas}.
 \fxnote{mannings skal fixes i appendiks!!!!!!}
 
-To be able to utilize the 
-In equation \ref{eq:continuity_solve_flow} the flow $Q_{j+1}^{i+1}$ is a function of the unknown area $A_{j+1}^{i+1}$, and by subtracting the flow on each side the following is achieved,
+In equation \ref{eq:continuity_solve_flow} the flow $Q_{j+1}^{i+1}$ is a function of the unknown area $A_{j+1}^{i+1}$, and by subtracting the flow on each side the following is achieved:
 
 \begin{equation}\label{eq:continuity_zero_eq}
         0=-Q_{j+1}^{i+1}  - \frac{1}{2\theta}\cdot\left(A_{j+1}^{i+1}-H\right)\cdot \frac{\Delta x}{\Delta t}
 \end{equation}
-By naming the right hand side of equation \ref{eq:continuity_zero_eq} for V the following is obtained,
+By naming the right hand side of equation \ref{eq:continuity_zero_eq} for V yields the following:
 
 \begin{equation}\label{eq:continuity_V}
         V=-Q_{j+1}^{i+1}  - \frac{1}{2\theta}\cdot\left(A_{j+1}^{i+1}-H\right)\cdot \frac{\Delta x}{\Delta t}
 \end{equation}
 
 %Equation \ref{eq:continuity_V} can be solved by finding the zero for the function V using newton method. 
-There are still two unknowns in equation \ref{eq:continuity_V}, $Q_{j+1}^{i+1}$ and $A_{j+1}^{i+1}$. $Q_{j+1}^{i+1}$ can be replaced with equation \ref{eq:calc_for_flowv2} for calculating the flow. Equation \ref{eq:calc_for_flowv2} is inserted into equation \ref{eq:continuity_V} and thereby the following is obtained,
+The two unknowns remaining in equation \ref{eq:continuity_V} is $Q_{j+1}^{i+1}$ and $A_{j+1}^{i+1}$. The flow $Q_{j+1}^{i+1}$ can be replaced with equation \ref{eq:calc_for_flowv2}, which inserted into equation \ref{eq:continuity_V} gives the following equation:
 
 \begin{equation}\label{eq:V_with_flow}
     V = -Q_f\cdot\left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
 \end{equation}
 
-Furthermore $Q_f$ from equation \ref{eq:qf_for_flow} is inserted into equation \ref{eq:V_with_flow},
+Inserting $Q_f$ from equation \ref{eq:qf_for_flow} into equation \ref{eq:V_with_flow} yields the following
 
-\begin{multline}\label{eq:new_continuity_equation}
+\begin{equation}\label{eq:new_continuity_equation}
+\begin{aligned}
     V = -72\left(\frac{d}{4}\right)^{0.635}\pi\cdot\left(\frac{d}{2}\right)^2S_f^{0,5}\cdot \left(0,46-0,5\cdot cos\left(\pi \frac{h_{j+1}^{i+1}}{d}\right)+ 0,04\cdot cos\left(2\pi\frac{h_{j+1}^{i+1}}{d}\right)\right)\\ \frac{\Delta t}{\Delta x}-\frac{1}{2\theta}\left(A_{j+1}^{i+1}-H\right)
-\end{multline}
+\end{aligned}
+\end{equation}
 
-V is now a function of the height $h_{j+1}^{i+1}$ as the height is the only unknown parameter for finding the area $A_{j+1}^{i+1}$ and the flow for the pipe, where the wetted area for a circular pipe is calculated with the following \cite{ikke_stationear}:
+V is now a function of height $h_{j+1}^{i+1}$ and $A_{j+1}^{i+1}$. Height, being the only unknown parameter for finding the wetted area $A_{j+1}^{i+1}$, can be found for a circular pipe by equation \ref{eq:calc_area_open_channel} \cite{ikke_stationear}.
 
 \begin{equation}\label{eq:calc_area_open_channel}
     A = \frac {d^2}{4} \cdot acos \left(\frac{\frac{d}{2}-h}{\frac{d}{2}}\right)-\sqrt{h\cdot (d-h)}\cdot  \left(\frac{d}{2}-h\right)
@@ -143,34 +143,35 @@ V is now a function of the height $h_{j+1}^{i+1}$ as the height is the only unkn
 
 %Equation \ref{eq:new_continuity_equation} can be solved by finding the zeros, where V is a function of the height, h.
 
-To find a height in equation \ref{eq:new_continuity_equation} Newton's method is used. Newton's method is a method used to find better approximations to the roots of a real-valued function. The method requires a real-valued function f, the derivate f$'$, and a initial guess $x_0$, of the root of the function. If the assumption is satisfied and the initial guess is close then a better approximation can be obtained by:
+A numerical solution to obtain height in equation \ref{eq:new_continuity_equation} is Newton's method. The method is used to find the roots of a real-valued function. The method requires a real-valued function $f$, the derivate $f'$, and an initial guess $x_0$ and the approximation is found by the following equation \cite{szymkiewicz2010numerical}:
 
 \begin{equation}\label{eq:newtons_method_standard}
      x_1 = x_0 - \frac{f(x_0)}{f'(x_0)}
 \end{equation} 
 
-Where $x_1$ is the better approximation of the root, for the function f. Newtons method can be iterated until a satisfied root is obtained:
-
+Where $x_1$ is an approximation of a root from the initial guess. Newtons method can be iterated until a sufficiently accurate root is obtained.
 
 \begin{equation}\label{eq:newtons_method_standard}
-     x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
+     x_{i+1} = x_i - \frac{f(x_i)}{f'(x_i)}
 \end{equation} 
 
-By using the Newton method the roots of equation \ref{eq:new_continuity_equation} can be found, which will be a approximation of the height in the pipe. The approximation for the height is:
+% By using Newton's method the root of equation \ref{eq:new_continuity_equation} can be found, which will be an approximation of the height in the pipe. The approximation for the height is:
 
-\begin{equation}\label{eq:newtons_method_height}
-     (h_{j+1}^{i+1})_{k+1} =(h_{j+1}^{i+1})_{k} - \frac{V_k}{V'_k}
-\end{equation}
+% \begin{equation}\label{eq:newtons_method_height}
+%      (h_{j+1}^{i+1})_{k+1} =(h_{j+1}^{i+1})_{k} - \frac{V_k}{V'_k}
+% \end{equation}
 
-Where k is the number of iterations, V$'$ is the differentiated of V with respect to height, $(h_{j+1}^{i+1})_{k}$ is an initial guess of the root and $(h_{j+1}^{i+1})_{k+1}$ is a better approximation of the height. This calculation is iterated until a satisfied approximation is achieved which fulfills the requirement,
+% Where k is the number of iterations, V$'$ is the differentiated of V with respect to height, $(h_{j+1}^{i+1})_{k}$ is an initial guess of the root and $(h_{j+1}^{i+1})_{k+1}$ is a better approximation of the height. This calculation is iterated until a satisfied approximation is achieved which fulfills the requirement,
+To stop the iteration a tolerance value which stop the iteration can be inserted when the error between the current approximation and the past is sufficiently low, as shown in equation \ref{eq:converge_newtons}.
 
 \begin{equation}\label{eq:converge_newtons}
-    \left(h_{j+1}^{i+1}\right)_{k}-(h_{j+1}^{i+1})_{k-1} < (\epsilon \cdot h_{j+1}^{i+1})_{k}
+     \left( x_{i+1}-x_i \right) < \epsilon 
 \end{equation}
 
-Where $\epsilon$ is a small tolerance number, e.g. five-centimeter variation in water height. Equation \ref{eq:converge_newtons} calculates if the difference between the previous and the current height, if it is smaller than the tolerance, the calculation stops and returns the height. If not, the iteration scheme will stop and return an error. Thereby the water height can be found and the area of the water can be calculated with equation \ref{eq:calc_area_open_channel} \fxnote{afsnit om de forskellige ligninger til beregning af Areal, Ie,Ib,Qf,Q} and thereafter equation \ref{eq:continuity_solve_flow} can be used to calculate the flow of the node.
+%Where $\epsilon$ is a small tolerance value, e.g. five-centimeter variation in water height. Equation \ref{eq:converge_newtons} calculates if the difference between the previous and the current height, if it is smaller than the tolerance, the calculation stops and returns the height. If not, the iteration scheme will stop and return an error. Thereby the water height can be found and the area of the water can be calculated with equation \ref{eq:calc_area_open_channel} \fxnote{afsnit om de forskellige ligninger til beregning af Areal, Ie,Ib,Qf,Q} and thereafter equation \ref{eq:continuity_solve_flow} can be used to calculate the flow of the node.
 
-This calculation is performed for each node in the Preissmann scheme, therefore it is an iterative method of solving the flow for a pipe and in figure \ref{fig:flow_chart_iteration} a flow chart of how these equations are iterated is shown.
+This calculation is performed for each node in the Preissmann scheme, making it an iterative method of obtaining flow in a pipe. 
+In figure \ref{fig:flow_chart_iteration} a flow chart of the Preissmann iterative scheme is seen.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{report/simulation/pictures/flow_chart_iteration.pdf}
@@ -178,7 +179,8 @@ This calculation is performed for each node in the Preissmann scheme, therefore 
     \label{fig:flow_chart_iteration}
 \end{figure}
 
-The iteration scheme starts with setting the boundary conditions for the flow and height as seen in figure \ref{fig:preissmann_grid_scheme_exampel}, thereafter i and j are countered one up before starting the iteration process. Hereafter the calculation for H, h, A, and Q are conducted iteratively throughout the pipe. Finally, a check is made to investigate if the iteration scheme has been through the whole pipe before it steps one up in time. This iteration process will go on until the i = n, which means that all the inputs to the pipe have been calculated throughout the pipe.   
+The iteration scheme starts with setting boundary conditions for flow and height in all sections of the pipe. Thereafter $i$ and $j$ are incremented by one, before the iteration process starts. The calculation of H, height, wetted area, and flow are conducted iteratively throughout the pipe for ``m'' sections.
+When the iteration scheme has been through the whole pipe it increments by one in time. This iteration process will go on until ``n'' time iterations has been performed.   
 
 In the following stability and precision for the Preissmann scheme will be elaborated. %Where, how to chose $\Delta t, \Delta x$ and $\theta$ will be explained. 
 

@@ -36,7 +36,7 @@ In figure \ref{fig:firkant_kloak} a flow in a channel is shown.
 \label{fig:firkant_kloak}
 \end{figure}
 
-The flows and the cross section area of the flow, seen in figure \ref{fig:firkant_kloak}, is dependent on time and position. In the following a simpler notation is used for an easier outline. 
+In figure \ref{fig:firkant_kloak}, the flow and the cross section area of it, also know as wetted area, is dependent on time and position. %In the following a simpler notation is used for an easier outline. 
 
 Flow into the control volume, where Q is the flow considered from the middle of the control volume, is given as:
 
@@ -45,7 +45,7 @@ Q_{in} \cdot \Delta t =	\left(Q - \frac{\partial Q}{\partial x}\cdot \frac{\Delt
 \label{flowin_saintbernard}
 \end{equation}
 
-Where q is lateral inflow across the entire channel [$\frac{m^2}{s}$] and Q is the flow in the channel [$\frac{m^3}{s}$]. Lateral inflow could e.g. come from adjoint sewer pipes or gutter drain.
+Where q is lateral inflow across the entire channel $\left[ m^2/s \right]$ and Q is the flow in the channel $\left[m^3/s\right]$. Lateral inflow could e.g. come from adjoint sewer pipes or gutter drain.
 The discharge flow of the channel is given as:
 
 \begin{equation}
@@ -57,9 +57,9 @@ Average change in the stored fluid in the channel is given as:
 
 \begin{equation}\label{stored_saintbernard}
 \begin{aligned}
-\frac{\partial}{\partial t} \left(\Delta x \cdot \frac{A- \frac{\partial A}{\partial x} \frac{\Delta x}{2} +A + \frac{\partial A}{\partial x} \frac{\Delta x}{2}}{2}  \right) \Delta t 
-& = \frac{\partial}{\partial t} \left( \Delta x \frac{2A}{2} \right) \Delta t \\
-& = \frac{\partial A}{\partial t} \cdot \Delta x	\Delta t
+\frac{\partial}{\partial t} \left(\Delta x \cdot \frac{A- \frac{\partial A}{\partial x} \frac{\Delta x}{2} +A + \frac{\partial A}{\partial x} \frac{\Delta x}{2}}{2}  \right) \cdot \Delta t 
+& = \frac{\partial}{\partial t} \left( \Delta x \frac{2A}{2} \right) \cdot \Delta t \\
+& = \frac{\partial A}{\partial t} \cdot \Delta x \cdot	\Delta t
 \end{aligned}
 \end{equation}
 %This can be simplified to:
