@@ -293,7 +293,7 @@ The results are obtained by using the MATLAB function ``tic-toc'' on the main si
 
 \subsection*{Display result}
 
-The areas of interest chosen to be displayed is, as mentioned in section \ref{sec:Structure}, flow, height, concentrate and concentrate flow.
+The areas of interest chosen to be displayed are, as mentioned in section \ref{sec:Structure}, flow, height, concentrate and concentrate flow.
 In figure \ref{fig:data_plot_chart} a flowchart of the constructed playback function to examine the simulation result is seen 
 
 \begin{figure}[H]
@@ -304,14 +304,14 @@ In figure \ref{fig:data_plot_chart} a flowchart of the constructed playback func
 \end{figure}
 
 %The playback function is constructed such that firstly minimum and maximum values on the y axis is limited to the variations in the data. 
-The first thing that is done in the playback function is finding minimum and maximum values for the y axis. This is done such that the graph can not move outside the plot. Furthermore another setting where space, corresponding to a user defined percentage, at the top and bottom of the plot is unused. An initial value of ten percent at top and bottom is set, which leaves 80 percent of the window to be used by the graph during playback.  
-Secondly the data for all the components is fetched into a matrix such that the MATLAB plot function can be utilized. Furthermore, x axis data is scaled correctly according to number of components, various $\Delta x$, intersections and tanks. Afterwards ``Iteration'' is set to the value of iterations which has been simulated, ``Plot\_iteration'' is set to the iteration from where the playback is to start from, ``step\_size'' is set to the amount of iterations to skip during playback. Lastly ``frame\_time'' is set, which decides the speed of the playback. The maximum speed is in the end decided by the processor available to MATLAB and due to the plot function known to be computational demanding, a low amount of updates per second should be expected. The defined iteration or boundary conditions, if ``Start\_point'' is set to zero, is plotted before the playback is put on hold. Playback is now started by clicking on the window holding the plots and continues iterating in the predefined step size and frame time.
+The first thing that is done in the playback function is finding minimum and maximum values for the y axis. This is done such that the graph can not move outside the plot. Furthermore, another setting where space, corresponding to a user defined percentage, at the top and bottom of the plot is unused. An initial value of ten percent at top and bottom is set, which leaves 80 percent of the window to be used by the graph during playback.  
+Secondly, the data for all the components are fetched into a matrix such that the MATLAB plot function can be utilized. Furthermore, x axis data is scaled correctly according to the number of components, various $\Delta x$, intersections and tanks. Afterward ``Iteration'' is set to the value of iterations which has been simulated, ``Plot\_iteration'' is set to the iteration from where the playback is to start from, ``step\_size'' is set to the number of iterations to skip during playback. Lastly ``frame\_time'' is set, which decides the speed of the playback. The maximum speed is in the end decided by the processor available to MATLAB and due to the plot function is known to be computationally demanding, a low amount of updates per second should be expected. The defined iteration or boundary conditions, if ``Start\_point'' is set to zero, is plotted before the playback is put on hold. Playback is now started by clicking on the window holding the plots and continues iterating in the predefined step size and frame time.
 
 
  \begin{sidewaysfigure}
  \centering
  \includegraphics[width=1.0 \textwidth]{report/simulation/pictures/display_result_matlab.png}
- \caption{Screen shot of the plots made by the playback function where a sinusoidal flow input and step in concentrate is given, red dotted lines indicate pipe intersection and blue dotted lines are intersections with side inflow and stars is tanks inserted. In the simulation the pipe configuration seen in figure \ref{fig:Fredericia_pipe_setup} is used and input to the side inflows is not given.}
+ \caption{Screen shot of the plots made by the playback function where a sinusoidal flow input and step in concentrate is given, red dotted lines indicate pipe intersection and blue dotted lines are intersections with side inflow and stars are tanks inserted. In the simulation the pipe configuration seen in figure \ref{fig:Fredericia_pipe_setup} is used and input to the side inflows is not given.}
  \label{fig:display_result_matlab}
  \end{sidewaysfigure}
 \fxnote{Sørg for at den her tykke figur vender rigtig i forhold til siden den er på}

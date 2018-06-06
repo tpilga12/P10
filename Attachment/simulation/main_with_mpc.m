@@ -32,11 +32,6 @@ toc
 %% run stuff !!!!!
 clc
 iterations = 360;
-xstates_linear = lin_point.x0-lin_point.x0(1);
-
-xstates_linear(7,1) =xstates_linear(7,1) -xstates_linear(7,1); 
-
-
 % data = init_data;
 input.C_in = input.C_init;
 input.Q_in = input.Q_init;
