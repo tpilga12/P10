@@ -31,8 +31,8 @@ if call == 1
 
     
     %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
-    tank.size = 900; %m^3
-    tank.height = 1000; %m
+    tank.size = 100; %m^3
+    tank.height = 5; %m
     tank.area = tank.size/tank.height; %m^2
     tank.Q_out_max = 0.5; % m^3/s
     tank.data_location = order;
@@ -347,8 +347,8 @@ if call == 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
-    tank.size = 900; %m^3
-    tank.height = 1000; %m
+    tank.size = 100; %m^3
+    tank.height = 5; %m
     tank.area = tank.size/tank.height; %m^2
     tank.Q_out_max = 0.5; % m^3/s
     tank.data_location = order;

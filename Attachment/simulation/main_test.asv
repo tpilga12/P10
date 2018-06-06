@@ -9,7 +9,7 @@ global Dt iterations error
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Dt = 20;
 
-[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup_experiment(1);
+[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup_experiment_2(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 load disturbance_from_house_holds_and_small_industry % Load the households and small industry disturbance
 load brewery_datav2.mat % load disturbance from brewery and bottle plant
@@ -33,7 +33,7 @@ i=1;
 %% run stuff !!!!!
 clc
 
-iterations = 8640;
+iterations = 2000;
 
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
 tic
@@ -43,11 +43,9 @@ for m = 2:(iterations+1)
         
         [input] = disturbance_input(m,Dt,input,disturbance,brewery_disturbance,pipe_spec);
         %     end
-        input.u(m,1) = 0.2;% + sin(m/10)/8;
-        input.u(m,1) = 0.2;%input.u_init(1,2);
-      
-        
-        
+        input.u(m,1) = 0.25;% 
+        input.u(m,2) = 0.17;%
+
         [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
         
         row = m;
