@@ -20,33 +20,34 @@ if m > 1
     end
     
         % Disturbance input from the different zones
-        input.side.Q{3} = num2cell(disturbance.Zone1_1(i(m))+disturbance.Zone1_2(i(m))+disturbance.Zone1_3(i(m))+disturbance.Industry_1_1(i(m))+disturbance.Industry_1_3(i(m)));
-        input.side.Q{6} = num2cell(disturbance.Zone2(i(m)));
-        input.side.Q{7} = num2cell(disturbance.Zone3(i(m)));
-        input.side.Q{8} = num2cell(disturbance.Zone4_1(i(m))+disturbance.Zone4_2(i(m))+disturbance.Zone4_3(i(m))+disturbance.Industry_4_1(i(m)));
-        input.side.Q{9} = num2cell(disturbance.Zone5(i(m)));
-        input.side.Q{11}= num2cell(disturbance.Zone6(i(m)));
-        input.side.Q{13}= num2cell(disturbance.Zone7(i(m))+disturbance.Industry7_1(i(m)));
-        input.side.Q{14}= num2cell(disturbance.Zone8And9(i(m))+disturbance.Industry_8And9(i(m)));
-        input.side.Q(15)= num2cell(disturbance.Zone10(i(m)));
-        input.side.Q(18)= num2cell(disturbance.Zone11(i(m)));
+        input.side.Q{3} = disturbance.Zone1_1(i(m))+disturbance.Zone1_2(i(m))+disturbance.Zone1_3(i(m))+disturbance.Industry_1_1(i(m))+disturbance.Industry_1_3(i(m));
+        input.side.Q{6} = disturbance.Zone2(i(m));
+        input.side.Q{7} = disturbance.Zone3(i(m));
+        input.side.Q{8} = disturbance.Zone4_1(i(m))+disturbance.Zone4_2(i(m))+disturbance.Zone4_3(i(m))+disturbance.Industry_4_1(i(m));
+        input.side.Q{9} = disturbance.Zone5(i(m));
+        input.side.Q{11}= disturbance.Zone6(i(m));
+        input.side.Q{13}= disturbance.Zone7(i(m))+disturbance.Industry7_1(i(m));
+        input.side.Q{14}=disturbance.Zone8And9(i(m))+disturbance.Industry_8And9(i(m));
+        input.side.Q{15}=disturbance.Zone10(i(m));
+        input.side.Q{18}= disturbance.Zone11(i(m));
         
                 % Disturbance input from the different zones
-        input.side.C{3} = 2279*0.2/4320;
-        input.side.C{6} = 173*0.2/4320;
-        input.side.C{7} = 5799*0.2/4320;
-        input.side.C{8} = 322*0.2/4320;
-        input.side.C{9} = 356*0.2/4320;
-        input.side.C{11}= 5874*0.2/4320;
-        input.side.C{13}= 2067*0.2/4320;
-        input.side.C{14}= 3916*0.2/4320;
-        input.side.C{15}= 11748*0.2/4320;
-        input.side.C{18}= 865*0.2/4320;
+        input.side.C{3} = (2279*0.2)*input.side.Q{3} ;
+        input.side.C{6} = 173*0.2;
+        input.side.C{7} = 5799*0.2;
+        input.side.C{8} = 322*0.2;
+        input.side.C{9} = 356*0.2;
+        input.side.C{11}= 5874*0.2;
+        input.side.C{13}= 2067*0.2;
+        input.side.C{14}= 3916*0.2;
+        input.side.C{15}= 11748*0.2;
+        input.side.C{18}= 865*0.2;
         
         
  
         % Input from the brewery / bottling plant  
         input.Q_in(m,1) = brewery_disturbance(i(m))/1000+0.05;% + sin(m/10)/35 ;%+ sin(m/100)/15;
+        input.C_in(m,1) = brewery_disturbance(i(m))/100000;
 end 
 
 
