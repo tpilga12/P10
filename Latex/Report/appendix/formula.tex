@@ -30,7 +30,7 @@ The flow in a filled pipe can be calculated with the equation describing the fri
 Solved for Q:
 
 \begin{equation}
-	Q^2=\frac{A^2R^{4/3}}{n}S_f			
+	Q=\frac{1}{n} \cdot A\cdot R^{2/3} S_f^{1/2}			
 \end{equation}
 
 Where n is Mannings roughness factor $[sm^{-1/3}]$, which is 0,0139 for concrete pipe. R is the hydraulic radius [m], A is the area $[m^2]$ and Q is the flow $[m^3/s]$. Taking the square root on both sides and assuming that the equation is for a filled pipe, the following can be written:
@@ -38,6 +38,7 @@ Where n is Mannings roughness factor $[sm^{-1/3}]$, which is 0,0139 for concrete
 \begin{equation}
   Q_{f} = 72 A_{f} R_{f}^{0.635}S_f^{0,5} 
 \end{equation}
+\fxnote{Der skal ikke stå 72, der skal stå mannings coefficienten og sikkert andre fixes engang i nat.}
 
 Where the subscript f denotes for filled pipe. For a filled pipe the area is the cross section for a circle. The hydraulic radius is the wetted area divided by the wetted perimeter. As the wetted area is the area for a circle and as the wetted perimeter is equal to the perimeter of a circle the following can be written: 
 \begin{equation}
