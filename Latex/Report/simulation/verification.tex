@@ -1,7 +1,7 @@
 \section{Implementation}\label{sec:implementation}
 
 %In this section the suggested a structure in section \ref{sec:Structure} implemented with the numerical solutions in section \ref{se:preissmann_scheme}-\ref{sec:concentrate}, is tested and verified.
-In this section the implementation of the various parts, which the simulation environment consist of, is explained. The chosen structure, which is described in section \ref{sec:Structure}, is seen in figure \ref{fig:Basic_implementation}. 
+In this section, the implementation of the various parts, which the simulation environment consist of, is explained. The chosen structure, which is described in section \ref{sec:Structure}, is seen in figure \ref{fig:Basic_implementation}. 
 
 \begin{figure}[H]
 \centering
@@ -14,7 +14,7 @@ The first part to be elaborated upon is the initialization.
 
  \subsection*{Initialization}
 
-For the setup procedure of the simulation in list form, the specifications part shown in figure \ref{fig:sys_setup} needs to be defined. The necessary parameters in the list for both pipe and tank can be seen in table \ref{tab:init_list}. 
+For the setup procedure of the simulation in list form, the specifications part, shown in figure \ref{fig:sys_setup}, needs to be defined. The necessary parameters in the list for both pipe and tank can be seen in table \ref{tab:init_list}. 
 \begin{table}[H]
 \begin{enumerate} 
 	\item Pipe
@@ -39,13 +39,13 @@ For the setup procedure of the simulation in list form, the specifications part 
 	\end{itemize}
 	
 \end{enumerate}
-\caption{List of parameters for pipe and tank}
+\caption{List of parameters for pipe and tank.}
 \label{tab:init_list}
 \end{table}
-Some parameters can be found from others and is set to be calculated automatically. 
+Some parameters can be found from others and are set to be calculated automatically. 
 %Furthermore an item is added that indicates in which section of the obtained simulation data the specific output of the component is located. This item is given the number of the order in which the component appears in the list. 
-Furthermore an item is added to the list which indicates, where the initial and simulated data, for the specific item can be found.
-To give an overview of the system to be simulated, and to easily be able to locate specific parameters needed during simulation, three structures is returned to the workspace. These are named ``pipe\_spec'', ``tank\_spec'' and ``sys\_setup''. The first two structures holds the information shown in table \ref{tab:init_list} respectively. The last one, ``sys\_setup'', holds information of the various parts indexed in the order the system is setup and simulated. In figure \ref{fig:sys_setup_matlab} the content of ``sys\_setup'' is shown for a setup with two pipes and a tank.
+Furthermore, an item is added to the list which indicates, where the initial and simulated data, for the specific item can be found.
+To give an overview of the system to be simulated, and to easily be able to locate specific parameters needed during simulation, three structures are returned to the workspace. These are named ``pipe\_spec'', ``tank\_spec'' and ``sys\_setup''. The first two structures holds the information shown in table \ref{tab:init_list} respectively. The last one, ``sys\_setup'', holds information about the various parts indexed in the order the system is set up and simulated. In figure \ref{fig:sys_setup_matlab} the content of ``sys\_setup'' is shown for a setup with two pipes and a tank.
 
 \begin{figure}[H]
 \centering
@@ -54,9 +54,9 @@ To give an overview of the system to be simulated, and to easily be able to loca
 \label{fig:sys_setup_matlab}
 \end{figure}
 
-An initialization scheme is constructed as per figure \ref{fig:simple_sewer} where adjoint pipes is considered as one part of the system and each tank is an individual part, which means that tanks is used as a separator between parts consisting of pipes.
-The iterative scheme shown in figure \ref{fig:preissmann_grid_scheme_exampel} requires that boundary conditions is found before the iterative Preissmann scheme can be started. It has been decided by the project group that input should be given in flow, as input in height would be needed to be specific for the pipe inserted, to make the simulation universal. This means that from an initial input flow the corresponding height in the pipes needs to be found. By equation \ref{eq:calc_for_flowv2} flow can be obtained from height, but equation is transcendental it can not be solved analytically for height. This means that other means is necessary to obtain height from flow. Various iterative schemes exists to solve such equations, but due to the desire to keep computation time at a minimum, use of such schemes is refrained from.
-A solution to the problem is that for each pipe, during initialization, a data set from zero to the diameter of the pipe in sufficient steps is created, and from which the corresponding flow is obtained by equation \ref{eq:calc_for_flowv2}. From this data a curve fitted polynomial can be obtained by the MATLAB curve fitting toolbox or a lookup table can be constructed. Flow data is generated for 10.000 height steps for a pipe with the parameters shown in table \ref{tab:pipe_figure_parameters}.
+An initialization scheme is constructed as per figure \ref{fig:simple_sewer} where adjoint pipes are considered as one part of the system and each tank is an individual part, which means that tanks are used as a separator between parts consisting of pipes.
+The iterative scheme is shown in figure \ref{fig:preissmann_grid_scheme_exampel} requires that boundary conditions are found before the iterative Preissmann scheme can be started. It has been decided by the project group that input should be given in flow, as input in height would be needed to be specific for the pipe inserted, to make the simulation universal. This means that from an initial input flow the corresponding height in the pipes needs to be found. By equation \ref{eq:calc_for_flowv2} flow can be obtained from height, but that equation is transcendental, as it can not be solved analytically for height. This means that other means are necessary to obtain height from a flow. Various iterative schemes exist to solve such equations, but due to the desire to keep computation time at a minimum, use of such schemes is refrained from.
+A solution to the problem is that for each pipe, during initialization, a data set from zero to the diameter of the pipe in sufficient steps is created, and from which the corresponding flow is obtained by equation \ref{eq:calc_for_flowv2}. From this data, a curve fitted polynomial can be obtained by the MATLAB curve fitting toolbox or a lookup table can be constructed. Flow data is generated for 10.000 height steps for a pipe with the parameters shown in table \ref{tab:pipe_figure_parameters}.
 
 \begin{table}[H]
 \centering
@@ -78,7 +78,7 @@ In figure \ref{fig:curvefit_comparision} a comparison is shown of the generated 
 \caption{Comparison between data obtained by equation \ref{eq:calc_for_flowv2} and the same data curve fitted to a ninth order polynomial.}
 \label{fig:curvefit_comparision}
 \end{figure}
-The two plots in the figure is seemingly identical, but if observed closer the curve fit has what could be described as a low frequency oscillation compared to the plotted data. Furthermore the curve fit does not reach the same end points. This will result in the height at the end points never to be zero or the diameter of the pipe, when no inflow or maximum inflow is present. In figure \ref{fig:curvefit_comparision_split} the plot is separated into three for an easier overview.
+The two plots in the figure are seemingly identical, but if observed closer the curve fit has what could be described as a low frequency oscillation compared to the plotted data. Furthermore, the curve fit does not reach the same endpoints. This will result in the height at the endpoints never to be zero or the diameter of the pipe when no inflow or maximum inflow is present. In figure \ref{fig:curvefit_comparision_split} the plot is separated into three for an easier overview.
 
 
 \begin{figure}[H]
@@ -89,12 +89,12 @@ The two plots in the figure is seemingly identical, but if observed closer the c
 \end{figure}
 
 
- As discussed in section \ref{sec:Structure}, a scheme which brings the system to an initial steady state could be necessary due to the nonlinear nature of the Saint-Venant equations. A test is performed where two adjoint pipes, with the specifications given in table \ref{tab:pipe_figure_parameters}, is calculated for different amount of iterations. The boundary condition is found by the fitted polynomial for each pipe respectively. The result of this test is seen in figure \ref{fig:two_pipes_init_steady_state}. 
+ As discussed in section \ref{sec:Structure}, a scheme which brings the system to an initial steady state could be necessary due to the nonlinear nature of the Saint-Venant equations. A test is performed where two adjoint pipes, with the specifications given in table \ref{tab:pipe_figure_parameters}, is calculated for a different amount of iterations. The boundary condition is found by the fitted polynomial for each pipe respectively. The result of this test is seen in figure \ref{fig:two_pipes_init_steady_state}. 
 
 \begin{figure}[H]
  \centering
  \input{report/simulation/tikz/two_pipes_init_steady_state}
-\caption{Height and flow in two adjoint pipes, with identical specifications given in table \ref{tab:pipe_figure_parameters}, given boundary conditions found by fitted polynomial, and calculated at various amount of iterations with constant flow input of 0,25 $\text{m}^\text{3}$/s. Dotted line indicate intersection between pipes.}
+\caption{Height and flow in two adjoint pipes, with identical specifications given in table \ref{tab:pipe_figure_parameters}, given boundary conditions found by fitted polynomial, and calculated at various amount of iterations with constant flow input of 0,25 $\text{m}^\text{3}$/s. The dotted line indicates an intersection between pipes.}
 \label{fig:two_pipes_init_steady_state}
 \end{figure}
 
@@ -106,17 +106,17 @@ In figure \ref{fig:Fredericia_pipe_setup} the specifications of the main line of
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.97 \textwidth]{report/simulation/pictures/Fredericia_pipe_setup2.PNG}
-\caption{Setup in MATLAB of pipe system from section \ref{se:system_description} of main line in Fredericia.}
+\caption{Setup in MATLAB of pipe system from section \ref{se:system_description} of the main line in Fredericia.}
 \label{fig:Fredericia_pipe_setup}
 \end{figure}
 
-The amount of sections for each pipe is chosen such that each section is close to being 20 meters, with some sections deviating due to pipe length and others deviates on purpose to see if it affects the outcome.  
+The amount of sections for each pipe is chosen such that each section is close to being 20 meters, with some sections deviating due to pipe length and others deviate on purpose to see if it affects the outcome.  
 In figure \ref{fig:fredericia_init_steady_state} iterations of the pipe setup shown in figure \ref{fig:Fredericia_pipe_setup} is seen. 
 
 \begin{figure}[H]
  \centering
  \input{report/simulation/tikz/fredericia_init_steady_state}
-\caption{Height and flow in pipe setup, given by table \ref{tab:kloak_diameter} with corrections from table \ref{tab:new_slope_values}, of part of Fredericia where boundary conditions is found by fitted polynomial. Various amount of iterations, with constant flow input of 0,25 $\text{m}^\text{3}$/s, is performed. Dotted line indicates pipe intersections.}
+\caption{Height and flow of pipe setup from part of Fredericia, given by table \ref{tab:kloak_diameter} with corrections from table \ref{tab:new_slope_values}, where boundary conditions is found by fitted polynomial. Various amount of iterations, with constant flow input of 0,25 $\text{m}^\text{3}$/s, is performed. The dotted line indicates pipe intersections.}
 \label{fig:fredericia_init_steady_state}
 \end{figure}
 
@@ -128,18 +128,18 @@ It is clear that the larger setup increases the undesired behavior seen in figur
  \input{report/simulation/tikz/fredericia_init_steady_state_zoom}
 \caption{Segment of the height plot shown in figure \ref{fig:fredericia_init_steady_state}. Pipe 10 and 16 is seen partially at the left and right side and 11 to 15 in between with a red stippled line separating pipes.}
 \label{fig:fredericia_init_steady_state_zoom}
-\end{figure}t
-In the above figure, the obtained height from the fitted polynomial is at it worst off by almost a centimeter. But when simulating this offset will only occur in the first section of the pipe. This means that it will be a greater disturbance on short pipes with few sections than larger ones with more sections. An alternative method is attempted to conclude if the deviations of the curve fitted polynomial seen in figure \ref{fig:curvefit_comparision_split} is the cause or if there is an unforeseen error in the Preissmann scheme. A lookup table, where the same data used to create the polynomial, is utilized. A simple implementation is made where the index in the vector of flow is found by subtracting the input flow from the vector. The desired index is then found by searching for the lowest absolute value. Finally the resulting height is given as the desired index of the height vector. The chosen scheme for creating the lookup table means that the height will in worst case be rounded to the nearest step. But indexing the flow and height into the chosen 10.000 steps, it is assumed to be an insignificant error, and in worst case the amount of steps can be increased. In figure \ref{fig:fredericia_init_steady_state_lut} an identical test of the pipe setup of Fredericia is performed at various iterations.      
+\end{figure}
+In the above figure, the obtained height from the fitted polynomial is at it worst off by almost a centimeter. But when simulating this offset will only occur in the first section of the pipe. This means that it will be a greater disturbance on short pipes with few sections than larger ones with more sections. An alternative method is attempted to conclude if the deviations of the curve fitted polynomial seen in figure \ref{fig:curvefit_comparision_split} is the cause or if there is an unforeseen error in the Preissmann scheme. A lookup table, where the same data used to create the polynomial, is utilized. A simple implementation is made where the index in the vector of flow is found by subtracting the input flow from the vector. The desired index is then found by searching for the lowest absolute value. Finally the resulting height is given as the desired index of the height vector. The chosen scheme for creating the lookup table means that the height will in the worst case be rounded to the nearest step. But indexing the flow and height into the chosen 10.000 steps, it is assumed to be an insignificant error, and in the worst case the number of steps can be increased. In figure \ref{fig:fredericia_init_steady_state_lut} an identical test of the pipe setup of Fredericia is performed at various iterations.      
 
 \begin{figure}[H]
  \centering
  \input{report/simulation/tikz/fredericia_init_steady_state_lut}
-\caption{Height and flow in pipe setup, given by table \ref{tab:kloak_diameter} with corrections from table \ref{tab:new_slope_values}, of part of Fredericia where boundary conditions is found by lookup table. Various amount of iterations, with constant flow input of 0,25 $\text{m}^\text{3}$/s, is performed. Dotted line indicates pipe intersections.}
+\caption{Height and flow of pipe setup from part of Fredericia, given by table \ref{tab:kloak_diameter} with corrections from table \ref{tab:new_slope_values}, where boundary conditions is found by lookup table. Various amount of iterations, with constant flow input of 0,25 $\text{m}^\text{3}$/s, is performed. The dotted line indicates pipe intersections.}
 \label{fig:fredericia_init_steady_state_lut}
 \end{figure}
 
 It is clearly shown that the deviation between the boundary conditions found by the lookup table and the values found by the following iterations of the Preissmann scheme is significantly decreased.
-Something else to note is that even though the difference seem to be non existent it still required 189 iterations before the flow error were minimized to the same 1$\cdot \text{10}^{\text{-7}}$ as before. For this reason it is decided to implement the scheme which brings the adjoint pipe parts into steady state before simulation starts. A decisive choice is not made at this point whether the curve fitted polynomial or the lookup table should be implemented. The reason for this is that some imprecision can be accepted if reduction in simulation time can be obtained. A test will therefore be performed, in the simulation part of the implementation, to decided which scheme should be utilized. A flow chart of the initialization scheme, where initial values for the entire setup is found, can be seen in figure \ref{fig:init_sys_dia}.
+Something else to note is that even though the difference seem to be non-existent it still required 189 iterations before the flow error was minimized to the same 1$\cdot \text{10}^{\text{-7}}$ as before. For this reason, it is decided to implement the scheme which brings the adjoint pipe parts into steady state before the simulation starts. A decisive choice is not made at this point whether the curve fitted polynomial or the lookup table should be implemented. The reason for this is that some imprecision can be accepted if reduction in simulation time can be obtained. A test will therefore be performed, in the simulation part of the implementation, to decided which scheme should be utilized. A flow chart of the initialization scheme, where initial values for the entire setup is found, can be seen in figure \ref{fig:init_sys_dia}.
 
 \begin{figure}[H]
 \centering
@@ -148,7 +148,7 @@ Something else to note is that even though the difference seem to be non existen
 \label{fig:init_sys_dia}
 \end{figure}
 
-Two functions, namely ``Tank'' and ``Init\_pipe'', is used to obtain the initial values for tanks and the boundary conditions, for the pipes, needed to start iterating with the Preissmann scheme. The tank function returns the initial flow, height and the input needed for the pump, such that inflow is equal to outflow in the tank. Due to MPC requiring constraints for the input to the pump in the tank and due to time constraint of the project, a limitation in the simulation is made. The limitation refers to tanks not being able to be the end point of the entire system setup. The reason for this is that a uniform control input of zero to one for all pumps, to ease constraint setup when utilizing MPC, is obtained. The following parameters is set in the tank function:
+Two functions, namely ``Tank'' and ``Init\_pipe'', is used to obtain the initial values for tanks and the boundary conditions, for the pipes, needed to start iterating with the Preissmann scheme. The tank function returns the initial flow, height and the input needed for the pump, such that inflow is equal to outflow in the tank. Due to MPC requiring constraints for the input to the pump in the tank and due to time constraint of the project, a limitation in the simulation is made. The limitation refers to tanks not being able to be the end point of the entire system setup. The reason for this is that a uniform control input of zero to one for all pumps, to ease constraint setup when utilizing MPC, is obtained. The following parameters are set in the tank function:
 \begin{itemize}
 	\item $Q_{in} = Q_{initial}$ $[m^3/s]$
 	\item $Q_{out} = Q_{in}$ $[m^3/s]$
@@ -158,21 +158,21 @@ Two functions, namely ``Tank'' and ``Init\_pipe'', is used to obtain the initial
 \end{itemize}
 
 Where Q is flow, u is pump input, h is height and C is concentrate.
-The pipe function is given initial flow, component number from the system setup list in figure \ref{fig:sys_setup_matlab}, the corresponding pipe specifications to the amount of pipes indicated by the system setup list and an error value. The error value is the accepted error between desired flow and the flow obtained by iterating with the Preissmann scheme, which means that when the error is less than the error value the system is in the desired steady state. A flowchart of the pipe function can be seen in figure \ref{fig:init_pipe_chart}. 
+The pipe function is given initial flow, a component number from the system setup list in figure \ref{fig:sys_setup_matlab}, the corresponding pipe specifications to the number of pipes indicated by the system setup list and an error value. The error value is the accepted error between desired flow and the flow obtained by iterating with the Preissmann scheme, which means that when the error is less than the error value the system is in the desired steady state. A flowchart of the pipe function can be seen in figure \ref{fig:init_pipe_chart}. 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1.05 \textwidth]{report/simulation/pictures/init_pipe_chart.pdf}
-\caption{Flow chart of pipe initializing function where the blue box is setup of curve fitted polynomial for each pipe, red box is computation of data in pipes and the yellow box calculates desired and average flow for error stop condition. Furthermore ``x'' indicates a specific pipe, ``m'' is time step and ``n'' indicates section in pipe.}
+\caption{Flowchart of pipe initializing function where the blue box is the setup of the curve fitted polynomial for each pipe, the red box is the computation of data in pipes and the yellow box calculates desired and average flow for error stop condition. Furthermore ``x'' indicates a specific pipe, ``m'' is time step and ``n'' indicates the section in a pipe.}
 \label{fig:init_pipe_chart}
-\end{figure}\fxnote{pil i rød boks skæv og fra Yes til calculate inout values kan man gå to veje? og hvis jeg skal kunne forsvare den, skal vi nok lige have den gennemgået sammen xD}
+\end{figure}
 
 The pipe initialization function can be separated into three parts as indicated by the blue, red and yellow stippled boxes. In the blue stippled box the generated data, which can also be used for a lookup table, is used to create the curve fitted polynomial. 
-When data are generated for all the pipes given to the function, a flag is set such that unnecessary calculations is not performed further on. In the red stippled box the calculations of the height and concentrate is performed. In the first time iteration ``m = 1'' the initial boundary condition is set for all sections of pipe number ``x''. This corresponds to the i-th row of circles shown in figure \ref{fig:preissmann_grid_scheme_exampel}. Furthermore when iterating through the pipes the corresponding pipe specifications is checked to decide if the pipe has side inflow. If it is present then the inflow into the pipe is a simple summation of input flow and side inflow. The concentrate input in the case of side inflow is found by equation \ref{poop_addition_interconnection}.
+When data are generated for all the pipes given to the function, a flag is set such that unnecessary calculations are not performed further on. In the red stippled box the calculations of the height and concentrate are performed. In the first time iteration ``m = 1'' the initial boundary condition is set for all sections of pipe number ``x''. This corresponds to the i-th row of circles shown in figure \ref{fig:preissmann_grid_scheme_exampel}. Furthermore, when iterating through the pipes the corresponding pipe specifications is checked to decide if the pipe has side inflow. If it is present then the inflow into the pipe is a simple summation of input flow and side inflow. The concentrate input in the case of side inflow is found by equation \ref{poop_addition_interconnection}.
 %From the inflow and concentrate throughout the pipe is calculated. 
-For the next pipe the input is then set to be the output of the previous pipe plus eventual side inflow.%, the same calculation of height and concentrate is then performed again.
-At the following time iterations the input boundary condition is found at section ``n = 1''. The Preissmann scheme is then utilized to find the height, and the concentrate is calculated, for the remaining pipe sections. This is done for all the pipes given to the function.
-Lastly in the yellow stippled box the desired and average flow values in the pipe or pipes is calculated. At the first time iteration ``m = 1'' the values of ``Flow\_avg'' and ``Flow\_desired'' are not updated. The reason is that the initial flow is inserted as the flow in all sections of all the pipes, which would give an error which are zero and stop the initialization loop. In the following iterations, disregarding the boundary condition which are still calculated, the flow is found from height which can vary for some iterations as seen in figure \ref{fig:fredericia_init_steady_state}. When the flow in all sections of all the pipes has an error which is sufficiently small from the desired flow the iterations is stopped. The flow, height and concentrate data from the latest iteration is returned and the simulation has a steady state point from where it can start. The amount of iterations and the accuracy of the steady state of course depends on the chosen error value. In figure \ref{fig:error_value_test}, the result of various tested error values can be seen.
+For the next pipe, the input is then set to be the output of the previous pipe plus eventual side inflow.%, the same calculation of height and concentrate is then performed again.
+At the following time iterations, the input boundary condition is found at section ``n = 1''. The Preissmann scheme is then utilized to find the height, and the concentrate is calculated, for the remaining pipe sections. This is done for all the pipes given to the function.
+Lastly, in the yellow stippled box the desired and average flow values in the pipe or pipes is calculated. At the first time iteration ``m = 1'' the values of ``Flow\_avg'' and ``Flow\_desired'' are not updated. The reason is that the initial flow is inserted as the flow in all sections of all the pipes, which would give an error which is zero and stop the initialization loop. In the following iterations, disregarding the boundary condition which is still calculated, the flow is found from a height which can vary for some iterations as seen in figure \ref{fig:fredericia_init_steady_state}. When the flow in all sections of all the pipes has an error which is sufficiently small from the desired flow the iterations is stopped. The flow, height and concentrate data from the latest iteration is returned and the simulation has a steady state point from where it can start. The amount of iterations and the accuracy of the steady state of course depends on the chosen error value. In figure \ref{fig:error_value_test}, the result of various tested error values can be seen.
 
 \begin{figure}[H]
  \centering
