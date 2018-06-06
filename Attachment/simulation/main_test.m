@@ -9,7 +9,7 @@ global Dt iterations error
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Dt = 20;
 
-[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup_experiment(1);
+[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup_experiment_2(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 load disturbance_from_house_holds_and_small_industry % Load the households and small industry disturbance
 load brewery_datav2.mat % load disturbance from brewery and bottle plant
@@ -33,7 +33,7 @@ i=1;
 %% run stuff !!!!!
 clc
 
-iterations = 432;
+iterations = 8640;
 
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
 tic
@@ -43,11 +43,9 @@ for m = 2:(iterations+1)
         
         [input] = disturbance_input(m,Dt,input,disturbance,brewery_disturbance,pipe_spec);
         %     end
-        utank1(m,1) = 0.9;% + sin(m/10)/8;
-        utank2(m,1) = 0.2;%input.u_init(1,2);
-        input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
-        
-        
+        input.u(m,1) = 0.2;% 
+        input.u(m,2) = 0.125;%
+
         [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
         
         row = m;
@@ -57,6 +55,7 @@ toc
 %%
 
 sampling = 10; %increase number to skip samples to increase playback speed
-starting_point = 1000; % change starting point (START IS 0)
+starting_point = 1; % change starting point (START IS 0)
 playback_speed = 1/100; % 1/fps -> set desired frames per second (warning this is heavily limited by cpu speed)
 plot_data(data, nr_tanks, nr_pipes, sys_setup, playback_speed, Dt, pipe_spec, tank_spec, sampling,starting_point)
+%%

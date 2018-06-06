@@ -1,7 +1,7 @@
 \section{Transport of concentrate}\label{se:transport_of_concentrate}
 
 A model for transport of concentrate in sewer pipes is obtained in the following.
-The following assumptions is made obtaining the transport equation.
+The following assumptions are made obtaining the transport equation.
 
  \begin{table}[H]
 \begin{enumerate}
@@ -81,7 +81,7 @@ Where $\phi$ is a flux [$\frac{g}{s}$] term replacing the flow term, $Q$ and $C_
 % \label{eq:concentrate_continuity_equation}
 % \end{equation}
 
-Depending on the desired approximation the flux and lateral inflow terms can be expanded. The expanded lateral term describes a dead zone at the bottom of the channel, which can be useful to model if dealing with rugged channel bed. Due to the prismatic assumption in \ref{se:hydraulics_of_sewer_line} of the sewer channel the dead zone in the channel is not investigated further. Flux terms describing convective flow and dispersion can be seen in table \ref{tab:flux_terms}.  
+Depending on the desired approximation the flux and lateral inflow terms can be expanded. The expanded lateral term describes a dead zone at the bottom of the channel, which can be useful to model if dealing with rugged channel bed. Due to the prismatic assumption in section \ref{se:hydraulics_of_sewer_line} of the sewer channel the dead zone in the channel is not investigated further. Flux terms describing convective flow and dispersion can be seen in table \ref{tab:flux_terms}.  
 
 \begin{table}[H]
 \centering
@@ -96,7 +96,7 @@ Depending on the desired approximation the flux and lateral inflow terms can be 
 \label{tab:flux_terms} 
 \end{table}
 
-The dispersion term shown in the above table, also known as Fickian diffusion, gives an expression for how the molecules of the concentrate spreads. On a molecular level the concentrate will to some degree disperse upstream and downstream as shown in figure \ref{fig:diffusion_example}. 
+The dispersion term shown in the above table, also known as Fickian diffusion, gives an expression for how the molecules of the concentrate are spreading. On a molecular level, the concentrate will to some degree disperse upstream and downstream as shown in figure \ref{fig:diffusion_example}. 
 
 \begin{figure}[H]
 \centering
@@ -120,7 +120,7 @@ Inserting the terms in table \ref{tab:flux_terms} into equation \ref{poop_mass_e
 \end{equation}
 
 In closed environments such as sewers longitudinal dispersion can often be neglected\cite{vestergaard1989numerical}. For this reason and to reduce complexity of the simulation, equation \ref{eq:concentrate_continuity_equation_convective} is utilized further on.
-As the change in flow and area in the channel is solved by the Saint-Venant equations, an expression which only considers change in concentrate suffices.
+As the change in flow and area in the channel is solved by the Saint-Venant equations, an expression which only considers a change in concentrate suffices.
 The terms in equation \ref{eq:concentrate_continuity_equation_convective} can be rewritten to the following:
 \begin{equation}
 	C \cdot \frac{\partial A}{\partial t} + A \cdot \frac{\partial C}{\partial t} + C \cdot \frac{\partial Q}{\partial x} + Q \cdot \frac{\partial C}{\partial x} = q \cdot C_{lat}
