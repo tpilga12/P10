@@ -1,6 +1,6 @@
 ﻿\section{Preissmann scheme}\label{se:preissmann_scheme}
 In this section, a numerical method for solving the Saint-Venant equations are chosen and elaborated on.
-According to table \ref{momentum_approximations} various approximations of the momentum equation can be used. Common for the most part of them is that boundary conditions is needed up- and downstream. The problem is that downstream boundary conditions is not always known or require extensive information of the WWTP. It is therefore decided to utilize the kinematic wave approximation, as the hydraulic conditions of the WWTP is considered out of scope for this project.  
+According to table \ref{momentum_approximations} various approximations of the momentum equation can be used. Common for the most part of them is that boundary conditions are needed up- and downstream. The problem is that downstream boundary conditions are not always known or require extensive information of the WWTP. It is therefore decided to utilize the kinematic wave approximation, as the hydraulic conditions of the WWTP are considered out of scope for this project.  
 %Argument for at bruge numeriske metode til at løse saint venant eq.
 
 The numerical method chosen, for solving the Saint-Venant equations, is the Preissmann scheme which is based on the box scheme. Other methods exist such as Lax scheme, Abbot-Ionescu scheme, leap-frog scheme, Vasiliev scheme, however, the Preissmann scheme is known for its robustness. Basically, by using the Preissmann scheme the Saint-Venant equations can be discretized, and thereby utilized to simulate the flow and height throughout a pipe \cite{cunge1980practical}.
@@ -27,14 +27,13 @@ In figure \ref{fig:preissmann_grid_scheme} a single mesh for the Preissmann sche
 \label{fig:preissmann_grid_scheme}
 \end{figure}
 
-Where $\theta$ is a weighting parameter ranging between zero and one, j is an index of cross section and i is an index of time. The mesh contains four nodes, (j,i), (j+1,i), (j,i+1) and (j+1,i+1), however in the implementation the dimension of the grid is $\Delta t \times \Delta x$ for $0 \leq x \leq L$ and $0\leq t$. Where L defines the length of the pipe section. The derivatives in equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} are calculated as an approximation at the point P, which is in the middle of the interval of $\Delta x$.% and is also the reason why the Preissmann scheme is corresponding to a box scheme.
- The difference between the box scheme and the Preissmann scheme is that the point P should always be located at $\Delta x/2$, meaning that the point can only move along the time axis within this mesh by adjusting the weighting parameter $\theta$. The effect of this weighting parameter will be elaborated in subsection \ref{subse:stability_and_precision}.
- An arbitrary function $f_p(x,t)$ calculated at point P is approximated by \cite{numerical_modeling}.
+Where $\theta$ is a weighting parameter ranging between zero and one, j is an index of cross section and i is an index of time. The mesh contains four nodes, (j,i), (j+1,i), (j,i+1) and (j+1,i+1), however in the implementation the dimension of the grid is $\Delta t \times \Delta x$ for $0 \leq x \leq L$ and $0\leq t$. Where L defines the length of the pipe section. The derivatives in equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} are calculated as an approximation at the point P, which is in the middle of the interval of $\Delta x$. The difference between the box scheme and the Preissmann scheme is that the point P should always be located at $\Delta x/2$, meaning that the point can only move along the time axis within this mesh by adjusting the weighting parameter $\theta$. The effect of this weighting parameter will be elaborated in subsection \ref{subse:stability_and_precision}.
+ An arbitrary function $f_p(x,t)$ calculated at point P is approximated by \cite{szymkiewicz2010numerical}.
 
 \begin{equation}\label{eq:approximated_function}
     f_P \approx \frac{1}{2} (\theta \cdot f_j^{i+1}+(1-\theta)f_j^i)+\frac{1}{2}(\theta\cdot f_{j+1}^{i+1}+(1-\theta)f_{j+1}^i)
 \end{equation}
-The numerical approximation for the derivatives in equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} for time and length are shown below \cite{numerical_modeling}.
+The numerical approximation for the derivatives in equations \ref{eq:saintbernard_mass_preiss} and \ref{eq:saintbernard_momentum_preiss} for time and length are shown below \cite{szymkiewicz2010numerical}.
 
 \begin{equation}\label{eq:preissmann_time_derivatie}
     \frac{\partial f}{\partial t}\bigg \rvert_P \approx \frac{1}{2}\left(\frac{f_j^{i+1}-f_j^i}{\Delta t}+\frac{f_{j+1}^{i+1}-f_{j+1}^i}{\Delta t}\right)
@@ -89,7 +88,7 @@ The discretized continuity equation, seen below, is solved for the desired flow 
 \begin{equation}\label{eq:continuity_solve_flow}
     Q_{j+1}^{i+1} = - \frac{1}{2\theta}\cdot\left(A_{j+1}^{i+1}-H\right)\cdot\frac{\Delta x}{\Delta t}
 \end{equation}
-Where H is a parameter for the previous flows and areas in time and distance, which are known, which has either been calculated or set as boundary conditions as shown in figure \ref{fig:preissmann_grid_scheme_exampel}. 
+Where H is a parameter containing the previous flows and areas in time and distance, which are known. These have either been calculated or set as boundary conditions as shown in figure \ref{fig:preissmann_grid_scheme_exampel}.
 \begin{equation}
     H = \left(2\cdot(1-\theta)\cdot Q_j^i-2\cdot(1-\theta)\cdot Q_{j+1}^i+2\theta Q_j^{i+1}\right)\cdot\frac{\Delta t}{\Delta x}- A_{j}^{i+1}+A_j^i+A_{j+1}^i
 \end{equation}
@@ -151,7 +150,7 @@ A numerical solution to obtain height in equation \ref{eq:new_continuity_equatio
 
 Where $x_1$ is an approximation of a root from the initial guess. Newtons method can be iterated until a sufficiently accurate root is obtained.
 
-\begin{equation}\label{eq:newtons_method_standard}
+\begin{equation}\label{eq:newtons_method_standardv2}
      x_{i+1} = x_i - \frac{f(x_i)}{f'(x_i)}
 \end{equation} 
 
