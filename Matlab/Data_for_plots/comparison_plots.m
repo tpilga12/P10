@@ -27,7 +27,7 @@ tank_in = (input.u(2:end,:)-input.u(1,:))';
 % tank_in = (input.u(1:end,1))';
 
 %u=[(data{1}.h(:,end)-data{1}.h(1,end))'; (input.u(1:end,1))' ; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input; h_input]';
-u=[h_data_hat';  h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i ]';%tank_in(1,:);
+u=[h_data_hat'; tank_in(1,:); h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i ]';%
 
 % u=[h_data_hat'; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i; h_i]';
  %%h_input2(1:length(t)) = 0; % Input height, test for at s?tte a = 0
@@ -57,7 +57,7 @@ Y_lsim = Y_bar + Y_hat;
 %  plot_lin = [ 53 55 64 79 95 101 104 135 143 184 200 206 219 221 228 233 249 280];
 %  plot_lin = [ 51 52 60 74 89 94 96 126 133 173 188 193 205 206 212 216 231 261];
 %  plot_lin = [ 53 54 62 76 91 96 98 128 135 175 190 195 207 208 214 218 233 265];
-    plot_lin = [36 51 61 75 90 95 97 127 134 181 196 201 213 221 225 243 281]  
+    plot_lin = [36 37 53 55 63 77 92 97 99 129 136 183 198 203 215 217 223 245 265 283]  
  close all
  for n = 1:length(plot_lin)
      figure(n)

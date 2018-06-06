@@ -88,7 +88,7 @@ The discretized continuity equation, seen below, is solved for the desired flow 
 \begin{equation}\label{eq:continuity_solve_flow}
     Q_{j+1}^{i+1} = - \frac{1}{2\theta}\cdot\left(A_{j+1}^{i+1}-H\right)\cdot\frac{\Delta x}{\Delta t}
 \end{equation}
-Where H is a parameter for the previous flows and areas in time and distance, which are known, which has either been calculated or set as boundary conditions as shown in figure \ref{fig:preissmann_grid_scheme_exampel}. 
+Where H is a parameter containing the previous flows and areas in time and distance, which are known. These have either been calculated or set as boundary conditions as shown in figure \ref{fig:preissmann_grid_scheme_exampel}.
 \begin{equation}
     H = \left(2\cdot(1-\theta)\cdot Q_j^i-2\cdot(1-\theta)\cdot Q_{j+1}^i+2\theta Q_j^{i+1}\right)\cdot\frac{\Delta t}{\Delta x}- A_{j}^{i+1}+A_j^i+A_{j+1}^i
 \end{equation}
