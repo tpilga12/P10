@@ -33,7 +33,7 @@ i=1;
 %% run stuff !!!!!
 clc
 
-iterations = 4320;
+iterations = 8640;
 
 input.Q_in = input.Q_init;  input.C_in = input.C_init;  input.u = input.u_init;
 tic
@@ -43,8 +43,8 @@ for m = 2:(iterations+1)
         
         [input] = disturbance_input(m,Dt,input,disturbance,brewery_disturbance,pipe_spec);
         %     end
-        input.u(m,1) = 0.23;% 
-        input.u(m,2) = 0.18;%
+        input.u(m,1) = 0.21;% 
+        input.u(m,2) = 0.17;%
 
         [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
         

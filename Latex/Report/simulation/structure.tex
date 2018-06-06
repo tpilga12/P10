@@ -31,14 +31,14 @@ The following will go into details, on the thoughts and the considerations made 
 The initialization process is, as shown in figure \ref{fig:struct_overview}, comprised of several parts. The first part is to set up the desired system of pipes and tanks such that the system is simulated with the chosen components in the right order.
 %As mentioned in section \ref{ch:simulation_solution_and_limitation} a solution to minimize flow and concentrate variations could be insertion of one or more tanks in the sewer network. 
 Secondly, the system should be brought in to a steady state from which the simulation can start.
-The reason for this is that the Saint-Venant equations utilized to simulate the flow in the sewer pipes is non-linear. Because of this, it can be difficult to find a steady state by hand, which do not produce an unintended result when starting simulating. Though it might be possible to find fitting initial values for small setups it is assumed that a larger setup will increase the chance of unintended results when starting simulating.
+The reason for this is that the Saint-Venant equations utilized to simulate the flow in the sewer pipes is nonlinear. Because of this, it can be difficult to find a steady state by hand, which do not produce an unintended result when starting simulating. Though it might be possible to find fitting initial values for small setups it is assumed that a larger setup will increase the chance of unintended results when starting simulating.
 
 For the first part, a simple system setup is decided upon, where the desired components are added to a list. The order of the list then decides how the components is connected when simulating. An example of this setup procedure is shown in figure \ref{fig:sys_setup}. 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5 \textwidth]{report/simulation/pictures/sys_setup.pdf}
-\caption{Setup scheme of system order initiation}
+\caption{Setup scheme of system order initiation.}
 \label{fig:sys_setup}
 \end{figure}
 
@@ -51,11 +51,11 @@ The iteration continues until a satisfactory error between the fixed input and t
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.55 \textwidth]{report/simulation/pictures/simple_sewer.pdf}
-\caption{Simple setup with three pipes, a tank and a single side input}
+\caption{Simple setup with three pipes, a tank and a single side input.}
 \label{fig:simple_sewer}
 \end{figure}
 
-To make the steady state iteration scheme work on a dynamic level, the components can be separated into parts where adjoint pipes are seen as a single part. The system can then be brought in to steady state one part at a time. As the pipes are the only non-linear part of the system, they are the only parts needed to be iterated upon. Taking the first part in figure \ref{fig:simple_sewer} as an example, there are two pipes and the second one has a side input.
+To make the steady state iteration scheme work on a dynamic level, the components can be separated into parts where adjoint pipes are seen as a single part. The system can then be brought in to steady state one part at a time. As the pipes are the only nonlinear part of the system, they are the only parts needed to be iterated upon. Taking the first part in figure \ref{fig:simple_sewer} as an example, there are two pipes and the second one has a side input.
 A general expression of the average flow in the parts containing pipes is given by the following equation:
 
 \begin{equation}
@@ -67,31 +67,31 @@ As the concentrate flow is depending on the solution of the Saint-Venant equatio
 
 \subsection*{Simulation}
 
-Having obtained a setup in steady state the next part is to simulate it for the predefined amount of iterations. An important part of the simulation is to store data in a way such that it is easily and intuitively obtainable for purposes such as debugging or customized plots. For this reason, it is decided to store the data, from simulating, into separate blocks. This means that data from individual pipes and tanks should be stored separately in the order given by the initial component setup shown in figure \ref{fig:sys_setup}. In figure \ref{fig:simple_simulation} a simple overview of the simulation procedure is given.   
+Having obtained a setup in steady state, the next part is to simulate it for the predefined amount of iterations. An important part of the simulation is to store data in a way such that it is easily and intuitively obtainable for purposes such as debugging or customized plots. For this reason, it is decided to store the data, from simulating, into separate blocks. This means that data from individual pipes and tanks should be stored separately in the order given by the initial component setup shown in figure \ref{fig:sys_setup}. In figure \ref{fig:simple_simulation} a simple overview of the simulation procedure is given.   
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1 \textwidth]{report/simulation/pictures/simple_simulation.pdf}
-\caption{Basic overview of the simulation scheme where x indicate an index going from one to the amount of component in the setup and m indicate current iteration.}
+\caption{Basic overview of the simulation scheme where x indicates an index going from one to the amount of component in the setup and m indicates current iteration.}
 \label{fig:simple_simulation}
 \end{figure}
 
-The main idea behind the simulation scheme is to calculate one component at a time, and split the calculation of various components into separate functions.
+The main idea behind the simulation scheme is to calculate one component at a time and split the calculation of various components into separate functions.
 This structure makes it more simple to incorporate new components or insert replacement components if needed further on. A replacement component could e.g. be another scheme to solve the Saint-Venant equations.  
 
 \subsection*{Display result}
 
-Having obtained data from simulating the user-defined system an overview of the results is needed. Considerable time can be spent in designing a function which can display the data in various forms. As the data can consist of a large number of components as well as a considerable time span, it can get quite time consuming to pinpoint parts of interest in time and place. For this reason it is decided that a solution which can give an overview of the obtained data is needed. The chosen solution is a function which can playback the simulated data at a user defined speed and interval. Furthermore, it should be possible to pause and start the playback at a user-defined iteration. Furthermore the chosen areas of interest to be displayed is chosen to be flow, height, concentrate and concentrate flow for pipes. Tanks should when present be shown with a split axis on the right side of the flow, height and concentrate pipe plots.
+Having obtained data from simulating the user-defined system an overview of the results is needed. Considerable time can be spent in designing a function which can display the data in various forms. As the data can consist of a large number of components as well as a considerable time span, it can get quite time-consuming to pinpoint parts of interest in time and place. For this reason, it is decided that a solution which can give an overview of the obtained data is needed. The chosen solution is a function which can playback the simulated data at a user defined speed and interval. Furthermore, it should be possible to pause and start the playback at a user-defined iteration. Furthermore, the chosen areas of interest to be displayed is chosen to be flow, height, concentrate and concentrate flow for pipes. Tanks should when present be shown with a split axis on the right side of the flow, height and concentrate pipe plots.
 
 In figure \ref{fig:display_results} an illustration of the solution is seen.   
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\textwidth]{report/simulation/pictures/display_results}
-	\caption{Illustration of the desired visual interface for the playback function where flow, height, concentrate and concentrate flow in the sewer network is seen. The red dashed lines indicates interconnection of pipes, the red dot denotes that a tank is placed at that position and the right y axis indicates height in that tank. The blue dashed line indicate a pipe with side inflow.}
+	\caption{Illustration of the desired visual interface for the playback function where flow, height, concentrate and concentrate flow in the sewer network is seen. The red dashed lines indicate interconnection of pipes, the red dot denotes that a tank is placed at that position and the right y-axis indicates height in that tank. The blue dashed line indicates a pipe with side inflow.}
 	\label{fig:display_results}
 \end{figure}
 
 The visual interface should make it possible with limited effort to examine the simulation data acquired such that verification or adjustments can be made to the constructed setup. 
 %This display should give an overview of the simulated data, where the flow, height, concentrate and concentrate flow across a sewer network can be tracked. In the top of the display the simulation time is shown, thereby the user is able to follow the time, if a certain flow profile for the simulated model is used. 
-Having outlined the basic details of the construction of the simulation environment the scheme needed to solve the non-linear Saint-Venant equations is explained in detail in the next section. 
+Having outlined the basic details of the construction of the simulation environment the scheme needed to solve the nonlinear Saint-Venant equations is explained in detail in the next section. 
