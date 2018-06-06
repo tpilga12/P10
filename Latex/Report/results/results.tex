@@ -5,29 +5,29 @@ In this chapter, a simulation of the northern part of Fredericia will be conduct
 The goal of this simulation is to simulate a daily flow in the northern part of Fredericia, where the disturbance can be seen on the input to the WWTP. To do so the simulation model explained in chapter \ref{ch:simulation} is utilized. The pump station, illustrated with the blue solid circle in figure \ref{fig:kloakgrid_simplified}, is not included in this simulation, as it will smooth the flow from that station down to the WWTP, thus there will not be any variation in the flow into the WWTP. To generate the disturbances from the residential and industrial zones, shown in figure \ref{fig:kloakgrid_simplified}, the flow profiles in appendix \ref{app:flow_profiles} is used. These disturbance models are not simulated from the zones into the main sewer line but are directly added on the main sewer line, therefore the results are expected to have higher peaks, as these models are not attenuated, as they would have been if they were simulated from the zones. It has been chosen to only use the disturbance from the brewery and bottling plant, as the data from the refinery is not accessible. The disturbance from the brewery and bottling plant is shown in figure \ref{fig:flow_profile_industry}. The pipe specifications for this simulation can be seen in table \ref{tab:pipe_data_nonlinear_linear_testv2}.  
 \begin{table}[H]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 \hline
 	\rowcolor[HTML]{9B9B9B} 
-\begin{tabular}[c]{@{}c@{}}Component\\ number\end{tabular} & Length {[}m{]} & Sections & Dx {[}m{]} & $S_b$     & d {[}m{]} & $\theta$ & \begin{tabular}[c]{@{}c@{}}$Q_f $\\  {[}$m^3/s${]}\end{tabular} \\ \hline
-1                                                          & 700            & 35       & 20         & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
-3                                                          & 303            & 15       & 20,2       & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
-4                                                          & 27             & 1        & 13,5       & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
-5                                                          & 155            & 8        & 19,4       & 0,0041 & 1         & 0,65     & 1,50                                                                           \\ \hline
-6                                                          & 295            & 14       & 21         & 0,0122 & 0,8       & 0,65     & 1,438                                                                          \\ \hline
-7                                                          & 318            & 15       & 21,2       & 0,0053 & 0,9       & 0,65     & 1,293                                                                          \\ \hline
-8                                                          & 110            & 5        & 22         & 0,0036 & 0,9       & 0,65     & 1,066                                                                          \\ \hline
-9                                                          & 38             & 2        & 19         & 0,0024 & 1         & 0,65     & 1,149                                                                          \\ \hline
-10                                                         & 665            & 30       & 22,2       & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
-11                                                         & 155            & 7        & 22,1       & 0,0008 & 1         & 0,65     & 0,663                                                                          \\ \hline
-12                                                         & 955            & 47       & 20,3       & 0,0029 & 1,2       & 0,65     & 2,041                                                                          \\ \hline
-13                                                         & 304            & 15       & 20,3       & 0,003  & 1,2       & 0,65     & 2,076                                                                          \\ \hline
-14                                                         & 116            & 5        & 23,2       & 0,0021 & 1,2       & 0,65     & 1,737                                                                          \\ \hline
-15                                                         & 283            & 12       & 23,6       & 0,0017 & 1,4       & 0,65     & 2,346                                                                          \\ \hline
-16                                                         & 31             & 2        & 15,5       & 0,0019 & 1,4       & 0,65     & 2,480                                                                          \\ \hline
-17                                                         & 125            & 6        & 20,8       & 0,0021 & 1,6       & 0,65     & 3,707                                                                          \\ \hline
-18                                                         & 94             & 4        & 23,5       & 0,0013 & 1,5       & 0,65     & 2,461                                                                          \\ \hline
-19                                                         & 360            & 18       & 20         & 0,0046 & 1,6       & 0,65     & 5,487                                                                          \\ \hline
-20                                                         & 736            & 38       & 19,4         & 0,0012 & 1,6       & 0,65     & 2,802                                                                          \\ \hline
+\begin{tabular}[c]{@{}c@{}}Component\\ number\end{tabular} & Length {[}m{]} & Sections & Dx {[}m{]} & $S_b$     & d {[}m{]} & $\theta$ & \begin{tabular}[c]{@{}c@{}}$Q_f $\\  {[}$m^3/s${]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}$side$\\  inflow\end{tabular} \\ \hline
+1                                                          & 700            & 35       & 20         & 0,003  & 0,9       & 0,65     & 0,973    	&0            \\ \hline
+3                                                          & 303            & 15       & 20,2       & 0,003  & 0,9       & 0,65     & 0,973     &0            \\ \hline
+4                                                          & 27             & 2        & 13,5       & 0,003  & 1         & 0,65     & 1,284     &1          \\ \hline
+5                                                          & 155            & 8        & 19,4       & 0,0041 & 1         & 0,65     & 1,50      &0            \\ \hline
+6                                                          & 295            & 14       & 21         & 0,0122 & 0,8       & 0,65     & 1,438     &0           \\ \hline
+7                                                          & 318            & 15       & 21,2       & 0,0053 & 0,9       & 0,65     & 1,293     & 1        \\ \hline
+8                                                          & 110            & 5        & 22         & 0,0036 & 0,9       & 0,65     & 1,066     &1        \\ \hline
+9                                                          & 38             & 2        & 19         & 0,0024 & 1         & 0,65     & 1,149     &1         \\ \hline
+10                                                         & 665            & 30       & 22,2       & 0,003  & 1         & 0,65     & 1,284     &1        \\ \hline
+11                                                         & 155            & 7        & 22,1       & 0,0008 & 1         & 0,65     & 0,663     &0         \\ \hline
+12                                                         & 955            & 47       & 20,3       & 0,0029 & 1,2       & 0,65     & 2,041     &1         \\ \hline
+13                                                         & 304            & 15       & 20,3       & 0,003  & 1,2       & 0,65     & 2,076     &0         \\ \hline
+14                                                         & 116            & 5        & 23,2       & 0,0021 & 1,2       & 0,65     & 1,737     &1         \\ \hline
+15                                                         & 283            & 12       & 23,6       & 0,0017 & 1,4       & 0,65     & 2,346     &1          \\ \hline
+16                                                         & 31             & 2        & 15,5       & 0,0019 & 1,4       & 0,65     & 2,480     &1          \\ \hline
+17                                                         & 125            & 6        & 20,8       & 0,0021 & 1,6       & 0,65     & 3,707     &0          \\ \hline
+18                                                         & 94             & 4        & 23,5       & 0,0013 & 1,5       & 0,65     & 2,461     &0             \\ \hline
+19                                                         & 360            & 18       & 20         & 0,0046 & 1,6       & 0,65     & 5,487     &1           \\ \hline
+21                                                         & 736            & 38       & 19,4         & 0,0012 & 1,6       & 0,65     & 2,802   &0          \\ \hline
 \end{tabular}
 \caption{The specification of the pipes for in the simulation.}
 \label{tab:pipe_data_nonlinear_linear_testv2}
@@ -37,12 +37,13 @@ The tank specification can be seen in table \ref{tab:tank_data_nonlinear_linear_
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|c|c|}
+\begin{tabular}{|c|c|c|}
 \hline
-\begin{tabular}[c]{@{}c@{}}Part\end{tabular} & 2 (Tank)  \\ \hline
-Size $[m^3]$                                              & 90 \\ \hline
-Height {[}m{]}                                             & 10 \\ \hline
-Area {[}$m^2$                                              & 9  \\ \hline
+\begin{tabular}[c]{@{}c@{}}Part\end{tabular} & 2 (Tank)  & 20 (Tank)\\ \hline
+Size $[m^3]$                                              & 90 & 90\\ \hline
+Height {[}m{]}                                             & 10 & 10\\ \hline
+Area $[m^2]$                                              & 9  & 9\\ \hline
+$Q_{out_{max}}$ $[m^3/s]$                                      & 0.973  & 2.80\\ \hline
 \end{tabular}
 \caption{The tank specification for the simulation. }
 \label{tab:tank_data_nonlinear_linear_testv2}
@@ -58,8 +59,10 @@ Furthermore, table \ref{tab:system_setup_nonlinear_linear_testv2} shows the syst
 Type  & Component & Sections \\ \hline
 Pipe  & 1         & 35       \\ \hline
 Tank  & 1         & 1        \\ \hline
-Pipe  & 18        & 227      \\ \hline
-Total & 20        & 263      \\ \hline
+Pipe  & 17        & 207      \\ \hline
+Tank  & 1         & 1        \\ \hline
+Pipe  & 1         & 38        \\ \hline
+Total & 21        & 282      \\ \hline
 \end{tabular}
 \caption{The system setup.}
 \label{tab:system_setup_nonlinear_linear_testv2}

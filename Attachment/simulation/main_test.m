@@ -9,7 +9,7 @@ global Dt iterations error
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Dt = 20;
 
-[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup_experiment_2(1);
+[pipe_spec, nr_pipes, tank_spec, nr_tanks, sys_setup] = pipe_tank_setup_experiment(1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 load disturbance_from_house_holds_and_small_industry % Load the households and small industry disturbance
 load brewery_datav2.mat % load disturbance from brewery and bottle plant
@@ -43,8 +43,8 @@ for m = 2:(iterations+1)
         
         [input] = disturbance_input(m,Dt,input,disturbance,brewery_disturbance,pipe_spec);
         %     end
-        input.u(m,1) = 0.14;% 
-        input.u(m,2) = 0.108;%
+        input.u(m,1) =0.5; %0.14;% 
+        input.u(m,2) =0.5; %0.108;%
 
         [data input] = simulation(input, pipe_spec, tank_spec, data, sys_setup, m);
         
