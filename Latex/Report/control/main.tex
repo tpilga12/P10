@@ -4,10 +4,10 @@
 In this chapter the Model Predictive Control scheme is elaborated upon. %To limit the complexity of the MPC scheme, a quadratic cost function is set up. 
 %Furthermore several tools exist in MATLAB, one of these are Quadprog, which can be used to solve quadratic problems. %when a linear system is present.  
 %For that reason 
-It is decided to construct a linearization function which can produce a linear model of the setup of pipes and tanks, which can serve as the predictive model in the MPC design.  
+Furthermore it is decided to construct a linearization function which can produce a linear model of the setup of pipes and tanks. This is to serve as the predictive model utilized in the MPC design.  
 Due to time constraints a linear model containing flow of concentrate in sewer pipes and tanks has not been developed. 
-In the following the procedure to obtain a linearized model of height in sewer pipes and tanks from the nonlinear setup is elaborated on.
-\fxnote{Lavede lidt ændringer til det.}
+In the following, the procedure to construct a linearized model of the sewer pipes and tanks from the nonlinear setup is elaborated on.
+
 \input{report/control/lineriazation}
 
 \input{report/control/mpc}
