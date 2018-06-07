@@ -1,7 +1,7 @@
 \section{Model predictive control}\label{se:model_predictive_control}
-In this section, the design of the controller is elaborated. First the control problem thereafter Model predictive controller (MPC) is elaborated followed by the design of the MPC controller and ending with the implementation and results of the simulation. 
+In this section, the design of the controller is elaborated. First the control problem is summarised thereafter Model predictive controller (MPC) is elaborated followed by the design of the MPC controller and ending with the implementation and results of the simulation. 
 
-The simulation covered in chapter \ref{ch:simulation} is to be controlled with respect to the problems elaborated in section \ref{sec:problem_statement} and stated here. 
+The simulation covered in chapter \ref{ch:simulation} is to be controlled with respect to the problems elaborated in section \ref{sec:problem_statement} and stated below. 
 \begin{enumerate}
 \item Flow variations due to large industries and natural phenomenons
 \item Concentration variations due to large industries and natural phenomenons
@@ -13,18 +13,20 @@ The simulation covered in chapter \ref{ch:simulation} is to be controlled with r
 \end{enumerate}
 \end{enumerate}
 
-From the problem statement, it is stated that flow and concentration variations must be kept to a minimum without causing any overflow in the sewer. To achieve this, tanks are used. These are placed in the sewer network to find locations where they are able to hold back disturbance that will otherwise cause flow and concentration variations into the WWTP. However, the output of these tanks must be controlled in a way where overflow in the tank is prohibited. Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and still be controlled according to some constraints.
+From the problem statement, it is given that flow and concentration variations must be kept to a minimum without causing overflow in the sewer. To achieve this, tanks are used. These are placed in the sewer network in locations where they are able to minimize flow and concentration variations into the WWTP. However, the output of these tanks must be controlled in a way such that overflow in the tank does not occur. Furthermore the size and location of these tanks can be hard to determine. Therefore implementing an optimal control, which can operate the system close to limits of the system, can help determine is the tank is located and dimensioned properly.
+%Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and still be controlled according to some constraints.
 
-To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC solves a optimizations problem at each time instant, k, where the main point is to compute a control vector, u that is feed to the system. 
+%To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC solves an optimization problem at each time instant, k, where the main point is to compute a control vector, u that is feed to the system. 
 
 %is an advanced control method which depends on a dynamic model of the system. Where the model, constraints and a cost function is used to generate the most optimal sequence of control inputs to the system, thus obtaining a desired process behavior. However, only the first control input is used in the current timeslot. Hereafter, in the next timeslot, the MPC algorithm is recalculated to find the must optimal input signal for this timeslot and so on. In addition, MPC also take future disturbance into account thereby predicting an output sequence that is optimal including the disturbance. 
 An MPC algorithm consists of:
 \\ 
-\textbf{Cost function} or control objective,$\CMcal{J}$, is an algorithm measuring e.g. the difference between future outputs and a reference while at the same time instant recognizing that any control action is costly for the system. Therefore the price is measured in the cost function over the prediction horizon, $H_p$. This function is therefore minimized with the respect to the future control vector to keep the cost minimized. Furthermore, only the first control input from the vector is used in each time instant thus this optimization is process is calculated at each time step where a new control input is calculated \cite{mpc_control_lecture_notes}.
+\textbf{Cost function} or control objective, $\CMcal{J}$, is a criterion when measuring e.g. the difference between future outputs and a reference while at the same time having in mind that any control action is costly for the system. Therefore the price is measured in the cost function over the prediction horizon, $H_p$. This function is therefore minimized with respect to the future control input to minimize the cost \cite{mpc_control_lecture_notes}. %Furthermore, only the first control input from the vector is used in each time instant thus this optimization is process is calculated at each time step where a new control input is calculated \cite{mpc_control_lecture_notes}.
 
-\textbf{Constraints} is unique advantages of MPC. Constraints can be applied to the process variables e.g. constraints can be set on the states of the system not allowing them to go below a certain value or above. Constraints are usually written as inequality constraint $Ax\leq b$ where the optimization problem is subject to the constraint \cite{mpc_control_lecture_notes}.   
+\textbf{Constraints} is an unique advantage of MPC. They can be applied to the process variables e.g. on the states of the system  to keep them within a defined limit. %not allowing them to go below a certain value or above. 
+Furthermore, they are usually written as inequality constraints, $Ax\leq b$, where the optimization problem is subject to the constraint \cite{mpc_control_lecture_notes}.   
 
-\textbf{Prediction model} is a model that is able to predict future system behavior. The model describes the input output behavior of the system. The model will mainly be used to predict the output of the system over the prediction horizon \cite{mpc_control_lecture_notes}.  
+\textbf{Prediction model} is as the name indicates, able to predict future system behavior. The model describes the in- and output behavior of the system over the prediction horizon \cite{mpc_control_lecture_notes}.  
 
 % In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
 % \begin{figure}[H]
@@ -54,27 +56,33 @@ An MPC algorithm consists of:
 %        	\item Repeat from 1.
 % \end{enumerate}       
 
-For MPC to optimize the system a cost function must be written to penalize variations of the flow output $Q(k+i|k)$ and the concentration output $C(k+i|k)$. Where k defines the prediction time and i is a value going from 1 to $H_p$. The cost function for flow and concentration is:
+For MPC to optimize the system a cost function must be written to penalize variations of the flow output $Q(k+i|k)$ and the concentration output $C(k+i|k)$. Where k defines the prediction time and i is a value going from 1 to $H_p$. The cost functions for flow and concentration are:
 
 \begin{equation}
 \begin{aligned}
 	 \CMcal{J} &= \sum_{i=1}^{H_p-1} || Q(k+i|k)C_1(k+i|k)-Q(k+i-1|k)C_1(k+i-1|k)||_{\CMcal{Q}_1(i)}^2 \\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_2(k+i|k)-Q(k+i-1|k)C_2(k+i-1|k)||_{\CMcal{Q}_2(i)}^2 \\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_3(k+i|k)-Q(k+i-1|k)C_3(k+i-1|k)||_{\CMcal{Q}_3(i)}^2\\&+\sum_{i=1}^{H_p-1} || Q(k+i|k)C_4(k+i|k)-Q(k+i-1|k)C_4(k+i-1|k)||_{\CMcal{Q}_4(i)}^2 \\& +\sum_{i=1}^{H_p-1} || Q(k+i|k)-Q(k+i-1|k)||_{\CMcal{Q}_5(i)}^2
 \end{aligned}	
-\end{equation}\fxnote{skal skrives så alle 4 koncentrationer er med, samt en for flow og et eller andet sted afgrænsning for liggetid i tank}
-Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. The concentrations $C_1, C_2, C_3$ and $C_4$ are respectively chloride, phosphorus nitrogen and organic matter levels in the wastewater. However, It has been chosen to only look at flow variation in the simulation and thereby excluding concentrations from the cost function and retention time in the tank\fxnote{enten skal vi fra vaelge os den noget før eller os skal vi have fundet på en cost function til liggetid}. This has been done to limit the control problem and ease the computation, to begin with. Thereby the cost function has been rewritten to: 
+\end{equation}
+
+Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. The concentrations $C_1, C_2, C_3$ and $C_4$ are respectively chloride, phosphorus nitrogen and organic matter levels in the wastewater. 
+However due to delimitations in section \ref{se:system_description} the concentrate is limited to a single component.
+Due to time constraints it has been decided to keep focus on minimizing flow variations and limit the complexity of implementing MPC. 
+%This has been done to limit the control problem and ease the computation, to begin with. 
+The cost function is therefore limited to the following: 
 
 \begin{equation}\label{eq:cost_function_height}
-	 \CMcal{J} = \sum_{i=1}^{H_p-1} || \hat{y}(k+i|k)-\hat{y}(k+i-1|k)||_{\CMcal{Q}(i)}^2
-\end{equation}
-\begin{equation}\label{eq:state_eq_subject_to}
-	\begin{aligned}
+\begin{aligned}
+	 \CMcal{J} = \sum_{i=1}^{H_p-1} || \hat{y}&(k+i|k)-\hat{y}(k+i-1|k)||_{\CMcal{Q}(i)}^2 \\[12pt]
+% \end{equation}
+% \begin{equation}\label{eq:state_eq_subject_to}
+% 	\begin{aligned}
 	\text{s.t.} \hspace{5mm}  \hat{x}(k+i+1) &= A\hat{x}(k+i|k)+B\hat{u}(k+i|k)+B_d\hat{d}(k+i|k) \\
 						      \hat{y}(k+i)&= C\hat{x}(k+i|k) \\
 						     x_{min} &\leq  x \leq x_{max} \\
 						     u_{min} & \leq u \leq u_{max}
 	\end{aligned}
 \end{equation}
-Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value and not an estimate for y. This notation is used throughout the chapter. Where y corresponds to the height of the wastewater in the pipe. It is the same to minimize height difference as the flow, due to both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints for the states and control input. Both the states and the control input have a lower and upper constraint corresponding respectively to the bottom of the pipe and the top of the pipe and respectively to the minimum and maximum input to the pump. In order for the controller to minimize the variations in the output, it must be able to predict future events from the current state. Therefore, by iterating the linear model, shown in section \ref{se:linearization}, up to the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}.
+Where Q has been replaced with the output y as it can be measured directly from the state space system. The hat denotes a small signal value of y. This notation is used throughout the chapter. Where y corresponds to the height of fluid in the pipe. Minimizing height difference corresponds to minimizing flow differences, as to both describe the variation in the output of the sewer. Furthermore, the cost function is subject to constraints on the states and the control input. Both the states and the control input have a lower and upper constraint corresponding respectively to the bottom of the pipe and the top of the pipe and respectively to the minimum and maximum control input to the pump. In order for the controller to minimize the variations in the output, it must be able to predict future events from the current state. Therefore, by iterating the linear model, obtained in section \ref{se:linearization}, for the duration of the prediction horizon the controller is able to predict future states \cite{maciejowski2002predictive}.
 
 %Where $\hat{u}(k|k)$ and $\hat{d}(k|k)$ can be written as:
 
@@ -85,8 +93,8 @@ Where Q has been replaced with the output y as it can be measured directly from 
 % 	\end{aligned}
 % \end{equation}
 
-By using the state equation recursively the state can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
-
+%By using the state equation recursively the state can be predicted up to the prediction horizon as shown in equation \ref{eq:iterating_state_equation}: 
+In equation \ref{eq:iterating_state_equation} the recursively use of the state equation is seen. 
 % \begin{equation}\label{eq:iterating_state_equation}
 % \begin{aligned}
 % 	\hat{x}(k+1|k) &= A\hat{x}(k|k)+B(\Delta \hat{u}(k|k)+u(k-1)) + B_d(\hat{d}(k|k)+\hat{d}(k-1))\\
@@ -132,7 +140,7 @@ By using the state equation recursively the state can be predicted up to the pre
    				   &+A^{H_p-1}B_d\hat{d}(k|k)+\cdots+B_d\hat{d}(k+H_p-1|k)
 \end{aligned}
 \end{equation}
-Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is iterated up to the prediction horizon. This can be set up as prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{D}$:
+Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is iterated up to the prediction horizon. This can be set up as prediction vectors and matrices denoted by $\CMcal{X,A,B,U,B}_d$ and $\CMcal{D}$ as shown in equation \ref{eq:lifted_state_equation}.
 
 
 
@@ -245,9 +253,9 @@ Here the first equation $\hat{x}(k+1|k)$ is inserted into the second and this is
 	\end{aligned}
 \end{equation}
 
-Where $\CMcal{X}$ is the predicted state vector for the entire prediction horizon. $\CMcal{A}$ is the state matrix up to the prediction horizon. $x(k|k)$ is the initial state and is used to predict the hole prediction horizon, $\CMcal{B}$ is the input matrix for the prediction horizon, $\CMcal{U}$ is the predicted input vector, which consists of all the predicted inputs from the current time step until $(k+H_p-1)$. $\CMcal{B}_d$ is the disturbance matrix for the prediction horizon and $\CMcal{D}$ is the disturbance vector. 
+Where $\CMcal{X}$ is the predicted state vector for the entire prediction horizon. $\CMcal{A}$ is the state matrix up to the prediction horizon. The initial state is $x(k|k)$ and is used to predict over the prediction horizon, $\CMcal{B}$ is the predicted input matrix over the prediction horizon, $\CMcal{U}$ is the predicted input vector, which consists of all the predicted inputs from the current time step until $(k+H_p-1)$. $\CMcal{B}_d$ is the disturbance matrix for the prediction horizon and $\CMcal{D}$ is the disturbance vector. 
 
-This iteration process is also done for the output equation:
+This iteration process is also performed for the output equation.
 
 \begin{equation}\label{eq:lifted_output_equation}
 	\hat{\CMcal{Y}}(k)= 
@@ -271,7 +279,7 @@ This iteration process is also done for the output equation:
 	  \hat{x}(k+H_p|k) 	\\
 	   \end{bmatrix}}_{\CMcal{X}}
 \end{equation}
-Where $\CMcal{C}$ is a diagonal matrix with the output matrix C. By inserting the predicted state equation \ref{eq:lifted_state_equation}, into the predicted output equation \ref{eq:lifted_output_equation} the following is achieved:
+Where $\CMcal{C}$ is a diagonal matrix with the output matrix C in the diagonal. By inserting the predicted state equation \ref{eq:lifted_state_equation}, into the predicted output equation \ref{eq:lifted_output_equation} the following is achieved:
 
 \begin{equation}\label{eq:output_eq_with_state_eq}
 	\hat{\CMcal{Y}}(k) =  \CMcal{C}\CMcal{A}\hat{x}(k) +  \CMcal{C}\CMcal{B}\hat{\CMcal{U}}(k) +\CMcal{C}\CMcal{B}_d\hat{\CMcal{D}}(k)
@@ -298,7 +306,7 @@ The predicted output equation can be rewritten as:
 % 	\CMcal{Y}(k) = \psi x(k) + \gamma u(k-1) +\Omega\Delta\CMcal{U}+ \Theta \CMcal{D}(k)
 % \end{equation}
 
-To be able to use the cost function, equation \ref{eq:cost_function_height}, it has to be rewritten in terms of the predicted output equation \ref{eq:lifted_output_with_states_inserted}. Thereby replacing the output y with the predicted output $\CMcal{Y}$, the following is obtained:
+To be able to utilize the cost function, in equation \ref{eq:cost_function_height}, it has to be rewritten in terms of the predicted output equation \ref{eq:lifted_output_with_states_inserted}. Thereby replacing the output y with the predicted output $\CMcal{Y}$, the following is obtained:
 
 \begin{equation}\label{eq:new_the_cost_function_yeah}
 	\CMcal{J} = ||\hat{\CMcal{Y}}(k)-\hat{\CMcal{Y}}(k-1)||_{\CMcal{Q}(i)}^2
@@ -310,10 +318,10 @@ Where the difference between $\hat{\CMcal{Y}}(k)$ and $\hat{\CMcal{Y}}(k-1)$ can
 	\Delta \hat{\CMcal{Y}}(k) =\hat{\CMcal{Y}}(k)-\hat{\CMcal{Y}}(k-1) 
 \end{equation}
 
-Furthermore, it is desired to have the control input as $\Delta \CMcal{U}$ as this will introduce integral action and thereby eleminate steady state error\fxnote{kilde enten til john eller bog}. To do so, equation \ref{eq:lifted_output_with_states_inserted} is inserted into equation \ref{eq:differnce_between_y} thereby obtaining:
+Furthermore, it is desired to have the control input as $\Delta \CMcal{U}$ as this will introduce integral action and thereby eliminate steady state error\fxnote{kilde enten til john eller bog}. Doing so, equation \ref{eq:lifted_output_with_states_inserted} is inserted into equation \ref{eq:differnce_between_y} and thereby obtaining:
 
 \begin{equation}\label{eq:delta_output_eq} \begin{aligned}
-	\Delta \hat{\CMcal{Y}}(k) &= (\psi \hat{x}(k) + \gamma \hat{\CMcal{U}}(k) + \Theta \hat{\CMcal{D}}(k))-(\psi \hat{x}(k-1) + \gamma \hat{\CMcal{U}}(k-1) + \Theta \hat{\CMcal{D}}(k-1)) \\
+	\Delta \hat{\CMcal{Y}}(k) &= (\psi \hat{x}(k) + \gamma \hat{\CMcal{U}}(k) + \Theta \hat{\CMcal{D}}(k))-(\psi \hat{x}(k-1) + \gamma \hat{\CMcal{U}}(k-1) + \Theta \hat{\CMcal{D}}(k-1)) \\[8pt]
 							  &= \psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k)
 	\end{aligned}
 \end{equation}
@@ -322,12 +330,12 @@ Furthermore, it is desired to have the control input as $\Delta \CMcal{U}$ as th
 Thereby $\Delta \CMcal{U}$ is introduced in the predicted output. The cost function in equation \ref{eq:new_the_cost_function_yeah} can be reformulated to the following by using equation \ref{eq:differnce_between_y}:
 
 \begin{equation}\begin{aligned}\label{eq:delta_cost_function}
-	J &= ||\Delta\hat{\CMcal{Y}}(k)||_{\CMcal{Q}(i)}^2\\
+	\CMcal{J} &= ||\Delta\hat{\CMcal{Y}}(k)||_{\CMcal{Q}(i)}^2\\[6pt]
 	  &= \Delta\hat{\CMcal{Y}}(k)^T \cdot Q \cdot \Delta\hat{\CMcal{Y}}(k)
 	\end{aligned}
 \end{equation}
 
-To be able to write the cost function as quadratic and linear terms of the predicted output $\Delta\CMcal{U}$, equation \ref{eq:delta_output_eq} is therefore inserted into cost function, equation \ref{eq:delta_cost_function}, and thereby the following is obtained:
+To be able to write the cost function as quadratic and linear terms of the predicted input, $\Delta\CMcal{U}$, equation \ref{eq:delta_output_eq} is therefore inserted into the cost function, in equation \ref{eq:delta_cost_function}, from which the following is obtained:
 
 \begin{equation}\label{eq:cost_function_with_all_the_crap}
 	\CMcal{J} = (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))
@@ -344,9 +352,9 @@ To be able to write the cost function as quadratic and linear terms of the predi
 The term on the right hand side of equation \ref{eq:cost_function_with_all_the_crap} is equal to:
 \begin{equation}\label{eq:cost_function_big_eq}
 	\begin{aligned}
-	&(\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k)) = \\
-	& \Delta \hat{x}(k)^T\psi ^T Q \psi \Delta \hat{x}(k) + \underbrace{\Delta \hat{x}(k)^T \psi ^T Q \gamma \Delta  \hat{\CMcal{U}}(k) }_{Linear} +\Delta \hat{x}(k)^T \psi ^T Q \Theta \Delta \hat{\CMcal{D}}(k) \\
-	& \underbrace{\Delta \hat{\CMcal{U}}(k)^T \gamma ^T Q \psi\Delta \hat{x}(k)}_{Linear} + \underbrace{\Delta \hat{\CMcal{U}}(k)^T\gamma ^T Q \gamma\Delta \hat{\CMcal{U}}(k)}_{Quadratic} +\underbrace{\Delta \hat{\CMcal{U}}(k)^T \gamma ^T Q\Theta \Delta\hat{\CMcal{D}}(k)}_{Linear} \\ 
+	&(\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k))^T\cdot Q \cdot (\psi\Delta \hat{x}(k) + \gamma\Delta \hat{\CMcal{U}}(k) + \Theta\Delta \hat{\CMcal{D}}(k)) = \\[10pt]
+	& \Delta \hat{x}(k)^T\psi ^T Q \psi \Delta \hat{x}(k) + \underbrace{\Delta \hat{x}(k)^T \psi ^T Q \gamma \Delta  \hat{\CMcal{U}}(k) }_{Linear} +\Delta \hat{x}(k)^T \psi ^T Q \Theta \Delta \hat{\CMcal{D}}(k) \\[8pt]
+	& \underbrace{\Delta \hat{\CMcal{U}}(k)^T \gamma ^T Q \psi\Delta \hat{x}(k)}_{Linear} + \underbrace{\Delta \hat{\CMcal{U}}(k)^T\gamma ^T Q \gamma\Delta \hat{\CMcal{U}}(k)}_{Quadratic} +\underbrace{\Delta \hat{\CMcal{U}}(k)^T \gamma ^T Q\Theta \Delta\hat{\CMcal{D}}(k)}_{Linear} \\[8pt] 
 	& \Delta \hat{\CMcal{D}}(k)^T \Theta ^T Q  \psi \Delta \hat{x}(k)					+ \underbrace{\Delta \hat{\CMcal{D}}(k)^T \Theta ^T Q \gamma  \Delta \hat{\CMcal{U}}(k) }_{Linear}	+\Delta \hat{\CMcal{D}}(k)^T \Theta ^T Q \Theta \Delta \hat{\CMcal{D}}(k)
 		\end{aligned}
 \end{equation}
@@ -365,7 +373,7 @@ The term on the right hand side of equation \ref{eq:cost_function_with_all_the_c
 % 	\end{aligned}
 % \end{equation}
 
-Here the quadratic and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms are the constants and these are not denoted in the equation, however, they will be referred to in the following equations as c. The quadratic variables are collected in: 
+The quadratic and linear terms of $\Delta \CMcal{U}$ are denoted respectively, the remaining terms which are not denoted in the equation are constants, that will be referred to in the following equations as the constant c. The quadratic variables are collected in: 
 
 \begin{equation}\label{eq:quadratic_h_matrix}
 	\CMcal{H} = \gamma^T Q\gamma 
@@ -379,39 +387,44 @@ And the linear variables are collected in:
 	\end{aligned}
 \end{equation}
 
-Thereby inserting these expressions in equation \ref{eq:cost_function_big_eq} the final cost function is obtained:
+Thereby inserting these expressions in equation \ref{eq:cost_function_big_eq} the following cost function is obtained:
 
 \begin{equation}\label{eq:the_cost_function}
 	\min_{\Delta \CMcal{U}(k)} \CMcal{J}(\Delta \CMcal{U}(k)) =\min_{\Delta \CMcal{U}(k)} \Delta \CMcal{U}(k)^T\CMcal{H}\Delta \CMcal{U}(k)+\CMcal{G}\Delta \CMcal{U}(k)+c
 \end{equation}
 
-In the following the constraints for the cost function will be elaborated. 
+In the following the constraints, which the cost function is subject to, will be elaborated. 
 
 \subsection{Constraints}\label{subse:constraints}
 
-In order to apply the constraints, shown in equation \ref{eq:cost_function_height} for the states, to the optimization problem in equation \ref{eq:the_cost_function} the constraints must be reformulated so they are a constraint of the controller input $\Delta\CMcal{U}$, therefore it is required to reformulate the inequalities constraints. 
+In order to apply the constraints, shown in equation \ref{eq:cost_function_height} on the states, to the optimization problem in equation \ref{eq:the_cost_function} the constraints must be reformulated so they are a constraint of the control input $\Delta\CMcal{U}$. Therefore it is required to reformulate the inequality constraints. 
 
-The constraints applied to the states are upper and lower bound to the pipe and the tank. This will not allow the simulation to overfill the pipe or the tank, or to have a negative height in either of the two. In the following equation the constraint for the states are shown:  
+The constraints applied to the states are upper and lower bound to the pipe and the tank. 
+This will if possible limit over- and underflow in pipes and tanks due to the nature of the linearized model.
+%This will not allow the simulation to overfill the pipe or the tank, or to have a negative height in either of the two. 
+In the following equation the constraints for the predicted states are shown:  
 
 
 \begin{equation}
     x_{min} \leq \CMcal{X}(k) \leq x_{max}
 \end{equation}
 
-Where $x_{min}$ and $x_{max}$ are respectively lower and upper bound. As the constraint needs to be for small signal value and as the constraint is for full signal values the operating point needs to be subtracted from the lower and upper bounds thereby transforming the constraint into small signals:
+Where $x_{min}$ and $x_{max}$ are respectively lower and upper bound. Considerations is needed as the linear model is a small signal model and the constraints is made for the nonlinear simulation. The linearization point therefore needs to be subtracted from the lower and upper bounds which thereby transforms the constraints into small signal constraints.
+
+%As the constraint needs to be for the small signal value and as the constraint is for full signal values the operating point needs to be subtracted from the lower and upper bounds thereby transforming the constraint into small signals:
 
 \begin{equation}
     x_{min}- \bar{x} \leq \hat{\CMcal{X}}(k) \leq x_{max}-\bar{x}
 \end{equation}
 
-To reformulated the constraint the predicted state equation \ref{eq:lifted_state_equation} is inserted instead of the state vector.
+To reformulated the constraints the predicted state equation in equation \ref{eq:lifted_state_equation} is inserted in place of the state vector.
 
 \begin{equation}\label{eq:constraint_states}
 	x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}\hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k) \leq x_{max}-\bar{x}
      %x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}u(k-1)+\CMcal{B}_f\Delta\CMcal{U}(k)+\CMcal{BD}(k) \leq x_{max}-\bar{x}
  \end{equation} 
 
-However, to make the constraint depend on $\Delta \CMcal{U}$ the difference between the current time step and the previous time step, $\CMcal{U}(k) = \CMcal{V}u(k-1) +W\Delta \CMcal{U}(k) $, where $\CMcal{V}$ is a vector and W is a matrix on the form: 
+However, to make the constraints depending on $\Delta \CMcal{U}$, the predicted input can be formulated as $\CMcal{U}(k) = \CMcal{V}u(k-1) +W\Delta \CMcal{U}(k) $, where $\CMcal{V}$ is a vector and W is a matrix on the form: 
 
 \begin{equation}
 \CMcal{V}=
@@ -458,31 +471,31 @@ Inserting this into equation \ref{eq:constraint_states} the follwing is obtained
 %  \end{equation} 
 
 
- Now the constraint is set up as a constraint on the input signal. In addition, the constraint has to be set up as equality constraints, therefore, it is divided into two constraints on for the upper bound and one for the lower bound: 
+ Having set the constraints up as a constraint on the input signal they furthermore has to be set up as equality constraints. Therefore are they divided into two constraints one for the upper bound and one for the lower bound. 
 
  \begin{equation}
  \begin{aligned}
- x_{max}-\bar{x} &\geq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k)\\
- \underbrace{BW}_{\Lambda} \Delta\hat{\CMcal{U}}(k)&\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}\hat{x}(k)-\CMcal{B}\CMcal{V}\hat{u}(k-1)-\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_1}
+ x_{max}-\bar{x} &\geq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k)\\[10pt]
+ \underbrace{\CMcal{B}W}_{\Lambda} \Delta\hat{\CMcal{U}}(k)&\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}\hat{x}(k)-\CMcal{B}\CMcal{V}\hat{u}(k-1)-\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_1}
         %\CMcal{B}_f\Delta\CMcal{U}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}u(k-1)-\CMcal{B}\CMcal{D}(k)}_{\Gamma_1}
 \end{aligned}
  \end{equation}  
 
  \begin{equation}
  \begin{aligned}
- x_{min}- \bar{x} &\leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k)\\
+ x_{min}- \bar{x} &\leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k)\\[10pt]
  \underbrace{\CMcal{B}W}_{\Lambda} \Delta\hat{\CMcal{U}}(k) &\leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1)+\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_2}
    % -\CMcal{B}_f\Delta\CMcal{U}(k) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}x(k)+\CMcal{B}u(k-1)+\CMcal{B}\CMcal{D}(k)}_{\Gamma_2}
   \end{aligned}
  \end{equation}
 
 
-Constraints are also applied to the controller output. The reason for these constraints is to not allow the controller to produce a higher output than what the pipe after the tank is able to transport. The constraint for the controller output is constructed in the same way as for the states in the system. Below the constraint for the controller output is shown:  
+Constraints are also applied to the control output. The reason for these constraints is to not allow the controller to produce an output than will cause overflow in the pipe after the tank. The constraint on the control output is constructed in the same way as for the states. Below the constraint for the control output is shown:  
  \begin{equation}
  	u_{min} \leq \CMcal{U}(k) \leq u_{max}
  \end{equation}
 
-The constraint needs to be written for small signal values, and needs to depend on $\Delta \CMcal{U}$:
+The constraint needs to be written for small signal values, and need to depend on $\Delta \CMcal{U}$:
 
  \begin{equation}
  		u_{min} -  \bar{u} \leq \CMcal{V}\hat{u}(k-1)+ W\Delta\hat{\CMcal{U}}(k)  \leq  u_{max} -  \bar{u}
@@ -508,7 +521,7 @@ And the lower bound:
  \end{aligned}
  \end{equation}
 
-The constraints can be set up on the standard inequality constraint form and thereby be included in the algorithm for the MPC implementation.
+The constraints can be put on standard inequality constraint form and thereby be included in the algorithm for the MPC implementation.
 
  \begin{equation}
         \begin{bmatrix}
@@ -533,23 +546,26 @@ The constraints can be set up on the standard inequality constraint form and the
 \subsection{Implementation of MPC}\label{subse:implementation_mpc}
 In this section the implementation of MPC in MATLAB will be elaborated. 
 
-The cost function in equation \ref{eq:the_cost_function} is a quadratic problem. In order to solve this minimization problem and find a global minimum quadratic programming (QP) is used. In MATLAB there well develop solvers for QP problems, in this project the quadprog function has been chosen. Quadprog solves the minimization problem subject to constraints to the specified convex cost function. The model used for the predictive model is the one covered in section \ref{se:linearization}. Furthermore, the constraints for the cost explained in the previous section will also be included. 
+The cost function in equation \ref{eq:the_cost_function} is a quadratic problem. In order to solve this minimization problem and find a global minimum, quadratic programming (QP) is utilized. In MATLAB there exists several solvers for QP problems, in this project Quadprog is the chosen solver. Quadprog solves the minimization problem subject to constraints to the specified convex cost function. The model used as the predictive model is the linear model obtained in section \ref{se:linearization}. Furthermore, the constraints the cost is subject to, as explained in the previous section, is also included. 
 
 In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.60\textwidth]{report/control/pictures/mpc_diagram}
+	\includegraphics[width=0.70\textwidth]{report/control/pictures/mpc_diagram}
 	\caption{Diagram of an MPC controller}
 	\label{fig:mpc_diagram}
 \end{figure}
 
-Here it is illustrated that the model, constraint and cost function will be used in the optimizer to generate a control output, that will be used in the process, which in this case is the nonlinear model. The output y(k+1) is the output height at the end of the last pipe in the sewer network. At each time step, the current value of the output is feedback to the MPC controller. Here the MPC will at each iteration calculate up to $H_p$ control inputs, as it calculates for future disturbances, however, only the first element of this u vector will be used to control the process. Thereafter a new measurement will be taken and a new controller output will be calculated and this will iterate for the entire simulation.
+Here it is illustrated that the model, constraint and cost function will be used in the optimizer to generate a control output. This will be used in the process, which in this case is the nonlinear model. The output y(k+1) is the output height at the end of the last pipe in the sewer network, which correspond to the input of the WWTP. At each time step, the current value of the output is returned to the MPC controller. Here the MPC will at each iteration calculate up to $H_p$ control inputs, however, only the first element within the u vector will be used to control the process. Thereafter a new measurement will be taken and a new control output will be calculated. This procedure will iterate for the entire simulation.
 
-In determining the length of the prediction horizon several considerations were taken into account. As illustration in figure \ref{fig:input_to_wwtp} a daily flow from the households is shown. Here the flow is illustrated for working days and in the weekend. Thereby by knowing the flow pattern for households the MPC would be able to include this knowledge in the prediction model. Thus an ideal prediction horizon would be 24 hours, as it would be able to see the disturbance across a whole day. 
+In determining the length of the prediction horizon several considerations were taken into account. In figure \ref{fig:input_to_wwtp} a daily flow from the households is shown. The flow is illustrated for working days and weekend. By knowing the wastewater flow pattern from households the MPC would be able to include this knowledge in the prediction model. Thus an ideal prediction horizon would be 24 hours, as it would be able to see the disturbance across a whole day. 
 
-However, as the households are not the only disturbance in this setup this is not entirely true. Because the disturbance coming from the larger industry e.g. the bottling plant and the brewery are stochastic in a way, where it is unknown when the wastewater from the plants is coming and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the plants are also different from time to time. Therefore, it would not be preferable to place the tank next to the industry as it would not be able to predict the disturbance. Thus the tank needs to be placed in a distance away from the industry, where it would be able to use the disturbance in the prediction model by knowing the disturbance coming from the industry by having a measurement of it. The time it takes the wastewater to leave the industry and to arrive at the tank would then decide the length of the prediction horizon. 
+However, as the households are not the only disturbance in this setup this is not entirely true. Because the disturbance output from the larger industry e.g. the bottling plant and the brewery are stochastic in a way, where it is unknown when the wastewater from the plants is coming and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the plants are also different from time to time. Therefore, it would not be preferable to place the tank next to the industry as it would not be able to predict the disturbance. 
+Thus the tank should be placed at a distance from the industry, where it would be able to use this distance in the prediction model by measurements obtained at the outlet of the industry.% the disturbance coming from the industry by having a measurement of it. 
 
-However, in the implementation of the MPC, it was discovered that the prediction horizon was restricted. Because, when it was set to high, above 20, the quadratic matrix $\CMcal{H}$, equation \ref{eq:quadratic_h_matrix}, was not semi-positive definite, as in the eigenvalues of it was negative, hence the quadratic problem was not convex. The reason for this problem is, that in the linearized model, some of the elements in matrices are very small, which results in numerical problems. Therefore, when the system is predicted, as shown in equation \ref{eq:lifted_state_equation}, the elements would be even smaller, thus causing the $\CMcal{H}$ matrix to have an extremely small negative eigenvalue. \fxnote{You could write that you expect that you have numerical problems somewhere in this paragraph. } Therefore, several tests were conducted to find a prediction horizon that did not result in a negative eigenvalue. It was found that a prediction horizon of 20, where the lowest eigenvalue of $\CMcal{H}$ was zero. However, this restricts the length of the pipe after the tank, because if the pipe is too long the MPC will not be able to predict all the way down to the output of it. Therefore, in the simulation of the MPC controller, this must be kept in mind.   
+The time it takes the wastewater to leave the industry and to arrive at the tank would then decide the length of the prediction horizon. 
+
+However, during the implementation of MPC, it was revealed that the prediction horizon were restricted. Because, when it was set to high, above 20, the quadratic matrix $\CMcal{H}$, equation \ref{eq:quadratic_h_matrix}, was not semi-positive definite, as in the eigenvalues of it was negative, hence the quadratic problem was not convex. The reason for this problem is, that in the linearized model, some of the elements in matrices are very small, which results in numerical problems. Therefore, when the system is predicted, as shown in equation \ref{eq:lifted_state_equation}, the elements would be even smaller, thus causing the $\CMcal{H}$ matrix to have an extremely small negative eigenvalue. \fxnote{You could write that you expect that you have numerical problems somewhere in this paragraph. } Therefore, several tests were conducted to find a prediction horizon that did not result in a negative eigenvalue. It was found that a prediction horizon of 20, where the lowest eigenvalue of $\CMcal{H}$ was zero. However, this restricts the length of the pipe after the tank, because if the pipe is too long the MPC will not be able to predict all the way down to the output of it. Therefore, in the simulation of the MPC controller, this must be kept in mind.   
 
 \subsection*{Results}
 In this subsection, the results obtained from the testing of the MPC controller will be covered. Two simulations will be conducted, one where the constraints are neglected and therefore minimized without any restriction and another simulation where the constraints included. 
