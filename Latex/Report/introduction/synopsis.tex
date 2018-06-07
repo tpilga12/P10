@@ -1,10 +1,9 @@
 This project deals with control of wastewater management in sewers, where Fredericia has been used as a case. In Fredericia, there are multiple large industries, which dispose large amounts of wastewater into the sewer. This results in a fluctuating input to the wastewater treatment plant (WWTP). This causes problems for the bacteria which consumes wastewater compound. 
 To optimize the performance of the WWTP a solution to obtain a sewage flow where the variations are minimized is desired. 
-This results in the following problem statement: 
+This results in the following problem statement: \textit{How can a simulation environment be constructed, which mimic the behavior of a real sewer system, where MPC is utilized as the control scheme to obtain stable sewage output such that optimal performance can be obtained from a WWTP.} The Nonlinear Saint-Venant equations are used to simulate flow in sewer pipes and together with a linear tank model they are used to construct a simulation environment. Furthermore the environment can simulate sewer pipes with disturbance side input to increase the complexity of the setup. Due to the nature of the linearization and the sizable amount of components, problems occurred during the design of MPC. A satisfying result were therefore not obtained with MPC.
 
-\textit{How can a simulation environment be constructed, which mimic the behavior of a real sewer system, where MPC is utilized as the control scheme to obtain stable sewage output such that optimal performance can be obtained from a WWTP.} 
 
-Therefore models of a sewer networks were constructed to describe the flow in a sewer. These are used to build a simulation model, that is able to simulate a sewer network that includes, pipe, interconnections, and tanks. The simulation model is able to simulate a sewer network with flow and concentration. To control the input into the WWTP in an optimal manner an MPC controller is used. However, the MPC controller is not able to keep the variations of the flow minimized and therefore needs further investigation.            
+%that is able to simulate a sewer network that includes, pipe, interconnections, and tanks. The simulation model is able to simulate a sewer network with flow and concentration. To control the input into the WWTP in an optimal manner an MPC controller is used. However, the MPC controller is not able to keep the variations of the flow minimized and therefore needs further investigation.            
 
 
 
