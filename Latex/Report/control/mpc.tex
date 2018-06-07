@@ -560,15 +560,16 @@ Here it is illustrated that the model, constraint and cost function will be used
 
 In determining the length of the prediction horizon several considerations were taken into account. In figure \ref{fig:input_to_wwtp} a daily flow from the households is shown. The flow is illustrated for working days and weekend. By knowing the wastewater flow pattern from households the MPC would be able to include this knowledge in the prediction model. Thus an ideal prediction horizon would be 24 hours, as it would be able to see the disturbance across a whole day. 
 
-However, as the households are not the only disturbance in this setup this is not entirely true. Because the disturbance output from the larger industry e.g. the bottling plant and the brewery are stochastic in a way, where it is unknown when the wastewater from the plants is coming and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the plants are also different from time to time. Therefore, it would not be preferable to place the tank next to the industry as it would not be able to predict the disturbance. 
-Thus the tank should be placed at a distance from the industry, where it would be able to use this distance in the prediction model by measurements obtained at the outlet of the industry.% the disturbance coming from the industry by having a measurement of it. 
+However, as the households are not the only disturbance in this setup this is not entirely true. Because, output from the larger industry e.g. the bottling plant and the brewery are stochastic can be let into the sewer without warning and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the industry also varies between outlets. Therefore, it would be preferable not to place the tank next to the industry as it would not be able to predict the disturbance. 
+Thus the tank should be placed at a distance from the industry, where the distance can be used in the prediction model by measurements obtained at the outlet of the industry.% the disturbance coming from the industry by having a measurement of it. 
 
-During implementation of the MPC controller, it was discovered that the prediction horizon were restricted. It was not able to be set it higher than 20, as the quadratic matrix $\CMcal{H}$ then became non-convex. The reason is in the linearized model, as some of the elements in matrices are very small, which resulted in numerical problems. Therefore, when the system is predicted, it would cause the $\CMcal{H}$ matrix to have an extremely small negative eigenvalue. Several tests were conducted to find a prediction horizon that did not result in a negative eigenvalue. A prediction horizon of 20, gave a quadratic matrix which was convex. However, this restricts the length of the pipe after the tank, as if the pipe is too long the MPC will not be able to predict to the output. Therefore, in the simulation of the MPC controller, this must be kept in mind.   
+During implementation of the MPC controller, it was discovered that the prediction horizon were restricted. It was not possible to set it higher than 20 iterations or 400 seconds, as the quadratic matrix $\CMcal{H}$ then became non-convex. The reason is most likely to be found in the linearized model, as some of the elements in the matrices are small, which can result in numerical problems. Therefore, when the system is predicted, it would cause the $\CMcal{H}$ matrix to have negative eigenvalues. Several tests were conducted to find a prediction horizon that did not result in a negative eigenvalues. A prediction horizon of 400 seconds equal to 20 iterations, would give a quadratic matrix which was convex. However, this restricts the distance from the tank, as the MPC were not able to predict far enough into the future to see the point where the flow variations is to be minimized.% will not be able to predict to the output. 
+Therefore, in the simulation of the MPC controller, this must be kept in mind.   
 
 \subsection*{Results}
-In this subsection, the results obtained from the testing of the MPC controller will be covered. Two simulations will be conducted, one where the constraints are neglected and therefore minimized without any restriction and another simulation where the constraints are included. 
+In this subsection, the results obtained from testing the MPC controller will be covered. Two simulations will be conducted, one where the constraints are neglected and therefore the problem is minimized without any restriction and another simulation where the constraints are included. 
 
-The pipe and tank setup for the simulation includes two pipes and one tank, where the tank is placed in the middle of the pipes. The specification for both pipes and the tank can be seen in tabular \ref{tab:pipe_data_for_mpc_test} and \ref{tab:tank_data_for_mpc_test} respectively.
+The pipe and tank setup for the simulation includes two pipes and one tank, where the tank is placed in between of the pipes. The specification for both pipes and the tank can be seen in tabular \ref{tab:pipe_data_for_mpc_test} and \ref{tab:tank_data_for_mpc_test} respectively.
 
 \begin{table}[H]
 \centering
@@ -595,53 +596,55 @@ The pipe and tank setup for the simulation includes two pipes and one tank, wher
 \label{tab:tank_data_for_mpc_test}
 \end{table}
 
-In the first simulation the MPC controller is minimizing the output variations of the tank without any constraints included. The input signal in the first pipe is shown in figure \ref{fig:input_to_pipe_mpc_test}. 
+In the first simulation the MPC controller is minimizing the output variations of the tank without any constraints. The input signal into the first pipe is shown in figure \ref{fig:input_to_pipe_mpc_test}. 
 \begin{figure}[H]
  \centering
  \input{report/control/tikz/MPC_test_control_input}
-\caption{The input to the first pipe.}
+\caption{Input to the first pipe.}
 \label{fig:input_to_pipe_mpc_test}
 \end{figure}
 
-Here there is a constant input of 0,2 $m^3/s$, which results in a height of 0,31 meters in the pipe. On top of the input, a disturbance signal is added. This is done to see if the MPC is able to keep the flow variations out of the tank to a minimum. This signal is an upper triangular signal which goes from the constant input up to 0,9 $m^3/s$ which is equal to a height of 0,75 meters in the pipe. The time between each disturbance signal is 200 seconds and the period of the triangle signal is 100 seconds. This simulation conducted is for two hours where $\Delta t$ is 20 seconds. In figure \ref{fig:MPC_test_output_first_test} the output of the last pipe is shown.  
+A constant input of 0,2 $m^3/s$, which results in a height of 0,31 meters in the pipe is given. On top of the input, a disturbance signal is added. This is done to verify the functionality of the MPC, being able to keep the flow variations out of the tank at a minimum. The disturbance signal is a triangular signal which spans from zero up to 0,7 $m^3/s$, which is equal to a height of 0,75 meters in the pipe when taking the constant input into consideration. The time between each disturbance peak is 200 seconds and the period of the disturbance is 100 seconds. The simulation conducted for two hours where $\Delta t$ is set to 20 seconds. In figure \ref{fig:MPC_test_output_first_test} the output of the last pipe is shown.  
 
 
 \begin{figure}[H]
  \centering
  \input{report/control/tikz/MPC_test_output_first_test}
-\caption{The output of the last pipe.}
+\caption{Output of the last pipe.}
 \label{fig:MPC_test_output_first_test}
 \end{figure}
 
-Here it can be seen that the MPC controller is able to minimize the disturbance coming from the first pipe as the output is constant. At the beginning the height of the output is a bit higher, this is due to that the tank holds wastewater at the beginning of the simulation. After it is emptied the height falls down to a constant level. In figure \ref{fig:tank_height_first_test} the height in the tank can be seen.  
+Here it can be seen that the MPC controller is able to minimize the disturbance coming from the first pipe as the output is constant. At the beginning the height of the output is a bit higher, this is due to that the tank holds wastewater at the beginning of the simulation. After it is emptied the height falls to a constant level. In figure \ref{fig:tank_height_first_test} the fluid height within the tank can be seen.  
 
 \begin{figure}[H]
  \centering
  \input{report/control/tikz/tank_height_first_test}
-\caption{The height in the tank.}
+\caption{Height in the tank.}
 \label{fig:tank_height_first_test}
 \end{figure}
 
-As expected the tank would be overfilled, as the disturbance coming from the first pipe is much higher than the output of the second. However, the cost function does what is expected, as it keeps a steady output of the tank and has no knowledge about the limitations of the tank and therefore overfills it. In the second simulation the same input is applied to the first pipe, where the constraints are shown in equation \ref{eq:constriants_eq} is utilized. In this simulation, only constraints regarding the tank and the control input to the pump have constraints in this system setup. The reason for not having constraints on the heights in the second pipe is, it should be sufficient to have on the control input to the pump, as it will only allow inputs between 0 to 1, where the constant is multiplied on the maximum flow that the second pipe can transfer and thereby not allow flows higher than that. Furthermore, the constraints for the tank goes from 0 to the maximum height it, which is 10 meters in this simulation, as seen in table \ref{tab:tank_data_for_mpc_test}. The reason for not have constraints on the first pipe is, as it is impossible for the MPC controller to regulate the height in that part. In figure \ref{fig:tank_height_second_test_with_constraints} the height of the tank is shown from the second simulation.        
+As expected the tank would be overfilled, as the disturbance coming from the first pipe is much higher than the output of the second. However, the cost function does what is expected, as it keeps a steady output of the tank and has no knowledge about the limitations of the tank and therefore causes overflow. In the second simulation the same input is applied to the first pipe, where the constraints shown in equation \ref{eq:constriants_eq} is utilized. In this simulation, only constraints regarding the tank and the control input to the pump is applied. The reason for not having constraints on the height in the second pipe is, that it should be sufficient to have constraints on the control input to the pump. As only inputs between zerp and one is allowed. 
+%where the constant is multiplied on the maximum flow that the second pipe can transfer and thereby not allow flows higher than that. 
+Furthermore, the height constraints for the tank goes from 0 to the maximum height which is set to 10 meters, in this simulation, as seen in table \ref{tab:tank_data_for_mpc_test}. The reason for not having constraints on the first pipe is, that it is impossible for the MPC controller to regulate the height in that part. In figure \ref{fig:tank_height_second_test_with_constraints} the height of the tank is shown from the second simulation.        
 
 
 \begin{figure}[H]
  \centering
  \input{report/control/tikz/tank_height_second_test_with_constraints}
-\caption{The height in the tank for the second simulation.}
+\caption{Height in the tank at the second simulation run.}
 \label{fig:tank_height_second_test_with_constraints}
 \end{figure}
 
-It can be seen that the tank does not get overfilled anymore, thereby is within the constraints of the tank. In the beginning, the tank is emptied again due to it was initials with wastewater in it. Hereafter the tank is filled up to 2 meters and then emptied again. In figure \ref{fig:MPC_test_output_second_test_with_constraints} the output of the second pipe is shown. 
+It can be seen that the tank does not overflow, thereby it is within the constraints of the tank. At the start of the simulation, the tank is emptied once again. Hereafter the tank is continuously filled with fluid to a level of two meters and then emptied again. In figure \ref{fig:MPC_test_output_second_test_with_constraints} the output of the second pipe is shown. 
 
 \begin{figure}[H]
  \centering
  \input{report/control/tikz/MPC_test_output_second_test_with_constraints}
-\caption{The output of the last pipe.}
+\caption{Output of the last pipe in the second simulation run.}
 \label{fig:MPC_test_output_second_test_with_constraints}
 \end{figure}
 
-It is clear from the figure that the variations of output is not minimized. It fluctuates between two values, the constant input, approximately 0,31 meters, and 0,51 meters. In the top and bottom of the curve, it can be seen that the curve flattens. The bottom is due to the tank is empty and therefore, the input, that goes into the tank from the first pipe, goes right into the second pipe without storing any wastewater in the tank. When the top flattens the tank start to be filled up, and as it goes down the tank is emptied. It was discovered that the reason for the top is due to constraints on the upper bound for the input, this however, is not a wanted feature. It was desired to get a constant output or a minimum of variations in the output, which is not achieved. Through several tries of changing the parameters of the constraints, e.g. lessen the controller constraints and trying to changing the height of the tank. However, a solution was not found.
+It is clear from the figure that the variations in the output is not minimized. It fluctuates between two values, the constant input of approximately 0,31 meters and 0,51 meters. In the top and bottom of the curve, it can be seen that the curve flattens. The bottom is due to the tank is empty and therefore, the input, that goes into the tank from the first pipe, goes right into the second pipe without any storage occurring in the tank. When the top flattens the tank start to be filled up, and as it goes down the tank is emptied. It was discovered that the reason for the top is due to constraints on the upper bound for the input, this however, is not a wanted feature. It was desired to get a constant output or a minimum of variations in the output, which is not achieved. Through several tries of changing the parameters of the constraints, e.g. lessen the controller constraints and trying to changing the height of the tank. However, a solution was not found.
 
 The MPC controller does not function as intended and will be concluded upon in the discussion, however in the following chapter the results of the simulation model over the northern part of Fredericia is shown.
 
