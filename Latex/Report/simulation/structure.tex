@@ -4,7 +4,7 @@ Furthermore, an easy way to view the result of the simulation is needed such tha
 
 The first overall thing to consider is the composition of components desired to simulate. 
 To make the simulation environment useful it should be able to handle different compositions of pipes and tanks. Meaning that the simulation environment can simulate different setups than the one shown in figure \ref{fig:kloakgrid_simplified}. For this, a simple setup procedure, where different sizes of pipes with different parameters can be chosen, is needed. 
-The second thing to consider is that the environment should be brought to a steady state before the simulation starts. The reason for this is that unintended results can arise when working with non-linear systems. Transients caused by the system not to be in a steady state, when starting simulating, can skew the initial data obtained, which is not ideal.   
+The second thing to consider is that the environment should be brought to a steady state before the simulation starts. The reason for this is that unintended results can arise when working with nonlinear systems. Transients caused by the system not to be in a steady state, when starting simulating, can skew the initial data obtained, which is not ideal.   
 Also if a linearized approach to the MPC scheme is chosen a linearized model is necessary, which requires a system in steady state to obtain. 
 The simulation should be able to run for a predefined amount of iterations. 
 Based on this the basic structure of the simulation environment can be split into three parts as shown in figure \ref{fig:struct_overview}.
@@ -55,7 +55,7 @@ The iteration continues until a satisfactory error between the fixed input and t
 \label{fig:simple_sewer}
 \end{figure}
 
-To make the steady state iteration scheme work on a dynamic level, the components can be separated into parts where adjoint pipes are seen as a single part. The system can then be brought in to steady state one part at a time. As the pipes are the only nonlinear part of the system, they are the only parts needed to be iterated upon. Taking the first part in figure \ref{fig:simple_sewer} as an example, there are two pipes and the second one has a side input.
+To make the steady state iteration scheme work on a dynamic level, the components can be separated into parts where adjoining pipes are seen as a single part. The system can then be brought in to steady state one part at a time. As the pipes are the only nonlinear part of the system, they are the only parts needed to be iterated upon. Taking the first part in figure \ref{fig:simple_sewer} as an example, there are two pipes and the second one has a side input.
 A general expression of the average flow in the parts containing pipes is given by the following equation:
 
 \begin{equation}
