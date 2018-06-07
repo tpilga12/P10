@@ -1,5 +1,5 @@
 \section{Model predictive control}\label{se:model_predictive_control}
-In this section, the design of the controller is elaborated. First the control problem is summarised thereafter Model predictive controller (MPC) is elaborated followed by the design of the MPC controller and ending with the implementation and results of the simulation. 
+In this section, the design of the controller is elaborated. First the control problem is summarized thereafter Model predictive controller (MPC) is elaborated followed by the design of the MPC controller and ending with the implementation and results of the simulation. 
 
 The simulation covered in chapter \ref{ch:simulation} is to be controlled with respect to the problems elaborated in section \ref{sec:problem_statement} and stated below. 
 \begin{enumerate}
@@ -13,7 +13,8 @@ The simulation covered in chapter \ref{ch:simulation} is to be controlled with r
 \end{enumerate}
 \end{enumerate}
 
-From the problem statement, it is given that flow and concentration variations must be kept to a minimum without causing overflow in the sewer. To achieve this, tanks are used. These are placed in the sewer network in locations where they are able to minimize flow and concentration variations into the WWTP. However, the output of these tanks must be controlled in a way such that overflow in the tank does not occur. Furthermore the size and location of these tanks can be hard to determine. Therefore implementing an optimal control, which can operate the system close to limits of the system, can help determine is the tank is located and dimensioned properly.
+
+From the problem statement, it is given that flow and concentration variations must be kept to a minimum without causing overflow in the sewer. To achieve this, tanks are used. These are placed in the sewer network in locations where they are able to minimize flow and concentration variations into the WWTP. However, the output of these tanks must be controlled in a way such that overflow in the tank does not occur. Furthermore the size and location of these tanks can be hard to determine. Therefore implementing an optimal control, which can operate the system close to limits of the system, can help determine if the tank is located and dimensioned properly.
 %Therefore the controller must control the output of these tanks in an optimal manner to keep the input variations to the WWTP at a minimum and still be controlled according to some constraints.
 
 %To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC solves an optimization problem at each time instant, k, where the main point is to compute a control vector, u that is feed to the system. 
@@ -23,7 +24,7 @@ MPC algorithm consists of:
 \\ 
 \textbf{Cost function} or control objective, $\CMcal{J}$, is a criterion when measuring e.g. the difference between future outputs and a reference while at the same time having in mind that any control action is costly for the system. Therefore the price is measured in the cost function over the prediction horizon, $H_p$. This function is therefore minimized with respect to the future control input to minimize the cost \cite{mpc_control_lecture_notes}. %Furthermore, only the first control input from the vector is used in each time instant thus this optimization is process is calculated at each time step where a new control input is calculated \cite{mpc_control_lecture_notes}.
 
-\textbf{Constraints} is an unique advantage of MPC. They can be applied to the process variables e.g. on the states of the system  to keep them within a defined limit. %not allowing them to go below a certain value or above. 
+\textbf{Constraints} is an unique advantage of MPC. They can be applied to the process variables e.g. on the states of the system to keep them within a defined limit. %not allowing them to go below a certain value or above. 
 Furthermore, they are usually written as inequality constraints, $Ax\leq b$, where the optimization problem is subject to the constraint \cite{mpc_control_lecture_notes}.   
 
 \textbf{Prediction model} is as the name indicates, able to predict future system behavior. The model describes the in- and output behavior of the system over the prediction horizon \cite{mpc_control_lecture_notes}.  
@@ -64,9 +65,9 @@ For MPC to optimize the system a cost function must be written to penalize varia
 \end{aligned}	
 \end{equation}
 
-Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. The concentrations $C_1, C_2, C_3$ and $C_4$ are respectively chloride, phosphorus nitrogen and organic matter levels in the wastewater. 
-However due to delimitations in section \ref{se:system_description} the concentrate is limited to a single component.
-Due to time constraints it has been decided to keep focus on minimizing flow variations and limit the complexity of implementing MPC. 
+Where $\CMcal{J}$ is the cost function that needs to be minimized, Q is the flow, C is the concentration and $\CMcal{Q}$ is a weighting parameter. The concentrations $C_1, C_2, C_3$ and $C_4$ are respectively chloride, phosphorus, nitrogen and organic matter levels in the wastewater. 
+However, due to delimitations in section \ref{se:system_description} the concentrate is limited to a single component.
+Due to time constraints, it has been decided to keep a focus on minimizing flow variations and limit the complexity of implementing MPC. 
 %This has been done to limit the control problem and ease the computation, to begin with. 
 The cost function is therefore limited to the following: 
 
@@ -409,7 +410,7 @@ In the following equation the constraints for the predicted states are shown:
     x_{min} \leq \CMcal{X}(k) \leq x_{max}
 \end{equation}
 
-Where $x_{min}$ and $x_{max}$ are respectively lower and upper bound. Considerations is needed as the linear model is a small signal model and the constraints is made for the nonlinear simulation. The linearization point therefore needs to be subtracted from the lower and upper bounds which thereby transforms the constraints into small signal constraints.
+Where $x_{min}$ and $x_{max}$ are respectively lower and upper bound. Considerations are needed as the linear model is a small signal model and the constraints are made for the nonlinear simulation. The linearization point therefore needs to be subtracted from the lower and upper bounds which thereby transforms the constraints into small signal constraints.
 
 %As the constraint needs to be for the small signal value and as the constraint is for full signal values the operating point needs to be subtracted from the lower and upper bounds thereby transforming the constraint into small signals:
 
@@ -490,7 +491,7 @@ Inserting this into equation \ref{eq:constraint_states} the follwing is obtained
  \end{equation}
 
 
-Constraints are also applied to the control output. The reason for these constraints is to not allow the controller to produce an output than will cause overflow in the pipe after the tank. The constraint on the control output is constructed in the same way as for the states. Below the constraint for the control output is shown:  
+Constraints are also applied to the control output. The reason for these constraints is to not allow the controller to produce an output that will cause overflow in the pipe after the tank. The constraint on the control output is constructed in the same way as for the states. Below the constraint for the control output is shown:  
  \begin{equation}
  	u_{min} \leq \CMcal{U}(k) \leq u_{max}
  \end{equation}
@@ -546,7 +547,7 @@ The constraints can be put on standard inequality constraint form and thereby be
 \subsection{Implementation of MPC}\label{subse:implementation_mpc}
 In this section the implementation of MPC in MATLAB will be elaborated. 
 
-The cost function in equation \ref{eq:the_cost_function} is a quadratic problem. In order to solve this minimization problem and find a global minimum, quadratic programming (QP) is utilized. In MATLAB there exists several solvers for QP problems, in this project Quadprog is the chosen solver. Quadprog solves the minimization problem subject to constraints to the specified convex cost function. The model used as the predictive model is the linear model obtained in section \ref{se:linearization}. Furthermore, the constraints the cost is subject to, as explained in the previous section, is also included. 
+The cost function in equation \ref{eq:the_cost_function} is a quadratic problem. In order to solve this minimization problem and find a global minimum, quadratic programming (QP) is utilized. In MATLAB there exist several solvers for QP problems, in this project Quadprog is the chosen solver. Quadprog solves the minimization problem subject to constraints to the specified convex cost function. The model used as the predictive model is the linear model obtained in section \ref{se:linearization}. Furthermore, the constraints the cost is subject to, as explained in the previous section, is also included. 
 
 In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
 \begin{figure}[H]
@@ -556,14 +557,14 @@ In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
 	\label{fig:mpc_diagram}
 \end{figure}
 
-Here it is illustrated that the model, constraint and cost function will be used in the optimizer to generate a control output. This will be used in the process, which in this case is the nonlinear model. The output y(k+1) is the output height at the end of the last pipe in the sewer network, which correspond to the input of the WWTP. At each time step, the current value of the output is returned to the MPC controller. Here the MPC will at each iteration calculate up to $H_p$ control inputs, however, only the first element within the u vector will be used to control the process. Thereafter a new measurement will be taken and a new control output will be calculated. This procedure will iterate for the entire simulation.
+Here it is illustrated that the model, constraint and cost function will be used in the optimizer to generate a control output. This will be used in the process, which in this case is the nonlinear model. The output y(k+1) is the output height at the end of the last pipe in the sewer network, which corresponds to the input of the WWTP. At each time step, the current value of the output is returned to the MPC controller. Here the MPC will at each iteration calculate up to $H_p$ control inputs, however, only the first element within the u vector will be used to control the process. Thereafter a new measurement will be taken and a new control output will be calculated. This procedure will iterate for the entire simulation.
 
 In determining the length of the prediction horizon several considerations were taken into account. In figure \ref{fig:input_to_wwtp} a daily flow from the households is shown. The flow is illustrated for working days and weekend. By knowing the wastewater flow pattern from households the MPC would be able to include this knowledge in the prediction model. Thus an ideal prediction horizon would be 24 hours, as it would be able to see the disturbance across a whole day. 
 
-However, as the households are not the only disturbance in this setup this is not entirely true. Because, output from the larger industry e.g. the bottling plant and the brewery are stochastic can be let into the sewer without warning and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the industry also varies between outlets. Therefore, it would be preferable not to place the tank next to the industry as it would not be able to predict the disturbance. 
+However, as the households are not the only disturbance in this setup this is not entirely true. Because the output from the larger industry e.g. the bottling plant and the brewery are stochastic can be let into the sewer without warning and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the industry also varies between outlets. Therefore, it would be preferable not to place the tank next to the industry as it would not be able to predict the disturbance. 
 Thus the tank should be placed at a distance from the industry, where the distance can be used in the prediction model by measurements obtained at the outlet of the industry.% the disturbance coming from the industry by having a measurement of it. 
 
-During implementation of the MPC controller, it was discovered that the prediction horizon were restricted. It was not possible to set it higher than 20 iterations or 400 seconds, as the quadratic matrix $\CMcal{H}$ then became non-convex. The reason is most likely to be found in the linearized model, as some of the elements in the matrices are small, which can result in numerical problems. Therefore, when the system is predicted, it would cause the $\CMcal{H}$ matrix to have negative eigenvalues. Several tests were conducted to find a prediction horizon that did not result in a negative eigenvalues. A prediction horizon of 400 seconds equal to 20 iterations, would give a quadratic matrix which was convex. However, this restricts the distance from the tank, as the MPC were not able to predict far enough into the future to see the point where the flow variations is to be minimized. Therefore, in the simulation of the MPC controller, this must be kept in mind.   
+During implementation of the MPC controller, it was discovered that the prediction horizon was restricted. It was not possible to set it higher than 20 iterations or 400 seconds, as the quadratic matrix $\CMcal{H}$ then became non-convex. The reason is most likely to be found in the linearized model, as some of the elements in the matrices are small, which can result in numerical problems. Therefore, when the system is predicted, it would cause the $\CMcal{H}$ matrix to have negative eigenvalues. Several tests were conducted to find a prediction horizon that did not result in a negative eigenvalue. A prediction horizon of 400 seconds equal to 20 iterations, would give a quadratic matrix which was convex. However, this restricts the distance from the tank, as the MPC were not able to predict far enough into the future to see the point where the flow variations are to be minimized. Therefore, in the simulation of the MPC controller, this must be kept in mind.   
 
 \subsection*{Results}
 In this subsection, the results obtained from testing the MPC controller will be covered. Two simulations will be conducted, one where the constraints are neglected and therefore the problem is minimized without any restriction and another simulation where the constraints are included. 
@@ -643,7 +644,7 @@ It can be seen that the tank does not overflow, thereby it is within the constra
 \label{fig:MPC_test_output_second_test_with_constraints}
 \end{figure}
 
-It is clear from the figure that the variations in the output is not minimized. It fluctuates between two values, the constant input of approximately 0,31 meters and 0,51 meters. In the top and bottom of the curve, it can be seen that the curve flattens. The bottom is due to the tank is empty and therefore, the input, that goes into the tank from the first pipe, goes right into the second pipe without any storage occurring in the tank. When the top flattens the tank start to be filled up, and as it goes down the tank is emptied. It was discovered that the reason for the top is due to constraints on the upper bound for the input, this however, is not a wanted feature. It was desired to get a constant output or a minimum of variations in the output, which is not achieved. Through several tries of changing the parameters of the constraints, e.g. lessen the controller constraints and trying to changing the height of the tank. However, a solution was not found.
+It is clear from the figure that the variations in the output are not minimized. It fluctuates between two values, the constant input of approximately 0,31 meters and 0,51 meters. In the top and bottom of the curve, it can be seen that the curve flattens. The bottom is due to the tank is empty and therefore, the input, that goes into the tank from the first pipe, goes right into the second pipe without any storage occurring in the tank. When the top flattens the tank start to be filled up, and as it goes down the tank is emptied. It was discovered that the reason for the top is due to constraints on the upper bound for the input, this however, is not a wanted feature. It was desired to get a constant output or a minimum of variations in the output, which is not achieved. Through several tries of changing the parameters of the constraints, e.g. lessen the controller constraints and trying to changing the height of the tank. However, a solution was not found.
 
 The MPC controller does not function as intended and will be concluded upon in the discussion, however in the following chapter the results of the simulation model over the northern part of Fredericia is shown.
 

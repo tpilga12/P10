@@ -1,7 +1,7 @@
 \chapter{Results}\label{ch:results}
 In this chapter, a simulation of the northern part of Fredericia will be conducted.
 
-The goal of this simulation is to simulate a daily flow in the northern part of Fredericia. For this purpose the simulation environment explained in chapter \ref{ch:simulation} is utilized. The pumping station, illustrated with the blue dot in figure \ref{fig:kloakgrid_simplified}, is not included in this simulation, the reason is that it will have a dampening effect on the disturbances from the larger industry and the surrounding urban areas. To generate the disturbances from the residential and industrial areas, shown in figure \ref{fig:kloakgrid_simplified}, the flow profiles in appendix \ref{app:flow_profiles} is used. These disturbance models are not simulated in pipes from the various areas into the main sewer line but are directly added into the main sewer line. Therefore the results are expected to have higher peaks, as these models are not attenuated, as they would have been if they were simulated in pipes from the various areas. It has been chosen to only use the disturbance from the brewery and bottling plant, as the data from the refinery weren't available. The disturbances from the brewery and bottling plant is shown in figure \ref{fig:flow_profile_industry}. The pipe specifications for this simulation can be seen in table \ref{tab:pipe_data_nonlinear_linear_testv2}.  
+The goal of this simulation is to simulate a daily flow in the northern part of Fredericia. For this purpose the simulation environment explained in chapter \ref{ch:simulation} is utilized. The pumping station, illustrated with the blue dot in figure \ref{fig:kloakgrid_simplified}, is not included in this simulation, the reason is that it will have a dampening effect on the disturbances from the larger industry and the surrounding urban areas. To generate the disturbances from the residential and industrial areas, shown in figure \ref{fig:kloakgrid_simplified}, the flow profiles in appendix \ref{app:flow_profiles} is used. These disturbance models are not simulated in pipes from the various areas into the main sewer line but are directly added into the main sewer line. Therefore the results are expected to have higher peaks, as these models are not attenuated, as they would have been if they were simulated in pipes from the various areas. It has been chosen to only use the disturbance from the brewery and bottling plant, as the data from the refinery weren't available. The disturbances from the brewery and bottling plant are shown in figure \ref{fig:flow_profile_industry}. The pipe specifications for this simulation can be seen in table \ref{tab:pipe_data_nonlinear_linear_testv2}.  
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
@@ -32,7 +32,7 @@ The goal of this simulation is to simulate a daily flow in the northern part of 
 \label{tab:pipe_data_nonlinear_linear_testv2}
 \end{table}
 
-The tank specifications can be seen in table \ref{tab:tank_data_nonlinear_linear_testv2}.
+Tank specifications can be seen in table \ref{tab:tank_data_nonlinear_linear_testv2}.
 
 \begin{table}[H]
 \centering
@@ -88,7 +88,7 @@ It is clear that the flow varies to a great extent as is also shown in figure \r
 %As the data from Fredericia are both from the northern and southern part of Fredericia the simulate flow is a bit high compared to that. However, this could be due to the flow profiles from the residential and industrial areas in the simulated results are estimated larger than they should be.     
 
  As no data were available which could give an indication of the amount of COD the brewery or bottling plant produces
-the output of concentrate is set to 0,1 $g/m^3$. As mentioned in the summary of the meeting with Fredericia which can be seen in appendix \ref{app:resume} a person produce approximately 120 COD or 0,2 $g/m^3$ per day. 
+the output of concentrate is set to 0,1 $g/m^3$. As mentioned in the summary of the meeting with Fredericia which can be seen in appendix \ref{app:resume} a person produces approximately 120 COD or 0,2 $g/m^3$ per day. 
 Therefore it has been chosen to spread this amount per citizen over an entire day such that it fits the flow pattern shown in figure \ref{fig:flow_profile_thulevej}. In figure \ref{fig:simulation_output_first_concentration} the concentration at the output of the last pipe is shown.
 
 \begin{figure}[H]
@@ -98,11 +98,11 @@ Therefore it has been chosen to spread this amount per citizen over an entire da
 \label{fig:simulation_output_first_concentration}
 \end{figure}  
 
-It is clear that the flow pattern is visible in the concentration output, as it can be seen the COD amount is high in the morning when people prepares for work and low during the night as people are at sleep.  
+It is clear that the flow pattern is visible in the concentration output, as it can be seen the COD amount is high in the morning when people prepare for work and low during the night as people are at sleep.  
 
 %It can be concluded that a sewer network can be designed in the simulation model, where flow profiles and concentration can be added to the different parts of the model. Furthermore, is the simulation model able to simulate a flow and a concentration. 
 
-A final test was conducted to investigate what a tank could do to the flow if the tank was large enough to contain the wastewater coming from the city. In this test the tank before the WWTP was increase to 300 $m^3$ with a height of 5 m and a area of 60 $m^2$.
+A final test was conducted to investigate what a tank could do to the flow if the tank was large enough to contain the wastewater coming from the city. In this test, the tank before the WWTP was increased to 300 $m^3$ with a height of 5 m and an area of 60 $m^2$.
 
 \begin{figure}[H]
 \centering
@@ -110,5 +110,5 @@ A final test was conducted to investigate what a tank could do to the flow if th
 \caption{Output of the last pipe in to the WWTP, where a tank has been placed in front to smooth the flow into WWTP.}
 \label{fig:simulation_output_second}
 \end{figure} 
-The pump has a constant output of 0,3 $m^3/s$, however if the tank is empty it will follow the flow from the input of the tank. It can be seen by comparing figure \ref{fig:simulation_output_first} and figure \ref{fig:simulation_output_second} that the top has been reduced and thereby a less fluctuated input to the WWTP is obtained.   
+The pump has a constant output of 0,3 $m^3/s$, however, if the tank is empty it will follow the flow from the input of the tank. It can be seen by comparing figure \ref{fig:simulation_output_first} and figure \ref{fig:simulation_output_second} that the top has been reduced and thereby a less fluctuated input to the WWTP is obtained.   
 			   
