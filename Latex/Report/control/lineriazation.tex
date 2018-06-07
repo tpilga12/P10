@@ -242,6 +242,7 @@ The first part shown in table \ref{tab:system_setup_nonlinear_linear_test} has t
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
+\rowcolor[HTML]{9B9B9B} 
 \begin{tabular}[c]{@{}c@{}}Part\\ number\end{tabular} & Length {[}m{]} & Sections & Dx {[}m{]} & Sb     & d {[}m{]} & $\theta$ & $Q_f $  {[}$m^3/s${]} \\ \hline
 1                                                          & 700            & 35       & 20         & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
 \end{tabular}
@@ -364,4 +365,4 @@ The output of the second pipe in the sewer network, also shows the the linear an
 \label{fig:linear_nonlinear_comparison_last_pipe}
 \end{figure}
 
-Here it start to have a small difference, which can be seen in the peaks of the figure. It seems as the nonlinear model starts to deviate from the linear model, as it rise faster and falls slower. However, it can be seen that the two model crosses in the operating point at each period. The linear model, for small signal values is deemed to be a validate model for the nonlinear system and will be used in the next section in the design of an MPC controller. 
+Here it start to have a small difference, which can be seen in the peaks of the figure. It seems as the nonlinear model starts to deviate from the linear model, as it rise faster and falls slower. However, it can be seen that the two model crosses in the operating point at each period and they still looks similar in phase and amplitude. The linear model, for small signal values is deemed to be a validate model for the nonlinear system and will be used in the next section in the design of an MPC controller. 
