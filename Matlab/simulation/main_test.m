@@ -79,7 +79,7 @@ for m = 2:(iterations+1)
      %   input.Q_in(m,1) = brewery_disturbance(i(m))/1000+0.05;% + sin(m/10)/35 ;%+ sin(m/100)/15;
       input.Q_in(m,1) = 0.4+ sin(m/10)/50;
     %     end
-    utank1(m,1) =   0.41+ sin(m/15)/30;
+    utank1(m,1) =   0.4+ sin(m/15)/30;
     utank2(m,1) = 0.2;%input.u_init(1,2);
     input.u(m,:) = [utank1(m) utank2(m)]; %input is needed for all actuators, try and remember (look for nr_tanks in workspace) :)
 
