@@ -153,11 +153,11 @@ Finally the inflow to the adjoining pipe is given by:
 \begin{equation} \label{eq:height_outflow_lin_tank}
 	h_{outflow} = \frac{dQ}{dh} \cdot u_{pump} \cdot Q_{max\_out}
 \end{equation}
+Where the derivative is found by curve fitted polynomial and the MATLAB function ``differentiate''.
+Utilizing the same indexing scheme on equation \ref{eq:heigh_in_flow_lin_tank}, \ref{eq:height_reduc_pump_lin_tank} and \ref {eq:height_outflow_lin_tank} as in equation \ref{eq:rearrange_continuity_eq} the following is given:
 
-utilizing the same indexing scheme on equation \ref{eq:heigh_in_flow_lin_tank}, \ref{eq:height_reduc_pump_lin_tank} and \ref {eq:height_outflow_lin_tank} as in equation \ref{eq:rearrange_continuity_eq} the following is given:
 
-
-	$\underbrace{\frac{dh}{dQ} \cdot \frac{1}{A} \cdot \Delta t}_{e}$ , $\underbrace{u_{pump} \cdot Q_{max\_out} \cdot \Delta t}_{f}$, $\underbrace{\frac{dQ}{dh} \cdot u_{pump} \cdot Q_{max\_out}}_{g}$ \\\\
+	$\underbrace{\frac{dh}{dQ} \cdot \frac{1}{A} \cdot \Delta t}_{e}$ , $\underbrace{u_{pump} \cdot Q_{max\_out} \cdot \Delta t}_{f}$, $\underbrace{\frac{dQ}{dh} \cdot u_{pump} \cdot Q_{max\_out}}_{g}$ 
 An example of how the tank is implemented in a state space system in between two pipes, can be seen in equation \ref{eq:tank_linear_implement_ss}
 
 \begin{equation}\label{eq:tank_linear_implement_ss}
@@ -216,13 +216,46 @@ An example of how the tank is implemented in a state space system in between two
 
 Where subscripts indicate pipe and section number.
 
-A test of the linear system has been conducted to verify the if the linear model has a similar response of the nonlinear model for small perturbations. Therefore, a test has been conducted on the sewer network setup where the specification for the pipes are shown in figure \ref{fig:Fredericia_pipe_setup} and the specification for the tank placed after the first pipe is seen in \ref{tab:tank_data_nonlinear_linear_test} 
+A test of the linear system has been conducted to verify if the linear model has a similar response of the nonlinear model for small perturbations. %Therefore, a test has been conducted on the sewer network setup where the specification for the pipes are shown in figure \ref{fig:Fredericia_pipe_setup} and the specification for the tank placed after the first pipe is seen in \ref{tab:tank_data_nonlinear_linear_test} 
+In table \ref{tab:system_setup_nonlinear_linear_test} the system setup which is used to verify the linear model is seen.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+	\rowcolor[HTML]{9B9B9B} 
+Type  & Components & Sections \\ \hline
+Pipe  & 1         & 35       \\ \hline
+Tank  & 1         & 1        \\ \hline
+Pipe  & 18        & 227      \\ \hline
+Total & 20        & 263      \\ \hline
+\end{tabular}
+\caption{System setup for verification of linear model.}
+\label{tab:system_setup_nonlinear_linear_test}
+\end{table}
+
+What is important to remember before simulating is that the state space system is a small signal model. This is also the reason why the nonlinear systems needs to be brought into steady state before the linearized model is obtained. If the system is not in steady state the linearized model is most likely going to yield an undesirable result. 
+The first part shown in table \ref{tab:system_setup_nonlinear_linear_test} has the specifications seen in table \ref{tab:pipe_data_nonlinear_linear_test}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\begin{tabular}[c]{@{}c@{}}Part\\ number\end{tabular} & Length {[}m{]} & Sections & Dx {[}m{]} & Sb     & d {[}m{]} & $\theta$ & $Q_f $  {[}$m^3/s${]} \\ \hline
+1                                                          & 700            & 35       & 20         & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
+\end{tabular}
+\caption{The specification on the pipes for comparing the nonlinear model with the linear model.}
+\label{tab:pipe_data_nonlinear_linear_test}
+\end{table}
+
+
+
 
 % \begin{table}[H]
 % \centering
 % \begin{tabular}{|c|c|c|c|c|c|c|c|}
 % \hline
-% \begin{tabular}[c]{@{}c@{}}Component\\ number\end{tabular} & Length {[}m{]} & Sections & Dx {[}m{]} & Ib     & d {[}m{]} & $\theta$ & \begin{tabular}[c]{@{}c@{}}$Q_f $\\  {[}$m^3/s${]}\end{tabular} \\ \hline
+% \begin{tabular}[c]{@{}c@{}}Component\\ number\end{tabular} & Length {[}m{]} & Sections & Dx {[}m{]} & Sb     & d {[}m{]} & $\theta$ & \begin{tabular}[c]{@{}c@{}}$Q_f $\\  {[}$m^3/s${]}\end{tabular} \\ \hline
 % 1                                                          & 700            & 35       & 20         & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
 % 3                                                          & 303            & 15       & 20,2       & 0,003  & 0,9       & 0,65     & 0,972                                                                          \\ \hline
 % 4                                                          & 27             & 1        & 27         & 0,003  & 1         & 0,65     & 1,284                                                                          \\ \hline
@@ -252,7 +285,7 @@ A test of the linear system has been conducted to verify the if the linear model
 \centering
 \begin{tabular}{|c|c|}
 \hline
-Part& 2 (Tank)  \\ \hline
+Part number& 2 (Tank)  \\ \hline
 Size $[m^3]$                                              & 90 \\ \hline
 Height {[}m{]}                                             & 10 \\ \hline
 Area {[}$m^2$                                              & 9  \\ \hline
@@ -261,41 +294,57 @@ Area {[}$m^2$                                              & 9  \\ \hline
 \label{tab:tank_data_nonlinear_linear_test}
 \end{table}
 
-Furthermore in the table \ref{tab:system_setup_nonlinear_linear_test} the system setup is shown.
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-	\rowcolor[HTML]{9B9B9B} 
-Type  & Components & Sections \\ \hline
-Pipe  & 1         & 35       \\ \hline
-Tank  & 1         & 1        \\ \hline
-Pipe  & 18        & 227      \\ \hline
-Total & 20        & 263      \\ \hline
-\end{tabular}
-\caption{System setup.}
-\label{tab:system_setup_nonlinear_linear_test}
-\end{table}
 
-It can be seen that the setup consist of 19 pipes and one tank. The input to the pipes after tank is a sinus wave as is shown in figure \ref{fig:height_input_for_comparision}.  
+% It can be seen that the setup consist of 19 pipes and one tank. The input to the pipes after tank is a sinus wave as is shown in figure \ref{fig:height_input_for_comparision}.  
 
-\begin{figure}[H]
- \centering
- \input{report/control/tikz/height_input_for_comparision}
-\caption{Input flow for the simulation.}
-\label{fig:height_input_for_comparision}
-\end{figure}
+% \begin{figure}[H]
+%  \centering
+%  \input{report/control/tikz/height_input_for_comparision}
+% \caption{Input flow for the simulation.}
+% \label{fig:height_input_for_comparision}
+% \end{figure}
 
-In figure \ref{fig:height_output_nonlinear_and_linear_model} a comparison of the output nonlinear model and the linear model is shown.
+% In figure \ref{fig:height_output_nonlinear_and_linear_model} a comparison of the output nonlinear model and the linear model is shown.
 
-\begin{figure}[H]
- \centering
- \input{report/control/tikz/height_output_nonlinear_and_linear_model}
-\caption{Output height for the linear and Preissmann scheme simulation.}
-\label{fig:height_output_nonlinear_and_linear_model}
-\end{figure}
+% \begin{figure}[H]
+%  \centering
+%  \input{report/control/tikz/height_output_nonlinear_and_linear_model}
+% \caption{Output height for the linear and Preissmann scheme simulation.}
+% \label{fig:height_output_nonlinear_and_linear_model}
+% \end{figure}
  
 
 
- The fluctuations of the response of the nonlinear and linear are not identical as the top and bottom of the curves peaks at different times. However, the linear output looks very similar in phase as the input signal shown in figure \ref{fig:height_input_for_comparision} where the nonlinear has a faster response up going, and a slower one down going. It should be noted, that each time the response for both the models crosses the linearization point, they cross the same point. Hence it can be verified that the two models follows a similar pattern. It can be concluded that the plot of the nonlinear and linear responses are very similar, and therefore the linear model will be used to construct the MPC controller.  
+ %The fluctuations of the response of the nonlinear and linear are not identical as the top and bottom of the curves peaks at different times. However, the linear output looks very similar in phase as the input signal shown in figure \ref{fig:height_input_for_comparision} where the nonlinear has a faster response up going, and a slower one down going. It should be noted, that each time the response for both the models crosses the linearization point, they cross the same point. Hence it can be verified that the two models follows a similar pattern. It can be concluded that the plot of the nonlinear and linear responses are very similar, and therefore the linear model will be used to construct the MPC controller.  
+
+
+\begin{figure}[H]
+ \centering
+ \input{report/control/tikz/linear_nonlinear_comparison_input_first_pipe_into_tank}
+\caption{}
+\label{fig:linear_nonlinear_comparison_input_first_pipe_into_tank}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \input{report/control/tikz/linear_nonlinear_comparison_last_pipe}
+\caption{}
+\label{fig:linear_nonlinear_comparison_last_pipe}
+\end{figure}
+ 
+\begin{figure}[H]
+ \centering
+ \input{report/control/tikz/linear_nonlinear_comparison_pipe_after_tank}
+\caption{}
+\label{fig:linear_nonlinear_comparison_pipe_after_tank}
+\end{figure}
+  
+\begin{figure}[H]
+ \centering
+ \input{report/control/tikz/linear_nonlinear_comparison_tank_height}
+\caption{}
+\label{fig:linear_nonlinear_comparison_tank_height}
+\end{figure}
+  
+  
