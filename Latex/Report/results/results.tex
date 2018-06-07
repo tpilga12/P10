@@ -67,10 +67,10 @@ Total & 21        & 282      \\ \hline
 \label{tab:system_setup_nonlinear_linear_testv2}
 \end{table}
 
-The first pipe and the two tanks have been added to the original sewer network shown in figure \ref{fig:sewer_line_diagram}. The first pipe is connected from the larger industrial area to the main sewer line indicated by a black circle in figure \ref{fig:kloakgrid_simplified}, where the first tank is placed as well. The reason for placing the tank there is, that it should be able to smoothen the flow of wastewater coming from the larger industry. Furthermore, the pipe is placed, such that the MPC should be able to use the delay for prediction.%, as it would be able to measure the disturbance going into the pipe at the industry, and thereby use it in the predictive model to calculate the most optimal control output to the pump. 
+The first pipe and the two tanks have been added to the original sewer network shown in figure \ref{fig:sewer_line_diagram}. The first pipe is connected from the larger industrial area to the main sewer line indicated by a black circle in figure \ref{fig:kloakgrid_simplified}, where the first tank is placed as well. The reason for placing the tank there is, that it should be able to reduce variations in the flow of wastewater coming from the larger industry. Furthermore, the pipe is placed, such that the MPC should be able to use the delay for prediction.%, as it would be able to measure the disturbance going into the pipe at the industry, and thereby use it in the predictive model to calculate the most optimal control output to the pump. 
  However, as this is not possible, due to the problems experienced with the MPC controller, as explained in section \ref{se:model_predictive_control}. 
 
-The second tank is placed just before the WWTP with the purpose of smoothening the flow into the WWTP. Due to the lack of a controller the tanks is given a static input during the simulation.
+The second tank is placed just before the WWTP with the purpose of reducing all variations in flow into the WWTP. Due to the lack of a controller the tanks is given a static input during the simulation.
 %Furthermore several simulations were conducted to obtain an optimal $\Delta t$ as explained in section \ref{subse:stability_and_precision}. As the pipes are split into different sections and as the average flow height is also different from pipe to pipe, the Courant number varies from pipe to pipe. Thus it is difficult to tune so all pipes have the most optimal Courant number. However, it was found that a $\Delta t = 20$, with the given $\Delta x$ shown in table \ref{tab:pipe_data_nonlinear_linear_testv2} for the various pipes, gave an output, where distortion was visible.
 
 
@@ -83,11 +83,11 @@ In figure \ref{fig:simulation_output_first} the output of a simulated period of 
 \label{fig:simulation_output_first}
 \end{figure}  
 
-It is clear that the flow varies to a great extent as is also shown in figure \ref{fig:flow_input_wwtp} from the real measurements from the WWTP at Fredericia. However, these two can not be directly compared, as the data from Fredericia also includes the wastewater from the southern part of the city. However, the simulated data results in a greater variation of flow than the data obtained from Fredericia. This could be due to the pump, as mention previously, that smoothen the flow from the northern part of the city and therefore the variations seen on figure \ref{fig:flow_input_wwtp} from Fredericia is due to disturbance coming from the southern part of the city. By taking the mean of the data in figure \ref{fig:flow_input_wwtp} the WWTP have an inflow of 0,28 $m^3/s$ and doing the same to the data in figure \ref{fig:simulation_output_first} the mean is 0,273 $m^3/s$. 
+The flow varies considerable as can be seen in figure \ref{fig:flow_input_wwtp} from the real measurements from the WWTP at Fredericia. However, these two can not be directly compared, as the data from Fredericia also includes the wastewater from the southern part of the city. However, the simulated data results in a greater variation in flow than the data obtained from Fredericia. This could be due to the pumping station, as mention previously, that reduces variation in flow from the northern part of the city. Therefore the variations seen on figure \ref{fig:flow_input_wwtp} from Fredericia is likely to be due to disturbance coming from the southern part of the city. By taking the mean of the data in figure \ref{fig:flow_input_wwtp} an inflow of 0,28 $m^3/s$ is obtained and doing the same for the data in figure \ref{fig:simulation_output_first} a mean of 0,273 $m^3/s$ is obtained. This means that the designed flow profiles are over dimensioned.
 
 %As the data from Fredericia are both from the northern and southern part of Fredericia the simulate flow is a bit high compared to that. However, this could be due to the flow profiles from the residential and industrial areas in the simulated results are estimated larger than they should be.     
 
- As no data were available which could give an indication of the amount of COD the brewery or bottling plant produces
+As no data were available which could give an indication of the amount of COD the brewery or bottling plant produces
 the output of concentrate is set to 0,1 $g/m^3$. As mentioned in the summary of the meeting with Fredericia which can be seen in appendix \ref{app:resume} a person produces approximately 120 COD or 0,2 $g/m^3$ per day. 
 Therefore it has been chosen to spread this amount per citizen over an entire day such that it fits the flow pattern shown in figure \ref{fig:flow_profile_thulevej}. In figure \ref{fig:simulation_output_first_concentration} the concentration at the output of the last pipe is shown.
 
@@ -107,7 +107,7 @@ A final test was conducted to investigate what a tank could do to the flow if th
 \begin{figure}[H]
 \centering
 \input{report/results/tikz/simulation_output_second_with_tank}
-\caption{Output of the last pipe in to the WWTP, where a tank has been placed in front to smooth the flow into WWTP.}
+\caption{Output of the last pipe in to the WWTP, where a tank has been placed in front to reduce variation in flow into WWTP.}
 \label{fig:simulation_output_second}
 \end{figure} 
 The pump has a constant output of 0,3 $m^3/s$, however, if the tank is empty it will follow the flow from the input of the tank. It can be seen by comparing figure \ref{fig:simulation_output_first} and figure \ref{fig:simulation_output_second} that the top has been reduced and thereby a less fluctuated input to the WWTP is obtained.   

@@ -311,7 +311,7 @@ The first thing that is done in the playback function is finding minimum and max
 Secondly, the data for all the components are fetched into a matrix such that the MATLAB plot function can be utilized. Furthermore, x-axis data is scaled correctly according to the number of components, various $\Delta x$, intersections and tanks. Afterward ``Iteration'' is set to the value of iterations which has been simulated, ``Plot\_iteration'' is set to the iteration from where the playback is to start from, ``step\_size'' is set to the number of iterations to skip during playback. Lastly ``frame\_time'' is set, which decides the speed of the playback. The maximum speed is in the end decided by the processor available to MATLAB and due to the plot function is known to be computationally demanding, a low amount of updates per second should be expected. The defined iteration or boundary conditions, if ``Start\_point'' is set to zero, is plotted before the playback is put on hold. Playback is now started by clicking on the window holding the plots and continues iterating in the predefined step size and frame time.
 
 
- \begin{sidewaysfigure}
+ \begin{sidewaysfigure}[h]
  \centering
  \includegraphics[width=1.0 \textwidth]{report/simulation/pictures/display_result_matlab.png}
  \caption{Screen shot of the plots made by the playback function where a sinusoidal flow input and step in concentrate is given, red dotted lines indicate pipe intersection and blue dotted lines are intersections with side inflow and stars are tanks inserted. In the simulation the pipe configuration seen in figure \ref{fig:Fredericia_pipe_setup} is used and input to the side inflows is not given.}
