@@ -5,7 +5,7 @@ The linearization of the setup can be split into two parts, the first being line
 Linearization of pipes is elaborated in the following.
 If the simulation environment should be setup with a real sewer system it would be ideal to have a linear model which could mimic a real world situation.
 In real systems measurements from all states, which in this case is flow and height in the amount of sections each pipe consists of, is rarely available.
-In these cases states is often estimated by an observer or a Kalman filter. By the assumption that height measurements is a more obtainable solution, due to the hostile environment which sewers typically consists of, it is decided to proceed with a linearized model where the states represent fluid height.
+In these cases states are often estimated by an observer or a Kalman filter. By the assumption that height measurements are a more obtainable solution, due to the hostile environment, which sewers typically consists of, it is decided to proceed with a linearized model where the states represent fluid height.
 
 The continuity equation from section \ref{se:hydraulics_of_sewer_line}, and the equation that describes flow in a pipe knowing the height, is used. 
 \begin{equation}\label{eq:linearization_Continuity}
@@ -158,6 +158,7 @@ Utilizing the same indexing scheme on equation \ref{eq:heigh_in_flow_lin_tank}, 
 
 
 	$\underbrace{\frac{dh}{dQ} \cdot \frac{1}{A} \cdot \Delta t}_{e}$ , $\underbrace{u_{pump} \cdot Q_{max\_out} \cdot \Delta t}_{f}$, $\underbrace{\frac{dQ}{dh} \cdot u_{pump} \cdot Q_{max\_out}}_{g}$ 
+\\
 An example of how the tank is implemented in a state space system in between two pipes, can be seen in equation \ref{eq:tank_linear_implement_ss}
 
 \begin{equation}\label{eq:tank_linear_implement_ss}
@@ -248,6 +249,7 @@ The first part shown in table \ref{tab:system_setup_nonlinear_linear_test} has t
 \label{tab:pipe_data_nonlinear_linear_test}
 \end{table}
 
+The rest of the pipe specifications can be seen in figure \ref{fig:Fredericia_pipe_setup}. In table \ref{tab:tank_data_nonlinear_linear_test} specifications for the tank is shown.
 
 
 
@@ -317,34 +319,49 @@ Area {[}$m^2$                                              & 9  \\ \hline
 
 
  %The fluctuations of the response of the nonlinear and linear are not identical as the top and bottom of the curves peaks at different times. However, the linear output looks very similar in phase as the input signal shown in figure \ref{fig:height_input_for_comparision} where the nonlinear has a faster response up going, and a slower one down going. It should be noted, that each time the response for both the models crosses the linearization point, they cross the same point. Hence it can be verified that the two models follows a similar pattern. It can be concluded that the plot of the nonlinear and linear responses are very similar, and therefore the linear model will be used to construct the MPC controller.  
+In figure \ref{fig:linear_nonlinear_comparison_input_to_first_pipe} the input to the first pipe is shown. 
 
+\begin{figure}[H]
+ \centering
+ \input{report/control/tikz/linear_nonlinear_comparison_input_to_first_pipe}
+\caption{Input flow to the first pipe.}
+\label{fig:linear_nonlinear_comparison_input_to_first_pipe}
+\end{figure}
+The input to the sewer network is a sinusoidal. This is used to investigate if the nonlinear and linear model have a similar response. 
+In the following figures comparisons are made between the nonlinear and linear model at different places in the sewer network. In figure \ref{fig:linear_nonlinear_comparison_input_first_pipe_into_tank} the output of the first pipe is shown.
 
 \begin{figure}[H]
  \centering
  \input{report/control/tikz/linear_nonlinear_comparison_input_first_pipe_into_tank}
-\caption{}
+\caption{Output of the first pipe, into the tank.}
 \label{fig:linear_nonlinear_comparison_input_first_pipe_into_tank}
 \end{figure}
 
-\begin{figure}[H]
- \centering
- \input{report/control/tikz/linear_nonlinear_comparison_last_pipe}
-\caption{}
-\label{fig:linear_nonlinear_comparison_last_pipe}
-\end{figure}
- 
-\begin{figure}[H]
- \centering
- \input{report/control/tikz/linear_nonlinear_comparison_pipe_after_tank}
-\caption{}
-\label{fig:linear_nonlinear_comparison_pipe_after_tank}
-\end{figure}
-  
+It can be seen that the linear and nonlinear model for the output of the first pipe are identical, both in phase and amplitude as they follow each other throughout the simulation. In figure \ref{fig:linear_nonlinear_comparison_tank_height} the height of the tank for the linear and nonlinear model is shown.   
+
 \begin{figure}[H]
  \centering
  \input{report/control/tikz/linear_nonlinear_comparison_tank_height}
-\caption{}
+\caption{Height of wastewater in the tank. }
 \label{fig:linear_nonlinear_comparison_tank_height}
 \end{figure}
+ 
+It is clear that the nonlinear and linear model for the tank are very similar as they only deviates a small amount at the peaks. In figure \ref{fig:linear_nonlinear_comparison_pipe_after_tank} the output of the pipe after the tank is shown.  
+
+\begin{figure}[H]
+ \centering
+ \input{report/control/tikz/linear_nonlinear_comparison_pipe_after_tank}
+\caption{Output of the pipe after the tank.}
+\label{fig:linear_nonlinear_comparison_pipe_after_tank}
+\end{figure}
   
-  
+The output of the second pipe in the sewer network, also shows the the linear and nonlinear model are very similar and it is hard to separate the two plots from another. The last figure \ref{fig:linear_nonlinear_comparison_last_pipe} shows the output of the last pipe in the sewer network. 
+
+\begin{figure}[H]
+\centering
+\input{report/control/tikz/linear_nonlinear_comparison_last_pipe}
+\caption{Output of the last pipe in the setup.}
+\label{fig:linear_nonlinear_comparison_last_pipe}
+\end{figure}
+
+Here it start to have a small difference, which can be seen in the peaks of the figure. It seems as the nonlinear model starts to deviate from the linear model, as it rise faster and falls slower. However, it can be seen that the two model crosses in the operating point at each period. The linear model, for small signal values is deemed to be a validate model for the nonlinear system and will be used in the next section in the design of an MPC controller. 
