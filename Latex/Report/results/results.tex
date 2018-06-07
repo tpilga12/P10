@@ -2,7 +2,7 @@
 In this chapter, a simulation of the northern part of Fredericia will be conducted. Furthermore, the results of the simulation will be shown.
 \fxnote{stryg sætning ovenfor og start med at goal er at bekræfte at simuleringen virker}
 
-The goal of this simulation is to simulate a daily flow in the northern part of Fredericia, where the disturbance can be seen on the input to the WWTP. To do so the simulation model explained in chapter \ref{ch:simulation} is utilized. The pump station, illustrated with the blue solid circle in figure \ref{fig:kloakgrid_simplified}, is not included in this simulation, as it will smooth the flow from that station down to the WWTP, thus there will not be any variation in the flow into the WWTP. To generate the disturbances from the residential and industrial zones, shown in figure \ref{fig:kloakgrid_simplified}, the flow profiles in appendix \ref{app:flow_profiles} is used. These disturbance models are not simulated from the zones into the main sewer line but are directly added on the main sewer line, therefore the results are expected to have higher peaks, as these models are not attenuated, as they would have been if they were simulated from the zones. It has been chosen to only use the disturbance from the brewery and bottling plant, as the data from the refinery is not accessible. The disturbance from the brewery and bottling plant is shown in figure \ref{fig:flow_profile_industry}. The pipe specifications for this simulation can be seen in table \ref{tab:pipe_data_nonlinear_linear_testv2}.  
+The goal of this simulation is to simulate a daily flow in the northern part of Fredericia, where the disturbance can be seen on the input to the WWTP. To do so the simulation environment explained in chapter \ref{ch:simulation} is utilized. The pumping station, illustrated with the blue solid circle in figure \ref{fig:kloakgrid_simplified}, is not included in this simulation, as it will smooth the flow from that point and into the WWTP, thus there will not be any variation in the flow into the WWTP. To generate the disturbances from the residential and industrial zones, shown in figure \ref{fig:kloakgrid_simplified}, the flow profiles in appendix \ref{app:flow_profiles} is used. These disturbance models are not simulated in pipes from the zones into the main sewer line but are directly added on the main sewer line, therefore the results are expected to have higher peaks, as these models are not attenuated, as they would have been if they were simulated in pipes from the various areas. It has been chosen to only use the disturbance from the brewery and bottling plant, as the data from the refinery weren't available. The disturbances from the brewery and bottling plant is shown in figure \ref{fig:flow_profile_industry}. The pipe specifications for this simulation can be seen in table \ref{tab:pipe_data_nonlinear_linear_testv2}.  
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
@@ -29,11 +29,11 @@ The goal of this simulation is to simulate a daily flow in the northern part of 
 19                                                         & 360            & 18       & 20         & 0,0046 & 1,6       & 0,65     & 5,487     &1           \\ \hline
 21                                                         & 736            & 38       & 19,4         & 0,0012 & 1,6       & 0,65     & 2,802   &0          \\ \hline
 \end{tabular}
-\caption{The specification of the pipes for in the simulation.}
+\caption{Specification of pipes used in the final simulation.}
 \label{tab:pipe_data_nonlinear_linear_testv2}
 \end{table}
 
-The tank specification can be seen in table \ref{tab:tank_data_nonlinear_linear_testv2}.
+The tank specifications can be seen in table \ref{tab:tank_data_nonlinear_linear_testv2}.
 
 \begin{table}[H]
 \centering
@@ -45,11 +45,11 @@ Height {[}m{]}                                             & 10 & 10\\ \hline
 Area $[m^2]$                                              & 9  & 9\\ \hline
 $Q_{out_{max}}$ $[m^3/s]$                                      & 0.973  & 2.80\\ \hline
 \end{tabular}
-\caption{The tank specification for the simulation. }
+\caption{Tank specification for the final simulation. }
 \label{tab:tank_data_nonlinear_linear_testv2}
 \end{table}
 
-Furthermore, table \ref{tab:system_setup_nonlinear_linear_testv2} shows the system setup.
+Furthermore, table \ref{tab:system_setup_nonlinear_linear_testv2} show the system setup.
 
 \begin{table}[H]
 \centering
@@ -68,11 +68,17 @@ Total & 21        & 282      \\ \hline
 \label{tab:system_setup_nonlinear_linear_testv2}
 \end{table}
 
-The first pipe and the two tanks have been added to the original sewer network shown in figure \ref{fig:sewer_line_diagram}. The first pipe goes from the larger industrial area down to the main sewer line showed with a black circle in figure \ref{fig:kloakgrid_simplified}, where the tank is placed as well. The reason for placing the tank there is, that the idea would have been to smoothen the wastewater coming from the larger industry. Furthermore, the pipe is placed, as the MPC could have used it for prediction, as it would be able to measure the disturbance going into the pipe at the industry, and thereby use it in the predictive model to calculate the most optimal control output to the pump. However, as this is not possible, due to the MPC controller is not able to keep a flow output, where the flow variations are kept to a minimum, and as the prediction horizon is limited due to non-convexity as explained in section \ref{se:model_predictive_control}. The second tank is placed right before WWTP with the purpose of smoothing the flow into the WWTP. However, in this simulation, the tanks will just transfer wastewater from the previous pipe to the pipe after the tank.%, due to the MPC controller is not able to control them optimally. 
 
-Several simulations were conducted to find the must optimal $\Delta t$ as explained in section \ref{subse:stability_and_precision}. As the pipes are split into different sections and as the average flow height is also different from pipe to pipe, the Courant number variates. Thus it is difficult to tune so all pipes have the most optimal Courant number. However, it was found that a $\Delta t = 20$, with the given $\Delta x$ shown in table \ref{tab:pipe_data_nonlinear_linear_testv2}, gave the most realistic outcome, as values lower resulted in an output where distortion was visible.
+Where the first component in the simulated sewer network is a pipe followed by a tank where after 18 pipes follows. The first pipe and the two tanks have been added to the original sewer network shown in figure \ref{fig:sewer_line_diagram}. The first pipe is connected from the larger industrial area to the main sewer line indicated by a black circle in figure \ref{fig:kloakgrid_simplified}, where the first tank is placed as well. The reason for placing the tank there is, that it should be able to smoothen the flow of wastewater coming from the larger industry. Furthermore, the pipe is placed, such that the MPC should be able to use the delay for prediction.%, as it would be able to measure the disturbance going into the pipe at the industry, and thereby use it in the predictive model to calculate the most optimal control output to the pump. 
+However, as this is not possible, due to the problems experienced with the MPC controller,% not able to keep a flow output, where the flow variations are kept to a minimum, and as the prediction horizon is limited due to non-convexity 
+as explained in section \ref{se:model_predictive_control}. 
 
-In figure \ref{fig:simulation_output_first} the output of a simulation across two days are shown. 
+The second tank is placed just before the WWTP with the purpose of smoothing the flow into the WWTP. %However, in this simulation, the tanks will just transfer wastewater from the previous pipe to the pipe after the tank, due to the MPC controller is not able to control them optimally. 
+Due to the lack of a controller the tanks is given a static input during the simulation.
+%Furthermore several simulations were conducted to obtain an optimal $\Delta t$ as explained in section \ref{subse:stability_and_precision}. As the pipes are split into different sections and as the average flow height is also different from pipe to pipe, the Courant number varies from pipe to pipe. Thus it is difficult to tune so all pipes have the most optimal Courant number. However, it was found that a $\Delta t = 20$, with the given $\Delta x$ shown in table \ref{tab:pipe_data_nonlinear_linear_testv2} for the various pipes, gave an output, where distortion was visible.
+
+
+In figure \ref{fig:simulation_output_first} the output of a simulated period of two days can be seen. 
 
 \begin{figure}[H]
 \centering
@@ -81,8 +87,7 @@ In figure \ref{fig:simulation_output_first} the output of a simulation across tw
 \label{fig:simulation_output_first}
 \end{figure}  
 
-It is clear that flow variates to a great extent as is also shown in figure \ref{fig:flow_input_wwtp} from the WWTP at Fredericia. However, these two can not be directly compared, as the data from Fredericia also includes the wastewater from the southern part of the city. But it can give an indication that the simulation corresponds to what is happening in the reality. However, the simulated data results in a greater variation of flow than the data obtained from Fredericia. This could be due to the pump, as mention previously, that smoothen the flow from the northern part of the city and therefore the variations seen on figure \ref{fig:flow_input_wwtp} from Fredericia is due to disturbance coming from the southern part of the city. By taking the mean of the data in figure \ref{fig:flow_input_wwtp} the WWTP have a inflow at 0,28 $m^3/s$ and doing the same to the data in figure \ref{fig:simulation_output_first} the mean is 0,273 $m^3/s$. As the data from Fredericia are both from the northern and southern part of Fredericia the simulate flow is a bit high compared to that. However, this could be due to the flow profiles from the residential and industrial areas in the simulated results are estimated to be larger than the reality.     
-
+It is clear that the flow varies to a great extent as is also shown in figure \ref{fig:flow_input_wwtp} from the WWTP at Fredericia. However, these two can not be directly compared, as the data from Fredericia also includes the wastewater from the southern part of the city. But can give an indication that the simulation corresponds to what is happening in the reality. However, the simulated data results in a greater variation of flow than the data obtained from Fredericia. This could be due to the pump, as mention previously, that smoothen the flow from the northern part of the city and therefore the variations seen on figure \ref{fig:flow_input_wwtp} from Fredericia is due to disturbance coming from the southern part of the city. By taking the mean of the data in figure \ref{fig:flow_input_wwtp} the WWTP have a inflow at 0,28 $m^3/s$ and doing the same to the data in figure \ref{fig:simulation_output_first} the mean is 0,273 $m^3/s$. As the data from Fredericia are both from the northern and southern part of Fredericia the simulate flow is a bit high compared to that. However, this could be due to the flow profiles from the residential and industrial areas in the simulated results are estimated to be larger than the reality.     
 
 The disturbance coming from the brewery and bottling plant has a concentration on 0,1 $g/m^3$. As no data is given which could give an indication of the amount of COD the brewery is producing this is chosen for this test setup. As mentioned at the meeting with Fredericia seen in appendix \ref{app:resume} a person produce 120 COD or 0,2 $g/m^3$ across a day. Therefore it has been chosen to spread this amount per citizen over an entire day so it fits the flow pattern shown in figure \ref{fig:flow_profile_thulevej}. In figure \ref{fig:simulation_output_first_concentration} the concentration at the output for the last pipe is shown.
 
