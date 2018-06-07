@@ -132,7 +132,7 @@ By repeating this procedure the desired amount of pipes can be inserted into the
 
 The change of height within the tank is given by $h = Q_{in}-Q_{out}$.
 
-As the input to the tank is a height in an adjoint pipe the inflow to the tank needs to be obtained from it. This means that the derivative of h(Q) is needed. As mentioned in section \ref{sec:implementation} equation \ref{eq:flow_eq_given_a_height} can not be solved for h analytically. Instead a curve fitted polynomial is created for the inflowing pipe and the derivative is obtained by the MATLAB function ``differentiate''. The increase in height within the tank by the inflow is given by:
+As the input to the tank is a height in an adjoining pipe the inflow to the tank needs to be obtained from it. This means that the derivative of h(Q) is needed. As mentioned in section \ref{sec:implementation} equation \ref{eq:flow_eq_given_a_height} can not be solved for h analytically. Instead a curve fitted polynomial is created for the inflowing pipe and the derivative is obtained by the MATLAB function ``differentiate''. The increase in height within the tank by the inflow is given by:
 \begin{equation} \label{eq:heigh_in_flow_lin_tank}
 	h_{inflow} = h_{pipe} \cdot \frac{dh}{dQ} \cdot \frac{1}{A} \cdot \Delta t 
 \end{equation}

@@ -27,20 +27,20 @@ The flow in a filled pipe can be calculated with the equation describing the fri
 	S_f = \frac{n^2 Q^2}{A^2R^{4/3}}= \frac{n^2 v^2}{R^{4/3}}
 \label{Manning_formulav2}
 \end{equation}
-Solved for Q:
+Where n is Mannings roughness factor $[sm^{-1/3}]$, which is 0,0139 for concrete pipe, $S_f$ is a friction coefficient, R is the hydraulic radius [m], A is the area $[m^2]$ and Q is the flow $[m^3/s]$. This equation is solved for the flow:
 
 \begin{equation}
 	Q=\frac{1}{n} \cdot A\cdot R^{2/3} S_f^{1/2}			
 \end{equation}
 
-Where n is Mannings roughness factor $[sm^{-1/3}]$, which is 0,0139 for concrete pipe. R is the hydraulic radius [m], A is the area $[m^2]$ and Q is the flow $[m^3/s]$. Taking the square root on both sides and assuming that the equation is for a filled pipe, the following can be written:
+ Taking the square root on both sides and assuming that the equation is for a filled pipe, the following can be written:
 
 \begin{equation}
   Q_{f} = \frac{1}{n} A_{f} R_{f}^{0.635}S_f^{0,5} 
 \end{equation}
 
 
-Where the subscript f denotes for filled pipe. For a filled pipe the area is the cross section for a circle is $\pi \cdot r^2$. The hydraulic radius is the wetted area divided by the wetted perimeter. As the wetted area is the area for a circle and as the wetted perimeter is equal to the perimeter of a circle, $2\pi r$, the following can be written: 
+Where Q\_f, A\_f and R\_f are for a filled pipe. For a filled pipe the area for a circle is used, $\pi \cdot r^2$. The hydraulic radius is the wetted area divided by the wetted perimeter. As the wetted area, is the area for a circle, and as the wetted perimeter is equal to the perimeter of a circle, $2\pi r$, the following can be written: 
 \begin{equation}
 		Q_{f}= \frac{1}{n}\pi r^2\left(\frac{\pi r^2}{2\pi r}\right)^{0,635} S_f^{0,5} 
 \end{equation}

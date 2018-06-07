@@ -54,7 +54,7 @@ To give an overview of the system to be simulated, and to easily be able to loca
 \label{fig:sys_setup_matlab}
 \end{figure}
 
-An initialization scheme is constructed as per figure \ref{fig:simple_sewer} where adjoint pipes are considered as one part of the system and each tank is an individual part, which means that tanks are used as a separator between parts consisting of pipes.
+An initialization scheme is constructed as per figure \ref{fig:simple_sewer} where adjoining pipes are considered as one part of the system and each tank is an individual part, which means that tanks are used as a separator between parts consisting of pipes.
 The iterative scheme is shown in figure \ref{fig:preissmann_grid_scheme_exampel} requires that boundary conditions are found before the iterative Preissmann scheme can be started. It has been decided by the project group that input should be given in flow, as input in height would be needed to be specific for the pipe inserted, to make the simulation universal. This means that from an initial input flow the corresponding height in the pipes needs to be found. By equation \ref{eq:calc_for_flowv2} flow can be obtained from height, but that equation is transcendental, as it can not be solved analytically for height. This means that other means are necessary to obtain height from a flow. Various iterative schemes exist to solve such equations, but due to the desire to keep computation time at a minimum, use of such schemes is refrained from.
 A solution to the problem is that for each pipe, during initialization, a data set from zero to the diameter of the pipe in sufficient steps is created, and from which the corresponding flow is obtained by equation \ref{eq:calc_for_flowv2}. From this data, a curve fitted polynomial can be obtained by the MATLAB curve fitting toolbox or a lookup table can be constructed. Flow data is generated for 10.000 height steps for a pipe with the parameters shown in table \ref{tab:pipe_figure_parameters}.
 
@@ -89,12 +89,12 @@ The two plots in the figure are seemingly identical, but if observed closer the 
 \end{figure}
 
 
- As discussed in section \ref{sec:Structure}, a scheme which brings the system to an initial steady state could be necessary due to the nonlinear nature of the Saint-Venant equations. A test is performed where two adjoint pipes, with the specifications given in table \ref{tab:pipe_figure_parameters}, is calculated for a different amount of iterations. The boundary condition is found by the fitted polynomial for each pipe respectively. The result of this test is seen in figure \ref{fig:two_pipes_init_steady_state}. 
+ As discussed in section \ref{sec:Structure}, a scheme which brings the system to an initial steady state could be necessary due to the nonlinear nature of the Saint-Venant equations. A test is performed where two adjoining pipes, with the specifications given in table \ref{tab:pipe_figure_parameters}, is calculated for a different amount of iterations. The boundary condition is found by the fitted polynomial for each pipe respectively. The result of this test is seen in figure \ref{fig:two_pipes_init_steady_state}. 
 
 \begin{figure}[H]
  \centering
  \input{report/simulation/tikz/two_pipes_init_steady_state}
-\caption{Height and flow in two adjoint pipes, with identical specifications given in table \ref{tab:pipe_figure_parameters}, given boundary conditions found by fitted polynomial, and calculated at various amount of iterations with constant flow input of 0,25 $\text{m}^\text{3}$/s. The dotted line indicates an intersection between pipes.}
+\caption{Height and flow in two adjoining pipes, with identical specifications given in table \ref{tab:pipe_figure_parameters}, given boundary conditions found by fitted polynomial, and calculated at various amount of iterations with constant flow input of 0,25 $\text{m}^\text{3}$/s. The dotted line indicates an intersection between pipes.}
 \label{fig:two_pipes_init_steady_state}
 \end{figure}
 
@@ -144,7 +144,7 @@ In the above figure, the obtained height from the fitted polynomial is at it wor
 \end{figure}
 
 It is clearly shown that the deviation between the boundary conditions found by the lookup table and the values found by the following iterations of the Preissmann scheme is significantly decreased.
-Something else to note is that even though the difference seem to be non-existent it still required 189 iterations before the flow error was minimized to the same 1$\cdot \text{10}^{\text{-7}}$ as before. For this reason, it is decided to implement the scheme which brings the adjoint pipe parts into steady state before the simulation starts. A decisive choice is not made at this point whether the curve fitted polynomial or the lookup table should be implemented. The reason for this is that some imprecision can be accepted if reduction in simulation time can be obtained. A test will therefore be performed, in the simulation part of the implementation, to decided which scheme should be utilized. A flow chart of the initialization scheme, where initial values for the entire setup is found, can be seen in figure \ref{fig:init_sys_dia}.
+Something else to note is that even though the difference seem to be non-existent it still required 189 iterations before the flow error was minimized to the same 1$\cdot \text{10}^{\text{-7}}$ as before. For this reason, it is decided to implement the scheme which brings the adjoining pipe parts into steady state before the simulation starts. A decisive choice is not made at this point whether the curve fitted polynomial or the lookup table should be implemented. The reason for this is that some imprecision can be accepted if reduction in simulation time can be obtained. A test will therefore be performed, in the simulation part of the implementation, to decided which scheme should be utilized. A flow chart of the initialization scheme, where initial values for the entire setup is found, can be seen in figure \ref{fig:init_sys_dia}.
 
 \begin{figure}[H]
 \centering

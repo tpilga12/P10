@@ -19,7 +19,7 @@ From the problem statement, it is given that flow and concentration variations m
 %To obtain such an optimal behavior MPC is chosen as stated in section \ref{sec:problem_statement}. MPC solves an optimization problem at each time instant, k, where the main point is to compute a control vector, u that is feed to the system. 
 
 %is an advanced control method which depends on a dynamic model of the system. Where the model, constraints and a cost function is used to generate the most optimal sequence of control inputs to the system, thus obtaining a desired process behavior. However, only the first control input is used in the current timeslot. Hereafter, in the next timeslot, the MPC algorithm is recalculated to find the must optimal input signal for this timeslot and so on. In addition, MPC also take future disturbance into account thereby predicting an output sequence that is optimal including the disturbance. 
-An MPC algorithm consists of:
+MPC algorithm consists of:
 \\ 
 \textbf{Cost function} or control objective, $\CMcal{J}$, is a criterion when measuring e.g. the difference between future outputs and a reference while at the same time having in mind that any control action is costly for the system. Therefore the price is measured in the cost function over the prediction horizon, $H_p$. This function is therefore minimized with respect to the future control input to minimize the cost \cite{mpc_control_lecture_notes}. %Furthermore, only the first control input from the vector is used in each time instant thus this optimization is process is calculated at each time step where a new control input is calculated \cite{mpc_control_lecture_notes}.
 
@@ -461,7 +461,7 @@ However, to make the constraints depending on $\Delta \CMcal{U}$, the predicted 
 Inserting this into equation \ref{eq:constraint_states} the follwing is obtained:
 
 \begin{equation}
-	x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k) \leq x_{max}-\bar{x}
+	x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +\CMcal{B}W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k) \leq x_{max}-\bar{x}
      %x_{min}- \bar{x} \leq \CMcal{A}\hat{x}(k)+\CMcal{B}u(k-1)+\CMcal{B}_f\Delta\CMcal{U}(k)+\CMcal{BD}(k) \leq x_{max}-\bar{x}
  \end{equation} 
 % This is inserted in the following equation: 
@@ -475,7 +475,7 @@ Inserting this into equation \ref{eq:constraint_states} the follwing is obtained
 
  \begin{equation}
  \begin{aligned}
- x_{max}-\bar{x} &\geq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k)\\[10pt]
+ x_{max}-\bar{x} &\geq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +\CMcal{B}W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k)\\[10pt]
  \underbrace{\CMcal{B}W}_{\Lambda} \Delta\hat{\CMcal{U}}(k)&\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}\hat{x}(k)-\CMcal{B}\CMcal{V}\hat{u}(k-1)-\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_1}
         %\CMcal{B}_f\Delta\CMcal{U}(k)\leq \underbrace{x_{max}- \bar{x}-\CMcal{A}x(k)-\CMcal{B}u(k-1)-\CMcal{B}\CMcal{D}(k)}_{\Gamma_1}
 \end{aligned}
@@ -483,7 +483,7 @@ Inserting this into equation \ref{eq:constraint_states} the follwing is obtained
 
  \begin{equation}
  \begin{aligned}
- x_{min}- \bar{x} &\leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k)\\[10pt]
+ x_{min}- \bar{x} &\leq \CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1) +\CMcal{B}W\Delta \hat{\CMcal{U}}(k)+\CMcal{B\hat{D}}(k)\\[10pt]
  \underbrace{\CMcal{B}W}_{\Lambda} \Delta\hat{\CMcal{U}}(k) &\leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}\hat{x}(k)+\CMcal{B}\CMcal{V}\hat{u}(k-1)+\CMcal{B}\hat{\CMcal{D}}(k)}_{\Gamma_2}
    % -\CMcal{B}_f\Delta\CMcal{U}(k) \leq \underbrace{-x_{min}+\bar{x}+\CMcal{A}x(k)+\CMcal{B}u(k-1)+\CMcal{B}\CMcal{D}(k)}_{\Gamma_2}
   \end{aligned}
@@ -552,7 +552,7 @@ In figure \ref{fig:mpc_diagram} an illustration of a MPC controller is shown.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.70\textwidth]{report/control/pictures/mpc_diagram}
-	\caption{Diagram of an MPC controller}
+	\caption{Diagram of MPC controller.}
 	\label{fig:mpc_diagram}
 \end{figure}
 
@@ -563,8 +563,7 @@ In determining the length of the prediction horizon several considerations were 
 However, as the households are not the only disturbance in this setup this is not entirely true. Because, output from the larger industry e.g. the bottling plant and the brewery are stochastic can be let into the sewer without warning and the periodicity between the outlets are unknown. Furthermore, the amount of wastewater coming from the industry also varies between outlets. Therefore, it would be preferable not to place the tank next to the industry as it would not be able to predict the disturbance. 
 Thus the tank should be placed at a distance from the industry, where the distance can be used in the prediction model by measurements obtained at the outlet of the industry.% the disturbance coming from the industry by having a measurement of it. 
 
-During implementation of the MPC controller, it was discovered that the prediction horizon were restricted. It was not possible to set it higher than 20 iterations or 400 seconds, as the quadratic matrix $\CMcal{H}$ then became non-convex. The reason is most likely to be found in the linearized model, as some of the elements in the matrices are small, which can result in numerical problems. Therefore, when the system is predicted, it would cause the $\CMcal{H}$ matrix to have negative eigenvalues. Several tests were conducted to find a prediction horizon that did not result in a negative eigenvalues. A prediction horizon of 400 seconds equal to 20 iterations, would give a quadratic matrix which was convex. However, this restricts the distance from the tank, as the MPC were not able to predict far enough into the future to see the point where the flow variations is to be minimized.% will not be able to predict to the output. 
-Therefore, in the simulation of the MPC controller, this must be kept in mind.   
+During implementation of the MPC controller, it was discovered that the prediction horizon were restricted. It was not possible to set it higher than 20 iterations or 400 seconds, as the quadratic matrix $\CMcal{H}$ then became non-convex. The reason is most likely to be found in the linearized model, as some of the elements in the matrices are small, which can result in numerical problems. Therefore, when the system is predicted, it would cause the $\CMcal{H}$ matrix to have negative eigenvalues. Several tests were conducted to find a prediction horizon that did not result in a negative eigenvalues. A prediction horizon of 400 seconds equal to 20 iterations, would give a quadratic matrix which was convex. However, this restricts the distance from the tank, as the MPC were not able to predict far enough into the future to see the point where the flow variations is to be minimized. Therefore, in the simulation of the MPC controller, this must be kept in mind.   
 
 \subsection*{Results}
 In this subsection, the results obtained from testing the MPC controller will be covered. Two simulations will be conducted, one where the constraints are neglected and therefore the problem is minimized without any restriction and another simulation where the constraints are included. 
@@ -623,7 +622,7 @@ Here it can be seen that the MPC controller is able to minimize the disturbance 
 \label{fig:tank_height_first_test}
 \end{figure}
 
-As expected the tank would be overfilled, as the disturbance coming from the first pipe is much higher than the output of the second. However, the cost function does what is expected, as it keeps a steady output of the tank and has no knowledge about the limitations of the tank and therefore causes overflow. In the second simulation the same input is applied to the first pipe, where the constraints shown in equation \ref{eq:constriants_eq} is utilized. In this simulation, only constraints regarding the tank and the control input to the pump is applied. The reason for not having constraints on the height in the second pipe is, that it should be sufficient to have constraints on the control input to the pump. As only inputs between zerp and one is allowed. 
+As expected the tank would be overfilled, as the disturbance coming from the first pipe is much higher than the output of the second. However, the cost function does what is expected, as it keeps a steady output of the tank and has no knowledge about the limitations of the tank and therefore causes overflow. In the second simulation the same input is applied to the first pipe, where the constraints shown in equation \ref{eq:constriants_eq} is utilized. In this simulation, only constraints regarding the tank and the control input to the pump is applied. The reason for not having constraints on the height in the second pipe is, that it should be sufficient to have constraints on the control input to the pump. As only inputs between zero and one is allowed. 
 %where the constant is multiplied on the maximum flow that the second pipe can transfer and thereby not allow flows higher than that. 
 Furthermore, the height constraints for the tank goes from 0 to the maximum height which is set to 10 meters, in this simulation, as seen in table \ref{tab:tank_data_for_mpc_test}. The reason for not having constraints on the first pipe is, that it is impossible for the MPC controller to regulate the height in that part. In figure \ref{fig:tank_height_second_test_with_constraints} the height of the tank is shown from the second simulation.        
 
