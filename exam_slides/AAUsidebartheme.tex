@@ -1,0 +1,128 @@
+\RequirePackage{silence}
+\documentclass[10pt,aspectratio=1610,t,xcolor={dvipsnames}]{beamer}
+\usepackage{etex}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{color, colortbl}
+\usetheme[
+%%% options passed to the outer them
+%    hidetitle,           % hide the (short) title in the sidebar
+%    hideauthor,          % hide the (short) author in the sidebar
+%    hideinstitute,       % hide the (short) institute in the bottom of the sidebar
+%    shownavsym,          % show the navigation symbols
+%    width=2cm,           % width of the sidebar (default is 2 cm)
+%    hideothersubsections,% hide all subsections but the subsections in the current section
+%    hideallsubsections,  % hide all subsections
+    left               % right of left position of sidebar (default is right)
+%%% options passed to the color theme
+%    lightheaderbg,       % use a light header background
+  ]{AAUsidebar}
+
+% If you want to change the colors of the various elements in the theme, edit and uncomment the following lines
+% Change the bar and sidebar colors:
+%\setbeamercolor{AAUsidebar}{fg=red!20,bg=red}
+%\setbeamercolor{sidebar}{bg=red!20}
+% Change the color of the structural elements:
+%\setbeamercolor{structure}{fg=red}
+% Change the frame title text color:
+%\setbeamercolor{frametitle}{fg=blue}
+% Change the normal text color background:
+%\setbeamercolor{normal text}{bg=gray!10}
+% ... and you can of course change a lot more - see the beamer user manual.
+\WarningsOff
+%%%% WARNING HACKS %%%%
+%\hfuzz=\maxdimen
+\hbadness=\maxdimen
+\vbadness=\maxdimen
+%\vfuzz=\maxdimen
+
+\usepackage{graphicx}
+\usepackage{multimedia}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+%\setbeamercovered{transparent}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+\usepackage{helvet}
+
+
+
+
+% colored hyperlinks
+\newcommand{\chref}[2]{%
+  \href{#1}{{\usebeamercolor[bg]{AAUsidebar}#2}}%
+}
+
+\title[Agenda]% optional, use only with long paper titles
+{Control of Photovoltaic and Diesel Hybrid System}
+
+%\subtitle{Total fizz}  % could also be a conference name
+
+\date{December 22, 2016}
+
+\author[Group 731] % optional, use only with lots of authors
+{
+	Group 731 \\
+  \scalebox{0.6}{Daniel Bähner Andersen}\\ \vspace{-1mm}
+  \scalebox{0.6}{Jacob Naundrup Pedersen}\\ \vspace{-1mm}
+  \scalebox{0.6}{Krisztian Mark Balla}\\ \vspace{-1mm}
+  \scalebox{0.6}{Nicolaj Vinkel Christensen}\\ \vspace{-1mm}
+  \scalebox{0.6}{Thomas Holm Pilgaard}\\ \vspace{-1mm}
+  %%\href{mailto:XX13@student.aau.dk}{{\tt mksi13@student.aau.dk}}
+}
+% - Give the names in the same order as they appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation. See the beamer manual for an example
+
+\institute[
+%  {\includegraphics[scale=0.2]{aau_segl}}\\ %insert a company, department or university logo
+  Dept.\ of Electronic Systems\\
+  Aalborg University\\
+  Denmark
+] % optional - is placed in the bottom of the sidebar on every slide
+{% is placed on the title page
+  Department of Electronic Systems\\
+  Aalborg University\\
+  Denmark
+  
+  %there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+
+% specify a logo on the titlepage (you can specify additional logos an include them in 
+% institute command below
+\pgfdeclareimage[height=1.5cm]{titlepagelogo}{AAUgraphics/aau_logo_new} % placed on the title page
+%\pgfdeclareimage[height=1.5cm]{titlepagelogo2}{graphics/aau_logo_new} % placed on the title page
+\titlegraphic{% is placed on the bottom of the title page
+  \pgfuseimage{titlepagelogo}
+%  \hspace{1cm}\pgfuseimage{titlepagelogo2}
+}
+
+\input{Extrafeatures.tex}
+
+
+\begin{document}
+\include{tikz_magi}
+% the titlepage
+{\aauwavesbg%
+\begin{frame}[plain,noframenumbering] % the plain option removes the sidebar and header from the title page
+  \titlepage
+\end{frame}}
+%%%%%%%%%%%%%%%%
+
+% TOC
+\begin{frame}{Agenda}{}
+\tableofcontents
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%
+\input{Sections/part1_main.tex}
+%%%%%%%%%%%%%%%%
+\input{Sections/part2_main.tex}
+
+\end{document}
