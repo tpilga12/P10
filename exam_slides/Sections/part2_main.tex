@@ -10,7 +10,7 @@
 \begin{itemize}
 	
 \item Implementation
-\item Control
+\item Kontrol
 \item Results
 \item Discussion
 \item Conclusion
@@ -155,33 +155,187 @@
 \end{frame}
 
 
-\section{Control}
-\begin{frame}{Control}{Linearization}
-    
+\section{Kontrol}
+
+\begin{frame}{Kontrol}{Linearisering}
+ \vfill\vfill\centering    
+\begin{itemize}
+	\item Linearisering af ulinear model
+	\item Opstilles på state space form
+
+\end{itemize}
+\begin{equation}\label{eq:linearization_Continuity}
+\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
+\end{equation}
+\begin{equation}
+	\frac{\partial A(h)}{\partial h}\frac{\partial h(x,t)}{\partial t} + \frac{\partial Q(h)}{\partial h}\frac{\partial h(x,t)}{\partial x}=0
+\end{equation}
+\vfill\vfill
+\end{frame}
+
+\begin{frame}{Kontrol}{Linearisering}
+ \vfill\vfill\centering    
+\begin{itemize}
+	\item Priessmann scheme
+
+\end{itemize}
+\begin{equation}\label{eq:preissmann_skrevet_om}
+\begin{aligned}
+	&\frac{\partial A(h)}{\partial h} \left(\frac{1}{2}\frac{h_{j+1}^{i+1}-h_{j+1}^i}{\Delta t} +  \frac{1}{2} \frac{h_{j}^{i+1} - h_j^i}{\Delta t}\right) + \\ &\frac{\partial Q(h)}{\partial h}\left(\theta \frac{h_{j+1}^{i+1}-h_j^{i+1}}{\Delta x}+(1-\theta)\frac{h_{j+1}^i - h_j^i}{\Delta x}\right)=0
+\end{aligned}
+\end{equation}
+\vfill\vfill
+\end{frame}
+
+
+
+
+\begin{frame}{Kontrol}{Linearisering}
+ \begin{equation}
+\begin{aligned}
+	   \underbrace{\begin{bmatrix}
+	    	1 & 0    & 0    &\cdots &0\\
+	    	0 & b_1  & 0    &\cdots &0\\
+	    	0 &a_{1} & b_2  &\cdots &\vdots	  \\
+	    \vdots&\vdots&\ddots&\ddots & 0  \\
+	        0 & 0    &0  	&a_{m-1}&  b_m\\
+	   \end{bmatrix}}_{\xi}
+	    \underbrace{\begin{bmatrix}
+		h_{0}^{i+1}\\
+		h_{1}^{i+1} \\
+		h_{2}^{i+1} \\			
+		\vdots		\\
+		h_{m}^{i+1}\\
+	\end{bmatrix}}_{x(k+1)}
+	=& 
+	\underbrace{\begin{bmatrix}
+	    	0 &  0   &   0    & \cdots   &0\\
+	    c_{0} & d_1  &   0    &  \cdots  &0\\
+	    0	  &c_{1} & d_2    & \cdots   &0 \\
+	    \vdots&\vdots&\ddots  & \ddots   & \vdots\\
+	    0	  & 0    &  0     &  c_{m-1} &  d_m\\
+	    \end{bmatrix}}_{A}
+	    	\underbrace{\begin{bmatrix}
+		h_{0}^{i} \\
+		h_{1}^{i} \\
+		h_{2}^{i}\\
+		\vdots		\\
+		h_{m}^{i}\\
+		\end{bmatrix}}_{x(k)}
+	+ \\ & \underbrace{\begin{bmatrix}
+		 1\\
+		 -a_0 \\
+		 0\\
+		 \vdots \\
+		 0\\
+		\end{bmatrix}}_{B}
+		h_0^{i+1}
+		% \underbrace{\begin{bmatrix}
+		% h_{0}^{i} \\
+		% h_{0}^{i+1} \\
+		% \end{bmatrix}}_{u}
+		+ 
+		\underbrace{\begin{bmatrix}
+		 \frac{dh}{dQ}\\
+		 0 \\
+		 0\\
+		 \vdots \\
+		 0\\
+		\end{bmatrix}}_{B_d}
+		d_{0}^{i+1}
+	\end{aligned}
+\end{equation}   
 
 
 \end{frame}
-\begin{frame}{Control}{Linearization}
-    
+\begin{frame}{Kontrol}{Linearisering}
+\begin{equation}\label{eq:tank_linear_implement_ss}
+\begin{aligned}
+      & \underbrace{\begin{bmatrix}
+            1 & 0       & 0         &0          &0          &0   &0\\
+            0 & b_{1,1} & 0         &0          &0          &0  &0\\
+            0 &a_{1,1}  & b_{1,2}   & 0         &0          &0 &0\\
+            0 &0        & 0         & 1         & 0         &0      &0\\
+             0 &0        & 0         &  0        & 1         &0   & 0        \\
+            0 & 0       &0          &  0         &a_{2,1}    &  b_{2,2}&0       \\
+            0 & 0       & 0         &   0        &     0      & a_{2,2}  & b_{2,3}\\  
+       \end{bmatrix}}_{\xi}
+        \underbrace{\begin{bmatrix}
+        h_{1,0}^{i+1}\\
+        h_{1,1}^{i+1} \\
+        h_{1,2}^{i+1} \\ 
+        h_{tank}^{i+1} \\          
+        h_{2,0}^{i+1}     \\
+        h_{2,1}^{i+1}\\
+        h_{2,2}^{i+1}\\
+    \end{bmatrix}}_{x(k+1)}
+    \\ &=
+    \underbrace{\begin{bmatrix}
+        0       &  0    &   0    & 0     &0         &0          &0 \\
+        c_{1,0} &d_{1,1}&   0    &  0    &0         &0          &0\\
+        0       &c_{1,1}& d_{1,2}& 0     &0         &0       &0\\
+        0       & 0     & e    & 1     &0         &0          &0           \\
+        0       & 0     &   0    & 0     & 0        &0          &0        \\
+        0       & 0     &  0     & 0    &c_{2,0}    &  d_{2,1} &0  \\
+         0       & 0     &  0    & 0    &0          &c_{2,1}    &  d_{2,2}   \\
+        \end{bmatrix}}_{A}
+            \underbrace{\begin{bmatrix}
+        h_{1,0}^{i} \\
+        h_{1,1}^{i} \\
+        h_{1,2}^{i} \\
+        h_{tank}^{i}\\
+        h_{2,0}^{i}\\
+        h_{2,1}^{i}\\
+          h_{2,2}^{i}\\
+        \end{bmatrix}}_{x(k)}
+    +  \underbrace{\begin{bmatrix}
+         1 & 0\\
+         -a_0& 0 \\
+         0 & 0\\
+          0& -f \\
+          0& g \\ 
+          0& 0 \\
+          0& 0 \\
+        \end{bmatrix}}_{B}
+        \begin{bmatrix}
+        h_0^{i+1}\\
+        u_{tank} \\
+        \end{bmatrix}
+    \end{aligned}
+\end{equation}    
 
 
 \end{frame}
-\begin{frame}{Control}{Linearization}
+
+\begin{frame}{Kontrol}{Linearisering}
+   \vfill\vfill\centering
     \begin{minipage}[t]{0.48\linewidth}
 \begin{itemize}
-	   	\item Sinus
-	   	\item Flow profiles 
+	   	\item Sinus input
 \end{itemize}    
 \end{minipage}\hfill
 \begin{minipage}[t]{0.48\linewidth}
-
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+	\rowcolor[HTML]{9B9B9B} 
+Type  & Components & Sections \\ \hline
+Pipe  & 1         & 35       \\ \hline
+Tank  & 1         & 1        \\ \hline
+Pipe  & 18        & 227      \\ \hline
+Total & 20        & 263      \\ \hline
+\end{tabular}
+\caption{System setup.}
+\label{tab:system_setup_nonlinear_linear_test}
+\end{table}
 
 \end{minipage}
-
+\vfill\vfill
 
 \end{frame}
 
-\begin{frame}{Control}{Linearization}
+\begin{frame}{Kontrol}{Linearisering}
     
 \begin{figure}[H]
 \centering
@@ -192,17 +346,29 @@
 
 \end{frame}
 
-\begin{frame}{Control}{MPC}
-    
+\begin{frame}{Kontrol}{MPC}
+    \vfill\vfill\centering
 \begin{itemize}
 	\item Cost function
+	\begin{itemize}
+		\item Begrænset til minimiere af output
+	\end{itemize}
 	\item Constraints
+	\begin{itemize}
+		\item Højde
+		\item Kontrol input
+	\end{itemize}
 	\item Linear model
 \end{itemize}
-
+\vfill\vfill
 \end{frame}
 
-\begin{frame}{Control}{MPC}
+
+
+
+
+\begin{frame}{Kontrol}{MPC}
+  \vfill\vfill\centering
     \begin{itemize}
     	\item Bestemmelse af Prediction horizon
     	\begin{itemize}
@@ -212,10 +378,10 @@
     	\item Begrænsning af Prediction horizon
     \end{itemize}
 
-
+\vfill\vfill
 \end{frame}
 
-\begin{frame}{Control}{MPC}
+\begin{frame}{Kontrol}{MPC}
  \begin{figure}[H]
  \centering
  \input{figures/MPC_test_output_first_test}
@@ -226,7 +392,7 @@
 
 \end{frame}
 
-\begin{frame}{Control}{MPC}
+\begin{frame}{Kontrol}{MPC}
 \begin{figure}[H]
  \centering
  \input{figures/tank_height_first_test}
@@ -237,7 +403,7 @@
 
 \end{frame}
 
-\begin{frame}{Control}{MPC}
+\begin{frame}{Kontrol}{MPC}
  \begin{figure}[H]
  \centering
  \input{figures/MPC_test_output_second_test_with_constraints}
@@ -320,7 +486,7 @@ Total & 21        & 282      \\ \hline
 \end{frame}
 
 
-\section{Discussion}
+\section{Discussion/Conclusion}
 \begin{frame}{Discussion}{}
 \begin{itemize}
 	\item Courant's number
@@ -328,7 +494,7 @@ Total & 21        & 282      \\ \hline
 \end{itemize}
 \end{frame}
 
-\section{Conclusion}
+%\section{}
 
 \begin{frame}{Conclusion}{}
 \begin{itemize}
