@@ -43,19 +43,19 @@
 		\item sektioner 
 		\item $\text{S}_\text{b}$ (Hældning) [\textperthousand]
 		\item $\Delta$x = Længde/Sektioner [m]
-		\item Diameter [meter]
-		\item Theta (parameter used in Preissmann scheme)
+		\item Diameter [m]
+		\item Theta 
 		\item $\text{Q}_{\text{f}}$[$\text{m}^\text{3}/\text{s}$]
-		\item Side/lateral inflow present 
-		\item Section location in data 
+		\item Side inflow  
+		\item Placering i data 
 	\end{itemize}
 	\item Tank
 	\begin{itemize}
-		\item Size [$\text{m}^\text{3}$]
-		\item Height [m]
-		\item Area = Size / Height [$\text{m}^\text{2}$]
+		\item Størrelse [$\text{m}^\text{3}$]
+		\item Højde [m]
+		\item Areal = Size / Height [$\text{m}^\text{2}$]
 		\item Maximum outflow [$\text{m}^\text{3}/\text{s}$]
-		\item Section location in data 
+		\item Placering i data 
 	\end{itemize}
 	
 \end{enumerate}
@@ -120,16 +120,16 @@
  \vfill\vfill
 \end{frame}
 
-\begin{frame}{Implementering}{Initialisering}
-\begin{figure}[H]
- \centering
- \input{figures/curvefit_comparison_split}
-%\caption{}
-\label{fig:curvefit_comparision_split}
-\end{figure}
+% \begin{frame}{Implementering}{Initialisering}
+% \begin{figure}[H]
+%  \centering
+%  \input{figures/curvefit_comparison_split}
+% %\caption{}
+% \label{fig:curvefit_comparision_split}
+% \end{figure}
 
 
-\end{frame}
+% \end{frame}
 
 
 
@@ -189,27 +189,27 @@
 \begin{frame}{Kontrol}{Linearisering}
  \vfill\vfill\centering    
 \begin{itemize}
-	\item Linearisering af ulinear model
-	\item Opstilles på state space form
+	\item Linearisering af ulineær model \vspace{5mm}
+	\item Opstilles på state space form   \vspace{5mm}
 
 \end{itemize}
-\begin{equation}\label{eq:linearization_Continuity}
+\begin{equation*}\label{eq:linearization_Continuity}
 \frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
-\end{equation}
-\begin{equation}
+\end{equation*}\vspace{5mm}
+\begin{equation*}
 	\frac{\partial A(h)}{\partial h}\frac{\partial h(x,t)}{\partial t} + \frac{\partial Q(h)}{\partial h}\frac{\partial h(x,t)}{\partial x}=0
-\end{equation}
+\end{equation*}
 \vfill\vfill
 \end{frame}
 
-\begin{frame}{Kontrol}{Linearisering}
+\begin{frame}{Kontrol}{Opsætning af state space}
  \vfill\vfill\centering    
 \begin{itemize}
-	\item Priessmann scheme
-	\item Opsat på matrix og vektor form
+	\item Priessmann scheme \vspace{5mm}
+	\item Opsat på matrix og vektor form \vspace{5mm}
 
 \end{itemize}
-\begin{equation}\label{eq:rearrange_continuity_eq}
+\begin{equation*}\label{eq:rearrange_continuity_eq}
 \begin{aligned}
 	&\begin{bmatrix}
 		\underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{a} & \underbrace{\frac{1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{\theta}{\Delta x}\frac{\partial Q}{\partial h}}_{b} 
@@ -218,7 +218,7 @@
 		h_{j}^{i+1} \\
 		h_{j+1}^{i+1}
 	\end{bmatrix}
-	= \\ -
+	= \\ \vspace{5mm} -
 	&\begin{bmatrix}
 		\underbrace{\frac{-1}{2\Delta t}\frac{\partial A}{\partial h}-\frac{(1-\theta)}{\Delta x}\frac{\partial Q}{\partial h}}_{c} & \underbrace{\frac{-1}{2\Delta t}\frac{\partial A}{\partial h}+\frac{(1-\theta)}{\Delta x}\frac{\partial Q}{\partial h}}_{d} 
 	\end{bmatrix}
@@ -227,15 +227,16 @@
 		h_{j+1}^{i}
 	\end{bmatrix}
 	\end{aligned}
-\end{equation}
+\end{equation*}
 \vfill\vfill
 \end{frame}
 
 
 
 
-\begin{frame}{Kontrol}{Linearisering}
- \begin{equation}
+\begin{frame}{Kontrol}{Opsætning på state space}
+\vfill \vfill \centering
+ \begin{equation*}
 \begin{aligned}
 	   \underbrace{\begin{bmatrix}
 	    	1 & 0    & 0    &\cdots &0\\
@@ -266,7 +267,7 @@
 		\vdots		\\
 		h_{m}^{i}\\
 		\end{bmatrix}}_{x(k)}
-	+ \\ & \underbrace{\begin{bmatrix}
+	+ \\ \vspace{5mm} & \underbrace{\begin{bmatrix}
 		 1\\
 		 -a_0 \\
 		 0\\
@@ -288,17 +289,18 @@
 		\end{bmatrix}}_{B_d}
 		d_{0}^{i+1}
 	\end{aligned}
-\end{equation}   
-
-
+\end{equation*}   
+\vfill \vfill
 \end{frame}
-\begin{frame}{Kontrol}{Linearisering}
+
+\begin{frame}{Kontrol}{Indsætning af tank}
+\vfill \vfill \centering
 \begin{itemize}
-	\item e - Inflow
-	\item f - Reducering af højden i tank
-	\item g - Højden i det efterfølge rør
+	\item e - Forøgelse af højde i tank(inflow)
+	\item f - Reducering af højde i tank(Outflow)
+	\item g - Inflow i efterfølgende rør
 \end{itemize}
-\begin{equation}\label{eq:tank_linear_implement_ss}
+\begin{equation*}\label{eq:tank_linear_implement_ss}
 \begin{aligned}
       & \underbrace{\begin{bmatrix}
 %            1 & 0       & 0         &0          &0          &0   &0\\
@@ -359,16 +361,15 @@
         u_{tank} \\
         \end{bmatrix}
     \end{aligned}
-\end{equation}    
-
-
+\end{equation*}    
+\vfill \vfill
 \end{frame}
 
 \begin{frame}{Kontrol}{Linearisering}
    \vfill\vfill\centering
     \begin{minipage}[t]{0.48\linewidth}
 \begin{itemize}
-		\item Samligning af ulinear og linear model
+		\item Samligning af ulineær og linear model
 		\item System setup
 	   	\item Sinus input
 \end{itemize}    
@@ -412,14 +413,14 @@ Total & 20        & 263      \\ \hline
 \begin{itemize}
 	\item Cost function
 	\begin{itemize}
-		\item Begrænset til minimiere af output
+		\item Afgrænset til at minimiere output variationer
 	\end{itemize}
 	\item Constraints
 	\begin{itemize}
 		\item Højde
 		\item Kontrol input
 	\end{itemize}
-	\item Linear model
+	\item Prediction model
 \end{itemize}
 \vfill\vfill
 \end{frame}
@@ -442,7 +443,7 @@ Total & 20        & 263      \\ \hline
     	\end{itemize}
     	\item Begrænsning af Prediction horizon
     	\item System setup
-    	\item Forstyrrelse input
+    	\item Forstyrrelses input
     \end{itemize}   
 \end{minipage}\hfill
 \begin{minipage}[t]{0.48\linewidth}
@@ -500,7 +501,7 @@ Total & 20        & 263      \\ \hline
 \vfill \vfill\centering
 \begin{minipage}[t]{0.48\linewidth}
 \begin{itemize}
-	   	\item System setup
+	   	\item System setup, efterligning af Fredericia
 	   	\item Flow profiler 
 \end{itemize}    
 \end{minipage}\hfill
@@ -569,8 +570,9 @@ Total & 21        & 282      \\ \hline
 \begin{frame}{Diskussion}{}
 \vfill \vfill \centering
 \begin{itemize}
-	\item Courant's number
+	\item Courant's tal
 	\item Model reduction
+	\item Wastewater of Aerobic/Anaerobic Transformations in Sewers (WATS)
 \end{itemize}
 \vfill \vfill
 \end{frame}
