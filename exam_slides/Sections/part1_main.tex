@@ -71,10 +71,32 @@ such that optimal performance can be obtained from a WWTP.
 
 \begin{frame}{Udgangspunkt i et virkeligt setup}{}
 \vfill\vfill\centering
-\begin{itemize}
-	\item Data fra industri.
-	\item Flow profiler af beboelse og mindre industri.
-\end{itemize}
+
+
+	\begin{columns}
+	\begin{column}{0.4\textwidth}
+		\begin{itemize}
+			\vspace{15mm}
+			\item Data fra industri.
+			\vspace{9mm}
+			\item Flow profiler af beboelse og mindre industri.
+		\end{itemize}
+	\end{column}
+
+	\begin{column}{0.6\textwidth}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.7\textwidth]{Sections/pictures/Carlsberg_data.png}
+		\end{figure}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.7\textwidth]{Sections/pictures/poopflow.png}
+		\end{figure}
+	\end{column}
+\end{columns}
+
+
+
 \vfill\vfill	
 \end{frame}
 
@@ -226,6 +248,15 @@ such that optimal performance can be obtained from a WWTP.
 
 \begin{frame}{Preissmann basic}{}
 \vfill\vfill\centering
+\begin{itemize}
+	\item Kinematisk bølge aproksimering.
+	\item Fyldningsgrad kurve for rør.
+\end{itemize}
+\vfill\vfill		
+\end{frame}
+
+\begin{frame}{Preissmann basic}{}
+\vfill\vfill\centering
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.7\textwidth]{Sections/pictures/preissmann_scheme.pdf}
@@ -241,3 +272,56 @@ such that optimal performance can be obtained from a WWTP.
 		\end{figure}
 \vfill\vfill		
 \end{frame}
+
+
+\begin{frame}{Preissmann stabilitet}{}
+\vfill\vfill\centering
+	\begin{columns}
+		\begin{column}{0.25\textwidth}
+		\vspace{20mm}
+			\begin{itemize}
+				\item Ubetinget stabilitet
+			\end{itemize}
+		\end{column}
+
+		\begin{column}{0.7\textwidth}
+			\begin{figure}[H]
+	  			\input{Sections/tikz/stability_theta_test_05_065_1}
+			\end{figure}
+		\end{column}
+	\end{columns}			
+\vfill\vfill		
+\end{frame}
+
+
+
+\begin{frame}{Courant's tal}{}
+\vfill\vfill\centering
+
+\begin{itemize}
+	\item<1-> Indikation af præcision  
+	\item<2-> $C_r =  \dfrac{\sqrt{g \cdot \overline{\text{H}}} \cdot \Delta t}{\Delta x}$ 
+\end{itemize}
+
+\vfill\vfill		
+\end{frame}
+
+
+
+\begin{frame}{Courant's tal}{}
+\vfill\vfill\centering
+\begin{figure}[H]
+  \input{Sections/tikz/stability_test_theta_0_5}
+\end{figure}
+\vfill\vfill		
+\end{frame}
+
+\begin{frame}{Courant's tal}{}
+\vfill\vfill\centering
+\begin{figure}[H]
+  \input{Sections/tikz/stability_test_theta_0_65}
+\end{figure}
+\vfill\vfill		
+\end{frame}
+
+
