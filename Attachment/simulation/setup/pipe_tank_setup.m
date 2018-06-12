@@ -59,6 +59,36 @@ if call == 1
     order = order +1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+  %%%%%%%%%%%%%%%% Tank1 %%%%%%%%%%%%%%%%%%%
+    tank.size = 90; %m^3
+    tank.height = 10; %m
+    tank.area = tank.size/tank.height; %m^2
+    tank.Q_out_max = 0.5; % m^3/s
+    tank.data_location = order;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    init_tank(tank_load) = tank;
+    tank_load = tank_load + 1;
+    sys_order{order} = ('Tank');
+    order = order +1;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+%%%%%%%%%%%%%%%%%% pipe1.1 %%%%%%%%%%%%%%
+    pipe.length = 100; %303 length in meter
+    pipe.sections = 5; %15 Number of sections,
+    pipe.Dx = pipe.length/pipe.sections; %[m] grid distance
+    pipe.Sb = 0.003; %bed slope
+    pipe.d = 0.9; %[m] Diameter
+    pipe.Theta = 0.65; %
+    pipe.Qf = 72*(pipe.d/4)^0.635*pi*(pipe.d/2)^2*pipe.Sb^0.5;
+    pipe.side_inflow = 0; %side inflow last pipe should not have any.
+    pipe.data_location = order;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    init_pipe(pipe_load) = pipe;
+    pipe_load = pipe_load +1;
+    sys_order{order} = ('Pipe');
+    order = order +1;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % %%%%%%%%%%%%%%%%%% pipe1.2 %%%%%%%%%%%%%%
 %     pipe.length = 27; % length in meter
 %     pipe.sections = 1; % Number of sections,

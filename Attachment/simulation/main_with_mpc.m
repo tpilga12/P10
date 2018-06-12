@@ -3,7 +3,7 @@ clc
 clear all
 clear path
 format long
-addpath(['functions'], ['setup'])
+addpath(['functions'], ['setup'], ['disturbance'])
 global Dt iterations error 
 % close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
