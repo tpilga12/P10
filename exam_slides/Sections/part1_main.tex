@@ -163,10 +163,14 @@ such that optimal performance can be obtained from a WWTP.
 \begin{columns}
 	\begin{column}{0.4\textwidth}
 		\begin{itemize}
-			\vspace{9mm}
-			\item<1-> $	A \cdot \dfrac{\partial C}{\partial t} + Q \cdot \dfrac{\partial C}{\partial x} = 0$
-			\vspace{9mm}
-			\item<2-> Afhænger af kendt $A$ og $Q$.
+			\vspace{7mm}
+			\item<1-> $	\dfrac{\partial (A \cdot C)}{\partial t} + \dfrac{\partial (Q \cdot C)}{\partial x} = 0$
+			\vspace{4mm}
+			\item<2-> $ C \cdot \dfrac{\partial (A)}{\partial t} + C \cdot \dfrac{\partial (Q )}{\partial x} = 0$
+			\vspace{4mm}
+			\item<3-> $	A \cdot \dfrac{\partial C}{\partial t} + Q \cdot \dfrac{\partial C}{\partial x} = 0$
+			\vspace{4mm}
+			\item<4-> Afhænger af kendt $A$ og $Q$.
 		\end{itemize}
 	\end{column}
 	
@@ -188,9 +192,13 @@ such that optimal performance can be obtained from a WWTP.
 	\begin{column}{0.4\textwidth}
 		\begin{itemize}
 			\vspace{9mm}
-			\item<1-> Flow: \\ $Q_3 = Q_1 + Q_2$
+			\item<1-> Flow: \\ 
+			\vspace{2mm}
+			$Q_3 = Q_1 + Q_2$
 			\vspace{9mm}
-			\item<2-> Koncentrat: \\ $C_3 = \dfrac{C_1 \cdot Q_1 + C_2 \cdot Q_2}{Q_1 + Q_2}$
+			\item<2-> Koncentrat: \\ 
+			\vspace{3mm}
+			$C_3 = \dfrac{C_1 \cdot Q_1 + C_2 \cdot Q_2}{Q_1 + Q_2}$
 		\end{itemize}
 	\end{column}
 
@@ -209,13 +217,13 @@ such that optimal performance can be obtained from a WWTP.
 	\begin{columns}
 	\begin{column}{0.75\textwidth}
 		\begin{itemize}
-			\vspace{7mm}
+			\vspace{4mm}
 			\item<1-> Højde: \\ 
-			\vspace{5mm}	
+			\vspace{3mm}	
 			$\dfrac{dh(t)}{dt}=\dfrac{1}{A} \left(Q_{in}(t)-u(t) \cdot \overline Q \right)$
-			\vspace{7mm}
+			\vspace{3mm}
 			\item<2-> Koncentrat: \\ 
-			\vspace{7mm}
+			\vspace{3mm}
 			$\dfrac{dC_{tank}(t)}{dt} = \dfrac{1}{A} \left(C_{in}(t) \cdot \dfrac{Q_{in}(t)}{h(t)} - C_{tank}(t) \cdot \dfrac{Q_{out}(t)}{h(t)} \right)$
 		\end{itemize}
 	\end{column}
@@ -236,12 +244,12 @@ such that optimal performance can be obtained from a WWTP.
 \vfill\vfill\centering
 
 \begin{itemize}
-	\item \textbf{Intialisering}
-	\item<1-> Opsætning af komponenter.
-	\item<2-> System i steady state.
-	\item<3-> \textbf{Simulering}
-	\item<4-> Iterativ beregning af komponenterne
-	\item<5-> \textbf{Gennemgang af resultat}
+	\item<1-> \textbf{Intialisering}
+	\item<2-> Opsætning af komponenter.
+	\item<3-> System i steady state.
+	\item<4-> \textbf{Simulering}
+	\item<5-> Iterativ beregning af komponenterne
+	\item<6-> \textbf{Gennemgang af resultat}
 \end{itemize}
 
 \vfill\vfill		
