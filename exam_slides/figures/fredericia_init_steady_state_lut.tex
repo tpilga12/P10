@@ -343,16 +343,18 @@ xlabel style={font=\color{white!15!black}},
 xlabel={Distance [m]},
 ymin=0.24,
 ymax=0.275,
+scaled x ticks = true,
 ylabel style={font=\color{white!15!black}},
 ylabel={$\text{Flow [m}^\text{3}\text{/s]}$},
 y tick label style={
         /pgf/number format/.cd,
             fixed,
             fixed zerofill,
-            precision=3,
+            precision=2,
         /tikz/.cd  },
 axis background/.style={fill=white},
-legend style={legend cell align=left, align=left, draw=white!15!black}
+legend style={legend cell align=left, align=left, draw=white!15!black},
+legend style={at={(0.03,0.75)},anchor=west}
 ]
 \addplot [color=mycolor1]
   table[row sep=crcr]{%
