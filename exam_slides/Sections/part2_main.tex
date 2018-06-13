@@ -36,7 +36,7 @@
     
 \begin{table}[H]
 \begin{enumerate} 
-	\item Pipe
+	\item Rør
 	\begin{itemize}
 		\item Længde [m]
 		\item Sektioner 
@@ -53,7 +53,7 @@
 		\item Størrelse [$\text{m}^\text{3}$]
 		\item Højde [m]
 		\item Areal = Størrelse / Højde [$\text{m}^\text{2}$]
-		\item Maximum outflow [$\text{m}^\text{3}/\text{s}$]
+		\item Maksimum outflow [$\text{m}^\text{3}/\text{s}$]
 		\item Placering i data 
 	\end{itemize}
 	
@@ -161,7 +161,7 @@
 \begin{frame}{Implementering}{Simulering}
 \vfill \vfill \centering
     \begin{itemize}
-    	\item Iterere igennem rør og tank for hvert tidsskridt 
+    	\item Beregner parameter for hvert tidsskridt 
     \end{itemize}
 
     \begin{figure}[H]
@@ -191,10 +191,10 @@
 \begin{frame}{Kontrol}{Linearisering}
  \vfill\vfill\centering    
 \begin{itemize}
-	\item Linear model til MPC\vspace{5mm}
+	\item Lineær model til MPC\vspace{5mm}
 	\item Linearisering af kontinuitets ligningen \vspace{5mm}
 	\item Højde states \vspace{5mm}
-	\item Priessmann scheme \vspace{5mm}
+	\item Preissmann scheme \vspace{5mm}
 \end{itemize}
 \begin{equation*}\label{eq:linearization_Continuity}
 \frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
@@ -208,7 +208,7 @@
 \begin{frame}{Kontrol}{Opsætning af state space}
  \vfill\vfill\centering    
 \begin{itemize}
-	\item Opsat på matrix og vektor form \vspace{5mm}
+%	\item Opsat på matrix og vektor form \vspace{5mm}
 	\item Opstilles på state space form   \vspace{5mm}
 \end{itemize}
 \begin{equation*}\label{eq:rearrange_continuity_eq}
@@ -367,11 +367,11 @@
 \vfill \vfill
 \end{frame}
 
-\begin{frame}{Kontrol}{Linearisering}
+\begin{frame}{Kontrol}{Test}
    \vfill\vfill\centering
     \begin{minipage}[t]{0.48\linewidth}
 \begin{itemize}
-		\item Samligning af ulineær og linear model for små signal
+		\item Samligning af ulineær og lineær model for små forstyrrelser
 		\item System setup
 	   	\item Sinus input
 \end{itemize}    
@@ -397,7 +397,7 @@ Total & 20        & 263      \\ \hline
 
 \end{frame}
 
-\begin{frame}{Kontrol}{Linearisering}
+\begin{frame}{Kontrol}{Test}
 \vfill \vfill \centering
 % \begin{figure}
 % \centering
@@ -429,7 +429,7 @@ Total & 20        & 263      \\ \hline
 \begin{frame}{Kontrol}{MPC}
     \vfill\vfill\centering
 \begin{itemize}
-	\item Cost function
+	\item Cost funktion
 	\begin{itemize}
 		\item Afgrænset til at minimiere flow variationer
 	\end{itemize}
@@ -438,7 +438,7 @@ Total & 20        & 263      \\ \hline
 		\item Højde
 		\item Kontrol input
 	\end{itemize}
-	\item Prediction model
+	\item Prediktions model
 \end{itemize}
 \vfill\vfill
 \end{frame}
@@ -459,7 +459,7 @@ Total & 20        & 263      \\ \hline
     	% 	\item Flow profiler
     	% 	\item Industri 
     	% \end{itemize}
-    	\item Begrænsning af Prediction horizon
+    	\item Begrænset i længde af prediktions horisont
     	\item System setup
     	\item Forstyrrelses input
     \end{itemize}  
