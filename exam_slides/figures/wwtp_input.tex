@@ -10,6 +10,7 @@
 
 \begin{axis}[%
 width=4.521in,
+/pgf/number format/1000 sep={.},/pgf/number format/use comma,
 height=.7566in,
 scaled x ticks = false,
 at={(0.758in,0.481in)},
@@ -21,8 +22,8 @@ xtick={10081,12541,15001,17461,19921,22381,24841,27301},
 xticklabels={{00:00},{03:25},{06:50},{10:15},{13:40},{17:05},{20:30},{00:00},{},{}},
 xlabel={Time [hh:mm]},
 xmajorgrids,
-ymin=0.2,
-ymax=0.55,
+ymin=-0.02,
+ymax=0.6,
 ylabel={$\text{Flow [m}^\text{3}\text{/s]}$},
 ymajorgrids,
 axis background/.style={fill=white}
