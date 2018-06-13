@@ -411,7 +411,7 @@ Total & 20        & 263      \\ \hline
 \label{fig:linear_nonlinear_comparison__pipe_after_tank}
 \end{figure}
 
-    
+    \vspace{-5mm}
 \begin{figure}
 \centering
 \input{figures/linear_nonlinear_comparison_last_pipe}
@@ -460,7 +460,13 @@ Total & 20        & 263      \\ \hline
     	\item Begrænsning af Prediction horizon
     	\item System setup
     	\item Forstyrrelses input
-    \end{itemize}   
+    \end{itemize}  
+    	 \begin{figure}
+	 \centering
+	 \input{figures/MPC_test_control_input}
+	%\caption{Output of the last pipe.}
+	\label{fig:MPC_test_o}
+	\end{figure}  
 \end{minipage}\hfill
 \begin{minipage}[t]{0.48\linewidth}
 \begin{figure}[!h]
@@ -478,12 +484,14 @@ Total & 20        & 263      \\ \hline
 
 \begin{frame}{Kontrol}{MPC}
 	\vfill\vfill \centering
+	\vspace{-6mm}
 	 \begin{figure}
 	 \centering
 	 \input{figures/MPC_test_output_first_test}
 	%\caption{Output of the last pipe.}
 	\label{fig:MPC_test_output_first_test}
 	\end{figure}   
+	\vspace{-10mm}
 	\begin{figure}
 	 \centering
 	 \input{figures/tank_height_first_test}
@@ -495,13 +503,14 @@ Total & 20        & 263      \\ \hline
 
 
 \begin{frame}{Kontrol}{MPC}
+\vspace{-6mm}
 	 \begin{figure}
 	 \centering
 	 \input{figures/MPC_test_output_second_test_with_constraints}
 	%\caption{Output of the last pipe in the second Simulering run.}
 	\label{fig:MPC_test_output_second_test_with_constraints}
 	\end{figure}   
-
+\vspace{-8mm}
 	 \begin{figure}
 	 \centering
 	 \input{figures/tank_height_second_test_with_constraints}
@@ -549,13 +558,15 @@ Total & 20        & 263      \\ \hline
 
 \begin{frame}{Resultat}{Første test}
 	\vfill \vfill \centering
-	 \begin{figure}[H]
+	\vspace{-5mm}
+	 \begin{figure}
 	\centering
 	\input{figures/simulation_output_first}
 	%\caption{Output of the last pipe into the WWTP.}
 	\label{fig:Simulering_output_first}
-	\end{figure}     
-	\begin{figure}[H]
+	\end{figure}  
+	\vspace{-9mm}   
+	\begin{figure}
 	\centering
 	\input{figures/simulation_output_first_concentration}
 	%\caption{Simulering of COD output of the last pipe into the WWTP.}
