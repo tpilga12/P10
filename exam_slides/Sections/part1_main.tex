@@ -36,11 +36,15 @@
 \begin{frame}{Resning af spildevand}{}
 \vfill\vfill\centering
 \begin{itemize}
-	\item<1-> Mekanisk rensning.
-	\item<2-> Sandfang.
-	\item<3-> Primær rensning.
-	\item<4-> Sekundær rensning.
-	\item<5-> Kemisk rensning.
+	\item<1-> Mekanisk rensning
+	\vspace{3mm}
+	\item<2-> Sandfang
+	\vspace{3mm}
+	\item<3-> Primær rensning
+	\vspace{3mm}
+	\item<4-> Sekundær rensning
+	\vspace{3mm}
+	\item<5-> Kemisk rensning
 
 \end{itemize}
 \vfill\vfill
@@ -53,7 +57,9 @@
 	
 	\begin{itemize}
 		\item<2-> Større udledninger uden varsel
+		\vspace{2mm}
 		\item<3-> Problemer for aerobe bakterier
+		\vspace{2mm}
 		\item<4-> Andre forstyrelser
 	\end{itemize}	
 
@@ -127,14 +133,14 @@ such that optimal performance can be obtained from a WWTP.
 \end{frame}
 
 \subsection{Løsninger og begrænsninger}
-\begin{frame}{Valg}{}
+\begin{frame}{Løsninger og begrænsninger}{}
 \vfill\vfill\centering
 \begin{itemize}
-	\item<1-> Indsættelse af tank.
+	\item<1-> Indsættelse af tank
 	\vspace{4mm}
-	\item<2-> Afgrænse simulering til enkelt kemisk component.
+	\item<2-> Afgrænse simulering til enkelt kemisk component
 	\vspace{4mm}
-	\item<3-> Runde kloak rør.
+	\item<3-> Runde kloak rør
 \end{itemize}
 \vfill\vfill	
 \end{frame}
@@ -144,135 +150,162 @@ such that optimal performance can be obtained from a WWTP.
 \begin{frame}{4 modeller}{}
 	\vfill\vfill\centering
 \begin{itemize}
-	\item Kloak ledning.
+	\item Kloak ledning
+	\begin{itemize}
+		\item<1-> Saint-Venant
+		\item<1-> Kontinuitet: \hspace{15mm} $\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0$ 
+		\item<1-> Impuls: \hspace{21mm} $\frac{1}{gA} \frac{\partial Q}{\partial t} +\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x} + S_f - S_b = 0$
+		\item<1-> Antagelser
+	\end{itemize}
 	\vspace{4mm}
-	\item Transport af concentrat i kloak ledning.
+	\item Transport af concentrat i kloak ledning
+	\begin{itemize}
+		\item<2-> Afhænger af flow i kloak ledning
+		\item<2-> Antagelser
+	\end{itemize}
 	\vspace{4mm}
-	\item Sammenkobling af kloakledninger.
+	\item Sammenkobling af kloakledninger
+	\begin{itemize}
+		\item<3-> Summering af flow og koncentrat
+		\item<3-> Antagelser
+	\end{itemize}
 	\vspace{4mm}
-	\item Tank. 
+	\item Tank.
+	\begin{itemize}
+		\item<4-> Ændring i højde og koncentrat
+		\item<4-> Antagelser
+	\end{itemize}	 
 \end{itemize}
 \vfill\vfill		
 \end{frame}
 
-\begin{frame}{Kloak ledning}{Saint-Venant ligningerne}{}
-	\vfill\vfill\centering
+% \begin{frame}{Kloak ledning}{Saint-Venant ligningerne}{}
+% 	\vfill\vfill\centering
 	
-\begin{columns}
-		\begin{column}{0.4\textwidth}
-			\begin{itemize}
-				\item<1-> Kontinuitets ligning: \\ \vspace{2mm} $\dfrac{\partial A(x,t)}{\partial t} + \dfrac{\partial Q(x,t)}{\partial x}=0$
-				\vspace{7mm}
-				\item<2-> Impuls ligning: \\ \vspace{2mm} $\dfrac{1}{gA} \dfrac{\partial Q}{\partial t} +\dfrac{1}{gA}\dfrac{\partial}{\partial x} \left( \dfrac{Q^2}{A} \right) +$ \\
-				\vspace{3mm}
-				$\dfrac{\partial h}{\partial x} + S_f - S_b = 0$
-				\vspace{7mm}
-				\item<3-> Approksimationer af momentum ligningen.
-				%\item<4-> Kinematisk bølge approksimation
-			\end{itemize}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\vspace{15mm}
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=1.2\textwidth]{Sections/pictures/continuity_open_channel.pdf}
-			\end{figure}
-		\end{column}
-	\end{columns}
-\vfill\vfill		
-\end{frame}
+% \begin{columns}
+% 		\begin{column}{0.4\textwidth}
+% 			\begin{itemize}
+% 				\item<1-> Kontinuitets ligning: \\ \vspace{2mm} $\dfrac{\partial A(x,t)}{\partial t} + \dfrac{\partial Q(x,t)}{\partial x}=0$
+% 				\vspace{7mm}
+% 				\item<2-> Impuls ligning: \\ \vspace{2mm} $\dfrac{1}{gA} \dfrac{\partial Q}{\partial t} +\dfrac{1}{gA}\dfrac{\partial}{\partial x} \left( \dfrac{Q^2}{A} \right) +$ \\
+% 				\vspace{3mm}
+% 				$\dfrac{\partial h}{\partial x} + S_f - S_b = 0$
+% 				\vspace{7mm}
+% 				\item<3-> Approksimationer af momentum ligningen.
+% 				%\item<4-> Kinematisk bølge approksimation
+% 			\end{itemize}
+% 		\end{column}
+% 		\begin{column}{0.48\textwidth}
+% 			\vspace{15mm}
+% 			\begin{figure}[H]
+% 				\centering
+% 				\includegraphics[width=1.2\textwidth]{Sections/pictures/continuity_open_channel.pdf}
+% 			\end{figure}
+% 		\end{column}
+% 	\end{columns}
+% \vfill\vfill		
+% \end{frame}
 
-\begin{frame}{Transport af koncentrat}{}
-	\vfill\vfill\centering
-\begin{columns}
-	\begin{column}{0.4\textwidth}
-		\begin{itemize}
-			\vspace{7mm}
-			\item<1-> $	\dfrac{\partial (A \cdot C)}{\partial t} + \dfrac{\partial (Q \cdot C)}{\partial x} = 0$
-			\vspace{4mm}
-			\item<2-> $ C \cdot \dfrac{\partial (A)}{\partial t} + C \cdot \dfrac{\partial (Q )}{\partial x} = 0$
-			\vspace{4mm}
-			\item<3-> $	A \cdot \dfrac{\partial C}{\partial t} + Q \cdot \dfrac{\partial C}{\partial x} = 0$
-			\vspace{4mm}
-			\item<4-> Afhænger af kendt $A$ og $Q$.
-		\end{itemize}
-	\end{column}
+% \begin{frame}{Transport af koncentrat}{}
+% 	\vfill\vfill\centering
+% \begin{columns}
+% 	\begin{column}{0.4\textwidth}
+% 		\begin{itemize}
+% 			\vspace{7mm}
+% 			\item<1-> $	\dfrac{\partial (A \cdot C)}{\partial t} + \dfrac{\partial (Q \cdot C)}{\partial x} = 0$
+% 			\vspace{4mm}
+% 			\item<2-> $ C \cdot \dfrac{\partial (A)}{\partial t} + C \cdot \dfrac{\partial (Q )}{\partial x} = 0$
+% 			\vspace{4mm}
+% 			\item<3-> $	A \cdot \dfrac{\partial C}{\partial t} + Q \cdot \dfrac{\partial C}{\partial x} = 0$
+% 			\vspace{4mm}
+% 			\item<4-> Afhænger af kendt $A$ og $Q$.
+% 		\end{itemize}
+% 	\end{column}
 	
-	\begin{column}{0.48\textwidth}
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=1.1\textwidth]{Sections/pictures/poopvolume.pdf}
-		\end{figure}
-	\end{column}
-\end{columns}
+% 	\begin{column}{0.48\textwidth}
+% 		\begin{figure}[H]
+% 			\centering
+% 			\includegraphics[width=1.1\textwidth]{Sections/pictures/poopvolume.pdf}
+% 		\end{figure}
+% 	\end{column}
+% \end{columns}
 
 
-\vfill\vfill		
-\end{frame}
+% \vfill\vfill		
+% \end{frame}
 
-\begin{frame}{Sammenkobling af kloak ledninger}{}
-\vfill\vfill\centering
-	\begin{columns}
-	\begin{column}{0.4\textwidth}
-		\begin{itemize}
-			\vspace{9mm}
-			\item<1-> Flow: \\ 
-			\vspace{2mm}
-			$Q_3 = Q_1 + Q_2$
-			\vspace{9mm}
-			\item<2-> Koncentrat: \\ 
-			\vspace{3mm}
-			$C_3 = \dfrac{C_1 \cdot Q_1 + C_2 \cdot Q_2}{Q_1 + Q_2}$
-		\end{itemize}
-	\end{column}
+% \begin{frame}{Sammenkobling af kloak ledninger}{}
+% \vfill\vfill\centering
+% 	\begin{columns}
+% 	\begin{column}{0.4\textwidth}
+% 		\begin{itemize}
+% 			\vspace{9mm}
+% 			\item<1-> Flow: \\ 
+% 			\vspace{2mm}
+% 			$Q_3 = Q_1 + Q_2$
+% 			\vspace{9mm}
+% 			\item<2-> Koncentrat: \\ 
+% 			\vspace{3mm}
+% 			$C_3 = \dfrac{C_1 \cdot Q_1 + C_2 \cdot Q_2}{Q_1 + Q_2}$
+% 		\end{itemize}
+% 	\end{column}
 
-	\begin{column}{0.48\textwidth}
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=0.7\textwidth]{Sections/pictures/interconnections.pdf}
-		\end{figure}
-	\end{column}
-\end{columns}
-\vfill\vfill		
-\end{frame}
+% 	\begin{column}{0.48\textwidth}
+% 		\begin{figure}[H]
+% 			\centering
+% 			\includegraphics[width=0.7\textwidth]{Sections/pictures/interconnections.pdf}
+% 		\end{figure}
+% 	\end{column}
+% \end{columns}
+% \vfill\vfill		
+% \end{frame}
 
-\begin{frame}{Tank}{}
-\vfill\vfill\centering
-	\begin{columns}
-	\begin{column}{0.75\textwidth}
-		\begin{itemize}
-			\vspace{4mm}
-			\item<1-> Højde: \\ 
-			\vspace{3mm}	
-			$\dfrac{dh(t)}{dt}=\dfrac{1}{A} \left(Q_{in}(t)-u(t) \cdot \overline Q \right)$
-			\vspace{3mm}
-			\item<2-> Koncentrat: \\ 
-			\vspace{3mm}
-			$\dfrac{dC_{tank}(t)}{dt} = \dfrac{1}{A} \left(C_{in}(t) \cdot \dfrac{Q_{in}(t)}{h(t)} - C_{tank}(t) \cdot \dfrac{Q_{out}(t)}{h(t)} \right)$
-		\end{itemize}
-	\end{column}
+% \begin{frame}{Tank}{}
+% \vfill\vfill\centering
+% 	\begin{columns}
+% 	\begin{column}{0.75\textwidth}
+% 		\begin{itemize}
+% 			\vspace{4mm}
+% 			\item<1-> Højde: \\ 
+% 			\vspace{3mm}	
+% 			$\dfrac{dh(t)}{dt}=\dfrac{1}{A} \left(Q_{in}(t)-u(t) \cdot \overline Q \right)$
+% 			\vspace{3mm}
+% 			\item<2-> Koncentrat: \\ 
+% 			\vspace{3mm}
+% 			$\dfrac{dC_{tank}(t)}{dt} = \dfrac{1}{A} \left(C_{in}(t) \cdot \dfrac{Q_{in}(t)}{h(t)} - C_{tank}(t) \cdot \dfrac{Q_{out}(t)}{h(t)} \right)$
+% 		\end{itemize}
+% 	\end{column}
 
-	\begin{column}{0.3\textwidth}
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=0.9\textwidth]{Sections/pictures/reservior_with_pump.pdf}
-		\end{figure}
-	\end{column}
-\end{columns}
-\vfill\vfill		
-\end{frame}
+% 	\begin{column}{0.3\textwidth}
+% 		\begin{figure}[H]
+% 			\centering
+% 			\includegraphics[width=0.9\textwidth]{Sections/pictures/reservior_with_pump.pdf}
+% 		\end{figure}
+% 	\end{column}
+% \end{columns}
+% \vfill\vfill		
+% \end{frame}
 	
 \section{Simulering}
 \subsection{Struktur}
-\begin{frame}{Tre dele}{}
+\begin{frame}{Struktur af simulering}{}
 \vfill\vfill\centering
 
 \begin{itemize}
 	\item<1-> \textbf{Intialisering}
-	\item<2-> Opsætning af komponenter.
-	\item<3-> System i steady state.
+	\vspace{3mm}
+	\begin{itemize}
+	\item<2-> Opsætning af komponenter
+	\vspace{3mm}
+	\item<3-> System i steady state
+	\end{itemize}
+	\vspace{3mm}
 	\item<4-> \textbf{Simulering}
+	\vspace{3mm}
+	\begin{itemize}
 	\item<5-> Iterativ beregning af komponenterne
+	\end{itemize}
+	\vspace{3mm}
 	\item<6-> \textbf{Gennemgang af resultat}
 \end{itemize}
 
@@ -293,8 +326,13 @@ such that optimal performance can be obtained from a WWTP.
 \begin{frame}{Preissmann}{}
 \vfill\vfill\centering
 \begin{itemize}
-	\item Kinematisk bølge aproksimering.
-	\item Fyldningsgrad kurve for rør.
+	\vspace{2mm}
+	\item Kinematisk bølge aproksimering
+	\begin{itemize}
+		$S_b = S_f$
+	\end{itemize}
+	\vspace{3mm}
+	\item Fyldningsgrad kurve for rør
 \end{itemize}
 \vfill\vfill		
 \end{frame}
@@ -342,8 +380,9 @@ such that optimal performance can be obtained from a WWTP.
 \vfill\vfill\centering
 
 \begin{itemize}
-	\item<1-> Indikation af præcision  
-	\item<2-> $C_r =  \dfrac{\sqrt{g \cdot \overline{\text{H}}} \cdot \Delta t}{\Delta x}$ 
+	\item Indikation af præcision  
+	\vspace{3mm}
+	\item $C_r =  \dfrac{\sqrt{g \cdot \overline{\text{H}}} \cdot \Delta t}{\Delta x}$ 
 \end{itemize}
 
 \vfill\vfill		
