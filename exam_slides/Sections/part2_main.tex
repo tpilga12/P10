@@ -7,15 +7,14 @@
 %%%%%%%%%%%% MID WAY AGENDA %%%%%%%%%%%%%%
 
 
-\begin{frame}{Overview}{Jacob Naundrup Pedersen}
+\begin{frame}{Indhold}{Jacob Naundrup Pedersen}
  \vfill\vfill\centering  
 \begin{itemize}
 	
-\item Implementation
-\item Kontrol
-\item Resultater
-\item Diskussion
-\item Konklusion
+\item Implementering \vspace{2mm}
+\item Kontrol \vspace{2mm}
+\item Resultater \vspace{2mm}
+\item Diskussion/Konklusion \vspace{2mm}
 \end{itemize}
  \vfill\vfill
 \end{frame}
@@ -39,8 +38,8 @@
 \begin{enumerate} 
 	\item Pipe
 	\begin{itemize}
-		\item længde [m]
-		\item sektioner 
+		\item Længde [m]
+		\item Sektioner 
 		\item $\text{S}_\text{b}$ (Hældning) [\textperthousand]
 		\item $\Delta$x = Længde/Sektioner [m]
 		\item Diameter [m]
@@ -53,7 +52,7 @@
 	\begin{itemize}
 		\item Størrelse [$\text{m}^\text{3}$]
 		\item Højde [m]
-		\item Areal = Size / Height [$\text{m}^\text{2}$]
+		\item Areal = Størrelse / Højde [$\text{m}^\text{2}$]
 		\item Maximum outflow [$\text{m}^\text{3}/\text{s}$]
 		\item Placering i data 
 	\end{itemize}
@@ -66,59 +65,60 @@
 \end{frame}
 
 
-\begin{frame}{Implementering}{Initialisering}
- \vfill\vfill\centering  
- \begin{itemize}
- 	\item Rør specifikationer
- \end{itemize}
-\begin{figure}[!h]
-\centering
-\includegraphics[width=0.97 \textwidth]{figures/Fredericia_pipe_setup2.PNG}
-%\caption{Setup in MATLAB of pipe specification of the main line in Fredericia.}
-\label{fig:Fredericia_pipe_setup}
-\end{figure}
- \vfill\vfill
+% \begin{frame}{Implementering}{Initialisering}
+%  \vfill\vfill\centering  
+%  \begin{itemize}
+%  	\item Rør specifikationer
+%  \end{itemize}
+% \begin{figure}[!h]
+% \centering
+% \includegraphics[width=0.97 \textwidth]{figures/Fredericia_pipe_setup2.PNG}
+% %\caption{Setup in MATLAB of pipe specification of the main line in Fredericia.}
+% \label{fig:Fredericia_pipe_setup}
+% \end{figure}
+%  \vfill\vfill
 
-\end{frame}
+% \end{frame}
 
-\begin{frame}{Implementering}{Initialisering}
- \vfill\vfill\centering  
- \begin{itemize}
- 	\item Tank specifikationer 
- \end{itemize}
-    \begin{figure}[H]
-\centering
-\includegraphics[width=0.5 \textwidth]{figures/tank_spec}
-%\caption{Setup in MATLAB of tank specifications.}
-\label{fig:Fredericia_pipe_setup}
-\end{figure}
- \vfill\vfill
-\end{frame}
+% \begin{frame}{Implementering}{Initialisering}
+%  \vfill\vfill\centering  
+%  \begin{itemize}
+%  	\item Tank specifikationer 
+%  \end{itemize}
+%     \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.5 \textwidth]{figures/tank_spec}
+% %\caption{Setup in MATLAB of tank specifications.}
+% \label{fig:Fredericia_pipe_setup}
+% \end{figure}
+%  \vfill\vfill
+% \end{frame}
 
 \begin{frame}{Implementering}{Initialisering}
      \vfill\vfill\centering  
      \begin{itemize}
-     	\item System specifikationer
+     	\item Steady state
+     	\item System opsætning
      \end{itemize}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5 \textwidth]{figures/sys_setup_matlab.png}
+\includegraphics[width=0.4 \textwidth]{figures/sys_setup_matlab.png}
 %\caption{Display of structure showing system setup information in MATLAB.}
 \label{fig:sys_setup_matlab}
 \end{figure}
  \vfill\vfill
 \end{frame}
 
-\begin{frame}{Implementering}{Initialisering}
- \vfill\vfill\centering  
-    \begin{figure}[H]
- \centering
- \input{figures/curvefit_comparison}
-%\caption{}
-\label{fig:curvefit_comparision}
-\end{figure}
- \vfill\vfill
-\end{frame}
+% \begin{frame}{Implementering}{Initialisering}
+%  \vfill\vfill\centering  
+%     \begin{figure}[H]
+%  \centering
+%  \input{figures/curvefit_comparison}
+% %\caption{}
+% \label{fig:curvefit_comparision}
+% \end{figure}
+%  \vfill\vfill
+% \end{frame}
 
 % \begin{frame}{Implementering}{Initialisering}
 % \begin{figure}[H]
@@ -133,34 +133,35 @@
 
 
 
-\begin{frame}{Implementering}{Initialisering}
- \vfill\vfill\centering  
- \begin{figure}[H]
- \centering
- \input{figures/fredericia_init_steady_state}
-%\caption{Height and flow of pipe setup from part of Fredericia where boundary conditions is found by fitted polynomial. Various amount of iterations, with constant flow input of 0,25 $\text{m}^\text{3}$/s, is performed. The dotted line indicates pipe intersections.}
-\label{fig:fredericia_init_steady_state}
-\end{figure}   
+% \begin{frame}{Implementering}{Initialisering}
+%  \vfill\vfill\centering  
+%  \begin{figure}[H]
+%  \centering
+%  \input{figures/fredericia_init_steady_state}
+% %\caption{Height and flow of pipe setup from part of Fredericia where boundary conditions is found by fitted polynomial. Various amount of iterations, with constant flow input of 0,25 $\text{m}^\text{3}$/s, is performed. The dotted line indicates pipe intersections.}
+% \label{fig:fredericia_init_steady_state}
+% \end{figure}   
 
- \vfill\vfill
-\end{frame}
+%  \vfill\vfill
+% \end{frame}
 
-\begin{frame}{Implementering}{Initialisering}
- \vfill\vfill\centering  
- \begin{figure}[H]
- \centering
- \input{figures/fredericia_init_steady_state_lut}
-%\caption{Height and flow of pipe setup from part of Fredericia where boundary conditions is found by lookup table. Various amount of iterations, with constant flow input of 0,25 $\text{m}^\text{3}$/s, is performed. The dotted line indicates pipe intersections.}
-\label{fig:fredericia_init_steady_state_lut}
-\end{figure}  
- \vfill\vfill
-\end{frame}
+% \begin{frame}{Implementering}{Initialisering}
+%  \vfill\vfill\centering  
+%  \begin{figure}[H]
+%  \centering
+%  \input{figures/fredericia_init_steady_state_lut}
+% %\caption{Height and flow of pipe setup from part of Fredericia where boundary conditions is found by lookup table. Various amount of iterations, with constant flow input of 0,25 $\text{m}^\text{3}$/s, is performed. The dotted line indicates pipe intersections.}
+% \label{fig:fredericia_init_steady_state_lut}
+% \end{figure}  
+%  \vfill\vfill
+% \end{frame}
 
 %\subsection{Simulering}
 
 \begin{frame}{Implementering}{Simulering}
+\vfill \vfill \centering
     \begin{itemize}
-    	\item Itererer igennem rør og tank for hvert tidsskridt 
+    	\item Iterere igennem rør og tank for hvert tidsskridt 
     \end{itemize}
 
     \begin{figure}[H]
@@ -171,6 +172,7 @@
 \end{figure}
 
 %\subsection{Display}
+\vfill \vfill
 \end{frame}
 
 \begin{frame}{Implementering}{Display}
@@ -189,9 +191,10 @@
 \begin{frame}{Kontrol}{Linearisering}
  \vfill\vfill\centering    
 \begin{itemize}
-	\item Linearisering af ulineær model \vspace{5mm}
-	\item Opstilles på state space form   \vspace{5mm}
-
+	\item Linear model til MPC\vspace{5mm}
+	\item Linearisering af kontinuitets ligningen \vspace{5mm}
+	\item Højde states \vspace{5mm}
+	\item Priessmann scheme \vspace{5mm}
 \end{itemize}
 \begin{equation*}\label{eq:linearization_Continuity}
 \frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0
@@ -205,9 +208,8 @@
 \begin{frame}{Kontrol}{Opsætning af state space}
  \vfill\vfill\centering    
 \begin{itemize}
-	\item Priessmann scheme \vspace{5mm}
 	\item Opsat på matrix og vektor form \vspace{5mm}
-
+	\item Opstilles på state space form   \vspace{5mm}
 \end{itemize}
 \begin{equation*}\label{eq:rearrange_continuity_eq}
 \begin{aligned}
@@ -396,14 +398,30 @@ Total & 20        & 263      \\ \hline
 \end{frame}
 
 \begin{frame}{Kontrol}{Linearisering}
-    
-\begin{figure}[H]
+\vfill \vfill \centering
+% \begin{figure}
+% \centering
+% \input{figures/linear_nonlinear_comparison_input_to_first_pipe}
+% %\caption{Comparison of the nonlinear and linear model at the last pipe in the setup.}
+% \label{fig:linear_nonlinear_comparison__input_to_first_pipe}
+% \end{figure}
+\vspace{-5mm}
+\begin{figure}
+\centering
+\input{figures/linear_nonlinear_comparison_tank_height}
+%\caption{Comparison of the nonlinear and linear model at the last pipe in the setup.}
+\label{fig:linear_nonlinear_comparison_tank_height}
+\end{figure}
+
+    \vspace{-9mm}
+\begin{figure}
 \centering
 \input{figures/linear_nonlinear_comparison_last_pipe}
 %\caption{Comparison of the nonlinear and linear model at the last pipe in the setup.}
 \label{fig:linear_nonlinear_comparison_last_pipe}
 \end{figure}
-
+\vspace{5mm}
+\vfill \vfill
 \end{frame}
 
 \subsection{MPC}
@@ -413,7 +431,7 @@ Total & 20        & 263      \\ \hline
 \begin{itemize}
 	\item Cost function
 	\begin{itemize}
-		\item Afgrænset til at minimiere output variationer
+		\item Afgrænset til at minimiere flow variationer
 	\end{itemize}
 	\item Constraints
 	\begin{itemize}
@@ -436,15 +454,21 @@ Total & 20        & 263      \\ \hline
 
       \begin{minipage}[t]{0.48\linewidth}
     \begin{itemize}
-    	\item Bestemmelse af Prediction horizon
-    	\begin{itemize}
-    		\item Flow profiler
-    		\item Industri 
-    	\end{itemize}
+    %	\item Bestemmelse af Prediction horizon
+    	% \begin{itemize}
+    	% 	\item Flow profiler
+    	% 	\item Industri 
+    	% \end{itemize}
     	\item Begrænsning af Prediction horizon
     	\item System setup
     	\item Forstyrrelses input
-    \end{itemize}   
+    \end{itemize}  
+    	 \begin{figure}
+	 \centering
+	 \input{figures/MPC_test_control_input}
+	%\caption{Output of the last pipe.}
+	\label{fig:MPC_test_o}
+	\end{figure}  
 \end{minipage}\hfill
 \begin{minipage}[t]{0.48\linewidth}
 \begin{figure}[!h]
@@ -461,34 +485,40 @@ Total & 20        & 263      \\ \hline
 \end{frame}
 
 \begin{frame}{Kontrol}{MPC}
- \begin{figure}[H]
- \centering
- \input{figures/MPC_test_output_first_test}
-%\caption{Output of the last pipe.}
-\label{fig:MPC_test_output_first_test}
-\end{figure}   
-
-
+	\vfill\vfill \centering
+	\vspace{-6mm}
+	 \begin{figure}
+	 \centering
+	 \input{figures/MPC_test_output_first_test}
+	%\caption{Output of the last pipe.}
+	\label{fig:MPC_test_output_first_test}
+	\end{figure}   
+	\vspace{-10mm}
+	\begin{figure}
+	 \centering
+	 \input{figures/tank_height_first_test}
+	%\caption{Height in the tank.}
+	\label{fig:tank_height_first_test}
+	\end{figure} 
+	\vfill\vfill
 \end{frame}
 
-\begin{frame}{Kontrol}{MPC}
-\begin{figure}[H]
- \centering
- \input{figures/tank_height_first_test}
-%\caption{Height in the tank.}
-\label{fig:tank_height_first_test}
-\end{figure}    
-
-
-\end{frame}
 
 \begin{frame}{Kontrol}{MPC}
- \begin{figure}[H]
- \centering
- \input{figures/MPC_test_output_second_test_with_constraints}
-%\caption{Output of the last pipe in the second Simulering run.}
-\label{fig:MPC_test_output_second_test_with_constraints}
-\end{figure}   
+\vspace{-6mm}
+	 \begin{figure}
+	 \centering
+	 \input{figures/MPC_test_output_second_test_with_constraints}
+	%\caption{Output of the last pipe in the second Simulering run.}
+	\label{fig:MPC_test_output_second_test_with_constraints}
+	\end{figure}   
+\vspace{-8mm}
+	 \begin{figure}
+	 \centering
+	 \input{figures/tank_height_second_test_with_constraints}
+	%\caption{Output of the last pipe in the second Simulering run.}
+	\label{fig:tank_height_second_test_with_constraints}
+	\end{figure} 
 
 
 \end{frame}
@@ -497,94 +527,115 @@ Total & 20        & 263      \\ \hline
 
 \section{Resultat}
 
-\begin{frame}{Resultat}{Første test}
-\vfill \vfill\centering
-\begin{minipage}[t]{0.48\linewidth}
-\begin{itemize}
-	   	\item System setup, efterligning af Fredericia
-	   	\item Flow profiler 
-\end{itemize}    
-\end{minipage}\hfill
-\begin{minipage}[t]{0.48\linewidth}
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-	\rowcolor[HTML]{9B9B9B} 
-Type  & Component & Sections \\ \hline
-Pipe  & 1         & 35       \\ \hline
-Tank  & 1         & 1        \\ \hline
-Pipe  & 17        & 207      \\ \hline
-Tank  & 1         & 1        \\ \hline
-Pipe  & 1         & 38        \\ \hline
-Total & 21        & 282      \\ \hline
-\end{tabular}
-%\caption{System setup.}
-\label{tab:system_setup_nonlinear_linear_testv2}
-\end{table}
-\end{minipage}
+\begin{frame}{Resultat}{Test}
+	\vfill \vfill\centering
+	\begin{minipage}[t]{0.48\linewidth}
+	\begin{itemize}
+		   	\item System setup, efterligning af Fredericia
+		   	\item Flow profiler 
+	\end{itemize}    
+	\end{minipage}\hfill
+	\begin{minipage}[t]{0.48\linewidth}
+	\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|}
+	\hline
+		\rowcolor[HTML]{9B9B9B} 
+	Type  & Component & Sections \\ \hline
+	Pipe  & 1         & 35       \\ \hline
+	Tank  & 1         & 1        \\ \hline
+	Pipe  & 17        & 207      \\ \hline
+	Tank  & 1         & 1        \\ \hline
+	Pipe  & 1         & 38        \\ \hline
+	Total & 21        & 282      \\ \hline
+	\end{tabular}
+	%\caption{System setup.}
+	\label{tab:system_setup_nonlinear_linear_testv2}
+	\end{table}
+	\end{minipage}
 
-\vfill \vfill
+	\vfill \vfill
 
 \end{frame}
 
-\begin{frame}{Resultat}{Første test}
- \begin{figure}[H]
-\centering
-\input{figures/simulation_output_first}
-%\caption{Output of the last pipe into the WWTP.}
-\label{fig:Simulering_output_first}
-\end{figure}     
+\begin{frame}{Resultat}{Test}
+	\vfill \vfill \centering
+	\vspace{-5mm}
+	 \begin{figure}
+	\centering
+	\input{figures/simulation_output_first}
+	%\caption{Output of the last pipe into the WWTP.}
+	\label{fig:Simulering_output_first}
+	\end{figure}  
+	\vspace{-9mm}   
+	\begin{figure}
+	\centering
+	\input{figures/wwtp_input}
+	%\caption{Simulering of COD output of the last pipe into the WWTP.}
+	\label{fig:Simulering_outwqeqwesadput_first_concentration}
+	\end{figure} 
+	\vfill \vfill
 \end{frame}
 
-\begin{frame}{Resultat}{Første test}
-\begin{figure}[H]
-\centering
-\input{figures/simulation_output_first_concentration}
-%\caption{Simulering of COD output of the last pipe into the WWTP.}
-\label{fig:Simulering_output_first_concentration}
-\end{figure}    
+\begin{frame}{Resultat}{Test}
+    
+	\vfill \vfill \centering
+	\begin{figure}
+	\centering
+	\input{figures/simulation_output_first_concentration}
+	%\caption{Simulering of COD output of the last pipe into the WWTP.}
+	\label{fig:Simulering_output_first_concentration}
+	\end{figure} 
+	\vfill \vfill
+
 \end{frame}
 
-\begin{frame}{Resultat}{Anden test}
-    \vfill \vfill \centering
-\begin{itemize}
-	\item Over dimensioneret tank
-	\item Konstant output af tank
-\end{itemize}
-\vfill \vfill
-\end{frame}
+% 	\begin{frame}{Resultat}{Anden test}
+% 	    \vfill \vfill \centering
+% 	\begin{itemize}
+% 		\item Over dimensioneret tank
+% 		\item Konstant output af tank
+% 	\end{itemize}
+% 	\vfill \vfill
+% \end{frame}
 
 
-\begin{frame}{Resultat}{Anden test}
-\begin{figure}[H]
-\centering
-\input{figures/simulation_output_second_with_tank}
-%\caption{Output of the last pipe in to the WWTP, where a tank has been placed in front to reduce variation in flow into WWTP.}
-\label{fig:Simulering_output_second}
-\end{figure} 
-\end{frame}
+% \begin{frame}{Resultat}{Anden test}
+% 	\begin{figure}[H]
+% 	\centering
+% 	\input{figures/simulation_output_second_with_tank}
+% 	%\caption{Output of the last pipe in to the WWTP, where a tank has been placed in front to reduce variation in flow into WWTP.}
+% 	\label{fig:Simulering_output_second}
+% 	\end{figure} 
+% 	\begin{figure}[H]
+% 	\centering
+% 	\input{figures/simulation_output_second_with_tank_height}
+% 	%\caption{Output of the last pipe in to the WWTP, where a tank has been placed in front to reduce variation in flow into WWTP.}
+% 	\label{fig:Simulering_output_second_height}
+% 	\end{figure} 
+% \end{frame}
 
 
-\section{Diskussion/Konklusion}
-\begin{frame}{Diskussion}{}
-\vfill \vfill \centering
-\begin{itemize}
-	\item Courant's tal
-	\item Model reduction
-	\item Wastewater of Aerobic/Anaerobic Transformations in Sewers (WATS)
-\end{itemize}
-\vfill \vfill
-\end{frame}
+ \section{Diskussion/Konklusion}
+% \begin{frame}{Diskussion}{}
+% 	\vfill \vfill \centering
+% 	\begin{itemize}
+
+% 	%	\item Wastewater of Aerobic/Anaerobic Transformations in Sewers (WATS)
+% 	\end{itemize}
+% 	\vfill \vfill
+% \end{frame}
 
 %\section{}
 
-\begin{frame}{Konklusion}{}
-\vfill \vfill\centering
-\begin{itemize}
-    	\item Simulering
-    	\item MPC
-\end{itemize}    
+\begin{frame}{Diskussion/Konklusion}{}
+	\vfill \vfill\centering
+	\begin{itemize}
+			\item Courant's tal
+			\item Model reduktion
+	    	\item Simulering
+	    	\item MPC
+	\end{itemize}    
 
-\vfill \vfill
+	\vfill \vfill
 \end{frame}

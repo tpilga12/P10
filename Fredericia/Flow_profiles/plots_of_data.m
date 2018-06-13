@@ -22,8 +22,8 @@ grid
 
 %%
 
-reduce_plot(10081:1:27361,flow(10081:27361))
-ylabel('Flow [m^3/hr]')
+reduce_plot(10081:1:27361,flow(10081:27361)/3600)
+ylabel('Flow [m^3/s]')
 xlabel('Time [hh:mm]')
 xticklabels({'00:00','03:25','06:50','10:15','13:40','17:05','20:30','00:00'})
 grid
