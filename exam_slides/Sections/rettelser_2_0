@@ -28,3 +28,25 @@ slide 39 output af tanken ind i det næste rør
 slide 40 ik nævn noget med constraint, og vi har ikke haft tid til at undersøge det 
 
 slide 42 slide med simulation output flow og data fra frede
+
+Run 2
+
+slide 25 Hvor lange sektioner de er, Dx
+
+slide 26  
+
+slide 27 dont nævn tidskridt længde
+
+slide 28 Pga af simplificeringer er tingene i fase
+
+Slide 29 vi har foretaget et valg om at bruge en linear model til MPC 
+
+slide 33 for små forstyrrelser
+
+slide 37 og 38 Input højde i røret efter tank 
+
+slide 40 fix så 0.2 ikke står oveni x label. scaler y akserne ens
+
+slide 41, dette er et ekspemel på hvordan det kunne se ud, nævn det. 
+
+slide 42 ikke nævn tank i forhold til courant. Ikke nævn det med Dt, og man kan se man skal vælge Dt og Dx klogt.  
