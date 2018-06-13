@@ -108,7 +108,7 @@ such that optimal performance can be obtained from a WWTP.
 	\begin{columns}
 	\begin{column}{0.4\textwidth}
 		\begin{itemize}
-			\vspace{15mm}
+			\vspace{17mm}
 			\item Data fra industri.
 			\vspace{4mm}
 			\item Flow profiler af beboelse og mindre industri.
@@ -150,30 +150,30 @@ such that optimal performance can be obtained from a WWTP.
 \begin{frame}{4 modeller}{}
 	\vfill\vfill\centering
 \begin{itemize}
-	\item Kloak ledning
+	\item<1-> Kloak ledning
 	\begin{itemize}
-		\item<1-> Saint-Venant
-		\item<1-> Kontinuitet: \hspace{15mm} $\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0$ 
-		\item<1-> Impuls: \hspace{21mm} $\frac{1}{gA} \frac{\partial Q}{\partial t} +\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x} + S_f - S_b = 0$
-		\item<1-> Antagelser
-	\end{itemize}
-	\vspace{4mm}
-	\item Transport af concentrat i kloak ledning
-	\begin{itemize}
-		\item<2-> Afhænger af flow i kloak ledning
+		\item<2-> Saint-Venant
+		\item<2-> Kontinuitet: \hspace{15mm} $\frac{\partial A(x,t)}{\partial t} + \frac{\partial Q(x,t)}{\partial x}=0$ 
+		\item<2-> Impuls: \hspace{21mm} $\frac{1}{gA} \frac{\partial Q}{\partial t} +\frac{1}{gA}\frac{\partial}{\partial x} \left( \frac{Q^2}{A} \right) + \frac{\partial h}{\partial x} + S_f - S_b = 0$
 		\item<2-> Antagelser
 	\end{itemize}
 	\vspace{4mm}
-	\item Sammenkobling af kloakledninger
+	\item<1-> Transport af koncentrat i kloak ledning
 	\begin{itemize}
-		\item<3-> Summering af flow og koncentrat
+		\item<3-> Afhænger af flow i kloak ledning
 		\item<3-> Antagelser
 	\end{itemize}
 	\vspace{4mm}
-	\item Tank.
+	\item<1-> Sammenkobling af kloakledninger
 	\begin{itemize}
-		\item<4-> Ændring i højde og koncentrat
+		\item<4-> Summering af flow og koncentrat
 		\item<4-> Antagelser
+	\end{itemize}
+	\vspace{4mm}
+	\item<1-> Tank.
+	\begin{itemize}
+		\item<5-> Ændring i højde og koncentrat
+		\item<5-> Antagelser
 	\end{itemize}	 
 \end{itemize}
 \vfill\vfill		
